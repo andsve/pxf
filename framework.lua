@@ -38,12 +38,12 @@ function CreateSettings(settings)
     settings.cc.Output = Intermediate_Output
     
     -- Set compiler specific values
---    if config.compiler.value == "cl" then
---        settings.cc.flags:Add("/EHsc")
---    elseif config.compiler.value == "gcc" then
---        settings.cc.flags:Add("-Wall", "-fno-exceptions")
---    end
-	settings.cc.flags:Add("/EHsc")
+--  if config.compiler.value == "cl" then
+--      settings.cc.flags:Add("/EHsc")
+--  elseif config.compiler.value == "gcc" then
+--      settings.cc.flags:Add("-Wall", "-fno-exceptions")
+--  end
+    settings.cc.flags:Add("/EHsc")
     
     -- Add include directory
     settings.cc.includes:Add(include_base)
@@ -55,29 +55,29 @@ function CreateSettings(settings)
     -- Separate setting files
     framework_settings = settings:Copy()
  
-	return framework_settings
+    return framework_settings
 end
 
 function BuildFramework()
-	    -- Compile framework
+    -- Compile framework
     framework = Compile(framework_settings, CollectRecursive(source_base))
     return framework
 end
 
 function BuildLibrary(settings, library)
-	lib_settings = settings:Copy()
-	lib_src = Collect(library.SourceFiles)
-	lib = Compile(lib_settings, lib_src)
-	return lib
+    lib_settings = settings:Copy()
+    lib_src = Collect(library.SourceFiles)
+    lib = Compile(lib_settings, lib_src)
+    return lib
 end
 
 function BuildProject(settings, framework, name, source_dir)
-	-- Compile RtAudio
-	rtaudio = BuildLibrary(settings, RtAudio)
-	
-	-- Compile AngelScript
-	angelscript = BuildLibrary(settings, AngelScript)
-	
+    -- Compile RtAudio
+    rtaudio = BuildLibrary(settings, RtAudio)
+    
+    -- Compile AngelScript
+    angelscript = BuildLibrary(settings, AngelScript)
+    
     -- Compile Project
     project = Compile(settings, CollectRecursive(source_dir.."/*.cpp"))
     project_exe = Link(settings, name, project, framework, rtaudio, angelscript)
@@ -91,5 +91,3 @@ FrameworkDebug = BuildFramework(FrameworkDebugSettings)
 
 FrameworkReleaseSettings = CreateSettings(release_settings)
 FrameworkRelease = BuildFramework(FrameworkReleaseSettings)
-
-

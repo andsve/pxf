@@ -3,7 +3,7 @@
 
 #include <Pxf/Base/Config.h>
 #include <Pxf/Base/Types.h>
-#include <Pxf/Base/ErrorTypes.h>
+#include <Pxf/Base/ErrorType.h>
 
 namespace Pxf
 {

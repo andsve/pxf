@@ -1,5 +1,5 @@
-#ifndef __PXF_BASE_CONFIG_H__
-#define __PXF_BASE_CONFIG_H__
+#ifndef _PXF_BASE_CONFIG_H_
+#define _PXF_BASE_CONFIG_H_
 
 // NO NAMESPACE
 
@@ -103,4 +103,4 @@
 #		pragma warning (disable: 4996)
 #	endif
 
-#endif //__PXF_BASE_CONFIG_H__
+#endif //_PXF_BASE_CONFIG_H_
