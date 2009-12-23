@@ -1,6 +1,10 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
 
+#ifndef CONF_WITH_ANGELSCRIPT
+#error "Not compiled with angelscript support"
+#endif
+
 #include <scriptbuilder.h>
 #include <angelscript.h>
 

@@ -4,8 +4,11 @@
 
 path_prefix = PathPath(ModuleFilename())
 
-Import(path_prefix .. "/Libraries/AngelScript/AngelScript.lua")
-Import(path_prefix .. "/Libraries/RtAudio/RtAudio.lua")
+-- Import all Libraries/*/*.lua
+for i,n in ipairs(CollectDirs(path_prefix .. "/Libraries/")) do
+    name = PathFilename(PathBase(n))
+    Import(n .. "/" .. name .. ".lua")
+end
 
 object_base = path_prefix .. Path("/Build/ObjectFiles/")
 include_base = path_prefix .. "/Include"
@@ -72,10 +75,17 @@ function BuildLibrary(settings, library)
 end
 
 function BuildProject(settings, framework, name, source_dir)
+
     -- Compile RtAudio
+    for i,d in ipairs(RtAudio.Defines) do
+        settings.cc.defines:Add(d)
+    end
     rtaudio = BuildLibrary(settings, RtAudio)
     
     -- Compile AngelScript
+    for i,d in ipairs(AngelScript.Defines) do
+        settings.cc.defines:Add(d)
+    end
     angelscript = BuildLibrary(settings, AngelScript)
     
     -- Compile Project
