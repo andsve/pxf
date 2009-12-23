@@ -1,0 +1,1 @@
+Add Tools/* to PATH (or just copy them to %windir%)
