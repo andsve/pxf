@@ -1,0 +1,8 @@
+Bam
+---
+[X] Make library modules add themselves to Libraries["Module"]
+[X] Move library building-stuff to the Library-modules themselves
+[ ] Add Require("OtherLibrary") in framework.lua for use in the
+    Library-modules.
+[ ] Project files should be simpler and not require create-stuff 
+    for both debug and release builds

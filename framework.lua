@@ -4,15 +4,16 @@
 
 path_prefix = PathPath(ModuleFilename())
 
--- Import all Libraries/*/*.lua
+-- Import all Libraries/*/*.lua and add to dictionary Libraries
+Libraries = {}
 for i,n in ipairs(CollectDirs(path_prefix .. "/Libraries/")) do
     name = PathFilename(PathBase(n))
     Import(n .. "/" .. name .. ".lua")
 end
 
-object_base = path_prefix .. Path("/Build/ObjectFiles/")
-include_base = path_prefix .. "/Include"
-source_base = path_prefix .. "/Source/*.cpp"
+object_base = Path(path_prefix .. "/Build/ObjectFiles/")
+include_base = Path(path_prefix .. "/Include")
+source_base = Path(path_prefix .. "/Source/*.cpp")
 
 config = NewConfig()
 config:Add(OptCCompiler("cc"))
@@ -51,10 +52,6 @@ function CreateSettings(settings)
     -- Add include directory
     settings.cc.includes:Add(include_base)
     
-    -- Add library includes
-    settings.cc.includes:Add(RtAudio.IncludeDir)
-    settings.cc.includes:Add(AngelScript.IncludeDir)
-    
     -- Separate setting files
     framework_settings = settings:Copy()
  
@@ -74,30 +71,22 @@ function BuildLibrary(settings, library)
     return lib
 end
 
-function BuildProject(settings, framework, name, source_dir)
-
-    -- Compile RtAudio
-    for i,d in ipairs(RtAudio.Defines) do
-        settings.cc.defines:Add(d)
-    end
-    rtaudio = BuildLibrary(settings, RtAudio)
-    
-    -- Compile AngelScript
-    for i,d in ipairs(AngelScript.Defines) do
-        settings.cc.defines:Add(d)
-    end
-    angelscript = BuildLibrary(settings, AngelScript)
-    
-    -- Compile Project
-    project = Compile(settings, CollectRecursive(source_dir.."/*.cpp"))
-    project_exe = Link(settings, name, project, framework, rtaudio, angelscript)
-    project_target = PseudoTarget(name.."_"..settings.config_name, project_exe)
-
-    PseudoTarget(settings.config_name, project_target)
-end
-
 FrameworkDebugSettings = CreateSettings(debug_settings)
 FrameworkDebug = BuildFramework(FrameworkDebugSettings)
 
 FrameworkReleaseSettings = CreateSettings(release_settings)
 FrameworkRelease = BuildFramework(FrameworkReleaseSettings)
+
+function BuildProject(settings, framework, name, source_dir)
+    CompiledLibs = {framework}
+    for i,lib in pairs(Libraries) do
+        CompiledLibs[i] = lib.Build(settings)
+    end
+    
+    -- Compile Project
+    project = Compile(settings, CollectRecursive(source_dir.."/*.cpp"))
+    project_exe = Link(settings, name, project, CompiledLibs)
+    project_target = PseudoTarget(name.."_"..settings.config_name, project_exe)
+
+    PseudoTarget(settings.config_name, project_target)
+end

@@ -1,0 +1,2123 @@
+<html>
+<!-- documentation for s7 -->
+
+<head>
+<title>s7</title>
+<style type="text/css">
+<!-- 
+	EM.red {color:red; font-style:normal}
+        EM.error {color:chocolate; font-style:normal}
+        EM.typing {color:maroon; font-style: normal}
+        EM.listener {color:darkblue; font-style: normal}
+	EM.emdef {font-weight: bold; font-style: normal}
+	H1 {text-align: center}
+	UL {list-style-type: none}
+
+	A {text-decoration:none}
+	A:hover {text-decoration:underline}
+	A.quiet {color:black; text-decoration:none}
+	A.quiet:hover {text-decoration:underline}
+	A.def {font-weight: bold; font-style: normal; text-decoration:none; text-color:black}
+-->
+
+</style>
+</head>
+<body bgcolor=white>
+
+<!-- INDEX s7doc:s7 scheme -->
+
+
+<br>
+
+<table border=0 bordercolor="lightgreen" width=100% cellpadding=2 cellspacing=0><tr><td bgcolor="lightgreen">
+<A NAME="s7doc"></a>
+<table width="100%" border=0><tr><td bgcolor="beige" align="center" valign="middle"><h2>s7</h2></td></tr></table>
+</td></tr></table>
+
+<p>s7 is a Scheme implementation, compatible with r5rs, and intended as an extension language
+for other applications, primarily Snd and Common Music.  It exists as just two files, s7.c and
+s7.h, that want only to disappear into someone else's source tree.  There are no libraries,
+no run-time init files, and no configuration scripts.
+It can be built as a stand-alone
+interpreter, if you insist (see below).  s7test.scm is a regression test for s7.
+If you're running s7 in a context
+that has getenv, file-exists?, and system (Snd for example), you can use s7-slib-init.scm
+to gain easy access to slib (this init file is named "s7.init" in the slib distribution).
+</p>
+<p>
+s7 is the default extension language of Snd and sndlib (http://ccrma.stanford.edu/software/snd/),
+and Rick Taube's Common Music (commonmusic at sourceforge).  There are X, Motif, Gtk, and openGL bindings
+in libxm (in the Snd tarball, or at ftp://ccrma-ftp.stanford.edu/pub/Lisp/libxm.tar.gz).
+</p>
+
+<p>s7 has full continuations, dynamic-wind, sort!, 
+error handling, ratios and complex numbers,
+defmacro and define-macro, keywords, hash-tables, block comments,
+threads, multiprecision arithmetic for all numeric types,
+generalized set!, format, define*, and a host of other
+extensions of r5rs.  It does not have syntax-rules or any of
+its friends, and it does not think there is any such thing
+as an "inexact integer" (what were those guys smoking?).
+</p>
+
+<p>This file assumes you know about Scheme and all its problems,
+and want a quick tour of where s7 is different:
+</p>
+<br>
+
+
+<dl>
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>multiprecision arithmetic</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>All numeric types (integers, ratios, reals, complex numbers) are supported.
+The basic integer and real
+types are defined in s7.h, defaulting to long long int and double.  
+pi is predefined, as are
+most-positive-fixnum and most-negative-fixnum.
+s7 can be built with multiprecision support 
+for all types,  using the gmp, mpfr, and mpc libraries (set WITH_GMP to 1 in s7.c).  
+If multiprecision arithmetic is
+enabled, the following functions are included: bignum, bignum?, and bignum-precision.
+bignum-precision, which defaults to 128, sets the number of bits each float takes.
+pi automatically reflects the current bignum-precision:
+</p>
+<pre>
+&gt; pi
+3.141592653589793238462643383279502884195E0
+
+&gt; (bignum-precision)
+128
+
+&gt; (set! (bignum-precision) 256)
+256
+
+&gt; pi
+3.141592653589793238462643383279502884197169399375105820974944592307816406286198E0
+</pre>
+<p>
+bignum? returns #t if its argument is a big number of some type (that is, I use "bignum" 
+for any big number, not just integers).  To create a big number,
+either include enough digits to overflow the default types, or use the bignum function.
+Its argument is a string representing the desired number:
+</p>
+<pre>
+&gt; (bignum "123456789123456789")
+123456789123456789
+
+&gt; (bignum "1.123123123123123123123123123")
+1.12312312312312312312312312300000000009E0
+</pre>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>math functions</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>
+s7 includes:
+</p>
+<ul>
+<li>sinh, cosh, tanh, asinh, acosh, atanh
+<li>logior, logxor, logand, lognot, ash, integer-length
+<li>random
+</ul>
+<p>
+The random function can take any numeric argument, including 0 (don't get me started...).
+The following constants are predefined: pi, most-positive-fixnum, most-negative-fixnum.
+Other math-related differences between s7 and r5rs:
+</p>
+<ul>
+<li>exact means integer or ratio, inexact means not exact.
+<li>rational? is a synonym for exact?.
+<li>floor, ceiling, truncate, and round return (exact) integer results.
+<li>"#" does not stand for an unknown digit.
+<li>the "@" complex number notation is not supported.
+<li>"+i" is not considered a number; include the real part.
+<li>modulo, remainder, and quotient take integer, ratio, or real arguments.
+<li>lcm and gcd can take integer or ratio arguments.
+<li>log takes an optional 2nd arg (the base).
+<li>'.' and an exponent can occur in a number in any base.
+<li>NaN and inf handling is left up to the underlying C or C++.
+<li>rationalize returns a ratio! 
+</ul>
+<pre>
+&gt; (exact? 1.0)
+#f
+
+&gt; (floor 1.4)
+1
+
+&gt; (rational? 1.5)
+#f
+
+&gt; (modulo 1.4 1.0)
+0.4
+
+&gt; (lcm 3/4 1/6)
+3/2
+
+&gt; (log 8 2)
+3
+
+&gt; (number-&gt;string 0.5 2)
+"0.1"
+
+&gt; (string-&gt;number "0.1" 2)
+0.5
+
+&gt; (rationalize 1.5)
+3/2
+</pre>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>define*, lambda*</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>These are extensions of define and lambda that make it easier to
+to deal with optional, keyword, and rest arguments.  
+The syntax is very simple: every argument to define* has a default value
+and is automatically available as a keyword argument.  The default value
+is either #f (if unspecified), or given in a list whose first member is
+the argument name.
+The last argument
+can be preceded by :rest or a dot to indicate that all other trailing arguments
+should be packaged as a list under that argument's name.  You can use
+:optional and :key, but they are ignored.  
+</p>
+<pre>
+(<em class=red>define*</em> (hi a (b 32) (c "hi")) (list a b c))
+</pre>
+<p>Here the argument "a" defaults to #f, "b" to 32, etc.
+When the function is called, 
+the argument names are bound to their default values, then the function's
+current argument list is scanned.  Any name that occurs as a keyword (":a")
+sets that argument's new value.  Otherwise, as values occur, they
+are plugged into the actual argument list based on their position.
+This is called an optional-key list in CLM.  So, taking the function
+above as an example:
+</p>
+<pre>
+(hi 1) -&gt; '(1 32 "hi")
+(hi :b 2 :a 3) -&gt; '(3 2 "hi")
+(hi 3 2 1) -&gt; '(3 2 1)
+</pre>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=60% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>define-macro, define-macro*, defmacro, defmacro*, macroexpand, gensym</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>These are the standard macro definers.  </p>
+<pre>
+(define-macro (add-1 arg) `(+ 1 ,arg))
+(defmacro add-1 (arg) `(+ 1 ,arg))
+</pre>
+<p>macroexpand can help debug a macro:
+</p>
+<pre>
+&gt; (define-macro (add-1 arg) `(+ 1 ,arg))
+add-1
+&gt; (macroexpand (add-1 32))
+(+ 1 32)
+</pre>
+<p>gensym returns a symbol that is guaranteed to be currently unused.  It takes an optional string argument
+giving the new symbol name's prefix.
+</p>
+<pre>
+(defmacro pop! (sym)
+  (let ((v (<em class=red>gensym</em>)))
+    `(let ((,v (car ,sym)))
+       (set! ,sym (cdr ,sym))
+       ,v)))
+</pre>
+<p>As in define*, the starred forms give optional and keyword arguments:
+</p>
+<pre>
+&gt; (define-macro* (add-2 a (b 2)) `(+ ,a ,b))
+add-2
+&gt; (add-2 1 3)
+4
+&gt; (add-2 1)
+3
+&gt; (add-2 :b 3 :a 1)
+4
+</pre>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>define-constant, constant?</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>define-constant defines a constant and constant? returns #t if its argument
+is a constant.  A constant in s7 is really constant: it can't be set or rebound.
+</p>
+<pre>
+&gt; (define-constant var 32)
+var
+
+&gt; (set! var 1)
+;set!: can't alter immutable object: var
+
+&gt; (let ((var 1)) var)
+;can't bind or set an immutable object: var, line 1
+</pre>
+<p>This has the possibly surprising side effect that previous uses of the constant name
+become constants:
+</p>
+<pre>
+ (define (func a) (let ((cvar (+ a 1))) cvar))
+ (define-constant cvar 23)
+ (func 1)
+ ;can't bind or set an immutable object: cvar
+</pre>
+<p>So, obviously, choose unique names for your constants, or don't use define-constant.
+</p>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>procedure-with-setter</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>A procedure-with-setter consists of two functions, the "getter" and the "setter".
+The getter is called when the object is encountered as a function, and the setter when
+it is set:
+</p>
+<pre>
+(define x 32)
+(define xx (make-procedure-with-setter (lambda () x) (lambda (val) (set! x val) x)))
+(xx) -&gt; 32
+(set! (xx) 1)
+(xx) -&gt; 1
+</pre>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>applicable objects, generalized set!</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>Lists, strings, vectors, hash-tables, and any cooperating C-defined objects
+are both applicable and settable.  I think the syntax is pretty:
+</p>
+<pre>
+(let ((lst (list 1 2 3)))
+  (set! (lst 1) 32)
+  (list (lst 0) (lst 1)))
+-&gt; '(1 32)
+
+(let ((hash (make-hash-table)))
+  (set! (hash 'hi) 32)
+  (hash 'hi))
+-&gt; 32
+</pre>
+<p>You can use list-ref and friends, of course, but just try to read any serious vector arithmetic code
+when it is buried in vector-refs and vector-set!s! 
+</p>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>multidimensional vectors</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>
+If s7 is built with WITH_MULTIDIMENSIONAL_VECTORS (the default), it supports 
+vectors with any number of dimensions.  It is here, in particular, that the generalized
+set! stuff shines.  make-vector's 2nd argument can be a list of dimensions, rather than
+an integer (the one dimensional case):
+</p>
+<pre>
+    (make-vector (list 2 3 4))
+    (make-vector '(2 3) 1.0)
+    (vector-dimensions (make-vector (list 2 3 4))) -&gt; (2 3 4)
+</pre>
+<p>The second example includes the optional default vector element.  Once defined,
+(vect i ...) or (to be very verbose, (vector-ref vect i ...)) returns the given
+element, and (set! (vect i ...) m), (or verbose and unreadable, (vector-set! vect i ... m))
+sets that element.  vector-dimensions returns a list of the dimensions of a vector.
+</p>
+<pre>
+    (define v (make-vector '(2 3) 1.0))
+    -&gt; #(1.0 1.0 1.0 1.0 1.0 1.0)
+
+    (set! (v 0 1) 2.0)
+    -&gt; #(1.0 2.0 1.0 1.0 1.0 1.0)
+
+    (v 0 1)
+    -&gt; 2.0
+</pre>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>hash-tables</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><br>
+<ul>
+<li>(make-hash-table (size 461))
+<li>(hash-table-ref ht obj)
+<li>(hash-table-set! ht obj val)
+<li>(hash-table? obj)
+<li>(hash-table-size ht)
+</ul>
+<p>The hashed object can be a symbol, string, integer, or (problematically of course) a real.
+</p>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>threads</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>If s7 is built with HAVE_PTHREADS set, you get multithreading functions.
+</p>
+<ul>
+<li>(make-thread thunk)
+<li>(join-thread thread)
+<li>(thread? obj)
+<li>(make-lock)
+<li>(grab-lock lock)
+<li>(release-lock lock)
+<li>(lock? obj)
+<li>(make-thread-variable)
+<li>(thread-variable? obj)
+</ul>
+<p>
+Threads in s7 share the heap and symbol table, but have their own local environment, stack,
+and evaluator locals.  I use the term "lock" in place of "mutex", and "thread-variable"
+in place of "pthread_key".  The thread-variable is applicable and settable, so instead
+of pthread_getspecific, just call it: (var).
+</p>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>multiple-values</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>
+The r5rs section about values makes no sense to me;  why have
+multiple values at all if you're just going to throw away all
+but the first value?
+In s7 (+ (values 1 2 3) 4) is 10.  Similarly,
+</p>
+<pre>
+  (string-ref ((lambda () (values "abcd" 2))))
+  -&gt; #\c
+
+  ((lambda (a b) (+ a b)) 
+   ((lambda () (values 1 2))))
+  -&gt; 3
+
+  ;; call-with-values: 
+  (define-macro (call-with-values producer consumer) 
+    `(,consumer (,producer)))
+
+  ;; multiple-value-bind ("receive" in srfi-8):
+  (define-macro (multiple-value-bind vars expr . body)
+    `((lambda ,vars ,@body) ,expr))
+
+  ;; multiple-value-set!:
+  (define-macro (multiple-value-set! vars expr . body)
+    (let ((local-vars (map (lambda (n) (gensym)) vars)))
+      `((lambda ,local-vars ,@(map (lambda (n ln) `(set! ,n ,ln)) vars local-vars) ,@body) ,expr)))
+
+  ;; call/cc returns multiple values:
+  (+ (call/cc (lambda (ret) (ret 1 2 3))) 4)
+  -&gt; 10
+
+  ;; let*-values is defined as a macro at the end of s7.c (commented out)
+</pre>
+<p>
+In Snd many functions take the same trailing arguments: sound-index, channel-number, and edit-position;
+we can package these up in a values call:
+</p>
+<pre>
+   ;; say we have those arguments in snd, chn, edpos
+   (defmacro sce () `(values ,snd ,chn ,edpos))
+   (maxamp (sce))
+</pre>
+</dd>
+<br>
+
+<!-- should this work? (let ((var (values (values 1 2 3)))) (+ var 4)) 
+     currently you need: (let ((var (values (values 1 2 3)))) (+ (eval var) 4)) -> 10
+-->
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>call-with-exit and continuation?</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>call-with-exit is call/cc without the ability to return (an escape or goto, "call/exit"?).
+</p>
+<pre>
+(define (find-first-even-number arg)
+  (<em class=red>call-with-exit</em>
+   (lambda (return)
+     (for-each
+      (lambda (a)
+	(if (even? a)
+	    (return a)))
+      arg))))
+
+(find-first-even-number (list 1 3 9 13 8 2 4)) -&gt; 8
+</pre>
+<p>continuation? returns #t if its argument is a continuation,
+as opposed to a normal procedure.
+</p>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>format, object-&gt;string</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>s7's built-in format function is very close to that in srfi-48.</p>
+<pre>
+(format #f "~A ~D ~F" 'hi 123 3.14)
+-&gt; "hi 123 3.140000"
+</pre>
+<p>object-&gt;string returns the string representation of its argument, like format with ~S:
+</p>
+<pre>
+&gt; (object-&gt;string "hiho")
+"\"hiho\""
+
+&gt; (format #f "~S" "hiho")
+"\"hiho\""
+</pre>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>error handling</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>s7's error handling mimics that of (pre-r6rs) Guile.  An error is signalled
+via the error function, and can be trapped and dealt with via catch.
+</p>
+<pre>
+(<em class=red>catch</em> 'wrong-number-of-args
+  (lambda ()     ; code protected by the catch
+    (abs 1 2))
+  (lambda args   ; the error handler
+    (apply format (append (list #t) (cadr args)))))
+
+-&gt; "abs: too many arguments: (1 2)"
+</pre>
+<p>
+catch has 3 arguments: a tag indicating what error to catch (#t = anything),
+the code (a thunk) that the catch is protecting, and the function to call
+if a matching error occurs during the evaluation of the thunk.  The error handler
+takes a rest argument which will hold whatever the error function chooses to pass it.
+The error function itself takes at least 2 arguments, the error type (a symbol),
+and the error message.  There may also be other arguments describing the error.
+The default action (in the absence of any catch) is to treat the message as
+a format control string, apply format to it and the other arguments, and
+send that info to the current-error-port.
+</p>
+<p>When an error is encountered, the variable *error-info* (a vector) contains
+additional info about that error:
+</p>
+<ul>
+<li>0: the error type or tag (e.g. 'division-by-zero)
+<li>1: the message or information passed by the error function
+<li>2: if not #f, the code that s7 thinks triggered the error
+<li>3: if not #f, the line number of that code
+<li>4: if not #f, the file name of that code
+<li>5: the environment at the point of the error
+<li>6...: stack environment pointers (giving enough info to reconstruct the current call stack), ending in #f
+</ul>
+<p>To find a variable's value at the point of the error:
+</p>
+<pre>
+(symbol-&gt;value var (vector-ref *error-info* 5))
+</pre>
+<p>To print the stack at the point of the error:
+</p>
+<pre>
+(stacktrace *error-info*)
+</pre>
+
+<p>The variable *error-hook* provides a way to specialize error reporting.
+It is a function of 2 arguments, the values passed by the error function
+(the error type and whatever other info accompanies it).
+</p>
+<pre>
+(set! *error-hook* (lambda (tag args) (apply format (cons #t args))))
+</pre>
+<p>See also stacktrace and trace below.  There is a break macro defined in Snd (see snd-xen.c)
+which allows you to stop at some point, then evaluate arbitrary expressions in that context.
+</p>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>trace, untrace</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>These functions provide tracing:
+</p>
+<pre>
+    (define (hiho arg) 
+      (if (&gt; arg 0) 
+          (+ 1 (hiho (- arg 1))) 
+          0))
+
+    (trace hiho)
+
+    (hiho 3)
+
+    [hiho 3]
+     [hiho 2]
+      [hiho 1]
+       [hiho 0]
+        0
+       1
+      2
+     3
+</pre>
+<p>trace adds a function to the list of functions being traced, and untrace removes it.
+trace with no arguments causes everything to be traced, and untrace with no arguments
+turns this off.
+</p>
+<p>There is also a hook, *trace-hook*, a function of 2 arguments (the currently traced
+function and the list of current arguments).  It is evaluated in the environment of the
+function call (that is, global to the function, not the function's local environment).
+</p>
+<pre>
+    (define (hiho a b c) (* a b c))
+    (set! *trace-hook* (lambda (f args) (format #t "sum of args: ~A~%" (apply + args))))
+    (trace hiho)
+    (hiho 2 3 4)
+
+    [hiho 2 3 4]
+    sum of args: 9
+     24
+</pre>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>stacktrace, stack</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>stacktrace prints the stack contents.  Its optional argument
+can be *error-info* to show the stack at the point of the last error,
+a thread object to show that thread's stack, or a continuation to
+show the continuation stack.  Similarly, the stack function returns
+the stack top (an integer) and the stack itself (a vector).  
+Each stack frame has 4 entries, the function, the current environment, the function arguments, and an op code used
+internally by the evaluator. 
+</p>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>IO functions</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd>
+<p>Besides files, ports can also represent strings and functions.  The string port functions
+are:
+</p>
+<ul>
+<li>with-output-to-string
+<li>with-input-from-string
+<li>call-with-output-string
+<li>call-with-input-string,
+<li>open-output-string
+<li>open-input-string
+<li>get-output-string
+</ul>
+<pre>
+(let ((result #f) 
+      (p (<em class=red>open-output-string</em>)))
+  (format p "this ~A ~C test ~D" "is" #\a 3)
+  (set! result (<em class=red>get-output-string</em> p))
+  (close-output-port p)
+  result)
+-&gt; "this is a test 3"
+</pre>
+<p>Other functions:</p>
+<ul>
+<li>read-byte and write-byte (binary IO) (named "read-u8" and "write-u8" in r6rs, I think)
+<li>read-line (line-at-a-time reads)
+</ul>
+<p>The variable *vector-print-length* sets
+the upper limit on how many vector elements are printed by object-&gt;string and format.
+</p>
+<p>When running s7 behind a GUI, you often want input to come from and output to go to
+arbitrary widgets. The "function ports" provide a way to redirect IO.  See s7.h
+for an example.
+</p>
+<p>s7 also includes current-error-port and set-current-error-port.
+</p>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>generic functions</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>length, copy, and fill! are generic functions in the sense that their argument can be
+a list, string, vector, hash-table, or C-defined object.  Since vectors and lists are set-applicable, 
+and length is generic, we can write a generic FFT that accepts both types or any other object that follows this syntax:
+</p>
+<pre>
+        (define* (cfft! data n (dir 1)) ; (complex data)
+          (if (not n) (set! n (<em class=red>length</em> data)))
+          (do ((i 0 (+ i 1))
+               (j 0))
+              ((= i n))
+            (if (&gt; j i)
+        	(let ((temp (data j)))
+        	  (set! (data j) (data i))
+        	  (set! (data i) temp)))
+            (let ((m (/ n 2)))
+              (do () 
+        	  ((or (&lt; m 2) (&lt; j m)))
+        	(set! j (- j m))
+        	(set! m (/ m 2)))
+              (set! j (+ j m))))
+          (let ((ipow (floor (log n 2)))
+        	(prev 1))
+            (do ((lg 0 (+ lg 1))
+        	 (mmax 2 (* mmax 2))
+        	 (pow (/ n 2) (/ pow 2))
+        	 (theta (make-rectangular 0.0 (* pi dir)) (* theta 0.5)))
+        	((= lg ipow))
+              (let ((wpc (exp theta))
+        	    (wc 1.0))
+        	(do ((ii 0 (+ ii 1)))
+        	    ((= ii prev))
+        	  (do ((jj 0 (+ jj 1))
+        	       (i ii (+ i mmax))
+        	       (j (+ ii prev) (+ j mmax)))
+        	      ((&gt;= jj pow))
+        	    (let ((tc (* wc (data j))))
+        	      (set! (data j) (- (data i) tc))
+        	      (set! (data i) (+ (data i) tc))))
+        	  (set! wc (* wc wpc)))
+        	(set! prev mmax))))
+          data)
+        
+        &gt; (cfft! (list 0.0 1+i 0.0 0.0))
+        (1+1i -1+1i -1-1i 1-1i)
+        &gt; (cfft! (vector 0.0 1+i 0.0 0.0))
+        #(1+1i -1+1i -1-1i 1-1i)
+</pre>
+<p>map and for-each are also generic.
+</p>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>procedure info</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>procedure-source, procedure-arity, procedure-documentation, and help provide a look into a
+scheme function.
+procedure-documentation returns the documentation string associated with a procedure (the initial string in the
+function's body). procedure-arity returns a list describing the argument list of a function: '(required-args optional-args rest-arg).
+procedure-source returns the source (as a list) of a procedure. procedure-environment returns
+a procedure's environment.
+</p>
+<pre>
+&gt; (define* (add-2 a (b 32)) "add-2 adds its 2 args" (+ a b))
+add-2
+
+&gt; (procedure-documentation add-2)
+"add-2 adds its 2 args"
+
+&gt; (procedure-arity add-2)
+(0 2 #f)
+
+&gt; (procedure-source add-2)
+(lambda* (a (b 32)) "add-2 adds its 2 args" (+ a b))
+</pre>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>symbol table info</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>(symbol-table) returns the symbol table, a vector of lists of symbols.
+(symbol-&gt;value sym :optional env) returns the binding of 'sym'
+in the given environment which defaults to the current environment.
+(defined? obj :optional env) returns #t if 'obj' has a binding (a value) in the environment 'env'.
+If profiling is enabled (set WITH_PROFILING in s7.c), (symbol-calls sym) returns
+the number of times that symbol's binding has been applied.
+Here we scan the symbol table for any function that doesn't have documentation:
+</p>
+<pre>
+       (let ((st (<em class=red>symbol-table</em>)))
+         (do ((i 0 (+ i 1))) 
+             ((= i (vector-length st)))
+           (let ((lst (vector-ref st i)))
+             (for-each 
+               (lambda (sym)
+       	         (if (<em class=red>defined?</em> sym)
+	             (let ((val (<em class=red>symbol-&gt;value</em> sym)))
+	               (if (and (procedure? val)
+			        (string=? "" (procedure-documentation val)))
+		           (format #t "~A " sym)))))
+               lst))))
+</pre>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>environment info</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>environments are "first class objects" in s7.  An environment is
+a list of alists ending with a hash-table (the global environment).
+(current-environment :optional thread)
+returns the current environment (symbol bindings).  (global-environment)
+returns the top-level environment.  (procedure-environment proc) returns
+the procedure proc's environment.
+Here is an example of "apropos" that accesses both environments:
+</p>
+<pre>
+        (define (apropos name)
+          ;; (apropos "name") prints out a list of all symbols whose name includes "name" as a substring
+
+          (define (substring? subs s) ; from Larceny
+            (let* ((start 0)
+	           (ls (string-length s))
+	           (lu (string-length subs))
+	           (limit (- ls lu)))
+              (let loop ((i start))
+	        (cond ((&gt; i limit) #f)
+	              ((do ((j i (+ j 1))
+	        	    (k 0 (+ k 1)))
+	        	   ((or (= k lu)
+	        		(not (char=? (string-ref subs k) (string-ref s j))))
+	        	    (= k lu))) i)
+	              (else (loop (+ i 1)))))))
+
+          (define (apropos-1 alist)
+            (for-each
+             (lambda (binding)
+               (if (substring? name (symbol-&gt;string (car binding)))
+	           (format (current-output-port) "~A: ~A~%" 
+	        	   (car binding) 
+	        	   (if (procedure? (cdr binding))
+	        	       (procedure-documentation (cdr binding))
+	        	       (cdr binding)))))
+             alist))
+
+          (for-each
+           (lambda (frame)
+             (if (vector? frame) ; the global environment
+	         (let ((len (vector-length frame)))
+	           (do ((i 0 (+ i 1)))
+	               ((= i len))
+	             (apropos-1 (vector-ref frame i))))
+	         (apropos-1 frame)))
+           (<em class=red>current-environment</em>)))
+</pre>
+<p>
+You can change the current environment by hand:
+</p>
+<pre>
+      (define (push-environment e binding)
+        (if (vector? (car e))
+            (begin
+              (set-cdr! e (list (car e)))
+              (set-car! e (list binding)))
+            (set-car! e (cons binding (car e)))))
+   
+      (define (pop-environment e)
+        (if (not (vector? (car e)))
+            (begin
+              (set-car! e (cadr e))
+              (set-cdr! e (cddr e)))))
+   
+      (define-macro (define! e var val) ; define var=val in env e
+        `(push-environment ,e (cons ',var ,val)))
+
+      (define (make-environment . initial-bindings)
+         (cons initial-bindings (global-environment)))
+
+     (let ((x 3)) 
+       (define! (current-environment) hi 21)
+       (+ x hi))
+     -&gt; 24
+
+     (let ((x 32)) 
+       (eval `(+ x y) (make-environment '(x . 2) '(y . 4))))
+     -&gt; 6
+</pre>
+<p>(with-environment env . body) evaluates its body in the environment env.
+Unless I'm missing something, I think this makes it possible to
+write "hygenic" macros:
+</p>
+<pre>
+        (define-macro (mac a b) 
+          `(with-environment (global-environment)
+             (+ ,a ,b)))
+</pre>
+<p>now if we rebind +, nothing goes wrong:</p>
+<pre>
+        (let ((+ -)) 
+          (mac 1 2))
+        3
+</pre>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>*load-path*, *load-hook*</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>*load-path* is a list of directories to search when loading a file.
+*load-hook* is a function called just before a file is loaded.  Its argument is the filename.
+While loading, port-filename and port-line-number (of the current-input-port) can tell you
+where you are in the file.
+</p>
+<pre>
+(set! *load-hook* (lambda (name) (format #t "loading ~S...~%" name)))
+</pre>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>provide, provided?, *features*</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>As in Common Lisp, *features* is a list describing what is currently loaded into s7.  You can
+check it with the provided? function, or add something to it with provide.  In my version of Snd,
+at startup *features* is:
+</p>
+<pre>
+&gt; *features*
+(snd10 snd snd-s7 snd-motif gsl alsa xm snd-ladspa run clm4 clm sndlib gmp multidimensional-vectors s7)
+
+&gt; (provided? 'gmp)
+#t
+</pre>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>eval, eval-string</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>
+eval evaluates its argument (a list representing a piece of code).  It takes an optional
+second argument, the environment in which the evaluation should take place.  eval-string
+is similar, but its argument is a string.
+</p>
+<pre>
+&gt; (eval `(+ 1 2))
+3
+
+&gt; (eval-string "(+ 1 2)")
+3
+</pre>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>blocks comments in #| ... |# and #! ... !#</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd>
+<p>Multi-line comments can be enclosed in either #| and |#, or #! and !# (the latter
+is for compatibility with Guile).
+</p>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>reverse!, list-set!, sort!</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>reverse! is an in-place version of the built-in function reverse.  That is, 
+it modifies the list passed to it in the process of reversing its contents.
+list-set! sets a member of a list.  sort! sorts a list or a vector using the
+function passed as its second argument to choose the new ordering.
+</p>
+<pre>
+&gt; (sort! (list 3 4 8 2 0 1 5 9 7 6) &lt;)
+(0 1 2 3 4 5 6 7 8 9)
+
+&gt; (sort! (list (list 'u 1) (list 'i 0) (list 'a 2))
+     (lambda (a b) (&lt; (cadr a) (cadr b))))
+((i 0) (u 1) (a 2))
+</pre>
+<p>Despite the "!" in its name, sort! actually copies any list argument passed to it,
+but vectors are sorted in place.
+</p>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>keywords</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>
+Keywords exist mainly for define*'s benefit.  The keyword functions are:
+keyword?, make-keyword, symbol-&gt;keyword, and keyword-&gt;symbol.
+A keyword is a symbol that starts or ends with a colon. The colon
+is considered to be a part of the symbol name (unlike CL where it
+signals that the symbol is in the Package-With-No-Name [offstage: harmonica, tubular bells...]).
+</p>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>other functions</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd>
+<p>(<b>help</b> obj) tries to find information about obj.</p>
+<p>(<b>quit</b>) exits s7.</p>
+<p>(<b>make-list</b> length (initial-element #f)) returns a list of 'length' elements defaulting to 'initial-element'.</p>
+<p>(<b>gc</b>) calls the garbage collector.  (gc #f) turns off the GC, and (gc #t) turns it on.</p>
+</dd>
+<br>
+
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>define-expansion</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>
+This defines read-time macros, which are just dangerous enough that
+I probably shouldn't document them.  It has the same syntax as
+define-macro, and the same result except that the macro is
+dealt with at read time!  (This means it does not respect attempts to
+bind it to something else, which is asking for confusion).
+</p>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>encapsulation</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><p>encapsulation saves and restores environments.</p>
+<ul>
+<li>(open-encapsulator)
+<li>(close-encapsulator encap)
+<li>(encapsulator-bindings encap)
+<li>(encapsulator? obj)
+<li>(encapsulate . body)
+</ul>
+<p>An encapsulator is 
+a sort of data-side continuation.  open-encapsulator
+remembers the overall environment at the point it is called, returning an encapuslator
+object.  Whenever we want to return to that data state, we call that object as a thunk.
+encapsulator-bindings returns the alist of variables awaiting restoration.  When the encapsulator is called (restoring those bindings),
+the list is cleared, and the encapsulator starts saving values again (so repeated calls
+keep returning you to that data state).  close-encapsulator turns that encapsulator off.
+In a REPL, for example, you could save the initial state, then return to it at any time,
+without restarting the interpreter.  fluid-let is not what we want here because it has
+a body, and requires that you list in advance what variables you want to protect (and
+besides, it's not really a let (it uses "set!") and I can't see anything fluid about it).
+encapsulate is a macro that evaluates its body, then returns any variables global to that code to their prior value.
+</p>
+<pre>
+&gt; (define global-x 32)
+global-x
+
+&gt; (encapsulate 
+    (set! global-x 123) 
+    (format #f "x: ~A" global-x))
+  "x: 123"
+
+&gt; global-x
+32
+</pre>
+</dd>
+<br>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<dt>
+<table border=0 bordercolor="lightgreen" width=50% cellpadding=1 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width=100% border=0><tr><td bgcolor="#EEFDEE" valign="middle"><h4>other differences from r5rs</h4></td></tr></table>
+</td></tr></table>
+</dt>
+
+<dd><br>
+<ul>
+<li>do sets its step variables, rather than rebinding them.
+<li>no syntax-rules or any of its friends.
+<li>force and delay are implemented as in slib and depend on the WITH_FORCE switch, normally 0
+<li>s7-version returns the current s7 version.
+<li>no scheme-report-environment, null-environment, or interaction-environment (= current-environment?).
+<li>no transcript-on or transcript-off.
+<li>__func__ is the name of the function currently being defined or called (as in C).
+<li>vector-for-each, vector-map, hash-table-for-each, string-for-each
+</ul>
+</dd>
+<br>
+<br>
+
+</dl>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<table border=0 bordercolor="lightgreen" width=100% cellpadding=2 cellspacing=0><tr><td bgcolor="lightgreen">
+<table width="100%" border=0><tr><td bgcolor="beige" align="center" valign="middle"><h3>FFI examples</h3></td></tr></table>
+</td></tr></table>
+
+<p>s7 exists only to serve as an extension of some other application, so
+it is primarily a foreign function interface.  s7.h has lots of comments about the individual
+functions.  Here I'll collect some complete examples.  s7.c depends on the following
+compile-time flags:
+</p>
+<pre>
+    HAVE_STDBOOL_H                 1 if you have stdbool.h
+    HAVE_PTHREADS                  1 if you want multithreading support (requires pthreads, default is 0)
+    HAVE_NESTED_FUNCTIONS          1 if your compiler supports nested functions
+    WITH_GMP                       1 if you want multiprecision arithmetic (requires gmp, mpfr, and mpc, default is 0)
+    WITH_COMPLEX                   1 if your compiler supports complex numbers
+    HAVE_COMPLEX_TRIG              1 if your math library has complex versions of the trig functions
+    WITH_MULTIDIMENSIONAL_VECTORS  1 if you want multidimensional vectors (default is 1)
+    WITH_PROFILING                 1 if you want profiling support (default is 0)
+    WITH_ENCAPSULATION             1 if you want encapsulation (default is 0)
+    WITH_FORCE                     1 if you want force and delay (default is 0)
+    S7_DISABLE_DEPRECATED          1 if you want to make sure you're not using any deprecated s7 stuff (default is 0)
+</pre>
+<p>See the comment at the start of s7.c for more information about these switches.
+s7.h defines the two main number types: s7_Int and s7_Double.
+The examples that follow show:
+</p>
+
+<ul>
+<li>read-eval-print loop
+<li>define a function with arguments and a returned value, and define a variable 
+<li>call a scheme function from C, and get/set scheme variable values in C
+<li>C++ and Juce
+<li>load sndlib using the XEN functions and macros
+<li>add a new scheme type and a procedure-with-setter
+<li>redirect display output to a C procedure
+<li>extend a built-in operator ("+" in this case)
+<li>C-side define* (s7_define_function_star)
+<li>C-side define-macro (s7_define_macro)
+<li>signal handling (C-C to break out of an infinite loop)
+<li>direct multidimensional vector element access
+</ul>
+
+<br><br>
+<p>
+First, a bare REPL:
+</p>
+
+<table border=1 bordercolor="lightgray" hspace=20 cellspacing=2 cellpadding=16>
+<tr><td bgcolor="#fbfbf0">
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include "s7.h"
+
+static s7_pointer our_exit(s7_scheme *sc, s7_pointer args) 
+{
+  /* all added functions have this form, args is a list, 
+   *    s7_car(args) is the 1st arg, etc 
+   */
+  exit(1);
+  return(s7_nil(sc)); /* never executed, but makes the compiler happier */
+}
+
+int main(int argc, char **argv)
+{
+  s7_scheme *s7;
+  char buffer[512];
+  char response[1024];
+
+  s7 = <em class=red>s7_init</em>();                     /* initialize the interpreter */
+  <em class=red>s7_define_function</em>(s7, "exit", our_exit, 0, 0, false, "(exit) exits the program");
+                                      /* add the function "exit" to the interpreter.
+                                       *   0, 0, false -&gt; no required args,
+				       *                  no optional args,
+				       *                  no "rest" arg
+				       */
+  while (1)                           /* fire up a REPL */
+    {
+      fprintf(stdout, "\n&gt; ");        /* prompt for input */
+      fgets(buffer, 512, stdin);
+      if ((buffer[0] != '\n') || 
+	  (strlen(buffer) &gt; 1))
+	{                            
+	  sprintf(response, "(write %s)", buffer);
+	  <em class=red>s7_eval_c_string</em>(s7, response); /* evaluate input and write the result */
+	}
+    }
+}
+
+/* make mus-config.h (it can be empty), then
+ *
+ *   gcc -c s7.c -I.
+ *   gcc -o doc7 doc7.c s7.o -lm -I.
+ *
+ * run it:
+ *
+ *    doc7
+ *    &gt; (+ 1 2)
+ *    3
+ *    &gt; (define (add1 x) (+ 1 x))
+ *    add1
+ *    &gt; (add1 2)
+ *    3
+ *    &gt; (exit)
+ */
+</pre>
+</td></tr></table>
+
+
+
+<br><br>
+<p>Define a function with arguments and a returned value, and a variable:
+</p>
+
+<table border=1 bordercolor="lightgray" hspace=20 cellspacing=2 cellpadding=16>
+<tr><td bgcolor="#fbfbf0">
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#include "s7.h"
+
+static s7_pointer our_exit(s7_scheme *sc, s7_pointer args)
+{
+  exit(1);
+  return(s7_nil(sc));
+}
+
+static s7_pointer add1(s7_scheme *sc, s7_pointer args)
+{
+  if (<em class=red>s7_is_integer</em>(s7_car(args)))
+    return(<em class=red>s7_make_integer</em>(sc, 1 + <em class=red>s7_integer</em>(s7_car(args))));
+  return(s7_wrong_type_arg_error(sc, "add1", 1, s7_car(args), "an integer"));
+}
+
+int main(int argc, char **argv)
+{
+  s7_scheme *s7;
+  char buffer[512];
+  char response[1024];
+
+  s7 = s7_init();                     /* initialize the interpreter */
+  
+  s7_define_function(s7, "exit", our_exit, 0, 0, false, "(exit) exits the program");
+  s7_define_function(s7, "add1", add1, 1, 0, false, "(add1 int) adds 1 to int");
+  <em class=red>s7_define_variable</em>(s7, "my-pi", <em class=red>s7_make_real</em>(s7, 3.14159265));
+
+  while (1)                           /* fire up a "repl" */
+    {
+      fprintf(stdout, "\n&gt; ");        /* prompt for input */
+      fgets(buffer, 512, stdin);
+      if ((buffer[0] != '\n') || 
+	  (strlen(buffer) &gt; 1))
+	{                            
+	  sprintf(response, "(write %s)", buffer);
+	  s7_eval_c_string(s7, response); /* evaluate input and write the result */
+	}
+    }
+}
+
+/*    doc7
+ *    &gt; my-pi
+ *    3.14159265
+ *    &gt; (+ 1 (add1 1))
+ *    3
+ *    &gt; (exit)
+ */
+</pre>
+</td></tr></table>
+
+
+
+<br><br>
+<p>Call a scheme-defined function from C, and get/set scheme variable values in C:
+</p>
+
+<table border=1 bordercolor="lightgray" hspace=20 cellspacing=2 cellpadding=16>
+<tr><td bgcolor="#fbfbf0">
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#include "s7.h"
+
+int main(int argc, char **argv)
+{
+  s7_scheme *s7;
+  s7 = s7_init();
+
+  s7_define_variable(s7, "an-integer", s7_make_integer(s7, 1));
+  s7_eval_c_string(s7, "(define (add1 a) (+ a 1))");
+  
+  fprintf(stderr, "an-integer: %d\n", 
+	  s7_integer(<em class=red>s7_name_to_value</em>(s7, "an-integer")));
+
+  <em class=red>s7_symbol_set_value</em>(s7, <em class=red>s7_make_symbol</em>(s7, "an-integer"), s7_make_integer(s7, 32));
+
+  fprintf(stderr, "now an-integer: %d\n", 
+	  s7_integer(<em class=red>s7_name_to_value</em>(s7, "an-integer")));
+
+  fprintf(stderr, "(add1 2): %d\n", 
+	  s7_integer(<em class=red>s7_call</em>(s7, 
+			     s7_name_to_value(s7, "add1"), 
+			     s7_cons(s7, s7_make_integer(s7, 2), s7_nil(s7)))));
+}
+
+/*
+ *    doc7
+ *    an-integer: 1
+ *    now an-integer: 32
+ *    (add1 2): 3
+ */
+</pre>
+</td></tr></table>
+
+
+
+<br><br>
+<p>C++ and Juce, from Rick Taube:
+</p>
+
+<table border=1 bordercolor="lightgray" hspace=20 cellspacing=2 cellpadding=16>
+<tr><td bgcolor="#fbfbf0">
+<pre>
+int main(int argc, const char* argv[]) 
+{ 
+  initialiseJuce_NonGUI(); 
+
+  s7_scheme *s7 = s7_init(); 
+  if (!s7) 
+    { 
+      std::cout &lt;&lt;  "Can't start S7!\n"; 
+      return -1; 
+    } 
+
+  s7_pointer val; 
+  std::string str; 
+  while (true) 
+    { 
+      std::cout &lt;&lt; "\ns7&gt; "; 
+      std::getline(std::cin, str); 
+      val = s7_eval_c_string(s7, str.c_str()); 
+      std::cout &lt;&lt; s7_object_to_c_string(s7, val); 
+    } 
+
+  free(s7); 
+  std::cout &lt;&lt; "Bye!\n"; 
+  return 0; 
+} 
+</pre>
+</td></tr></table>
+
+
+
+<br><br>
+<p>Load sndlib using the XEN functions and macros into an s7 repl:
+</p>
+
+<table border=1 bordercolor="lightgray" hspace=20 cellspacing=2 cellpadding=16>
+<tr><td bgcolor="#fbfbf0">
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+
+/* assume we've configured and built sndlib, so it has created a mus-config.h file */
+
+#include "mus-config.h"
+#include "s7.h"
+#include "xen.h"
+#include "clm.h"
+#include "clm2xen.h"
+
+static s7_pointer our_exit(s7_scheme *sc, s7_pointer args)
+{
+  exit(1);
+  return(s7_nil(sc));
+}
+
+/* the next functions are needed for either with-sound or many standard instruments, like fm-violin */
+/*   (these are in the xen-style FFI) */
+
+static XEN g_file_exists_p(XEN name)
+{
+  #define H_file_exists_p "(file-exists? filename): #t if the file exists"
+  XEN_ASSERT_TYPE(XEN_STRING_P(name), name, XEN_ONLY_ARG, "file-exists?", "a string");
+  return(C_TO_XEN_BOOLEAN(mus_file_probe(XEN_TO_C_STRING(name))));
+}
+
+XEN_NARGIFY_1(g_file_exists_p_w, g_file_exists_p)
+
+static XEN g_delete_file(XEN name)
+{
+  #define H_delete_file "(delete-file filename): deletes the file"
+  XEN_ASSERT_TYPE(XEN_STRING_P(name), name, XEN_ONLY_ARG, "delete-file", "a string");
+  return(C_TO_XEN_BOOLEAN(unlink(XEN_TO_C_STRING(name))));
+}
+
+XEN_NARGIFY_1(g_delete_file_w, g_delete_file)
+
+int main(int argc, char **argv)
+{
+  char buffer[512];
+  char response[1024];
+
+  s7 = s7_init();                     /* initialize the interpreter; s7 is declared in xen.h */
+  xen_initialize();                   /* initialize the xen stuff (hooks and the xen s7 FFI used by sndlib) */
+  Init_sndlib();                      /* initialize sndlib with all the functions linked into s7 */  
+
+  XEN_DEFINE_PROCEDURE("file-exists?", g_file_exists_p_w, 1, 0, 0, H_file_exists_p);
+  XEN_DEFINE_PROCEDURE("delete-file",  g_delete_file_w,   1, 0, 0, H_delete_file);
+  s7_define_function(s7, "exit", our_exit, 0, 0, false, "(exit) exits the program");
+
+  while (1)                           /* fire up a "repl" */
+    {
+      fprintf(stdout, "\n&gt; ");        /* prompt for input */
+      fgets(buffer, 512, stdin);
+
+      if ((buffer[0] != '\n') || 
+	  (strlen(buffer) &gt; 1))
+	{                            
+	  sprintf(response, "(write %s)", buffer);
+	  s7_eval_c_string(s7, response); /* evaluate input and write the result */
+	}
+    }
+}
+
+/* gcc -o doc7 doc7.c -lm -I. /usr/local/lib/sndlib.a -lasound
+ *
+ *   (load "sndlib-ws.scm")
+ *   (with-sound () (outa 10 .1))
+ *   (load "v.scm")
+ *   (with-sound () (fm-violin 0 .1 440 .1))
+ */
+</pre>
+</td></tr></table>
+
+
+
+<br><br>
+<p>Add a new scheme type and procedure-with-setters:
+</p>
+
+<table border=1 bordercolor="lightgray" hspace=20 cellspacing=2 cellpadding=16>
+<tr><td bgcolor="#fbfbf0">
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#include "s7.h"
+
+static s7_pointer our_exit(s7_scheme *sc, s7_pointer args)
+{
+  exit(1);
+  return(s7_nil(sc));
+}
+
+/* define *listener-prompt* in scheme, add two accessors for C get/set */
+
+static const char *listener_prompt(s7_scheme *sc)
+{
+  return(s7_string(s7_name_to_value(sc, "*listener-prompt*")));
+}
+
+static void set_listener_prompt(s7_scheme *sc, const char *new_prompt)
+{
+  s7_symbol_set_value(sc, s7_make_symbol(sc, "*listener-prompt*"), s7_make_string(sc, new_prompt));
+}
+
+/* now add a new type, a struct named "dax" with two fields, a real "x" and a list "data" */
+/*   since the data field is an s7 object, we'll need to mark it to protect it from the GC */
+
+typedef struct {
+  s7_Double x;
+  s7_pointer data;
+} dax;
+
+static char *print_dax(s7_scheme *sc, void *val)
+{
+  char *data_str, *str;
+  int data_str_len;
+  dax *o = (dax *)val;
+  data_str = s7_object_to_c_string(sc, o-&gt;data);
+  data_str_len = strlen(data_str);
+  str = (char *)calloc(data_str_len + 32, sizeof(char));
+  snprintf(str, data_str_len + 32, "#&lt;dax %.3f %s&gt;", o-&gt;x, data_str);
+  free(data_str);
+  return(str);
+}
+
+static void free_dax(void *val)
+{
+  if (val) free(val);
+}
+
+static bool equal_dax(void *val1, void *val2)
+{
+  return(val1 == val2);
+}
+
+static void mark_dax(void *val)
+{
+  dax *o = (dax *)val;
+  if (o) s7_mark_object(o-&gt;data);
+}
+
+static int dax_type_tag = 0;
+
+static s7_pointer make_dax(s7_scheme *sc, s7_pointer args)
+{
+  dax *o;
+  o = (dax *)malloc(sizeof(dax));
+  o-&gt;x = s7_real(s7_car(args));
+  if (s7_cdr(args) != s7_nil(sc))
+    o-&gt;data = s7_car(s7_cdr(args));
+  else o-&gt;data = s7_nil(sc);
+  return(<em class=red>s7_make_object</em>(sc, dax_type_tag, (void *)o));
+}
+
+static s7_pointer is_dax(s7_scheme *sc, s7_pointer args)
+{
+  return(s7_make_boolean(sc, 
+			 <em class=red>s7_is_object</em>(s7_car(args)) &amp;&amp;
+			 <em class=red>s7_object_type</em>(s7_car(args)) == dax_type_tag));
+}
+
+static s7_pointer dax_x(s7_scheme *sc, s7_pointer args)
+{
+  dax *o;
+  o = (dax *)<em class=red>s7_object_value</em>(s7_car(args));
+  return(s7_make_real(sc, o-&gt;x));
+}
+
+static s7_pointer set_dax_x(s7_scheme *sc, s7_pointer args)
+{
+  dax *o;
+  o = (dax *)s7_object_value(s7_car(args));
+  o-&gt;x = s7_real(s7_car(s7_cdr(args)));
+  return(s7_car(s7_cdr(args)));
+}
+
+static s7_pointer dax_data(s7_scheme *sc, s7_pointer args)
+{
+  dax *o;
+  o = (dax *)s7_object_value(s7_car(args));
+  return(o-&gt;data);
+}
+
+static s7_pointer set_dax_data(s7_scheme *sc, s7_pointer args)
+{
+  dax *o;
+  o = (dax *)s7_object_value(s7_car(args));
+  o-&gt;data = s7_car(s7_cdr(args));
+  return(o-&gt;data);
+}
+
+int main(int argc, char **argv)
+{
+  s7_scheme *s7;
+  char buffer[512];
+  char response[1024];
+
+  s7 = s7_init();
+  
+  s7_define_function(s7, "exit", our_exit, 0, 0, false, "(exit) exits the program");
+  s7_define_variable(s7, "*listener-prompt*", s7_make_string(s7, "&gt;"));
+
+  dax_type_tag = <em class=red>s7_new_type</em>("dax", print_dax, free_dax, equal_dax, mark_dax, NULL, NULL);
+  s7_define_function(s7, "make-dax", make_dax, 2, 0, false, "(make-dax x data) makes a new dax");
+  s7_define_function(s7, "dax?", is_dax, 1, 0, false, "(dax? anything) returns #t if its argument is a dax object");
+
+  s7_define_variable(s7, "dax-x", 
+		     <em class=red>s7_make_procedure_with_setter</em>(s7, "dax-x", dax_x, 1, 0, set_dax_x, 2, 0, "dax x field"));
+
+  s7_define_variable(s7, "dax-data", 
+		     <em class=red>s7_make_procedure_with_setter</em>(s7, "dax-data", dax_data, 1, 0, set_dax_data, 2, 0, "dax data field"));
+
+  while (1)
+    {
+      fprintf(stdout, "\n%s ", listener_prompt(s7));
+      fgets(buffer, 512, stdin);
+      if ((buffer[0] != '\n') || 
+	  (strlen(buffer) &gt; 1))
+	{                            
+	  sprintf(response, "(write %s)", buffer);
+	  s7_eval_c_string(s7, response); /* evaluate input and write the result */
+	}
+    }
+}
+
+/*
+ *    &gt; *listener-prompt*
+ *    "&gt;"
+ *    &gt; (set! *listener-prompt* ":")
+ *    ":"
+ *    : (define obj (make-dax 1.0 (list 1 2 3)))
+ *    obj
+ *    : obj
+ *    #&lt;dax 1.000 (1 2 3)&gt;
+ *    : (dax-x obj)
+ *    1.0
+ *    : (dax-data obj)
+ *    (1 2 3)
+ *    : (set! (dax-x obj) 123.0)
+ *    123.0
+ *    : obj
+ *    #&lt;dax 123.000 (1 2 3)&gt;
+ *    : (dax? obj)
+ *    #t
+ *    : (exit)
+ */
+</pre>
+</td></tr></table>
+
+
+
+<br><br>
+<p>Redirect output (and input) to a C procedure:
+</p>
+
+<table border=1 bordercolor="lightgray" hspace=20 cellspacing=2 cellpadding=16>
+<tr><td bgcolor="#fbfbf0">
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#include "s7.h"
+
+static void my_print(s7_scheme *sc, char c, s7_pointer port)
+{
+  fprintf(stderr, "[%c] ", c);
+}
+
+static s7_pointer my_read(s7_scheme *sc, s7_read_t peek, s7_pointer port)
+{
+  return(<em class=red>s7_make_character</em>(s7, fgetc(stdin)));
+}
+
+int main(int argc, char **argv)
+{
+  s7_scheme *s7;
+  char buffer[512];
+  char response[1024];
+
+  s7 = s7_init();  
+
+  <em class=red>s7_set_current_output_port</em>(s7, <em class=red>s7_open_output_function</em>(s7, my_print));
+  s7_define_variable(s7, "io-port", <em class=red>s7_open_input_function</em>(s7, my_read));
+
+  while (1) 
+    {
+      fprintf(stdout, "\n&gt; ");
+      fgets(buffer, 512, stdin);
+      if ((buffer[0] != '\n') || 
+	  (strlen(buffer) &gt; 1))
+	{                            
+	  sprintf(response, "(write %s)", buffer);
+	  s7_eval_c_string(s7, response);
+	}
+    }
+}
+
+/* 
+ *    &gt; (+ 1 2)
+ *    [3]
+ *    &gt; (display "hiho")
+ *    [h] [i] [h] [o] [#] [&lt;] [u] [n] [s] [p] [e] [c] [i] [f] [i] [e] [d] [&gt;] 
+ *    &gt; (define (add1 x) (+ 1 x))
+ *    [a] [d] [d] [1] 
+ *    &gt; (add1 123)
+ *    [1] [2] [4] 
+ *    &gt; (read-char io-port)
+ *    a                             ; here I typed "a" in the shell
+ *    [#] [\] [a] 
+ */
+</pre>
+</td></tr></table>
+
+
+<br><br>
+<p>Extend a built-in operator ("+" in this case):
+</p>
+
+<table border=1 bordercolor="lightgray" hspace=20 cellspacing=2 cellpadding=16>
+<tr><td bgcolor="#fbfbf0">
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#include "s7.h"
+
+static s7_pointer old_add;           /* the original "+" function for non-string cases */
+static s7_pointer old_string_append; /* same, for "string-append" */
+
+static s7_pointer our_add(s7_scheme *sc, s7_pointer args)
+{
+  /* this will replace the built-in "+" operator, extending it to include strings:
+   *   (+ "hi" "ho") -&gt; "hiho" and  (+ 3 4) -&gt; 7
+   */
+  if ((s7_is_pair(args)) &amp;&amp;
+      (s7_is_string(s7_car(args))))
+    return(<em class=red>s7_apply_function</em>(sc, old_string_append, args));
+
+  return(s7_apply_function(sc, old_add, args));
+}
+
+int main(int argc, char **argv)
+{
+  s7_scheme *s7;
+  char buffer[512];
+  char response[1024];
+
+  s7 = s7_init();
+
+  /* get built-in + and string-append */
+  old_add = s7_name_to_value(s7, "+");      
+  old_string_append = s7_name_to_value(s7, "string-append");
+
+  /* redefine "+" */
+  s7_define_function(s7, "+", our_add, 0, 0, true, "(+ ...) adds or appends its arguments");
+
+  while (1)
+    {
+      fprintf(stdout, "\n&gt; ");
+      fgets(buffer, 512, stdin);
+      if ((buffer[0] != '\n') || 
+	  (strlen(buffer) &gt; 1))
+	{                            
+	  sprintf(response, "(write %s)", buffer);
+	  s7_eval_c_string(s7, response);
+	}
+    }
+}
+
+/* 
+ *    &gt; (+ 1 2)
+ *    3
+ *    &gt; (+ "hi" "ho")
+ *    "hiho"
+ */
+</pre>
+</td></tr></table>
+
+
+
+<br><br>
+<p>C-side define* (s7_define_function_star):
+</p>
+
+<table border=1 bordercolor="lightgray" hspace=20 cellspacing=2 cellpadding=16>
+<tr><td bgcolor="#fbfbf0">
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#include "s7.h"
+
+static s7_pointer plus(s7_scheme *sc, s7_pointer args)
+{
+  /* (define* (plus (red 32) blue) (+ (* 2 red) blue)) */
+  return(s7_make_integer(sc, 2 * s7_integer(s7_car(args)) + s7_integer(s7_car(s7_cdr(args)))));
+}
+
+int main(int argc, char **argv)
+{
+  s7_scheme *s7;
+  char buffer[512];
+  char response[1024];
+
+  s7 = s7_init();
+  <em class=red>s7_define_function_star</em>(s7, "plus", plus, "(red 32) blue", "an example of define* from C");
+
+  while (1)
+    {
+      fprintf(stdout, "\n&gt; ");
+      fgets(buffer, 512, stdin);
+      if ((buffer[0] != '\n') || 
+	  (strlen(buffer) &gt; 1))
+	{                            
+	  sprintf(response, "(write %s)", buffer);
+	  s7_eval_c_string(s7, response);
+	}
+    }
+}
+
+/* 
+ *    &gt; (plus 2 3)
+ *    7
+ *    &gt; (plus :blue 3)
+ *    67
+ *    &gt; (plus :blue 1 :red 4)
+ *    9
+ *    &gt; (plus 2 :blue 3)
+ *    7
+ *    &gt; (plus :blue 3 :red 1)
+ *    5
+ */
+</pre>
+</td></tr></table>
+
+
+
+<br><br>
+<p>C-side define-macro (s7_define_macro):
+</p>
+
+<table border=1 bordercolor="lightgray" hspace=20 cellspacing=2 cellpadding=16>
+<tr><td bgcolor="#fbfbf0">
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#include "s7.h"
+
+static s7_pointer plus(s7_scheme *sc, s7_pointer args)
+{
+  /* (define-macro (plus a b) `(+ ,a ,b)) */
+  s7_pointer a, b;
+  a = s7_car(args);
+  b = s7_car(s7_cdr(args));
+  return(s7_cons(sc, s7_make_symbol(sc, "+"),  /* we are forming the list `(+ ,a ,b) */
+	   s7_cons(sc, a,
+	     s7_cons(sc, b, s7_nil(sc)))));
+}
+
+int main(int argc, char **argv)
+{
+  s7_scheme *s7;
+  char buffer[512];
+  char response[1024];
+
+  s7 = s7_init();
+  <em class=red>s7_define_macro</em>(s7, "plus", plus, 2, 0, false, "plus adds its two arguments");
+
+  while (1)
+    {
+      fprintf(stdout, "\n&gt; ");
+      fgets(buffer, 512, stdin);
+      if ((buffer[0] != '\n') || 
+	  (strlen(buffer) &gt; 1))
+	{                            
+	  sprintf(response, "(write %s)", buffer);
+	  s7_eval_c_string(s7, response);
+	}
+    }
+}
+
+/* 
+ *    &gt; (plus 2 3)
+ *    5
+ */
+</pre>
+</td></tr></table>
+
+
+
+<br><br>
+<p>Signal handling (C-C to break out of an infinite loop), and s7_make_continuation
+to pick up where we were interrupted:
+</p>
+
+<table border=1 bordercolor="lightgray" hspace=20 cellspacing=2 cellpadding=16>
+<tr><td bgcolor="#fbfbf0">
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;signal.h&gt;
+
+#include "s7.h"
+
+static s7_scheme *s7;
+struct sigaction new_act, old_act;  
+  
+static void handle_sigint(int ignored)  
+{  
+  fprintf(stderr, "interrupted!\n");
+  s7_symbol_set_value(s7, s7_make_symbol(s7, "*interrupt*"), <em class=red>s7_make_continuation</em>(s7)); /* save where we were interrupted */
+  sigaction(SIGINT, &amp;new_act, NULL);  
+  s7_quit(s7);                             /* get out of the eval loop if possible */
+}  
+
+static s7_pointer our_exit(s7_scheme *sc, s7_pointer args)
+{ 
+  /* this function is really needed if we are trapping C-C! */
+  exit(1);
+  return(s7_f(sc));
+}
+
+static s7_pointer our_sleep(s7_scheme *sc, s7_pointer args)
+{
+  /* slow down out infinite loop for demo purposes */
+  sleep(1);
+  return(s7_f(sc));
+}
+
+int main(int argc, char **argv)
+{
+  char buffer[512];
+  char response[1024];
+
+  s7 = s7_init();
+  s7_define_function(s7, "exit", our_exit, 0, 0, false, "(exit) exits");
+  s7_define_function(s7, "sleep", our_sleep, 0, 0, false, "(sleep) sleeps");
+  s7_define_variable(s7, "*interrupt*", s7_f(s7)); 
+  /* scheme variable *interrupt* holds the continuation at the point of the interrupt */
+
+  sigaction(SIGINT, NULL, &amp;old_act);
+  if (old_act.sa_handler != SIG_IGN)
+    {
+      memset(&amp;new_act, 0, sizeof(new_act));  
+      new_act.sa_handler = &amp;handle_sigint;  
+      sigaction(SIGINT, &amp;new_act, NULL);  
+    }
+
+  while (1)
+    {
+      fprintf(stderr, "\n&gt; ");
+      fgets(buffer, 512, stdin);
+      if ((buffer[0] != '\n') || 
+	  (strlen(buffer) &gt; 1))
+	{                            
+	  sprintf(response, "(write %s)", buffer);
+	  s7_eval_c_string(s7, response);
+	}
+    }
+}
+
+/*
+ *    &gt; (do ((i 0 (+ i 1))) ((= i -1)) (format #t "~D " i) (sleep))
+ *      ;;; now type C-C to break out of this loop
+ *    0 1 2 ^Cinterrupted!
+ *      ;;; call the continuation to continue from where we were interrupted
+ *    &gt; (*interrupt*)
+ *    3 4 5 ^Cinterrupted!
+ *    &gt; *interrupt*
+ *    #&lt;continuation&gt;
+ *    &gt; (+ 1 2)
+ *    3
+ */
+</pre>
+</td></tr></table>
+
+
+
+<br><br>
+<p>Multidimensional vector element access:
+</p>
+
+<table border=1 bordercolor="lightgray" hspace=20 cellspacing=2 cellpadding=16>
+<tr><td bgcolor="#fbfbf0">
+<pre>
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#include "s7.h"
+
+static s7_pointer ref3(s7_scheme *sc, s7_pointer args)
+{
+  /* (ref3 vec) prints out a multidimensional vector's contents, assuming a 3-D vector here */
+  int x, y, z;
+  s7_pointer *elements;
+  s7_Int *offsets, *dimensions;
+
+  elements = <em class=red>s7_vector_elements</em>(s7_car(args));
+  dimensions = <em class=red>s7_vector_dimensions</em>(s7_car(args));
+  offsets = <em class=red>s7_vector_offsets</em>(s7_car(args));
+
+  for (z = 0; z &lt; dimensions[0]; z++)
+    for (y = 0; y &lt; dimensions[1]; y++)
+      for (x = 0; x &lt; dimensions[2]; x++)
+	fprintf(stdout, "z: %d, y: %d, x: %d, (3dvec z y x): %s\n",
+		z, y, x,
+		s7_object_to_c_string(sc, elements[z * offsets[0] + y * offsets[1] + x * offsets[2]]));
+
+  return(s7_car(args));
+}
+
+int main(int argc, char **argv)
+{
+  s7_scheme *s7;
+  char buffer[512];
+  char response[1024];
+
+  s7 = s7_init(); 
+  s7_define_function(s7, "ref3", ref3, 1, 0, false, "(ref3 vect) prints the elements of the vector");
+
+  while (1)
+    {
+      fprintf(stdout, "\n&gt; "); 
+      fgets(buffer, 512, stdin);
+      if ((buffer[0] != '\n') || 
+	  (strlen(buffer) &gt; 1))
+	{                            
+	  sprintf(response, "(write %s)", buffer);
+	  s7_eval_c_string(s7, response); /* evaluate input and write the result */
+	}
+    }
+}
+
+/*
+ *    &gt; (define vect (make-vector (list 1 2 3) 0))
+ *    vect
+ *    &gt; (set! (vect 0 1 1) 32)
+ *    32
+ *    &gt; (ref3 vect)
+ *    z: 0, y: 0, x: 0, (3dvec z y x): 0
+ *    z: 0, y: 0, x: 1, (3dvec z y x): 0
+ *    z: 0, y: 0, x: 2, (3dvec z y x): 0
+ *    z: 0, y: 1, x: 0, (3dvec z y x): 0
+ *    z: 0, y: 1, x: 1, (3dvec z y x): 32
+ *    z: 0, y: 1, x: 2, (3dvec z y x): 0
+ *    #(0 0 0 0 32 0)
+ */
+</pre>
+</td></tr></table>
+
+</body>
+</html>

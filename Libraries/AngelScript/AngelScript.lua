@@ -1,5 +1,11 @@
-AngelScript = {
-	IncludeDir = PathPath(ModuleFilename()) .. "/sdk/angelscript/include",
-	SourceFiles = PathPath(ModuleFilename()) .. "/sdk/angelscript/source/*.cpp",
-	Defines = {"CONF_WITH_ANGELSCRIPT"}
+local module_filename = ModuleFilename()
+Libraries["AngelScript"] = {
+    Build = function(settings)
+                IncludeDir = Path(PathPath(module_filename) .. "/sdk/angelscript/include")
+                SourceFiles = Path(PathPath(module_filename) .. "/sdk/angelscript/source/*.cpp")
+                settings.cc.defines:Add("CONF_WITH_ANGELSCRIPT")
+                settings.cc.includes:Add(IncludeDir)
+                src = Collect(SourceFiles)
+                return Compile(settings, src)
+            end
 }
