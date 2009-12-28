@@ -1,6 +1,9 @@
 Import("../../framework.lua")
 
-BuildProject(FrameworkDebugSettings, FrameworkDebug, "test", "Source")
-BuildProject(FrameworkReleaseSettings, FrameworkRelease, "test", "Source")
+Includes = "Source"
+SourceFiles = Collect("Source/*.cpp")
+RequiredLibs = {}
+
+BuildProject("test", RequiredLibs, Includes, SourceFiles)
 
 DefaultTarget("test" .. "_debug")

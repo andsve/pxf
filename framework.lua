@@ -49,6 +49,31 @@ function CreateSettings(settings)
 --  end
     settings.cc.flags:Add("/EHsc")
     
+       -- Libraries
+    if family == "windows" then
+        settings.link.libs:Add("opengl32")
+        settings.link.libs:Add("glu32")
+        settings.link.libs:Add("gdi32")
+        settings.link.libs:Add("user32")
+        --settings.link.libs:Add("dsound")
+        settings.link.libs:Add("ole32")
+        
+    elseif family == "unix" then
+        if platform == "macosx" then
+            settings.link.frameworks:Add("AGL")
+            settings.link.frameworks:Add("OpenGL")
+            settings.link.frameworks:Add("Carbon")
+            settings.link.frameworks:Add("AudioToolbox")
+            settings.link.frameworks:Add("CoreAudio")
+            settings.link.frameworks:Add("AudioUnit")
+        else
+            settings.link.libs:Add("asound")
+            settings.link.libs:Add("GLU")
+            settings.link.libs:Add("GL")
+            settings.link.libs:Add("pthread")
+        end
+    end
+    
     -- Add include directory
     settings.cc.includes:Add(include_base)
     
@@ -77,16 +102,23 @@ FrameworkDebug = BuildFramework(FrameworkDebugSettings)
 FrameworkReleaseSettings = CreateSettings(release_settings)
 FrameworkRelease = BuildFramework(FrameworkReleaseSettings)
 
-function BuildProject(settings, framework, name, source_dir)
-    CompiledLibs = {framework}
-    for i,lib in pairs(Libraries) do
-        CompiledLibs[i] = lib.Build(settings)
+function BuildProject(name, required_libs, include_dir, source_files)
+    function DoBuild(settings, framework)
+        CompiledLibs = {}
+        for i,n in ipairs(required_libs) do
+            CompiledLibs[i] = Libraries[n].Build(settings)
+        end
+        
+        settings.cc.includes:Add(Path(path_prefix .. include_dir))
+        
+        -- Compile Project
+        project = Compile(settings, source_files)
+        project_exe = Link(settings, name, project, CompiledLibs, framework)
+        project_target = PseudoTarget(name.."_"..settings.config_name, project_exe)
+
+        PseudoTarget(settings.config_name, project_target)
     end
     
-    -- Compile Project
-    project = Compile(settings, CollectRecursive(source_dir.."/*.cpp"))
-    project_exe = Link(settings, name, project, CompiledLibs)
-    project_target = PseudoTarget(name.."_"..settings.config_name, project_exe)
-
-    PseudoTarget(settings.config_name, project_target)
+    DoBuild(FrameworkDebugSettings, FrameworkDebug)
+    DoBuild(FrameworkReleaseSettings, FrameworkRelease)
 end
