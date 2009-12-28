@@ -76,16 +76,13 @@ function CreateSettings(settings)
     
     -- Add include directory
     settings.cc.includes:Add(include_base)
-    
-    -- Separate setting files
-    framework_settings = settings:Copy()
  
-    return framework_settings
+    return settings
 end
 
-function BuildFramework()
+function BuildFramework(settings)
     -- Compile framework
-    framework = Compile(framework_settings, CollectRecursive(source_base))
+    framework = Compile(settings, CollectRecursive(source_base))
     return framework
 end
 
@@ -96,18 +93,18 @@ function BuildLibrary(settings, library)
     return lib
 end
 
-FrameworkDebugSettings = CreateSettings(debug_settings)
-FrameworkDebug = BuildFramework(FrameworkDebugSettings)
-
-FrameworkReleaseSettings = CreateSettings(release_settings)
-FrameworkRelease = BuildFramework(FrameworkReleaseSettings)
+DebugSettings = CreateSettings(debug_settings)
+ReleaseSettings = CreateSettings(release_settings)
 
 function BuildProject(name, required_libs, include_dir, source_files)
-    function DoBuild(settings, framework)
+    function DoBuild(settings)
+        
         CompiledLibs = {}
         for i,n in ipairs(required_libs) do
             CompiledLibs[i] = Libraries[n].Build(settings)
         end
+        
+        framework = BuildFramework(settings)
         
         settings.cc.includes:Add(Path(path_prefix .. include_dir))
         
@@ -119,6 +116,6 @@ function BuildProject(name, required_libs, include_dir, source_files)
         PseudoTarget(settings.config_name, project_target)
     end
     
-    DoBuild(FrameworkDebugSettings, FrameworkDebug)
-    DoBuild(FrameworkReleaseSettings, FrameworkRelease)
+    DoBuild(DebugSettings)
+    DoBuild(ReleaseSettings)
 end
