@@ -14,8 +14,13 @@ namespace Pxf{
 			virtual void SetTitle(const char *_title) = 0;
 
 			virtual int GetFPS() = 0;
+			virtual int GetWidth() = 0;
+			virtual int GetHeight() = 0;
+			virtual float GetAspectRatio() = 0;
+
 			virtual bool IsOpen() = 0;
 			virtual bool IsActive() = 0;
+			virtual bool IsMinimized() = 0;
 		};
 
 	} // Graphics

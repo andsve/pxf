@@ -2,20 +2,33 @@
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/WindowGL.h>
 
+#ifdef CONF_PLATFORM_MACOSX
+#include <Carbon/Carbon.h>
+#endif
 #include <GL/glfw.h>
 
 using namespace Pxf;
 using namespace Pxf::Graphics;
 using Util::String;
 
-WindowGL::WindowGL(int _width, int _height, bool _fullscreen /* = false */, bool _vsync /* = false */)
+int WindowGL::GetWidth() { return m_width; }
+int WindowGL::GetHeight() {return m_height; }
+float WindowGL::GetAspectRatio() { return ((float)m_width / (float)m_height); }
+
+WindowGL::WindowGL(int _width, int _height, int _color_bits, int _alpha_bits, int _depth_bits, int _stencil_bits, bool _fullscreen /* = false */, bool _resizeable /* = false */, bool _vsync /* = false */, int _fsaasamples /* = 0 */)
 {
 	m_width = _width;
 	m_height = _height;
 	m_fullscreen = _fullscreen;
+	m_resizeable = _resizeable;
 	m_vsync = _vsync;
 
-	m_opened = false;
+	m_bits_color = _color_bits;
+	m_bits_alpha = _alpha_bits;
+	m_bits_depth = _depth_bits;
+	m_bits_stencil = _stencil_bits;
+
+	m_fsaa_samples = _fsaasamples;
 
 	m_fps = 0;
 	m_fps_count = 0;
@@ -26,10 +39,10 @@ bool WindowGL::Open()
 {
 	int t_params = GLFW_WINDOW;
 
-	if (m_opened)
+	if (glfwGetWindowParam(GLFW_OPENED) == GL_TRUE)
 		return false; // can't open an already open window
 
-	// fullscreen?
+	// Enable fullscreen
 	if (m_fullscreen)
 		t_params = GLFW_FULLSCREEN;
 
@@ -37,9 +50,20 @@ bool WindowGL::Open()
 	if (m_vsync)
 		glfwSwapInterval(1);
 
-	if (GL_TRUE == glfwOpenWindow(m_width, m_height, 8, 8, 8, 8, 24, 0, t_params))
+	// Set number of FSAA samples
+	if (m_fsaa_samples > 0)
+		glfwOpenWindowHint(GLFW_FSAA_SAMPLES, m_fsaa_samples);
+
+	if (GL_TRUE == glfwOpenWindow(m_width, m_height, m_bits_color, m_bits_color, m_bits_color, m_bits_alpha, m_bits_depth, m_bits_stencil, t_params))
 	{
-		m_opened = true;
+
+#ifdef CONF_PLATFORM_MACOSX
+		/* HACK - Get events without bundle */
+		ProcessSerialNumber psn;    
+		GetCurrentProcess(&psn);
+		TransformProcessType(&psn,kProcessTransformToForegroundApplication);
+		SetFrontProcess(&psn);
+#endif
 
 		return true;
 	}
@@ -51,7 +75,7 @@ bool WindowGL::Open()
 
 bool WindowGL::Close()
 {
-	if (!m_opened)
+	if (glfwGetWindowParam(GLFW_OPENED) == GL_FALSE)
 		return false;
 
 	glfwCloseWindow();
@@ -60,7 +84,7 @@ bool WindowGL::Close()
 
 void WindowGL::Swap()
 {
-	if (m_opened)
+	if (glfwGetWindowParam(GLFW_OPENED) == GL_TRUE)
 	{
 		double t_time_current = glfwGetTime();
 		if (t_time_current - m_fps_laststamp >= 1.0)
@@ -77,12 +101,15 @@ void WindowGL::Swap()
 
 bool WindowGL::IsOpen()
 {
-	return m_opened;
+	if (glfwGetWindowParam(GLFW_OPENED) == GL_TRUE)
+		return true;
+	else
+		return false;
 }
 
 bool WindowGL::IsActive()
 {
-	if (m_opened)
+	if (glfwGetWindowParam(GLFW_OPENED) == GL_TRUE)
 	{
 		if (GL_TRUE == glfwGetWindowParam(GLFW_ACTIVE))
 			return true;
@@ -90,9 +117,20 @@ bool WindowGL::IsActive()
 	return false;
 }
 
+bool WindowGL::IsMinimized()
+{
+	if (glfwGetWindowParam(GLFW_OPENED) == GL_TRUE)
+	{
+		if (GL_TRUE == glfwGetWindowParam(GLFW_ICONIFIED))
+			return true;
+	}
+
+	return false;
+}
+
 void WindowGL::SetTitle(const char *_title)
 {
-	if (m_opened)
+	if (glfwGetWindowParam(GLFW_OPENED) == GL_TRUE)
 	{
 		glfwSetWindowTitle(_title);
 	}

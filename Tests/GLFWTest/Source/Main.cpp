@@ -13,11 +13,13 @@ bool PxfMain(String _CmdLine)
 	char t_title[512];
 	char t_pxftitle[] = "PXF Framework 0.0.1";;
 
-	Pxf::Graphics::Window *wnd = new Pxf::Graphics::WindowGL(800, 600, false, true); // width, height, fullscreen, vsync
+	Pxf::Graphics::Window *wnd = new Pxf::Graphics::WindowGL(800, 600, 8, 8, 24, 0);
 
 	wnd->Open();
 	wnd->SetTitle(t_pxftitle);
-	while(wnd->IsActive())
+
+	// Render loop
+	while(wnd->IsOpen())
 	{
 
 		// Swap buffers
