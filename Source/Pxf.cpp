@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <cstring>
 
+#include <GL/glfw.h>
+
 using namespace Pxf;
 using Util::String;
 
@@ -20,6 +22,17 @@ int main(int argc, const char** argv)
 			cmdLine += " ";
 	}
 
+	// Initialize GLFW
+	// TODO: Sanity check glfw-errors etc via our own error handling.
+	if (glfwInit() != GL_TRUE)
+	{
+		printf("Could not initialize GLFW!\n");
+		return EXIT_FAILURE;
+	}
+
 	PxfMain(cmdLine);
+
+	glfwTerminate();
+
 	return 0;
 }
