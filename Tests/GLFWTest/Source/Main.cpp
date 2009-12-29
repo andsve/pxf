@@ -11,7 +11,8 @@ using Pxf::Util::String;
 bool PxfMain(String _CmdLine)
 {
 	char t_title[512];
-	char t_pxftitle[] = "PXF Framework 0.0.1";;
+	char t_pxftitle[] = "PXF Framework 0.0.1";
+	int t_fps = 0;
 
 	Pxf::Graphics::Window *wnd = new Pxf::Graphics::WindowGL(800, 600, 8, 8, 24, 0);
 
@@ -26,8 +27,13 @@ bool PxfMain(String _CmdLine)
 		wnd->Swap();
 		
 		// Update title with FPS
-		sprintf(t_title, "%s - FPS: %i", t_pxftitle, wnd->GetFPS());
-		wnd->SetTitle(t_title);
+		if (t_fps != wnd->GetFPS())
+		{
+			t_fps = wnd->GetFPS();
+			sprintf(t_title, "%s - FPS: %i", t_pxftitle, t_fps);
+			wnd->SetTitle(t_title);
+		}
+		
 	}
 	wnd->Close();
 
