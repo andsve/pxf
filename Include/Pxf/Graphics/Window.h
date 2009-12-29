@@ -9,6 +9,13 @@ namespace Pxf{
 		public:
 			virtual bool Open() = 0;
 			virtual bool Close() = 0;
+			virtual void Swap() = 0;
+
+			virtual void SetTitle(const char *_title) = 0;
+
+			virtual int GetFPS() = 0;
+			virtual bool IsOpen() = 0;
+			virtual bool IsActive() = 0;
 		};
 
 	} // Graphics
