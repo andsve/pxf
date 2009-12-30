@@ -14,7 +14,7 @@ namespace Pxf{
 			WindowD3D(int _width, int _height, int _color_bits, int _alpha_bits, int _depth_bits, int _stencil_bits, bool _fullscreen = false, bool _resizeable = false, bool _vsync = false, int _fsaasamples = 0);
 			bool Open();
 			bool Close();
-			/*void Swap();
+			void Swap();
 
 			void SetTitle(const char *_title);
 
@@ -24,12 +24,21 @@ namespace Pxf{
 			float GetAspectRatio();
 
 			bool IsOpen();
+			/*void SetTitle(const char *_title);
+
+			int GetFPS();
+			int GetWidth();
+			int GetHeight();
+			float GetAspectRatio();
+
+			
 			bool IsActive();
 			bool IsMinimized();*/
 		private:
 			bool InitWindow();
 			bool InitD3D();
 			bool KillWindow();
+			bool KillD3D();
 
 			WNDCLASS m_window_class;
 			HWND m_window;
@@ -47,8 +56,9 @@ namespace Pxf{
 			int m_fsaa_samples;
 
 			// FPS
-			/*double m_fps_laststamp;
-			int m_fps, m_fps_count;*/
+			__int64 m_fps_laststamp;
+			__int64 m_fps_freq;
+			int m_fps, m_fps_count;
 		};
 
 	} // Graphics

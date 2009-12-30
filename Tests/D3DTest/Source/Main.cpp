@@ -6,9 +6,6 @@
 
 using Pxf::Util::String;
 
-#pragma comment(lib,"d3d9.lib")
-#pragma comment(lib,"dxerr9.lib")
-
 bool PxfMain(String _CmdLine)
 {
 	char t_title[512];
@@ -18,11 +15,9 @@ bool PxfMain(String _CmdLine)
 	Pxf::Graphics::Window *wnd = new Pxf::Graphics::WindowD3D(800, 600, 8, 8, 24, 0);
 
 	wnd->Open();
-	Sleep(2000);
-	//wnd->SetTitle(t_pxftitle);
-
+	wnd->SetTitle(t_pxftitle);
 	// Render loop
-	/*while(wnd->IsOpen())
+	while(wnd->IsOpen())
 	{
 
 		// Swap buffers
@@ -36,7 +31,7 @@ bool PxfMain(String _CmdLine)
 			wnd->SetTitle(t_title);
 		}
 		
-	}*/
+	}
 	wnd->Close();
 
 	delete wnd;

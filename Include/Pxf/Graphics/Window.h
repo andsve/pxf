@@ -9,7 +9,7 @@ namespace Pxf{
 		public:
 			virtual bool Open() = 0;
 			virtual bool Close() = 0;
-			/*virtual void Swap() = 0;
+			virtual void Swap() = 0;
 
 			virtual void SetTitle(const char *_title) = 0;
 
@@ -19,8 +19,11 @@ namespace Pxf{
 			virtual float GetAspectRatio() = 0;
 
 			virtual bool IsOpen() = 0;
+			/*
+			// TODO: Implement IsActive and IsMinimized for WindowD3D.
 			virtual bool IsActive() = 0;
-			virtual bool IsMinimized() = 0;*/
+			virtual bool IsMinimized() = 0;
+			*/
 		};
 
 	} // Graphics

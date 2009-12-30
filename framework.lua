@@ -57,6 +57,7 @@ function CreateSettings(settings)
         settings.link.libs:Add("user32")
         --settings.link.libs:Add("dsound")
         settings.link.libs:Add("ole32")
+        settings.link.libs:Add("d3d9")
         
     elseif family == "unix" then
         if platform == "macosx" then
