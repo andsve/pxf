@@ -113,6 +113,10 @@
 							RelativePath="..\..\Include\Pxf\Graphics\Window.h"
 							>
 						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Graphics\WindowD3D.h"
+							>
+						</File>
 					</Filter>
 				</Filter>
 			</Filter>
@@ -129,7 +133,7 @@
 					Name="Graphics"
 					>
 					<File
-						RelativePath="..\..\Source\Graphics\WindowGL.cpp"
+						RelativePath="..\..\Source\Graphics\WindowD3D.cpp"
 						>
 					</File>
 				</Filter>
