@@ -1,6 +1,8 @@
 #ifndef _PXF_GRAPHICS_WINDOWD3D_H_
 #define _PXF_GRAPHICS_WINDOWD3D_H_
 
+#ifdef CONF_FAMILY_WINDOWS
+
 #include <Pxf/Graphics/Window.h>
 #include <windows.h>
 #include <d3dx9.h>
@@ -24,16 +26,10 @@ namespace Pxf{
 			float GetAspectRatio();
 
 			bool IsOpen();
-			/*void SetTitle(const char *_title);
-
-			int GetFPS();
-			int GetWidth();
-			int GetHeight();
-			float GetAspectRatio();
-
-			
+			/*			
 			bool IsActive();
-			bool IsMinimized();*/
+			bool IsMinimized();
+			*/
 		private:
 			bool InitWindow();
 			bool InitD3D();
@@ -63,5 +59,7 @@ namespace Pxf{
 
 	} // Graphics
 } // Pxf
+
+#endif // CONF_FAMILY_WINDOWS
 
 #endif //_PXF_GRAPHICS_WINDOWD3D_H_

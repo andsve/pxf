@@ -1,3 +1,5 @@
+#ifdef CONF_FAMILY_WINDOWS
+
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/WindowD3D.h>
@@ -417,3 +419,5 @@ bool WindowD3D::KillD3D()
 
 	return true;
 }
+
+#endif // CONF_FAMILY_WINDOWS
