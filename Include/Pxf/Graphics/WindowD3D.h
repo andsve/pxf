@@ -24,6 +24,7 @@ namespace Pxf{
 			int GetWidth();
 			int GetHeight();
 			float GetAspectRatio();
+			char* GetContextTypeName();
 
 			bool IsOpen();
 			/*			
@@ -55,8 +56,7 @@ namespace Pxf{
 			int m_fsaa_samples;
 
 			// FPS
-			__int64 m_fps_laststamp;
-			__int64 m_fps_freq;
+			int64 m_fps_laststamp;
 			int m_fps, m_fps_count;
 		};
 

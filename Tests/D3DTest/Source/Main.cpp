@@ -37,7 +37,7 @@ void draw_fan(IDirect3DDevice9 *_device){
 bool PxfMain(String _CmdLine)
 {
 	char t_title[512];
-	char t_pxftitle[] = "PXF Framework 0.0.1 - Using Direct3D";
+	char t_pxftitle[] = "PXF Framework 0.0.1";
 	int t_fps = 0;
 
 	Pxf::Graphics::Window *wnd = new Pxf::Graphics::WindowD3D(800, 600, 8, 8, 24, 0);
@@ -62,7 +62,7 @@ bool PxfMain(String _CmdLine)
 		if (t_fps != wnd->GetFPS())
 		{
 			t_fps = wnd->GetFPS();
-			sprintf(t_title, "%s - FPS: %i", t_pxftitle, t_fps);
+			sprintf(t_title, "%s - %s - FPS: %i", t_pxftitle, wnd->GetContextTypeName(), t_fps);
 			wnd->SetTitle(t_title);
 		}
 		

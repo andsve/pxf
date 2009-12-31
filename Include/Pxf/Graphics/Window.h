@@ -17,6 +17,7 @@ namespace Pxf{
 			virtual int GetWidth() = 0;
 			virtual int GetHeight() = 0;
 			virtual float GetAspectRatio() = 0;
+			virtual char* GetContextTypeName() = 0;
 
 			virtual bool IsOpen() = 0;
 			/*

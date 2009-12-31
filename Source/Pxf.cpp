@@ -1,4 +1,5 @@
 #include <Pxf/Pxf.h>
+#include <Pxf/Base/Clock.h>
 #include <Pxf/Util/String.h>
 
 #include <cstdio>
@@ -29,6 +30,8 @@ int main(int argc, const char** argv)
 		printf("Could not initialize GLFW!\n");
 		return EXIT_FAILURE;
 	}
+
+	Clock::Clock();
 
 	PxfMain(cmdLine);
 

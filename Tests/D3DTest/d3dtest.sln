@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3DTest", "d3dtest.vcproj", "{87C65B1E-02E8-4E3F-A405-44A6F66F81E7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Framework", "d3dtest.vcproj", "{87C65B1E-02E8-4E3F-A405-44A6F66F81E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

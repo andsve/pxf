@@ -30,7 +30,7 @@ bool PxfMain(String _CmdLine)
 		if (t_fps != wnd->GetFPS())
 		{
 			t_fps = wnd->GetFPS();
-			sprintf(t_title, "%s - FPS: %i", t_pxftitle, t_fps);
+			sprintf(t_title, "%s - %s - FPS: %i", t_pxftitle, wnd->GetContextTypeName(), t_fps);
 			wnd->SetTitle(t_title);
 		}
 		

@@ -1,4 +1,5 @@
 #include <Pxf/Pxf.h>
+#include <Pxf/Base/Clock.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/WindowGL.h>
 
@@ -34,7 +35,7 @@ WindowGL::WindowGL(int _width, int _height, int _color_bits, int _alpha_bits, in
 	// FPS
 	m_fps = 0;
 	m_fps_count = 0;
-	m_fps_laststamp = 0.0;
+	m_fps_laststamp = Clock::GetTime();
 }
 
 bool WindowGL::Open()
@@ -88,12 +89,14 @@ void WindowGL::Swap()
 {
 	if (glfwGetWindowParam(GLFW_OPENED) == GL_TRUE)
 	{
-		double t_time_current = glfwGetTime();
-		if (t_time_current - m_fps_laststamp >= 1.0)
+		int64 diff;
+		int64 t_current_time = Clock::GetTime();
+		diff = t_current_time - m_fps_laststamp;
+		if (diff >= 1000)
 		{
 			m_fps = m_fps_count;
 			m_fps_count = 0;
-			m_fps_laststamp = t_time_current;
+			m_fps_laststamp = t_current_time;
 		}
 
 		glfwSwapBuffers();
@@ -141,4 +144,9 @@ void WindowGL::SetTitle(const char *_title)
 int WindowGL::GetFPS()
 {
 	return m_fps;
+}
+
+char* WindowGL::GetContextTypeName()
+{
+	return "OpenGL";
 }

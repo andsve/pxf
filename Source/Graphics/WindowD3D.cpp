@@ -1,6 +1,7 @@
 #include <Pxf/Pxf.h>
-#include <Pxf/Util/String.h>
 #ifdef CONF_FAMILY_WINDOWS
+#include <Pxf/Base/Clock.h>
+#include <Pxf/Util/String.h>
 #include <Pxf/Graphics/WindowD3D.h>
 
 using namespace Pxf;
@@ -47,8 +48,7 @@ WindowD3D::WindowD3D(int _width, int _height, int _color_bits, int _alpha_bits, 
 	// FPS
 	m_fps = 0;
 	m_fps_count = 0;
-	//m_fps_laststamp = (LARGE_INTEGER)0;
-	QueryPerformanceCounter((LARGE_INTEGER*)&m_fps_laststamp);
+	m_fps_laststamp = Clock::GetTime();
 
 	// Win32 poop :O
 	m_window = NULL;
@@ -106,17 +106,14 @@ void WindowD3D::Swap()
 	m_D3D_device->Present(NULL, NULL, NULL, NULL);
 
 	// FPS
-	__int64 t_time_current, diff;
-	QueryPerformanceCounter((LARGE_INTEGER*)&t_time_current);
-	QueryPerformanceFrequency((LARGE_INTEGER*)&m_fps_freq);
-	diff = ((t_time_current - m_fps_laststamp) * 1000) / m_fps_freq;
-	unsigned int milliseconds = (unsigned int)(diff & 0xffffffff);
-
-	if (milliseconds >= 1000)
+	int64 diff;
+	int64 t_current_time = Clock::GetTime();
+	diff = t_current_time - m_fps_laststamp;
+	if (diff >= 1000)
 	{
 		m_fps = m_fps_count;
 		m_fps_count = 0;
-		m_fps_laststamp = t_time_current;
+		m_fps_laststamp = t_current_time;
 	}
 
 	m_D3D_device->BeginScene();
@@ -127,6 +124,11 @@ void WindowD3D::Swap()
 int WindowD3D::GetFPS()
 {
 	return m_fps;
+}
+
+char* WindowD3D::GetContextTypeName()
+{
+	return "Direct3D9";
 }
 
 void WindowD3D::SetTitle(const char *_title)
