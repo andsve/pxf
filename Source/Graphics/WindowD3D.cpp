@@ -1,10 +1,7 @@
-#ifdef CONF_FAMILY_WINDOWS
-
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
+#ifdef CONF_FAMILY_WINDOWS
 #include <Pxf/Graphics/WindowD3D.h>
-
-#include <GL/glfw.h>
 
 using namespace Pxf;
 using namespace Pxf::Graphics;
@@ -150,6 +147,15 @@ bool WindowD3D::IsOpen()
 	return true;
 	//return m_open;
 }
+
+//////////////////////////////////////////////////////////////////////////
+// Specific D3D getters
+
+IDirect3DDevice9* WindowD3D::GetD3DDevice()
+{
+	return m_D3D_device;
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 // Private methods below

@@ -30,6 +30,9 @@ namespace Pxf{
 			bool IsActive();
 			bool IsMinimized();
 			*/
+
+			// Specific D3D getters
+			IDirect3DDevice9* GetD3DDevice();
 		private:
 			bool InitWindow();
 			bool InitD3D();
