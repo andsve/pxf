@@ -2,7 +2,7 @@ Import("../../framework.lua")
 
 Includes = "Source"
 SourceFiles = Collect("Source/*.cpp")
-RequiredLibs = {}
+RequiredLibs = {"glfw"}
 
 BuildProject("test", RequiredLibs, Includes, SourceFiles)
 
