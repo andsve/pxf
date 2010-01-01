@@ -48,12 +48,9 @@ public:
 	void SetDevice(Pxf::Graphics::Device* _pDevice);
 	void Setup();
 	
-	//Pxf::Scene::SceneManager* SceneMgr() { return m_SceneManager; }
-	
 private:
 	void _UpdateFPS();
 	
-	//Pxf::Scene::SceneManager*	m_SceneManager;
 	Pxf::Engine*				m_Engine;
 	Pxf::Graphics::Device*		m_Device;
 	bool						m_IsRunning;

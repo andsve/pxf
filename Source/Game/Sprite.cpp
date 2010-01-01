@@ -1,3 +1,4 @@
+#include <Pxf/Base/Debug.h>
 #include <Pxf/Game/Sprite.h>
 #include <Pxf/Graphics/Texture.h>
 #include <Pxf/Graphics/Device.h>
@@ -5,6 +6,8 @@
 #include <Pxf/Util/String.h>
 #include <stdio.h>
 #include <vector.h>
+
+#define LOCAL_MSG "Sprite"
 
 using namespace Pxf;
 using namespace Game;
@@ -60,7 +63,7 @@ Sprite::Sprite(Graphics::Device* _pDevice, Math::Vector2D<float> _Position, cons
 	if(!m_Device)
 	{
 		m_Ready = false;
-		printf("Sprite %s: Invalid Device\n", m_ID);
+		Pxf::Message(LOCAL_MSG,"trying to create %s with Invalid Device", m_ID);
 	}
 	else
 	{
@@ -84,7 +87,7 @@ Sprite::Sprite(Graphics::Device* _pDevice, Math::Vector2D<float> _Position, cons
 	if(!m_Texture)
 	{
 		m_Ready = false;
-		printf("Sprite %s: Invalid Texture\n", m_ID);
+		Pxf::Message(LOCAL_MSG,"creating %s with Invalid Texture", m_ID);
 	}
 	
 	m_CellSize[0] = _CellWidth;
@@ -103,11 +106,9 @@ Sprite::Sprite(Graphics::Device* _pDevice, Math::Vector2D<float> _Position, cons
 	
 	m_MaxFrames = _WAmount * _HAmount;
 	m_UVValues = new float[m_MaxFrames][4];
-	
-	printf("image w,h: %i %i, maxframes: %i\n", _ImgWidth, _ImgHeight, m_MaxFrames);
 
 	if(m_Ready)
-		printf("Sprite %s: Ready\n", m_ID);
+		Pxf::Message(LOCAL_MSG,"%s Ready", m_ID);
 	
 	_CalculateUV();
 	_SetCurrentUV();

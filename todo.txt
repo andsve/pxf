@@ -1,9 +1,10 @@
 iPhone
 ---
-[ ] Move context-specific things from EAGLView to the device context
+[ ] Add physics library and extend game objects to support physics simulation
+[X] Move context-specific things from EAGLView to the device context
 [ ] Lua intergration
 [ ] Implement gamestate management
-[ ] Change from printf to the Pxf::Message function
+[X] Change from printf to the Pxf::Message function
 [ ] Implement profiler
 [ ] Enable the memory manager
 [ ] Comment and clean up code

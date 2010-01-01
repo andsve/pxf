@@ -19,7 +19,7 @@ static GLuint LookupUsageFlag(VertexBufferUsageFlag _BufferUsageFlag)
 	{
 		case VB_USAGE_STATIC_DRAW: return GL_STATIC_DRAW;
 		case VB_USAGE_DYNAMIC_DRAW: return GL_DYNAMIC_DRAW;
-		default: printf("VertexBufferGLES11: Usage Mode not supported in this context\n");
+		default: Pxf::Message(LOCAL_MSG,"VertexBufferGLES11: Usage Mode not supported in this context");
 	}
 	return 0;
 }
@@ -29,7 +29,7 @@ static GLuint LookupAccessFlag(VertexBufferAccessFlag _BufferAccessFlag)
 	switch(_BufferAccessFlag)
 	{
 		case VB_ACCESS_WRITE_ONLY: return GL_WRITE_ONLY_OES;
-		default: printf("VertexBufferGLES11: Access Mode not supported in this context\n");
+		default: Pxf::Message(LOCAL_MSG,"VertexBufferGLES11: Access Mode not supported in this context");
 	}
 
 	return 0;

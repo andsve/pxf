@@ -2,13 +2,15 @@
 #define _PXF_GRAPHICS_DEVICEGLES11_H_
 
 #include <Pxf/Graphics/Device.h>
-#include <Pxf/Graphics/OpenGL/VideoBufferGL.h>
 #import <OpenGLES/ES1/glext.h>
+#import <OpenGLES/EAGL.h>
 
 namespace Pxf{
 	namespace Graphics {
 		class RenderTarget;
 		class VertexBuffer;
+		class VideoBufferGL;
+		class VideoBuffer;
 		class WindowSpecifications;
 		class Window;
 		class Texture;
@@ -50,8 +52,36 @@ namespace Pxf{
 			void DeleteVideoBuffer(VideoBuffer* _VideoBuffer);
 			bool BindVideoBuffer(VideoBuffer* _VideoBuffer);
 			
+			void SetEAGLContext(EAGLContext* _Context) { m_Context = _Context; }
+			void SetUseDepthBuffer(bool _Toggle) { m_UseDepthBuffer = _Toggle; }
+			void SetBackingWidth(GLint _Width) { m_BackingWidth = _Width; }
+			void SetBackingHeight(GLint _Height) { m_BackingHeight = _Height; }
+			GLint GetBackingWidth() { return m_BackingWidth; }
+			GLint GetBackingHeight() { return m_BackingHeight; }
+			
+			bool InitBuffers();
+			
+			EAGLContext* GetEAGLContext() { return m_Context; }
+			bool GetUseDepthBuffer() { return m_UseDepthBuffer; }
+			VideoBufferGL* GetRenderBuffer() { return m_RenderBuffer; }
+			VideoBufferGL* GetFrameBuffer() { return m_FrameBuffer; }
+			VideoBufferGL* GetDepthBuffer() { return m_DepthBuffer; }
+			
 		private:
 			void _ConfigureTextureUnits();
+			
+			// TODO: replace videobuffer with simple gluints..
+			/*GLuint					m_RenderBuffer;
+			 GLuint					m_FrameBuffer;
+			 GLuint					m_DepthBuffer; */
+			EAGLContext*	m_Context;
+			VideoBufferGL*	m_RenderBuffer;
+			VideoBufferGL*	m_FrameBuffer;
+			VideoBufferGL*	m_DepthBuffer;
+			
+			bool	m_UseDepthBuffer;
+			GLint	m_BackingWidth;
+			GLint	m_BackingHeight;
 		};
 	} // Graphics
 } // Pxf

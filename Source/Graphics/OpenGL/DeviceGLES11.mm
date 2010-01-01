@@ -1,10 +1,15 @@
 #include <Pxf/Graphics/OpenGL/DeviceGLES11.h>
 #include <Pxf/Graphics/OpenGL/VertexBufferGLES11.h>
+#include <Pxf/Graphics/OpenGL/VideoBufferGL.h>
 #include <Pxf/Graphics/OpenGL/TextureGLES.h>
 #include <Pxf/Base/Debug.h>
 #include <OpenGLES/ES1/gl.h>
 #include <OpenGLES/ES1/glext.h>
 #include <stdio.h>
+
+#import <OpenGLES/EAGLDrawable.h>
+
+#define LOCAL_MSG "DeviceGLES11"
 
 using namespace Pxf;
 using namespace Graphics;
@@ -16,6 +21,14 @@ DeviceGLES11::DeviceGLES11()
 
 DeviceGLES11::~DeviceGLES11()
 {
+	[m_Context release];
+	m_Context = 0;
+	
+	DeleteVideoBuffer(m_RenderBuffer);
+	DeleteVideoBuffer(m_FrameBuffer);
+	
+	if(m_UseDepthBuffer)
+		DeleteVideoBuffer(m_DepthBuffer);
 }
 
 void DeviceGLES11::_ConfigureTextureUnits()
@@ -201,7 +214,68 @@ bool DeviceGLES11::BindVideoBuffer(VideoBuffer* _VideoBuffer)
 	return true;
 }
 
+bool DeviceGLES11::InitBuffers()
+{
+	bool _RetVal = true;
+	
+	if(!(m_FrameBuffer = (VideoBufferGL*) CreateVideoBuffer(GL_FRAMEBUFFER_OES)))
+	{
+		Message(LOCAL_MSG,"Unable to create Frame Buffer");
+		_RetVal = false;
+	}
+	else
+	{
+		Message(LOCAL_MSG,"Frame buffer OK");
+	}
+	
+	
+	if(!(m_RenderBuffer = (VideoBufferGL*) CreateVideoBuffer(GL_RGBA8_OES,m_BackingWidth,m_BackingHeight)))
+	{
+		Message(LOCAL_MSG,"Unable to create Frame Buffer");	
+		_RetVal = false;
+	}
+	else
+	{		
+		Message(LOCAL_MSG,"Render buffer OK");
+	}
+	
+	if(m_UseDepthBuffer)
+	{
+		if(!(m_DepthBuffer = (VideoBufferGL*) CreateVideoBuffer(GL_DEPTH_COMPONENT16_OES,m_BackingWidth,m_BackingHeight)))
+		{
+			Message(LOCAL_MSG,"Unable to create Depth Buffer");	
+			_RetVal = false;
+		}
+		else
+		{
+			// depth buffer ok, attach it to framebuffer
+			Message(LOCAL_MSG,"Depth buffer OK");
+		}
+	}
+	else
+		Message(LOCAL_MSG,"Depth Buffer Usage: False");
+	
+	return _RetVal;	
+}
+
 void DeviceGLES11::SwapBuffers()
 {
+	PXFASSERT(m_Context,"Invalid Context");
+	PXFASSERT(m_RenderBuffer->m_Handle,"Invalid RenderBuffer");
+	
+	// fetch current context to make sure we are working on the correct one 
+	EAGLContext* _OldContext = [EAGLContext currentContext];
+	
+	if(_OldContext != m_Context)
+		[EAGLContext setCurrentContext: m_Context];
+	
+	BindVideoBuffer(m_RenderBuffer);
+	
+	if(![m_Context presentRenderbuffer:GL_RENDERBUFFER_OES])
+		printf("Swap buffers failed/n");
+	
+	// activate old context
+	if(_OldContext != m_Context)
+		[EAGLContext setCurrentContext: _OldContext];
 	//Pxf::Message("Device","SwapBuffers");
 }

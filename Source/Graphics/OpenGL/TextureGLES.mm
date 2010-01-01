@@ -5,8 +5,6 @@
 
 #include <OpenGLES/ES1/gl.h>
 #include "SOIL.h"
-//#include <GL/glfw.h>
-
 #define LOCAL_MSG "TextureGLES"
 
 using namespace Pxf;
@@ -65,33 +63,11 @@ void TextureGLES::LoadData(const unsigned char* _datachunk, int _width, int _hei
 	m_Height = _height;
 	m_Channels = _channels;
 	
-	/*
-	 GLuint tformat;
-	 
-	 if (_format == TEX_FORMAT_RGBA)
-	 {
-	 tformat = GL_RGBA;
-	 } else if (_format == TEX_FORMAT_A)
-	 {
-	 tformat = GL_ALPHA;
-	 }
-	 
-	 
-	 // doing it old-school
-	 glGenTextures(1, &m_TextureID);
-	 glBindTexture(GL_TEXTURE_2D, m_TextureID);
-	 glTexImage2D(GL_TEXTURE_2D, 0, tformat, _width, _height, 0, tformat, GL_UNSIGNED_BYTE, _datachunk);
-	 glGenerateMipmapEXT(GL_TEXTURE_2D);
-	 */
-	
 	if(_datachunk == NULL)
 	{
-		// can this be done nicer? :(
-		// it's needed because you can't create a texture with soil by a NULL data pointer
 		glGenTextures(1, &m_TextureID);
 		glBindTexture(GL_TEXTURE_2D, m_TextureID);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-		//glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
 	{	
