@@ -2,7 +2,7 @@
 #ifdef CONF_FAMILY_WINDOWS
 #include <Pxf/Base/Clock.h>
 #include <Pxf/Util/String.h>
-#include <Pxf/Graphics/WindowD3D.h>
+#include <Pxf/Graphics/D3D9/WindowD3D.h>
 
 using namespace Pxf;
 using namespace Pxf::Graphics;

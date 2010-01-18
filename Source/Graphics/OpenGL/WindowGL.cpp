@@ -1,7 +1,7 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Base/Clock.h>
 #include <Pxf/Util/String.h>
-#include <Pxf/Graphics/WindowGL.h>
+#include <Pxf/Graphics/OpenGL/WindowGL.h>
 
 #ifdef CONF_PLATFORM_MACOSX
 #include <Carbon/Carbon.h>
