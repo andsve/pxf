@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9,00"
+	Name="Framework"
+	ProjectGUID="{87C65B1E-02E8-4E3F-A405-44A6F66F81E7}"
+	Keyword="MakeFileProj"
+	TargetFrameworkVersion="196613"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="0"
+			>
+			<Tool
+				Name="VCNMakeTool"
+				BuildCommandLine="runbam debug"
+				ReBuildCommandLine="runbam debug"
+				CleanCommandLine="runbam debug -c"
+				Output="test_d.exe"
+				PreprocessorDefinitions="WIN32;_DEBUG"
+				IncludeSearchPath="../../Include; ../../Source, ../../Libraries/glfw/sdk/include"
+				ForcedIncludes=""
+				AssemblySearchPath=""
+				ForcedUsingAssemblies=""
+				CompileAsManaged=""
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="0"
+			>
+			<Tool
+				Name="VCNMakeTool"
+				BuildCommandLine="runbam release"
+				ReBuildCommandLine="runbam release"
+				CleanCommandLine="runbam release -c"
+				Output="pxf"
+				PreprocessorDefinitions="WIN32;NDEBUG"
+				IncludeSearchPath="../../Include"
+				ForcedIncludes=""
+				AssemblySearchPath=""
+				ForcedUsingAssemblies=""
+				CompileAsManaged=""
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Renderer"
+			>
+			<File
+				RelativePath=".\Source\Main.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Framework"
+			>
+			<Filter
+				Name="Header Files"
+				Filter="h;hpp;hxx;hm;inl;inc;xsd"
+				UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+				>
+				<Filter
+					Name="Pxf"
+					>
+					<File
+						RelativePath="..\..\Include\Pxf\Pxf.h"
+						>
+					</File>
+					<Filter
+						Name="Base"
+						>
+						<File
+							RelativePath="..\..\Include\Pxf\Base\Config.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Base\ErrorTypes.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Base\Types.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Util"
+						>
+						<File
+							RelativePath="..\..\Include\Pxf\Util\String.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Graphics"
+						>
+						<File
+							RelativePath="..\..\Include\Pxf\Graphics\Window.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Graphics\D3D9\WindowD3D.h"
+							>
+						</File>
+					</Filter>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Source Files"
+				Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+				UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+				>
+				<File
+					RelativePath="..\..\Source\Pxf.cpp"
+					>
+				</File>
+				<Filter
+					Name="Graphics"
+					>
+					<File
+						RelativePath="..\..\Source\Graphics\D3D9\WindowD3D.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+		</Filter>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>
