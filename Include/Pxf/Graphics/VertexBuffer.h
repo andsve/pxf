@@ -3,11 +3,14 @@
 
 namespace Pxf
 {
-	class VertexBuffer
+	namespace Graphics
 	{
-		private:
-		public:
-	};
-}
+		class VertexBuffer
+		{
+			private:
+			public:
+		};
+	} // Graphics
+} // Pxf
 
 #endif // _PXF_GRAPHICS_VERTEXBUFFER_H_
