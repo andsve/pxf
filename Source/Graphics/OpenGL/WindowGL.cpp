@@ -2,6 +2,7 @@
 #include <Pxf/Base/Clock.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/OpenGL/WindowGL.h>
+#include <Pxf/Base/Debug.h>
 
 #ifdef CONF_PLATFORM_MACOSX
 #include <Carbon/Carbon.h>
@@ -72,6 +73,8 @@ bool WindowGL::Open()
 		TransformProcessType(&psn,kProcessTransformToForegroundApplication);
 		SetFrontProcess(&psn);
 #endif
+
+		Message("WindowGL2", "Opened window of %dx%d@%d (r: %d g: %d b: %d a: %d d: %d s: %d)", m_width, m_height, m_bits_color*3+m_bits_alpha, m_bits_color, m_bits_color, m_bits_color, m_bits_alpha, m_bits_depth, m_bits_stencil);
 
 		return true;
 	}

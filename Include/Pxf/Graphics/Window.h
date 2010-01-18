@@ -7,6 +7,7 @@ namespace Pxf{
 		class Window
 		{
 		public:
+
 			virtual bool Open() = 0;
 			virtual bool Close() = 0;
 			virtual void Swap() = 0;

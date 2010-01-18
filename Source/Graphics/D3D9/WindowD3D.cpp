@@ -3,6 +3,7 @@
 #include <Pxf/Base/Clock.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/D3D9/WindowD3D.h>
+#include <Pxf/Base/Debug.h>
 
 using namespace Pxf;
 using namespace Pxf::Graphics;
@@ -21,7 +22,6 @@ LRESULT CALLBACK default_window_proc(HWND p_hwnd,UINT p_msg,WPARAM p_wparam,LPAR
 		  PostQuitMessage(WM_QUIT);
 		  break;
 	  case WM_LBUTTONDOWN: //user hit the left mouse button
-			printf("HONK HONK\n");
 		  return 0;
 	}
 
@@ -68,6 +68,8 @@ bool WindowD3D::Open()
 	
 	if (!InitD3D())
 		return false;
+
+	Message("WindowD3D9", "Opened window of %dx%d@%d (r: %d g: %d b: %d a: %d d: %d s: %d)", m_width, m_height, m_bits_color*3+m_bits_alpha, m_bits_color, m_bits_color, m_bits_color, m_bits_alpha, m_bits_depth, m_bits_stencil);
 
 	m_D3D_device->BeginScene();
 	return true;
@@ -188,7 +190,7 @@ bool WindowD3D::InitWindow()
 
 	//Register the class with windows
 	if(!RegisterClass(&window_class)){
-		printf("WindowD3D - Error registering window class!\n");
+		Message("WindowD3D9", "Error registering window class!");
 		return false;
 	}
 
@@ -279,7 +281,7 @@ bool WindowD3D::KillWindow()
 	if (IsOpen()) {
 		if(!DestroyWindow(m_window)){
 			//We failed to destroy our window, this shouldn't ever happen
-			printf("WindowD3D - DestroyWindow() failed!\n");
+			Message("WindowD3D9", "DestroyWindow() failed!");
 		}else{
 			MSG msg;
 			//Clean up any pending messages
@@ -295,7 +297,7 @@ bool WindowD3D::KillWindow()
 	//Unregister our window, if we had opened multiple windows using this
 	//class, we would have to close all of them before we unregistered the class.
 	if(!UnregisterClass("PXF Window Class",instance)){
-		printf("WindowD3D - Error unregistering window class!\n");
+		Message("WindowD3D9", "Error unregistering window class!");
 	}
 
 	return true;
@@ -307,7 +309,7 @@ bool WindowD3D::InitD3D()
 	m_D3D = Direct3DCreate9( D3D_SDK_VERSION);
 	if(m_D3D == NULL)
 	{
-		printf("WindowD3D - Direct3DCreate9() failed!\n");
+		Message("WindowD3D9", "Direct3DCreate9() failed!");
 		return false;
 	}
 
@@ -395,17 +397,16 @@ bool WindowD3D::InitD3D()
 
 	if (FAILED(hr))
 	{
-		printf("WindowD3D - CreateDevice() failed:\n");
 		if (hr == D3DERR_DEVICELOST)
-			printf("\tDevice lost!\n");
+			Message("WindowD3D9", "CreateDevice() failed: Device lost!");
 		else if (hr == D3DERR_INVALIDCALL)
-			printf("\tInvalid call!\n");
+			Message("WindowD3D9", "CreateDevice() failed: Invalid call!");
 		else if (hr == D3DERR_NOTAVAILABLE)
-			printf("\tNot available!\n");
+			Message("WindowD3D9", "CreateDevice() failed: Not available!");
 		else if (hr == D3DERR_OUTOFVIDEOMEMORY)
-			printf("\tOut of video memory!\n");
+			Message("WindowD3D9", "CreateDevice() failed: Out of video memory!");
 		else
-			printf("\tUnknown error!\n");
+			Message("WindowD3D9", "CreateDevice() failed: Unknown error!");
 		
 		return false;
 	}
