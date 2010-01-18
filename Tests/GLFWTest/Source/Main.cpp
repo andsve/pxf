@@ -1,7 +1,7 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Base/Debug.h>
 #include <Pxf/Util/String.h>
-#include <Pxf/Graphics/WindowGL.h>
+#include <Pxf/Graphics/OpenGL/WindowGL.h>
 #include <Windows.h>
 
 #include <GL/glfw.h>

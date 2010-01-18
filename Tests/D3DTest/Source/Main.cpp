@@ -1,7 +1,7 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Base/Debug.h>
 #include <Pxf/Util/String.h>
-#include <Pxf/Graphics/WindowD3D.h>
+#include <Pxf/Graphics/D3D9/WindowD3D.h>
 #include <Windows.h>
 
 using Pxf::Util::String;
