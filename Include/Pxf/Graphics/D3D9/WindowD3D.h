@@ -38,6 +38,7 @@ namespace Pxf{
 			// Specific D3D getters
 			IDirect3DDevice9* GetD3DDevice();
 		private:
+			friend class DeviceD3D9;
 			bool InitWindow();
 			bool InitD3D();
 			bool KillWindow();
