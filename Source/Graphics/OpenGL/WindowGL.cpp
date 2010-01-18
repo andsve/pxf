@@ -38,6 +38,11 @@ WindowGL::WindowGL(WindowSpecifications *_window_spec)
 	m_fps_laststamp = Clock::GetTime();
 }
 
+WindowGL::~WindowGL()
+{
+	Close();
+}
+
 bool WindowGL::Open()
 {
 	int t_params = GLFW_WINDOW;

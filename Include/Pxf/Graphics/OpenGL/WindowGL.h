@@ -11,6 +11,8 @@ namespace Pxf{
 		{
 		public:
 			WindowGL(WindowSpecifications *_window_spec);
+			~WindowGL();
+
 			bool Open();
 			bool Close();
 			void Swap();

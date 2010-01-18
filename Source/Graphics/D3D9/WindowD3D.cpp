@@ -56,6 +56,11 @@ WindowD3D::WindowD3D(WindowSpecifications *_window_spec)
 	m_D3D_device=NULL;
 }
 
+WindowD3D::~WindowD3D()
+{
+	Close();
+}
+
 bool WindowD3D::Open()
 {
 	if (!InitWindow())

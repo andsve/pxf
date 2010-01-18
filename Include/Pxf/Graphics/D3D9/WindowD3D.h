@@ -15,6 +15,8 @@ namespace Pxf{
 		{
 		public:
 			WindowD3D(WindowSpecifications *_window_spec);
+			~WindowD3D();
+
 			bool Open();
 			bool Close();
 			void Swap();
