@@ -110,6 +110,10 @@
 						Name="Graphics"
 						>
 						<File
+							RelativePath="..\..\Include\Pxf\Graphics\D3D9\DeviceD3D9.h"
+							>
+						</File>
+						<File
 							RelativePath="..\..\Include\Pxf\Graphics\Window.h"
 							>
 						</File>
@@ -132,6 +136,10 @@
 				<Filter
 					Name="Graphics"
 					>
+					<File
+						RelativePath="..\..\Source\Graphics\D3D9\DeviceD3D9.cpp"
+						>
+					</File>
 					<File
 						RelativePath="..\..\Source\Graphics\D3D9\WindowD3D.cpp"
 						>

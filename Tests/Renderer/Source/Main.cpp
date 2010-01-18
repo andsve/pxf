@@ -12,7 +12,8 @@ bool PxfMain(Util::String _CmdLine)
 {
 	Pxf::Engine engine;
 	Pxf::Graphics::WindowSpecifications* pWindowSpecs;
-	Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL2);
+	//Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL2);
+	Graphics::Device* pDevice = engine.CreateDevice(Graphics::EDirect3D9);
 	Graphics::Window* pWindow = pDevice->CreateWindow(pWindowSpecs);
 	
 	pDevice->DestroyWindow(pWindow);
