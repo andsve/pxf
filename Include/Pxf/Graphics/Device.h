@@ -14,12 +14,12 @@ namespace Pxf
 		class Device
 		{
 		public:
-			virtual Window* CreateWindow(WindowSpecifications* _pWindowSpecs) = 0;
-			virtual void DestroyWindow(Window* _pWindow) = 0;
+			virtual Window* OpenWindow(WindowSpecifications* _pWindowSpecs) = 0;
+			virtual void CloseWindow() = 0;
 			
-			virtual VertexBuffer* CreateVertexBuffer() = 0;
+			/*virtual VertexBuffer* CreateVertexBuffer() = 0;
 			virtual void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;
-			virtual void DrawVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;
+			virtual void DrawVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;*/
 			
 		};
 	} // Graphics

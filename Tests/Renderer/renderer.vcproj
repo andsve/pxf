@@ -141,7 +141,15 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\Source\Graphics\OpenGL\DeviceGL2.cpp"
+						>
+					</File>
+					<File
 						RelativePath="..\..\Source\Graphics\D3D9\WindowD3D.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Graphics\OpenGL\WindowGL.cpp"
 						>
 					</File>
 				</Filter>
