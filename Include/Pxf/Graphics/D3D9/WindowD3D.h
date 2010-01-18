@@ -4,6 +4,7 @@
 #ifdef CONF_FAMILY_WINDOWS
 
 #include <Pxf/Graphics/Window.h>
+#include <Pxf/Graphics/WindowSpecifications.h>
 #include <windows.h>
 #include <d3dx9.h>
 
@@ -13,7 +14,7 @@ namespace Pxf{
 		class WindowD3D : public Window
 		{
 		public:
-			WindowD3D(int _width, int _height, int _color_bits, int _alpha_bits, int _depth_bits, int _stencil_bits, bool _fullscreen = false, bool _resizeable = false, bool _vsync = false, int _fsaasamples = 0);
+			WindowD3D(WindowSpecifications *_window_spec);
 			bool Open();
 			bool Close();
 			void Swap();

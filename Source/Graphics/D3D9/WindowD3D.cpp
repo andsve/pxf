@@ -29,21 +29,21 @@ LRESULT CALLBACK default_window_proc(HWND p_hwnd,UINT p_msg,WPARAM p_wparam,LPAR
 
 }
 
-WindowD3D::WindowD3D(int _width, int _height, int _color_bits, int _alpha_bits, int _depth_bits, int _stencil_bits, bool _fullscreen /* = false */, bool _resizeable /* = false */, bool _vsync /* = false */, int _fsaasamples /* = 0 */)
+WindowD3D::WindowD3D(WindowSpecifications *_window_spec)
 {
 	// Window settings
-	m_width = _width;
-	m_height = _height;
-	m_fullscreen = _fullscreen;
-	m_resizeable = _resizeable;
-	m_vsync = _vsync;
-	m_fsaa_samples = _fsaasamples;
+	m_width = _window_spec->Width;
+	m_height = _window_spec->Height;
+	m_fullscreen = _window_spec->Fullscreen;
+	m_resizeable = _window_spec->Resizeable;
+	m_vsync = _window_spec->VerticalSync;
+	m_fsaa_samples = _window_spec->FSAASamples;
 
 	// Buffer bits settings
-	m_bits_color = _color_bits;
-	m_bits_alpha = _alpha_bits;
-	m_bits_depth = _depth_bits;
-	m_bits_stencil = _stencil_bits;
+	m_bits_color = _window_spec->ColorBits;
+	m_bits_alpha = _window_spec->AlphaBits;
+	m_bits_depth = _window_spec->DepthBits;
+	m_bits_stencil = _window_spec->StencilBits;
 
 	// FPS
 	m_fps = 0;

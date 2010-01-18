@@ -2,6 +2,7 @@
 #define _PXF_GRAPHICS_WINDOWGL_H_
 
 #include <Pxf/Graphics/Window.h>
+#include <Pxf/Graphics/WindowSpecifications.h>
 
 namespace Pxf{
 	namespace Graphics {
@@ -9,7 +10,7 @@ namespace Pxf{
 		class WindowGL : public Window
 		{
 		public:
-			WindowGL(int _width, int _height, int _color_bits, int _alpha_bits, int _depth_bits, int _stencil_bits, bool _fullscreen = false, bool _resizeable = false, bool _vsync = false, int _fsaasamples = 0);
+			WindowGL(WindowSpecifications *_window_spec);
 			bool Open();
 			bool Close();
 			void Swap();
