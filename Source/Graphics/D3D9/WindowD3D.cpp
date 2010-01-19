@@ -13,7 +13,7 @@ int WindowD3D::GetWidth() { return m_width; }
 int WindowD3D::GetHeight() {return m_height; }
 float WindowD3D::GetAspectRatio() { return ((float)m_width / (float)m_height); }
 
-LRESULT CALLBACK default_window_proc(HWND p_hwnd,UINT p_msg,WPARAM p_wparam,LPARAM p_lparam){
+static LRESULT CALLBACK default_window_proc(HWND p_hwnd,UINT p_msg,WPARAM p_wparam,LPARAM p_lparam){
 
 	switch(p_msg){
 	  case WM_KEYDOWN:  // A key has been pressed, end the app
@@ -26,7 +26,6 @@ LRESULT CALLBACK default_window_proc(HWND p_hwnd,UINT p_msg,WPARAM p_wparam,LPAR
 	}
 
 	return (DefWindowProc(p_hwnd,p_msg,p_wparam,p_lparam));
-
 }
 
 WindowD3D::WindowD3D(WindowSpecifications *_window_spec)

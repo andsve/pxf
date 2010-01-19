@@ -28,6 +28,7 @@ bool PxfMain(Util::String _CmdLine)
 	pWindowSpecs->Resizeable = false;
 
 	//Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL2);
+	//Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL3);
 	Graphics::Device* pDevice = engine.CreateDevice(Graphics::EDirect3D9);
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
 	

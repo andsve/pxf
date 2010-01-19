@@ -44,6 +44,7 @@ namespace Pxf{
 			bool KillWindow();
 			bool KillD3D();
 
+			// forward declare?
 			WNDCLASS m_window_class;
 			HWND m_window;
 			IDirect3D9 *m_D3D;

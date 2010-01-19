@@ -1,6 +1,7 @@
 #ifndef _PXF_GRAPHICS_WINDOWGL3_H_
 #define _PXF_GRAPHICS_WINDOWGL3_H_
 
+#include <windows.h>		// Header File For Windows
 #include <Pxf/Graphics/Window.h>
 #include <Pxf/Graphics/WindowSpecifications.h>
 
@@ -29,6 +30,16 @@ namespace Pxf{
 			bool IsActive();
 			bool IsMinimized();
 		private:
+			bool InitWindow();
+
+			#ifdef CONF_FAMILY_WINDOWS
+
+			HDC			m_HDC;		// Private GDI Device Context
+			HGLRC		m_HRC;		// Permanent Rendering Context
+			HWND		m_Window;	// Window Handle
+			HINSTANCE	m_HInstance;// Instance Of The Application	
+
+			#endif // CONF_FAMILY_WINDOWS
 			int m_width, m_height;
 			bool m_fullscreen, m_resizeable, m_vsync;
 
