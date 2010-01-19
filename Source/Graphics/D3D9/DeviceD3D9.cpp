@@ -26,6 +26,7 @@ DeviceD3D9::DeviceD3D9()
 
 DeviceD3D9::~DeviceD3D9()
 {
+	/* Not needed, since WindowD3D->Close() does all this.
 	if(m_D3D9)
 	{
 		m_D3D9->Release();
@@ -35,29 +36,44 @@ DeviceD3D9::~DeviceD3D9()
 	{
 		//??
 		//m_D3D9_device->
-	}
+	}*/
+
+	CloseWindow();
 }
 
 Window* DeviceD3D9::OpenWindow(WindowSpecifications* _pWindowSpecs)
 {
-	WindowD3D* t_wnd = new WindowD3D(_pWindowSpecs);
+	m_Window = new WindowD3D(_pWindowSpecs);
 
-	if(!t_wnd)
+	if(!m_Window)
 		Message(LOCAL_MSG,"Could not create Window");
 	else
 	{
-		t_wnd->InitWindow();
-		t_wnd->InitD3D();
-		m_D3D9_device = t_wnd->GetD3DDevice();
+		/*
+		m_Window->InitWindow();
+		m_Window->InitD3D();
+		*/
+		if (m_Window->Open())
+			m_D3D9_device = m_Window->GetD3DDevice();
 	}
 
-	return t_wnd;
+	return m_Window;
 }
 
-void DeviceD3D9::CloseWindow(Window* _pWindow)
+void DeviceD3D9::CloseWindow()
 {
-
+	if (m_Window)
+		m_Window->Close();
 }
+
+void DeviceD3D9::SwapBuffers()
+{
+	if (m_Window)
+	{
+		m_Window->Swap();
+	}
+}
+/*
 VertexBuffer* DeviceD3D9::CreateVertexBuffer()
 {
 	return NULL;
@@ -69,6 +85,6 @@ void DeviceD3D9::DestroyVertexBuffer(VertexBuffer* _pVertexBuffer)
 void DeviceD3D9::DrawVertexBuffer(VertexBuffer* _pVertexBuffer)
 {
 
-}
+}*/
 
 #endif // CONF_FAMILY_WINDOWS

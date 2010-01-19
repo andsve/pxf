@@ -33,3 +33,11 @@ void DeviceGL2::CloseWindow()
 		delete m_Window;
 	}
 }
+
+void DeviceGL2::SwapBuffers()
+{
+	if (m_Window)
+	{
+		m_Window->Swap();
+	}
+}

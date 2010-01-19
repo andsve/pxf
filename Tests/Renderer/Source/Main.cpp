@@ -27,8 +27,8 @@ bool PxfMain(Util::String _CmdLine)
 	pWindowSpecs->Fullscreen = false;
 	pWindowSpecs->Resizeable = false;
 
-	Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL2);
-	//Graphics::Device* pDevice = engine.CreateDevice(Graphics::EDirect3D9);
+	//Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL2);
+	Graphics::Device* pDevice = engine.CreateDevice(Graphics::EDirect3D9);
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
 	
 	while (pWindow->IsOpen())

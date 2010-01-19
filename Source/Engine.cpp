@@ -13,7 +13,7 @@ Graphics::Device* Engine::CreateDevice(Graphics::DeviceType _deviceType)
 	switch(_deviceType)
 	{
 	case Graphics::EOpenGL2: return new Graphics::DeviceGL2();
-	//case Graphics::EDirect3D9: return new Graphics::DeviceD3D9();
+	case Graphics::EDirect3D9: return new Graphics::DeviceD3D9();
 	
 	default:
 		PXFASSERT(0, "Chosen device type is not available.");

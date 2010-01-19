@@ -19,6 +19,8 @@ namespace Pxf
 			virtual Window* OpenWindow(WindowSpecifications* _pWindowSpecs) = 0;
 			virtual void CloseWindow() = 0;
 			virtual DeviceType GetDeviceType() = 0;
+
+			virtual void SwapBuffers() = 0;
 			
 			/*virtual VertexBuffer* CreateVertexBuffer() = 0;
 			virtual void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;

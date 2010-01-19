@@ -19,7 +19,9 @@ namespace Pxf{
 			Window* OpenWindow(WindowSpecifications* _pWindowSpecs);
 			void CloseWindow();
 
-			DeviceType GetDeviceType() { return DeviceType::EOpenGL2; }
+			DeviceType GetDeviceType() { return EOpenGL2; }
+
+			void SwapBuffers();
 
 			/*virtual VertexBuffer* CreateVertexBuffer() = 0;
 			virtual void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;
