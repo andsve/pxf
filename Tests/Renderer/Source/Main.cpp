@@ -10,6 +10,10 @@ using namespace Pxf;
 
 bool PxfMain(Util::String _CmdLine)
 {
+	char t_title[512];
+	char t_pxftitle[] = "PXF Engine";
+	int t_fps = 0;
+
 	Pxf::Engine engine;
 	Pxf::Graphics::WindowSpecifications* pWindowSpecs = new Pxf::Graphics::WindowSpecifications();
 	pWindowSpecs->Width = 720;
@@ -22,10 +26,25 @@ bool PxfMain(Util::String _CmdLine)
 	pWindowSpecs->FSAASamples = 0;
 	pWindowSpecs->Fullscreen = false;
 	pWindowSpecs->Resizeable = false;
+
 	Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL2);
 	//Graphics::Device* pDevice = engine.CreateDevice(Graphics::EDirect3D9);
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
 	
+	while (pWindow->IsOpen())
+	{
+		// Swap buffers
+		pWindow->Swap();
+
+		// Update title with FPS
+		if (t_fps != pWindow->GetFPS())
+		{
+			t_fps = pWindow->GetFPS();
+			sprintf(t_title, "%s - %s - FPS: %i", t_pxftitle, Graphics::DeviceTypeName(pDevice->GetDeviceType()), t_fps);
+			pWindow->SetTitle(t_title);
+		}
+	}
+
 	//Sleep(1000);
 	pDevice->CloseWindow();
 	engine.DestroyDevice(pDevice);	

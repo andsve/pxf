@@ -1,6 +1,8 @@
 #ifndef _PXF_GRAPHICS_DEVICE_H_
 #define _PXF_GRAPHICS_DEVICE_H_
 
+#include <Pxf/Graphics/DeviceType.h>
+
 namespace Pxf
 {
 	namespace Graphics
@@ -16,6 +18,7 @@ namespace Pxf
 		public:
 			virtual Window* OpenWindow(WindowSpecifications* _pWindowSpecs) = 0;
 			virtual void CloseWindow() = 0;
+			virtual DeviceType GetDeviceType() = 0;
 			
 			/*virtual VertexBuffer* CreateVertexBuffer() = 0;
 			virtual void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;

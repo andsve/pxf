@@ -19,6 +19,9 @@ namespace Pxf{
 			
 			Window* OpenWindow(WindowSpecifications* _pWindowSpecs);
 			void CloseWindow(Window* _pWindow);
+
+			DeviceType GetDeviceType() { return DeviceType::EDirect3D9; }
+
 			VertexBuffer* CreateVertexBuffer();
 			void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer);
 			void DrawVertexBuffer(VertexBuffer* _pVertexBuffer);
