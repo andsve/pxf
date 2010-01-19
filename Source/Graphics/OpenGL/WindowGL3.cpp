@@ -1,7 +1,7 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Base/Clock.h>
 #include <Pxf/Util/String.h>
-#include <Pxf/Graphics/OpenGL/WindowGL.h>
+#include <Pxf/Graphics/OpenGL/WindowGL3.h>
 #include <Pxf/Base/Debug.h>
 
 #ifdef CONF_PLATFORM_MACOSX
@@ -13,11 +13,11 @@ using namespace Pxf;
 using namespace Pxf::Graphics;
 using Util::String;
 
-int WindowGL::GetWidth() { return m_width; }
-int WindowGL::GetHeight() {return m_height; }
-float WindowGL::GetAspectRatio() { return ((float)m_width / (float)m_height); }
+int WindowGL3::GetWidth() { return m_width; }
+int WindowGL3::GetHeight() {return m_height; }
+float WindowGL3::GetAspectRatio() { return ((float)m_width / (float)m_height); }
 
-WindowGL::WindowGL(WindowSpecifications *_window_spec)
+WindowGL3::WindowGL3(WindowSpecifications *_window_spec)
 {
 	// Window settings
 	m_width = _window_spec->Width;
@@ -39,14 +39,21 @@ WindowGL::WindowGL(WindowSpecifications *_window_spec)
 	m_fps_laststamp = Clock::GetTime();
 }
 
-WindowGL::~WindowGL()
+WindowGL3::~WindowGL3()
 {
 	Close();
 }
 
-bool WindowGL::Open()
+bool WindowGL3::Open()
 {
 	int t_params = GLFW_WINDOW;
+
+	// notify glfw on OGL context versions
+	/*
+	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
+	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 0);
+	glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	*/
 
 	if (IsOpen())
 		return false; // can't open an already open window
@@ -73,8 +80,12 @@ bool WindowGL::Open()
 		TransformProcessType(&psn,kProcessTransformToForegroundApplication);
 		SetFrontProcess(&psn);
 #endif
+		const GLubyte* ver = glGetString(GL_VERSION);
+		const GLubyte* vend = glGetString(GL_VENDOR);
+		const GLubyte* ext = glGetString(GL_EXTENSIONS);
 
-		Message("WindowGL2", "Opened window of %dx%d@%d (r: %d g: %d b: %d a: %d d: %d s: %d)", m_width, m_height, m_bits_color*3+m_bits_alpha, m_bits_color, m_bits_color, m_bits_color, m_bits_alpha, m_bits_depth, m_bits_stencil);
+
+		Message("WindowGL3", "Opened window of %dx%d@%d (r: %d g: %d b: %d a: %d d: %d s: %d)", m_width, m_height, m_bits_color*3+m_bits_alpha, m_bits_color, m_bits_color, m_bits_color, m_bits_alpha, m_bits_depth, m_bits_stencil);
 
 		return true;
 	}
@@ -84,7 +95,7 @@ bool WindowGL::Open()
 	
 }
 
-bool WindowGL::Close()
+bool WindowGL3::Close()
 {
 	if(!IsOpen())
 		return false;
@@ -93,7 +104,7 @@ bool WindowGL::Close()
 	return true;
 }
 
-void WindowGL::Swap()
+void WindowGL3::Swap()
 {
 	if (IsOpen())
 	{
@@ -112,7 +123,7 @@ void WindowGL::Swap()
 	}
 }
 
-bool WindowGL::IsOpen()
+bool WindowGL3::IsOpen()
 {
 	if (glfwGetWindowParam(GLFW_OPENED) == GL_TRUE)
 		return true;
@@ -120,7 +131,7 @@ bool WindowGL::IsOpen()
 		return false;
 }
 
-bool WindowGL::IsActive()
+bool WindowGL3::IsActive()
 {
 	if (IsOpen())
 	{
@@ -130,7 +141,7 @@ bool WindowGL::IsActive()
 	return false;
 }
 
-bool WindowGL::IsMinimized()
+bool WindowGL3::IsMinimized()
 {
 	if (IsOpen())
 	{
@@ -141,7 +152,7 @@ bool WindowGL::IsMinimized()
 	return false;
 }
 
-void WindowGL::SetTitle(const char *_title)
+void WindowGL3::SetTitle(const char *_title)
 {
 	if (IsOpen())
 	{
@@ -149,12 +160,12 @@ void WindowGL::SetTitle(const char *_title)
 	}
 }
 
-int WindowGL::GetFPS()
+int WindowGL3::GetFPS()
 {
 	return m_fps;
 }
 
-char* WindowGL::GetContextTypeName()
+char* WindowGL3::GetContextTypeName()
 {
 	return "OpenGL";
 }
