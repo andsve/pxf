@@ -11,6 +11,12 @@ namespace Pxf
 	namespace Graphics
 	{
 		class Device;
+		class Window;
+	}
+
+	namespace Input
+	{
+		class Input;
 	}
 
 	void SuperTest();
@@ -20,6 +26,8 @@ namespace Pxf
 	public:
 		Graphics::Device* CreateDevice(Graphics::DeviceType _deviceType);
 		void DestroyDevice(Graphics::Device* _pDevice);
+
+		Input::Input* CreateInput(Graphics::Device* _pDevice, Graphics::Window* _pWindow);
 	};
 }
 

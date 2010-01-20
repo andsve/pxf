@@ -31,7 +31,7 @@ bool PxfMain(Util::String _CmdLine)
 	Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL2);
 	//Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL3);
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
-	Input::Input* pInput = pDevice->GetInput();
+	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
 	
 	
 	while (pWindow->IsOpen())

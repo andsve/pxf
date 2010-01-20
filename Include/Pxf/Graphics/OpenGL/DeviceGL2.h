@@ -7,8 +7,6 @@
 #include <windows.h>
 
 namespace Pxf{
-	namespace Input { class Input; }
-
 	namespace Graphics {
 
 		class DeviceGL2 : public Device
@@ -19,8 +17,6 @@ namespace Pxf{
 
 			Window* OpenWindow(WindowSpecifications* _pWindowSpecs);
 			void CloseWindow();
-
-			Input::Input* GetInput();
 
 			DeviceType GetDeviceType() { return EOpenGL2; }
 

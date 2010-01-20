@@ -6,6 +6,7 @@
 #include <Pxf/Graphics/D3D9/DeviceD3D9.h>
 #include <Pxf/Graphics/OpenGL/DeviceGL2.h>
 #include <Pxf/Graphics/OpenGL/DeviceGL3.h>
+#include <Pxf/Input/OpenGL/InputGL2.h>
 
 #include <cstdio>
 
@@ -32,5 +33,21 @@ void Engine::DestroyDevice(Graphics::Device* _pDevice)
 	{
 		delete _pDevice;
 		Message("Engine", "Device terminated.");
+	}
+}
+
+Input::Input* Engine::CreateInput(Graphics::Device* _pDevice, Graphics::Window* _pWindow)
+{
+	if (_pWindow && _pDevice)
+	{
+		switch(_pDevice->GetDeviceType())
+		{
+		case Graphics::EOpenGL2: return new Input::InputGL2(_pWindow);
+
+		default:
+			PXFASSERT(0, "Chosen device type is not available.");
+		}
+
+		return NULL;
 	}
 }

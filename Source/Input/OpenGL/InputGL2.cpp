@@ -1,5 +1,6 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
+#include <Pxf/Graphics/Window.h>
 #include <Pxf/Input/OpenGL/InputGL2.h>
 #include <Pxf/Base/Debug.h>
 
@@ -9,9 +10,10 @@
 
 using namespace Pxf;
 using namespace Pxf::Input;
+using namespace Pxf::Graphics;
 using Util::String;
 
-InputGL2::InputGL2()
+InputGL2::InputGL2(Window* _windowptr) : Input(_windowptr)
 {
 	Message(LOCAL_MSG, "Input initiated.");
 

@@ -5,7 +5,6 @@
 
 namespace Pxf
 {
-	namespace Input { class Input; }
 
 	namespace Graphics
 	{
@@ -22,9 +21,6 @@ namespace Pxf
 			// Windowing
 			virtual Window* OpenWindow(WindowSpecifications* _pWindowSpecs) = 0;
 			virtual void CloseWindow() = 0;
-
-			// Input
-			virtual Input::Input* GetInput() = 0;
 
 			// Device
 			virtual DeviceType GetDeviceType() = 0;

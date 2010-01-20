@@ -51,11 +51,6 @@ void DeviceGL2::CloseWindow()
 	}
 }
 
-Input::Input* DeviceGL2::GetInput()
-{
-	return new Input::InputGL2();
-}
-
 void DeviceGL2::SwapBuffers()
 {
 	if (m_Window)

@@ -3,13 +3,19 @@
 
 namespace Pxf
 {
+	namespace Graphics { class Window; }
+
 	namespace Input
 	{
 		//! Abstract input class
 		class Input
 		{
 		public:
+			Input() { m_Window = NULL; }
+			Input(Graphics::Window* _windowptr) { m_Window = _windowptr; }
 			virtual void Update() = 0;
+		private:
+			Graphics::Window* m_Window;
 			
 		};
 	} // Input
