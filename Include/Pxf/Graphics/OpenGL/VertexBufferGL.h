@@ -16,19 +16,21 @@ namespace Pxf
 			private:
 				bool				m_IsLocked;		// mutex lock indicator
 				bool				m_Bound;		// is VBO already bound?
+				bool				m_DynamicDraw;	// static or dynamic something something
 				unsigned int		m_Stride;		// vertex data offset
 				unsigned int		m_VCount;		// vertex count?
 				void*				m_VBuffer;		// VBO data
 
 				GLuint	m_VBOID;		// VBO handle
-				GLenum	m_UsageFlag;	// Usage flag indicates how the data will be written 
 				GLint	m_PrimitiveMode;// Indicates how the VBO is drawn
+
+				GLFWmutex			m_Lock;			// Mutex object 
 
 				bool CreateVBO();
 				bool DestroyVBO();
 
 			public:
-				VertexBufferGL(void* _Data,unsigned int _Offset,unsigned int _VerticeCount,GLenum _Usage);
+				VertexBufferGL(void* _Data,unsigned int _Offset,unsigned int _VerticeCount, bool _Dynamic = true);
 				~VertexBufferGL();
 
 				virtual VertexBuffer& Lock();

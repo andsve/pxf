@@ -11,7 +11,7 @@ using namespace Pxf;
 using namespace Pxf::Graphics;
 using Util::String;
 
-VertexBufferGL::VertexBufferGL(void *_Data, unsigned int _Offset, unsigned int _VerticeCount, GLenum _Usage)
+VertexBufferGL::VertexBufferGL(void *_Data, unsigned int _Offset, unsigned int _VerticeCount, bool _Dynamic)
 {
 	//
 	if(_Data)
@@ -22,17 +22,22 @@ VertexBufferGL::VertexBufferGL(void *_Data, unsigned int _Offset, unsigned int _
 	m_IsLocked		= false;
 	m_Stride		= _Offset;
 	m_VCount		= _VerticeCount;
-	m_UsageFlag		= _Usage;
 	m_PrimitiveMode	= 0;
+	m_DynamicDraw	= _Dynamic;
+
+	m_Lock			= glfwCreateMutex();	
+	if(!m_Lock)
+		Message(LOCAL_MSG,"Unable to create mutex lock");
 
 	CreateVBO();
 }
 
 VertexBufferGL::~VertexBufferGL()
 {
-	//
+	// clean up
 	SafeDeleteArray(m_VBuffer);
 	DestroyVBO();
+	glfwDestroyMutex(m_Lock);
 }
 
 bool VertexBufferGL::DestroyVBO()
@@ -55,11 +60,21 @@ bool VertexBufferGL::CreateVBO()
 	
 	if(!IsBound())
 	{
-		// lock
 		Bind();
+		// make sure we are not writing data at the same time as someone else
+		Lock();
+		
 		// upload data
 		// need to know vertex format before we can write the data to the graphics card..
-		//glBufferDataARB(GL_ARRAY_BUFFER_ARB, dataSize, m_VBuffer, m_UsageFlag);
+		
+		/*
+		if(m_DynamicDraw)
+			glBufferDataARB(GL_ARRAY_BUFFER_ARB, sizeInBytes, m_VBuffer, GL_DYNAMIC_DRAW_ARB);
+		else
+			glBufferDataARB(GL_ARRAY_BUFFER_ARB, sizeInBytes, m_VBuffer, GL_STATIC_DRAW_ARB);
+		*/
+
+		Unlock();
 		Unbind();
 		// unlock
 		return true;
@@ -101,14 +116,17 @@ void VertexBufferGL::Unbind()
 
 VertexBuffer& VertexBufferGL::Lock()
 {
-	// ?? :S
+	// use glfw-mutex meanwhile
+	
+	glfwLockMutex(m_Lock);
+
 	m_IsLocked = true;
 	return *this;
 }
 
 VertexBuffer& VertexBufferGL::Unlock()
 {
-	// ?? :S
+	glfwUnlockMutex(m_Lock);
 	m_IsLocked = false;
 	return *this;
 }
