@@ -9,9 +9,9 @@ const char* Graphics::DeviceTypeName(Graphics::DeviceType _deviceType)
 	{
 		case EOpenGL2: return "OpenGL 2.x";
 		case EOpenGL3: return "OpenGL 3.x";
-		case EDirect3D9: return "Direct3D 9";
-		case EDirect3D10: return "Direct3D 10";
-		case EDirect3D11: return "Direct3D 11";
+		//case EDirect3D9: return "Direct3D 9";
+		//case EDirect3D10: return "Direct3D 10";
+		//case EDirect3D11: return "Direct3D 11";
 		default: PXFASSERT(0, "Invalid device type!");
 	}
 	return 0;

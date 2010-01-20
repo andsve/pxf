@@ -7,6 +7,8 @@
 #include <Pxf/Graphics/OpenGL/DeviceGL2.h>
 #include <Pxf/Graphics/OpenGL/DeviceGL3.h>
 
+#include <cstdio>
+
 using namespace Pxf;
 
 Graphics::Device* Engine::CreateDevice(Graphics::DeviceType _deviceType)
@@ -14,8 +16,8 @@ Graphics::Device* Engine::CreateDevice(Graphics::DeviceType _deviceType)
 	switch(_deviceType)
 	{
 	case Graphics::EOpenGL2: return new Graphics::DeviceGL2();
-	case Graphics::EOpenGL3: return new Graphics::DeviceGL3();
-	case Graphics::EDirect3D9: return new Graphics::DeviceD3D9();
+	//case Graphics::EOpenGL3: return new Graphics::DeviceGL3();
+	//case Graphics::EDirect3D9: return new Graphics::DeviceD3D9();
 	
 	default:
 		PXFASSERT(0, "Chosen device type is not available.");
@@ -27,5 +29,8 @@ Graphics::Device* Engine::CreateDevice(Graphics::DeviceType _deviceType)
 void Engine::DestroyDevice(Graphics::Device* _pDevice)
 {
 	if (_pDevice)
+	{
 		delete _pDevice;
+		Message("Engine", "Device terminated.");
+	}
 }
