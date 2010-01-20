@@ -11,7 +11,7 @@ Libraries["glfw"] = {
                     glfw_platform = "win32"
                 end
     
-                settings.cc.defines:Add("CONF_WITH_RTAUDIO")
+                settings.cc.defines:Add("CONF_WITH_GLFW")
                 settings.cc.includes:Add(Path(PathPath(module_filename) .. "/sdk/include"))
                 settings.cc.includes:Add(Path(PathPath(module_filename) .. "/sdk/src"))
                 settings.cc.includes:Add(Path(PathPath(module_filename) .. "/sdk/src/" .. glfw_platform))
