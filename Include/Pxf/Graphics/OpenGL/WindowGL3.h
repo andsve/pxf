@@ -1,21 +1,18 @@
-#ifndef _PXF_GRAPHICS_WINDOWD3D_H_
-#define _PXF_GRAPHICS_WINDOWD3D_H_
+#ifndef _PXF_GRAPHICS_WINDOWGL3_H_
+#define _PXF_GRAPHICS_WINDOWGL3_H_
 
-#ifdef CONF_FAMILY_WINDOWS
-
+#include <windows.h>		// Header File For Windows
 #include <Pxf/Graphics/Window.h>
 #include <Pxf/Graphics/WindowSpecifications.h>
-#include <windows.h>
-#include <d3dx9.h>
 
 namespace Pxf{
 	namespace Graphics {
 
-		class WindowD3D : public Window
+		class WindowGL3 : public Window
 		{
 		public:
-			WindowD3D(WindowSpecifications *_window_spec);
-			~WindowD3D();
+			WindowGL3(WindowSpecifications *_window_spec);
+			~WindowGL3();
 
 			bool Open();
 			bool Close();
@@ -30,27 +27,19 @@ namespace Pxf{
 			char* GetContextTypeName();
 
 			bool IsOpen();
-			/*			
 			bool IsActive();
 			bool IsMinimized();
-			*/
-
-			// Specific D3D getters
-			IDirect3DDevice9* GetD3DDevice();
 		private:
-			friend class DeviceD3D9;
 			bool InitWindow();
-			bool InitD3D();
-			bool KillWindow();
-			bool KillD3D();
 
-			// forward declare?
-			WNDCLASS m_window_class;
-			HWND m_window;
-			IDirect3D9 *m_D3D;
-			IDirect3DDevice9 *m_D3D_device;
-			D3DPRESENT_PARAMETERS m_pp;
+			#ifdef CONF_FAMILY_WINDOWS
 
+			HDC			m_HDC;		// Private GDI Device Context
+			HGLRC		m_HRC;		// Permanent Rendering Context
+			HWND		m_Window;	// Window Handle
+			HINSTANCE	m_HInstance;// Instance Of The Application	
+
+			#endif // CONF_FAMILY_WINDOWS
 			int m_width, m_height;
 			bool m_fullscreen, m_resizeable, m_vsync;
 
@@ -68,6 +57,4 @@ namespace Pxf{
 	} // Graphics
 } // Pxf
 
-#endif // CONF_FAMILY_WINDOWS
-
-#endif //_PXF_GRAPHICS_WINDOWD3D_H_
+#endif //_PXF_GRAPHICS_WINDOWGL3_H_

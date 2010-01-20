@@ -118,11 +118,27 @@
 							>
 						</File>
 						<File
-							RelativePath="..\..\Include\Pxf\Graphics\Window.h"
+							RelativePath="..\..\Include\Pxf\Graphics\OpenGL\DeviceGL2.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Graphics\OpenGL\DeviceGL3.h"
 							>
 						</File>
 						<File
 							RelativePath="..\..\Include\Pxf\Graphics\D3D9\WindowD3D.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Graphics\OpenGL\WindowGL3.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Input"
+						>
+						<File
+							RelativePath="..\..\Include\Pxf\Input\OpenGL\InputGL2.h"
 							>
 						</File>
 					</Filter>
@@ -149,11 +165,27 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\Source\Graphics\OpenGL\DeviceGL3.cpp"
+						>
+					</File>
+					<File
 						RelativePath="..\..\Source\Graphics\D3D9\WindowD3D.cpp"
 						>
 					</File>
 					<File
-						RelativePath="..\..\Source\Graphics\OpenGL\WindowGL.cpp"
+						RelativePath="..\..\Source\Graphics\OpenGL\WindowGL2.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Graphics\OpenGL\WindowGL3.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Input"
+					>
+					<File
+						RelativePath="..\..\Source\Input\OpenGL\InputGL2.cpp"
 						>
 					</File>
 				</Filter>

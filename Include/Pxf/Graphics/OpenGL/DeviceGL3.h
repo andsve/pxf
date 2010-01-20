@@ -1,28 +1,23 @@
-#ifndef _PXF_GRAPHICS_DEVICEGL2_H_
-#define _PXF_GRAPHICS_DEVICEGL2_H_
+#ifndef _PXF_GRAPHICS_DEVICEGL3_H_
+#define _PXF_GRAPHICS_DEVICEGL3_H_
 
 #include <Pxf/Graphics/Device.h>
 #include <Pxf/Graphics/Window.h>
-#include <Pxf/Graphics/OpenGL/WindowGL2.h>
 #include <windows.h>
 
 namespace Pxf{
-	namespace Input { class Input; }
-
 	namespace Graphics {
 
-		class DeviceGL2 : public Device
+		class DeviceGL3 : public Device
 		{
 		public:
-			DeviceGL2();
-			~DeviceGL2();
+			DeviceGL3();
+			~DeviceGL3();
 
 			Window* OpenWindow(WindowSpecifications* _pWindowSpecs);
 			void CloseWindow();
 
-			Input::Input* GetInput();
-
-			DeviceType GetDeviceType() { return EOpenGL2; }
+			DeviceType GetDeviceType() { return EOpenGL3; }
 
 			void SwapBuffers();
 
@@ -36,4 +31,4 @@ namespace Pxf{
 	} // Graphics
 } // Pxf
 
-#endif //_PXF_GRAPHICS_DEVICEGL2_H_
+#endif //_PXF_GRAPHICS_DEVICEGL3_H_

@@ -4,6 +4,7 @@
 #include <Pxf/Graphics/DeviceType.h>
 #include <Pxf/Graphics/Window.h>
 #include <Pxf/Graphics/WindowSpecifications.h>
+#include <Pxf/Input/Input.h>
 #include <Pxf/Util/String.h>
 
 using namespace Pxf;
@@ -14,7 +15,6 @@ bool PxfMain(Util::String _CmdLine)
 	char t_pxftitle[] = "PXF Engine";
 	int t_fps = 0;
 
-	Pxf::Engine engine;
 	Pxf::Graphics::WindowSpecifications* pWindowSpecs = new Pxf::Graphics::WindowSpecifications();
 	pWindowSpecs->Width = 720;
 	pWindowSpecs->Height = 480;
@@ -27,9 +27,12 @@ bool PxfMain(Util::String _CmdLine)
 	pWindowSpecs->Fullscreen = false;
 	pWindowSpecs->Resizeable = false;
 
+	Pxf::Engine engine;
 	Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL2);
-	//Graphics::Device* pDevice = engine.CreateDevice(Graphics::EDirect3D9);
+	//Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL3);
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
+	Input::Input* pInput = pDevice->GetInput();
+	
 	
 	while (pWindow->IsOpen())
 	{
@@ -45,9 +48,8 @@ bool PxfMain(Util::String _CmdLine)
 		}
 	}
 
-	//Sleep(1000);
 	pDevice->CloseWindow();
-	engine.DestroyDevice(pDevice);	
+	engine.DestroyDevice(pDevice);
 
 	return true;
 }

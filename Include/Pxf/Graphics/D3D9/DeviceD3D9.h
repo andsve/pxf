@@ -3,6 +3,7 @@
 
 #ifdef CONF_FAMILY_WINDOWS
 #include <Pxf/Graphics/Device.h>
+#include <Pxf/Graphics/D3D9/WindowD3D.h>
 #include <windows.h>
 #include <d3dx9.h>
 
@@ -18,15 +19,18 @@ namespace Pxf{
 			~DeviceD3D9();
 			
 			Window* OpenWindow(WindowSpecifications* _pWindowSpecs);
-			void CloseWindow(Window* _pWindow);
+			void CloseWindow();
 
-			DeviceType GetDeviceType() { return DeviceType::EDirect3D9; }
-
+			Graphics::DeviceType GetDeviceType() { return EDirect3D9; }
+			void SwapBuffers();
+			/*
 			VertexBuffer* CreateVertexBuffer();
 			void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer);
 			void DrawVertexBuffer(VertexBuffer* _pVertexBuffer);
+			*/
 
 		private:
+			WindowD3D*				m_Window;
 			IDirect3D9*				m_D3D9;
 			IDirect3DDevice9*		m_D3D9_device;
 		};

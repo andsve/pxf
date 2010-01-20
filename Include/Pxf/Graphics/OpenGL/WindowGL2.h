@@ -1,5 +1,5 @@
-#ifndef _PXF_GRAPHICS_WINDOWGL_H_
-#define _PXF_GRAPHICS_WINDOWGL_H_
+#ifndef _PXF_GRAPHICS_WINDOWGL2_H_
+#define _PXF_GRAPHICS_WINDOWGL2_H_
 
 #include <Pxf/Graphics/Window.h>
 #include <Pxf/Graphics/WindowSpecifications.h>
@@ -7,11 +7,11 @@
 namespace Pxf{
 	namespace Graphics {
 
-		class WindowGL : public Window
+		class WindowGL2 : public Window
 		{
 		public:
-			WindowGL(WindowSpecifications *_window_spec);
-			~WindowGL();
+			WindowGL2(WindowSpecifications *_window_spec);
+			~WindowGL2();
 
 			bool Open();
 			bool Close();
