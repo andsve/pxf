@@ -19,16 +19,10 @@ VertexBufferGL::VertexBufferGL(void *_Data, unsigned int _Offset, unsigned int _
 	else
 		Message(LOCAL_MSG,"Unable to create Vertex Buffer with empty data");
 
-	m_IsLocked		= false;
 	m_Stride		= _Offset;
 	m_VCount		= _VerticeCount;
 	m_PrimitiveMode	= 0;
 	m_DynamicDraw	= _Dynamic;
-
-	m_Lock			= glfwCreateMutex();	
-	if(!m_Lock)
-		Message(LOCAL_MSG,"Unable to create mutex lock");
-
 	CreateVBO();
 }
 
@@ -37,21 +31,13 @@ VertexBufferGL::~VertexBufferGL()
 	// clean up
 	SafeDeleteArray(m_VBuffer);
 	DestroyVBO();
-	glfwDestroyMutex(m_Lock);
 }
 
 bool VertexBufferGL::DestroyVBO()
 {
-	if(!IsLocked())
-	{
-		Unbind();
-		glDeleteBuffersARB(1,&m_VBOID);
-		return true;
-	}
-	else
-		// now what? :( 
-		return false;
-	
+	Unbind();
+	glDeleteBuffersARB(1,&m_VBOID);
+	return true;
 }
 
 bool VertexBufferGL::CreateVBO()
@@ -61,9 +47,6 @@ bool VertexBufferGL::CreateVBO()
 	if(!IsBound())
 	{
 		Bind();
-		// make sure we are not writing data at the same time as someone else
-		Lock();
-		
 		// upload data
 		// need to know vertex format before we can write the data to the graphics card..
 		
@@ -73,10 +56,8 @@ bool VertexBufferGL::CreateVBO()
 		else
 			glBufferDataARB(GL_ARRAY_BUFFER_ARB, sizeInBytes, m_VBuffer, GL_STATIC_DRAW_ARB);
 		*/
-
-		Unlock();
 		Unbind();
-		// unlock
+		
 		return true;
 	}
 	else
@@ -91,13 +72,8 @@ void VertexBufferGL::Bind()
 	if(IsBound())
 		return;
 
-	if(!IsLocked())
-	{
-		glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_VBOID);
-		m_Bound = true;
-	}
-	else
-		Message(LOCAL_MSG,"Unable to Bind a locked buffer");
+	glBindBufferARB(GL_ARRAY_BUFFER_ARB, m_VBOID);
+	m_Bound = true;
 }
 
 void VertexBufferGL::Unbind()
@@ -105,30 +81,8 @@ void VertexBufferGL::Unbind()
 	if(!IsBound())
 		return;
 
-	if(!IsLocked())
-	{
-		glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
-		m_Bound = false;
-	}
-	else
-		Message(LOCAL_MSG,"Unable to unbind locked buffer");
-}
-
-VertexBuffer& VertexBufferGL::Lock()
-{
-	// use glfw-mutex meanwhile
-	
-	glfwLockMutex(m_Lock);
-
-	m_IsLocked = true;
-	return *this;
-}
-
-VertexBuffer& VertexBufferGL::Unlock()
-{
-	glfwUnlockMutex(m_Lock);
-	m_IsLocked = false;
-	return *this;
+	glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+	m_Bound = false;
 }
 
 PrimitiveType VertexBufferGL::GetPrimitive()

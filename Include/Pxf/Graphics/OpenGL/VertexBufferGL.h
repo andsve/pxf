@@ -14,7 +14,6 @@ namespace Pxf
 		class VertexBufferGL : VertexBuffer
 		{
 			private:
-				bool				m_IsLocked;		// mutex lock indicator
 				bool				m_Bound;		// is VBO already bound?
 				bool				m_DynamicDraw;	// static or dynamic something something
 				unsigned int		m_Stride;		// vertex data offset
@@ -24,8 +23,6 @@ namespace Pxf
 				GLuint	m_VBOID;		// VBO handle
 				GLint	m_PrimitiveMode;// Indicates how the VBO is drawn
 
-				GLFWmutex			m_Lock;			// Mutex object 
-
 				bool CreateVBO();
 				bool DestroyVBO();
 
@@ -33,13 +30,10 @@ namespace Pxf
 				VertexBufferGL(void* _Data,unsigned int _Offset,unsigned int _VerticeCount, bool _Dynamic = true);
 				~VertexBufferGL();
 
-				virtual VertexBuffer& Lock();
-				virtual VertexBuffer& Unlock();
 				//virtual bool Fill(float* _Data,int _Stride,int _Size); 
 				virtual void SetPrimitive(PrimitiveType _PrimitiveType);
 				virtual PrimitiveType GetPrimitive(); 
 				virtual DeviceType GetDeviceType() { return EOpenGL2; }
-				virtual bool IsLocked() {return m_IsLocked; } 
 
 				// OpenGL-specific:
 				void Bind();
