@@ -4,6 +4,7 @@
 #include <Pxf/Graphics/DeviceType.h>
 #include <Pxf/Graphics/Window.h>
 #include <Pxf/Graphics/WindowSpecifications.h>
+#include <Pxf/Input/Input.h>
 #include <Pxf/Util/String.h>
 
 using namespace Pxf;
@@ -30,6 +31,8 @@ bool PxfMain(Util::String _CmdLine)
 	Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL2);
 	//Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL3);
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
+	Input::Input* pInput = pDevice->GetInput();
+	
 	
 	while (pWindow->IsOpen())
 	{

@@ -1,6 +1,7 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/OpenGL/DeviceGL2.h>
+#include <Pxf/Input/OpenGL/InputGL2.h>
 #include <Pxf/Base/Debug.h>
 
 #include <GL/glfw.h>
@@ -50,6 +51,11 @@ void DeviceGL2::CloseWindow()
 	}
 }
 
+Input::Input* DeviceGL2::GetInput()
+{
+	return new Input::InputGL2();
+}
+
 void DeviceGL2::SwapBuffers()
 {
 	if (m_Window)
@@ -57,3 +63,4 @@ void DeviceGL2::SwapBuffers()
 		m_Window->Swap();
 	}
 }
+

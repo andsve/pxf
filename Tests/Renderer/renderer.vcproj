@@ -126,15 +126,19 @@
 							>
 						</File>
 						<File
-							RelativePath="..\..\Include\Pxf\Graphics\Window.h"
-							>
-						</File>
-						<File
 							RelativePath="..\..\Include\Pxf\Graphics\D3D9\WindowD3D.h"
 							>
 						</File>
 						<File
 							RelativePath="..\..\Include\Pxf\Graphics\OpenGL\WindowGL3.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Input"
+						>
+						<File
+							RelativePath="..\..\Include\Pxf\Input\OpenGL\InputGL2.h"
 							>
 						</File>
 					</Filter>
@@ -174,6 +178,14 @@
 					</File>
 					<File
 						RelativePath="..\..\Source\Graphics\OpenGL\WindowGL3.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Input"
+					>
+					<File
+						RelativePath="..\..\Source\Input\OpenGL\InputGL2.cpp"
 						>
 					</File>
 				</Filter>
