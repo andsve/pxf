@@ -13,6 +13,7 @@ namespace Pxf
 			ETriangleStrip,
 			ETriangleList,
 			ETriangleFan,
+			EUnknown,
 		};
 		
 		const char* PrimitiveTypeName(PrimitiveType _PrimitiveType);

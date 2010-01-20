@@ -180,6 +180,10 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\Source\Graphics\OpenGL\VertexBufferGL.cpp"
+							>
+						</File>
+						<File
 							RelativePath="..\..\Source\Graphics\OpenGL\WindowGL2.cpp"
 							>
 						</File>
