@@ -18,7 +18,7 @@ namespace Pxf
 
 				GLuint*	m_VBOID;		// VBO handle
 				GLenum	m_UsageFlag;	// Usage flag indicates how the data will be written 
-				
+				GLenum	m_PrimitiveMode;// Indicates how the VBO is drawn
 
 			public:
 				VertexBufferGL(void* _Data,int _Offset,GLenum _Usage);
@@ -26,16 +26,18 @@ namespace Pxf
 
 				virtual VertexBuffer& Lock();
 				virtual VertexBuffer& Unlock();
-				virtual bool IsLocked(); 
-				
-				virtual void SetPrimitive(PrimitiveType _PrimitiveType);
-				virtual PrimitiveType GetPrimitive();
 				virtual bool Fill(float* _Data,int _Stride,int _Size);
+											
+				// not sure if this is necessary unless you want to use glDrawRangeElements
+				virtual void SetPrimitive(PrimitiveType _PrimitiveType) { m_PrimitiveMode = _PrimitiveType; }
+				virtual PrimitiveType GetPrimitive() { return m_PrimitiveMode; }				
+				virtual DeviceType GetDeviceType() { return EOpenGL2; }
+				virtual bool IsLocked() {return m_IsLocked; } 
 
 				// OpenGL-specific:
 				void Bind();
 				void Unbind();
-				int GetStride();
+				int GetStride() { return m_Stride; }
 		};
 	} // Graphics
 } // Pxf

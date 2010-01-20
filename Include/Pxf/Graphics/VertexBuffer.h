@@ -5,6 +5,9 @@ namespace Pxf
 {
 	namespace Graphics
 	{
+		enum DeviceType;
+		enum PrimitiveType;
+
 		//! Abstract class for vertex buffer
 		class VertexBuffer
 		{
@@ -17,6 +20,7 @@ namespace Pxf
 				virtual void SetPrimitive(PrimitiveType _PrimitiveType) = 0;
 				virtual PrimitiveType GetPrimitive() = 0;
 				virtual bool Fill(float* _Data,int _Stride,int _Size) = 0;
+				virtual DeviceType GetDeviceType() = 0;
 		};
 	} // Graphics
 } // Pxf
