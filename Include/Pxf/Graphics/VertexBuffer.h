@@ -5,16 +5,7 @@ namespace Pxf
 {
 	namespace Graphics
 	{
-		enum PrimitiveType
-		{
-			EPointList,
-			ELineList,
-			ELineStrip,
-			ETriangleStrip,
-			ETriangleList,
-			ETriangleFan,
-		};
-
+		//! Abstract class for vertex buffer
 		class VertexBuffer
 		{
 			private:
@@ -25,7 +16,7 @@ namespace Pxf
 				
 				virtual void SetPrimitive(PrimitiveType _PrimitiveType) = 0;
 				virtual PrimitiveType GetPrimitive() = 0;
-				virtual 
+				virtual bool Fill(float* _Data,int _Stride,int _Size) = 0;
 		};
 	} // Graphics
 } // Pxf
