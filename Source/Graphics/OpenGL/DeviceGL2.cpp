@@ -36,7 +36,7 @@ DeviceGL2::~DeviceGL2()
 
 Window* DeviceGL2::OpenWindow(WindowSpecifications* _pWindowSpecs)
 {
-	m_Window = new WindowGL(_pWindowSpecs);
+	m_Window = new WindowGL2(_pWindowSpecs);
 	m_Window->Open();
 	return m_Window;
 }

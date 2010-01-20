@@ -3,7 +3,7 @@
 
 #include <Pxf/Graphics/Device.h>
 #include <Pxf/Graphics/Window.h>
-#include <Pxf/Graphics/OpenGL/WindowGL.h>
+#include <Pxf/Graphics/OpenGL/WindowGL2.h>
 #include <windows.h>
 
 namespace Pxf{
