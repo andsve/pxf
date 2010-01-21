@@ -47,7 +47,7 @@ Input::Input* Engine::CreateInput(Graphics::Device* _pDevice, Graphics::Window* 
 		default:
 			PXFASSERT(0, "Chosen device type is not available.");
 		}
-
-		return NULL;
 	}
+
+	return NULL;
 }

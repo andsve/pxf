@@ -34,10 +34,19 @@ bool PxfMain(Util::String _CmdLine)
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
 	
 	
-	while (pWindow->IsOpen())
+	pInput->SetMouseMode(Input::MODE_RELATIVE);
+	pInput->ShowCursor(true);
+	while (!pInput->IsKeyDown(Input::ESC))
 	{
+		// Update input
+		pInput->Update();
+
 		// Swap buffers
 		pWindow->Swap();
+
+		int x,y;
+		pInput->GetMousePos(&x, &y);
+		printf("%i %i\n", x, y);
 
 		// Update title with FPS
 		if (t_fps != pWindow->GetFPS())
