@@ -129,6 +129,10 @@
 								>
 							</File>
 							<File
+								RelativePath="..\..\Include\Pxf\Graphics\OpenGL\TextureGL2.h"
+								>
+							</File>
+							<File
 								RelativePath="..\..\Include\Pxf\Graphics\OpenGL\VertexBufferGL.h"
 								>
 							</File>
@@ -205,6 +209,10 @@
 						</File>
 						<File
 							RelativePath="..\..\Source\Graphics\OpenGL\QuadBatchGL2.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Source\Graphics\OpenGL\TextureGL2.cpp"
 							>
 						</File>
 						<File

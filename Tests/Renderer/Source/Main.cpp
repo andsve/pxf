@@ -5,6 +5,7 @@
 #include <Pxf/Graphics/DeviceType.h>
 #include <Pxf/Graphics/Window.h>
 #include <Pxf/Graphics/WindowSpecifications.h>
+#include <Pxf/Graphics/Texture.h>
 #include <Pxf/Graphics/QuadBatch.h>
 #include <Pxf/Math/Math.h>
 #include <Pxf/Math/Matrix.h>
@@ -45,6 +46,9 @@ bool PxfMain(Util::String _CmdLine)
 	pQBatch->SetDepth(0.1f);
 	pQBatch->SetColor(0.0f, 1.0f, 0.0f, 1.0f);
 	pQBatch->AddCentered(225, 225, 50, 50);
+
+	// Load some texture
+	Graphics::Texture* pTexture = pDevice->CreateTexture("test.png");
 
 	// Setup viewport and orthogonal projection
 	pDevice->SetViewport(0, 0, pWindowSpecs->Width / 2.0f, pWindowSpecs->Height);

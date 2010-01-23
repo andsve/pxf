@@ -16,6 +16,8 @@ namespace Pxf
 		
 		class VertexBuffer;
 
+		class Texture;
+
 		class QuadBatch;
 
 		struct Vertex
@@ -41,6 +43,11 @@ namespace Pxf
 			virtual void SetViewport(int _x, int _y, int _w, int _h) = 0;
 			virtual void SetProjection(Math::Mat4 *_matrix) = 0;
 			virtual void SwapBuffers() = 0;
+
+			// Texture
+			virtual Texture* CreateTexture(const char* _filepath) = 0;
+			virtual void BindTexture(Texture* _texture) = 0;
+			virtual void BindTexture(Texture* _texture, unsigned int _texture_unit) = 0; // Multi-texturing
 
 			// PrimitiveBatch
 			virtual QuadBatch* CreateQuadBatch(int _maxSize) = 0;

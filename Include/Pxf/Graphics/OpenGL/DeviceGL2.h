@@ -23,8 +23,6 @@
 namespace Pxf{
 	namespace Graphics {
 
-		class QuadBatch;
-
 		class DeviceGL2 : public Device
 		{
 		public:
@@ -39,6 +37,10 @@ namespace Pxf{
 			void SetViewport(int _x, int _y, int _w, int _h);
 			void SetProjection(Math::Mat4 *_matrix);
 			void SwapBuffers();
+
+			Texture* CreateTexture(const char* _filepath);
+			void BindTexture(Texture* _texture);
+			void BindTexture(Texture* _texture, unsigned int _texture_unit);
 
 			QuadBatch* CreateQuadBatch(int _maxSize);
 
