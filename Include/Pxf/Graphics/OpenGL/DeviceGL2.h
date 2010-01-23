@@ -1,21 +1,7 @@
 #ifndef _PXF_GRAPHICS_DEVICEGL2_H_
 #define _PXF_GRAPHICS_DEVICEGL2_H_
 
-#if defined(CONF_FAMILY_WINDOWS)
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#undef CreateFont // ...
-#endif
-
-#if defined(CONF_PLATFORM_MACOSX)
-#include <OpenGL/OpenGL.h>
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
-
+#include <Pxf/Graphics/OpenGL/OpenGL.h>
 #include <Pxf/Graphics/Device.h>
 #include <Pxf/Graphics/Window.h>
 #include <Pxf/Graphics/OpenGL/WindowGL2.h>
@@ -23,11 +9,14 @@
 namespace Pxf{
 	namespace Graphics {
 
+		class QuadBatch;
+		class VertexBuffer;
+
 		class DeviceGL2 : public Device
 		{
 		public:
 			DeviceGL2();
-			~DeviceGL2();
+			virtual ~DeviceGL2();
 
 			Window* OpenWindow(WindowSpecifications* _pWindowSpecs);
 			void CloseWindow();
@@ -44,9 +33,9 @@ namespace Pxf{
 
 			QuadBatch* CreateQuadBatch(int _maxSize);
 
-			/*virtual VertexBuffer* CreateVertexBuffer() = 0;
-			virtual void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;
-			virtual void DrawVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;*/
+			VertexBuffer* CreateVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferType _VertexBufferType);
+			void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer);
+			void DrawVertexBuffer(VertexBuffer* _pVertexBuffer);
 		private:
 			Window* m_Window;
 		};

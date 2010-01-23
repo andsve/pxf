@@ -1,6 +1,7 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/QuadBatch.h>
+//#include <Pxf/Graphics/OpenGL/VertexBufferGL2_VA.h>
 #include <Pxf/Graphics/OpenGL/DeviceGL2.h>
 #include <Pxf/Graphics/OpenGL/TextureGL2.h>
 #include <Pxf/Graphics/OpenGL/QuadBatchGL2.h>
@@ -101,4 +102,28 @@ void DeviceGL2::BindTexture(Texture* _texture, unsigned int _texture_unit)
 QuadBatch* DeviceGL2::CreateQuadBatch(int _maxSize)
 {
 	return new QuadBatchGL2(_maxSize);
+}
+
+
+VertexBuffer* DeviceGL2::CreateVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferType _VertexBufferType)
+{
+	switch(_VertexBufferLocation)
+	{
+	//case VERTEXBUFFER_LOCATION_CPU: return new VertexBufferGL2_VA(_VertexBufferType);
+	//case VERTEXBUFFER_LOCATION_GPU: return new VertexBufferGL2_VBO();
+	}
+	PXFASSERT(0, "Not implemented");
+
+}
+
+void DeviceGL2::DestroyVertexBuffer(VertexBuffer* _pVertexBuffer)
+{
+	PXFASSERT(0, "Not implemented");
+}
+
+void DeviceGL2::DrawVertexBuffer(VertexBuffer* _pVertexBuffer)
+{
+	//_pVertexBuffer->PreDraw();
+	//_pVertexBuffer->PostDraw();
+	PXFASSERT(0, "Not implemented");
 }
