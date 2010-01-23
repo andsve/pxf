@@ -24,12 +24,13 @@ namespace Pxf{
 	namespace Graphics {
 
 		class QuadBatch;
+		class VertexBuffer;
 
 		class DeviceGL2 : public Device
 		{
 		public:
 			DeviceGL2();
-			~DeviceGL2();
+			virtual ~DeviceGL2();
 
 			Window* OpenWindow(WindowSpecifications* _pWindowSpecs);
 			void CloseWindow();
@@ -40,9 +41,9 @@ namespace Pxf{
 
 			QuadBatch* CreateQuadBatch(int _maxSize);
 
-			/*virtual VertexBuffer* CreateVertexBuffer() = 0;
-			virtual void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;
-			virtual void DrawVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;*/
+			VertexBuffer* CreateVertexBuffer(VertexBufferType _VertexBufferType);
+			void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer);
+			void DrawVertexBuffer(VertexBuffer* _pVertexBuffer);
 		private:
 			Window* m_Window;
 		};

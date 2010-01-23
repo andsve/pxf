@@ -7,12 +7,10 @@
 
 namespace Pxf
 {
-
 	namespace Graphics
 	{
 		class Window;
 		class WindowSpecifications;
-		
 		class VertexBuffer;
 
 		class QuadBatch;
@@ -22,6 +20,17 @@ namespace Pxf
 			Math::Vec3f pos;
 			Math::Vec2f tex;
 			Math::Vec4f color;
+		};
+
+		/**
+		 * VertexBuffer types
+		 * VERTEXBUFFER_LOCAL is stored in local memory
+		 * VERTEXBUFFER_REMOTE is stored in GPU memory
+		 */
+		enum VertexBufferType
+		{
+			VERTEXBUFFER_LOCAL,
+			VERTEXBUFFER_REMOTE
 		};
 		
 		//! Abstract video device
@@ -42,9 +51,9 @@ namespace Pxf
 			// PrimitiveBatch
 			virtual QuadBatch* CreateQuadBatch(int _maxSize) = 0;
 			
-			/*virtual VertexBuffer* CreateVertexBuffer() = 0;
+			virtual VertexBuffer* CreateVertexBuffer(VertexBufferType _VertexBufferType) = 0;
 			virtual void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;
-			virtual void DrawVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;*/
+			virtual void DrawVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;
 
 		};
 	} // Graphics

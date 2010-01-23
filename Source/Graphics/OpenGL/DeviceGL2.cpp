@@ -1,6 +1,7 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/QuadBatch.h>
+#include <Pxf/Graphics/OpenGL/VertexBufferGL2_VA.h>
 #include <Pxf/Graphics/OpenGL/DeviceGL2.h>
 #include <Pxf/Graphics/OpenGL/QuadBatchGL2.h>
 #include <Pxf/Input/OpenGL/InputGL2.h>
@@ -66,4 +67,25 @@ void DeviceGL2::SwapBuffers()
 QuadBatch* DeviceGL2::CreateQuadBatch(int _maxSize)
 {
 	return new QuadBatchGL2(_maxSize);
+}
+
+
+VertexBuffer* DeviceGL2::CreateVertexBuffer(VertexBufferType _VertexBufferType)
+{
+	PXFASSERT(0, "Not implemented");
+
+	VertexBufferGL2_VA* newVA = new VertexBufferGL2_VA();
+	return newVA;
+}
+
+void DeviceGL2::DestroyVertexBuffer(VertexBuffer* _pVertexBuffer)
+{
+	PXFASSERT(0, "Not implemented");
+}
+
+void DeviceGL2::DrawVertexBuffer(VertexBuffer* _pVertexBuffer)
+{
+	//_pVertexBuffer->PreDraw();
+	//_pVertexBuffer->PostDraw();
+	PXFASSERT(0, "Not implemented");
 }
