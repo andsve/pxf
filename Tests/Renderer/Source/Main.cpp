@@ -1,9 +1,11 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Engine.h>
 #include <Pxf/Graphics/Device.h>
+#include <Pxf/Graphics/OpenGL/DeviceGL2.h>
 #include <Pxf/Graphics/DeviceType.h>
 #include <Pxf/Graphics/Window.h>
 #include <Pxf/Graphics/WindowSpecifications.h>
+#include <Pxf/Graphics/QuadBatch.h>
 #include <Pxf/Input/Input.h>
 #include <Pxf/Util/String.h>
 
@@ -32,19 +34,33 @@ bool PxfMain(Util::String _CmdLine)
 	//Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL3);
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
-	
+
+	Graphics::QuadBatch* pQBatch = pDevice->CreateQuadBatch(256);
+
+	glMatrixMode (GL_PROJECTION);
+	glLoadIdentity ();
+	glOrtho (0, pWindowSpecs->Width, pWindowSpecs->Height, 0, 0, 1);
+	glDisable(GL_DEPTH_TEST);
+	glMatrixMode (GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(0.375, 0.375, 0);
+
 	
 	while (!pInput->IsKeyDown(Input::ESC))
 	{
 		// Update input
 		pInput->Update();
 
+		glClearColor(.3, .3, .3, 0);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+
+		pQBatch->Begin();
+		pQBatch->DrawCentered(50, 50, 50, 50);
+		pQBatch->End();
+
 		// Swap buffers
 		pWindow->Swap();
-
-		int x,y;
-		pInput->GetMousePos(&x, &y);
-		printf("%i %i\n", x, y);
 
 		// Update title with FPS
 		if (t_fps != pWindow->GetFPS())

@@ -1,6 +1,8 @@
 #ifndef _PXF_GRAPHICS_DEVICE_H_
 #define _PXF_GRAPHICS_DEVICE_H_
 
+#include <Pxf/Math/Math.h>
+#include <Pxf/Math/Vector.h>
 #include <Pxf/Graphics/DeviceType.h>
 
 namespace Pxf
@@ -13,7 +15,14 @@ namespace Pxf
 		
 		class VertexBuffer;
 
-		class PrimitiveBatch;
+		class QuadBatch;
+
+		struct Vertex
+		{
+			Math::Vec3f pos;
+			Math::Vec2f tex;
+			Math::Vec4f color;
+		};
 		
 		//! Abstract video device
 		class Device
@@ -31,13 +40,12 @@ namespace Pxf
 			virtual void SwapBuffers() = 0;
 
 			// PrimitiveBatch
-			void PrimitiveBatch* PrimitiveBatch() { return m_PrimitiveBatch; }
+			virtual QuadBatch* CreateQuadBatch(int _maxSize) = 0;
 			
 			/*virtual VertexBuffer* CreateVertexBuffer() = 0;
 			virtual void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;
 			virtual void DrawVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;*/
-		protected:
-			PrimitiveBatch* m_PrimitiveBatch;
+
 		};
 	} // Graphics
 } // Pxf

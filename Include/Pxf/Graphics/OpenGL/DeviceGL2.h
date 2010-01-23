@@ -1,13 +1,29 @@
 #ifndef _PXF_GRAPHICS_DEVICEGL2_H_
 #define _PXF_GRAPHICS_DEVICEGL2_H_
 
+#if defined(CONF_FAMILY_WINDOWS)
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#undef CreateFont // ...
+#endif
+
+#if defined(CONF_PLATFORM_MACOSX)
+#include <OpenGL/OpenGL.h>
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#else
+#include <GL/gl.h>
+#include <GL/glu.h>
+#endif
+
 #include <Pxf/Graphics/Device.h>
 #include <Pxf/Graphics/Window.h>
 #include <Pxf/Graphics/OpenGL/WindowGL2.h>
-#include <windows.h>
 
 namespace Pxf{
 	namespace Graphics {
+
+		class QuadBatch;
 
 		class DeviceGL2 : public Device
 		{
@@ -21,6 +37,8 @@ namespace Pxf{
 			DeviceType GetDeviceType() { return EOpenGL2; }
 
 			void SwapBuffers();
+
+			QuadBatch* CreateQuadBatch(int _maxSize);
 
 			/*virtual VertexBuffer* CreateVertexBuffer() = 0;
 			virtual void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;

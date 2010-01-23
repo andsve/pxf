@@ -8,6 +8,8 @@
 namespace Pxf{
 	namespace Graphics {
 
+		class QuadBatch;
+
 		class DeviceGL3 : public Device
 		{
 		public:
@@ -20,6 +22,8 @@ namespace Pxf{
 			DeviceType GetDeviceType() { return EOpenGL3; }
 
 			void SwapBuffers();
+
+			//QuadBatch* CreateQuadBatch(int _maxSize);
 
 			/*virtual VertexBuffer* CreateVertexBuffer() = 0;
 			virtual void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;
