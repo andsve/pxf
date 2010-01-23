@@ -68,6 +68,11 @@ void QuadBatchGL2::Rotate(const Math::Vec3f &center, Math::Vec3f &point)
 	point.y = p.x * sinf(m_Rotation) + p.y * cosf(m_Rotation) + center.y;
 }
 
+void QuadBatchGL2::SetDepth(float d)
+{
+	m_CurrentDepthLayer = d;
+}
+
 void QuadBatchGL2::Reset()
 {
 	m_VertexBufferPos = 0;

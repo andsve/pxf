@@ -36,14 +36,21 @@ bool PxfMain(Util::String _CmdLine)
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
 
+	// Lets render some quads, but in "reverse" order via SetDepth(...).
 	Graphics::QuadBatch* pQBatch = pDevice->CreateQuadBatch(256);
 	pQBatch->Reset();
+	pQBatch->SetDepth(0.5f);
+	pQBatch->SetColor(1.0f, 0.0f, 0.0f, 1.0f);
 	pQBatch->AddCentered(200, 200, 50, 50);
+
+	pQBatch->SetDepth(0.1f);
+	pQBatch->SetColor(0.0f, 1.0f, 0.0f, 1.0f);
+	pQBatch->AddCentered(225, 225, 50, 50);
 
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
 	glOrtho (0, pWindowSpecs->Width, pWindowSpecs->Height, 0, 0, 1);
-	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
 	glMatrixMode (GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(0.375, 0.375, 0);
@@ -55,11 +62,11 @@ bool PxfMain(Util::String _CmdLine)
 		pInput->Update();
 
 		glClearColor(.3, .3, .3, 0);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
 		glTranslatef(0.375, 0.375, 0);
 
-		t_honk += 0.01f;
+		t_honk += 0.001f;
 		glTranslatef(cosf(t_honk) * 100.0f, sinf(t_honk) * 100.0f, 0);
 		pQBatch->Draw();
 
