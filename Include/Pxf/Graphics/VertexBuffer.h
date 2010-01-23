@@ -15,18 +15,20 @@ namespace Pxf
 		//! Abstract class for vertex buffer
 		class VertexBuffer
 		{
-		private:
+		protected:
 			unsigned int m_Attributes;
 			PrimitiveType m_PrimitiveType;
+			VertexBufferType m_VertexBufferType;
 
-			virtual void PreDraw() = 0;
-			virtual void PostDraw() = 0;
-			friend class Device;
 		public:
-			VertexBuffer()
+			VertexBuffer(VertexBufferType _VertexBufferType)
 				: m_Attributes(0)
 				, m_PrimitiveType(ETriangleList)
+				, m_VertexBufferType(_VertexBufferType)
 			{}
+
+			virtual void _PreDraw() = 0;
+			virtual void _PostDraw() = 0;
 
 			// Interleaved
 			virtual void SetData(VertexBufferAttribute _AttribType, unsigned _TypeSize, const void* _Ptr, unsigned _Count, unsigned _Stride = 0) = 0;

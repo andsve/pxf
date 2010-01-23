@@ -14,6 +14,7 @@ using namespace Pxf::Graphics;
 using Util::String;
 
 VertexBufferGL2_VA::VertexBufferGL2_VA(VertexBufferType _VertexBufferType)
+	: VertexBuffer(_VertexBufferType)
 {
 
 }
@@ -23,12 +24,12 @@ VertexBufferGL2_VA::~VertexBufferGL2_VA()
 
 }
 
-void VertexBufferGL2_VA::PreDraw()
+void VertexBufferGL2_VA::_PreDraw()
 {
 
 }
 
-void VertexBufferGL2_VA::PostDraw()
+void VertexBufferGL2_VA::_PostDraw()
 {
 
 }

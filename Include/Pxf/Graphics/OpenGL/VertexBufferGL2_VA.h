@@ -15,16 +15,15 @@ namespace Pxf
 		//! Abstract class for vertex buffer
 		class VertexBufferGL2_VA : public VertexBuffer
 		{
-		private:
-			void PreDraw();
-			void PostDraw();
-
 		public:
 			VertexBufferGL2_VA(VertexBufferType _VertexBufferType);
 			~VertexBufferGL2_VA();
 
 			void SetData(VertexBufferAttribute _AttribType, unsigned _TypeSize, const void* _Ptr, unsigned _Count, unsigned _Stride = 0);
 			bool Commit();
+
+			void _PreDraw();
+			void _PostDraw();
 		};
 	} // Graphics
 } // Pxf

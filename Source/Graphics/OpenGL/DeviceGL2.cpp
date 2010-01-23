@@ -103,7 +103,7 @@ static unsigned LookupPrimitiveType(PrimitiveType _PrimitiveType)
 
 void DeviceGL2::DrawVertexBuffer(VertexBuffer* _pVertexBuffer)
 {
-	//_pVertexBuffer->PreDraw();
-	//_pVertexBuffer->PostDraw();
+	_pVertexBuffer->_PreDraw();
+	_pVertexBuffer->_PostDraw();
 	PXFASSERT(0, "Not implemented");
 }
