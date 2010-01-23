@@ -12,6 +12,8 @@ namespace Pxf
 		class WindowSpecifications;
 		
 		class VertexBuffer;
+
+		class PrimitiveBatch;
 		
 		//! Abstract video device
 		class Device
@@ -27,11 +29,15 @@ namespace Pxf
 
 			// Graphics
 			virtual void SwapBuffers() = 0;
+
+			// PrimitiveBatch
+			void PrimitiveBatch* PrimitiveBatch() { return m_PrimitiveBatch; }
 			
 			/*virtual VertexBuffer* CreateVertexBuffer() = 0;
 			virtual void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;
 			virtual void DrawVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;*/
-			
+		protected:
+			PrimitiveBatch* m_PrimitiveBatch;
 		};
 	} // Graphics
 } // Pxf

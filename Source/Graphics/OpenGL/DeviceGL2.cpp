@@ -1,6 +1,7 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/OpenGL/DeviceGL2.h>
+#include <Pxf/Graphics/OpenGL/PrimitiveBatchGL2.h>
 #include <Pxf/Input/OpenGL/InputGL2.h>
 #include <Pxf/Base/Debug.h>
 
@@ -21,12 +22,18 @@ DeviceGL2::DeviceGL2()
 		return;
 	}
 
+	// Create a new PrimitiveBatch instance
+	m_PrimitiveBatch = new PrimitiveBatchGL2();
+
 	Message(LOCAL_MSG, "Device initiated.");
 	
 }
 
 DeviceGL2::~DeviceGL2()
 {
+	// Clean up after PrimitiveBatch
+	delete m_PrimitiveBatch;
+
 	// Close any open window.
 	CloseWindow();
 	

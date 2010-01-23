@@ -34,8 +34,6 @@ bool PxfMain(Util::String _CmdLine)
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
 	
 	
-	pInput->SetMouseMode(Input::MODE_RELATIVE);
-	pInput->ShowCursor(true);
 	while (!pInput->IsKeyDown(Input::ESC))
 	{
 		// Update input
