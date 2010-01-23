@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="Framework"
 	ProjectGUID="{87C65B1E-02E8-4E3F-A405-44A6F66F81E7}"
 	Keyword="MakeFileProj"
@@ -79,6 +79,10 @@
 					Name="Pxf"
 					>
 					<File
+						RelativePath="..\..\Include\Pxf\Engine.h"
+						>
+					</File>
+					<File
 						RelativePath="..\..\Include\Pxf\Pxf.h"
 						>
 					</File>
@@ -113,6 +117,34 @@
 							RelativePath="..\..\Include\Pxf\Graphics\Device.h"
 							>
 						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Graphics\DeviceType.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Graphics\NewVertexBuffer.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Graphics\PrimitiveType.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Graphics\QuadBatch.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Graphics\VertexBuffer.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Graphics\Window.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Graphics\WindowSpecifications.h"
+							>
+						</File>
 						<Filter
 							Name="GL"
 							>
@@ -125,11 +157,15 @@
 								>
 							</File>
 							<File
-								RelativePath="..\..\Include\Pxf\Graphics\OpenGL\QuadBatchGL2.h"
+								RelativePath="..\..\Include\Pxf\Graphics\OpenGL\NewVertexBufferGL2_VA.h"
 								>
 							</File>
 							<File
-								RelativePath="..\..\Include\Pxf\Graphics\OpenGL\VertexBufferGL.h"
+								RelativePath="..\..\Source\Graphics\OpenGL\OpenGL.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\Include\Pxf\Graphics\OpenGL\QuadBatchGL2.h"
 								>
 							</File>
 							<File
@@ -184,11 +220,11 @@
 							>
 						</File>
 						<File
-							RelativePath="..\..\Source\Graphics\OpenGL\QuadBatchGL2.cpp"
+							RelativePath="..\..\Source\Graphics\OpenGL\NewVertexBufferGL2_VA.cpp"
 							>
 						</File>
 						<File
-							RelativePath="..\..\Source\Graphics\OpenGL\VertexBufferGL.cpp"
+							RelativePath="..\..\Source\Graphics\OpenGL\QuadBatchGL2.cpp"
 							>
 						</File>
 						<File

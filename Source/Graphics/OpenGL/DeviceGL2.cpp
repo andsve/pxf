@@ -70,12 +70,15 @@ QuadBatch* DeviceGL2::CreateQuadBatch(int _maxSize)
 }
 
 
-VertexBuffer* DeviceGL2::CreateVertexBuffer(VertexBufferType _VertexBufferType)
+VertexBuffer* DeviceGL2::CreateVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferType _VertexBufferType)
 {
+	switch(_VertexBufferLocation)
+	{
+	case VERTEXBUFFER_LOCATION_CPU: return new VertexBufferGL2_VA(_VertexBufferType);
+	//case VERTEXBUFFER_LOCATION_GPU: return new VertexBufferGL2_VBO();
+	}
 	PXFASSERT(0, "Not implemented");
 
-	VertexBufferGL2_VA* newVA = new VertexBufferGL2_VA();
-	return newVA;
 }
 
 void DeviceGL2::DestroyVertexBuffer(VertexBuffer* _pVertexBuffer)
