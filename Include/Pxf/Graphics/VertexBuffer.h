@@ -6,6 +6,15 @@
 #include <Pxf/Graphics/Device.h> // enumerations for VertexBuffer
 #include <Pxf/Math/Vector.h>
 
+/*
+	TODO:
+
+	Only relevant to VBO?
+	//virtual void UpdateData(AttribType _AttribType, size);
+	//virtual void* MapData();
+	//virtual void UnmapData();
+*/
+
 namespace Pxf
 {
 	namespace Graphics
@@ -32,9 +41,6 @@ namespace Pxf
 
 			// Interleaved
 			virtual void SetData(VertexBufferAttribute _AttribType, unsigned _TypeSize, const void* _Ptr, unsigned _Count, unsigned _Stride = 0) = 0;
-			//virtual void UpdateData(AttribType _AttribType, size);
-			//virtual void* MapData();
-			//virtual void UnmapData();
 
 			// Commit and create vertex object
 			virtual bool Commit() = 0;

@@ -107,3 +107,4 @@ void DeviceGL2::DrawVertexBuffer(VertexBuffer* _pVertexBuffer)
 	_pVertexBuffer->_PostDraw();
 	PXFASSERT(0, "Not implemented");
 }
+
