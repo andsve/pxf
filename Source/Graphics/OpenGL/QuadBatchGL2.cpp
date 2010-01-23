@@ -68,7 +68,7 @@ void QuadBatchGL2::Rotate(const Math::Vec3f &center, Math::Vec3f &point)
 	point.y = p.x * sinf(m_Rotation) + p.y * cosf(m_Rotation) + center.y;
 }
 
-void QuadBatchGL2::Begin()
+void QuadBatchGL2::Reset()
 {
 	m_VertexBufferPos = 0;
 	SetRotation(0.f);
@@ -76,7 +76,7 @@ void QuadBatchGL2::Begin()
 	SetColor(1.f,1.f,1.f,1.f);	
 }
 
-void QuadBatchGL2::DrawFreeform(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3)
+void QuadBatchGL2::AddFreeform(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3)
 {
 	if (m_VertexBufferPos >= m_VertexBufferSize)
 	{
@@ -111,7 +111,7 @@ void QuadBatchGL2::DrawFreeform(float x0, float y0, float x1, float y1, float x2
 	m_VertexBufferPos += 4;
 }
 
-void QuadBatchGL2::DrawTopLeft(float x, float y, float w, float h)
+void QuadBatchGL2::AddTopLeft(float x, float y, float w, float h)
 {
 	if (m_VertexBufferPos >= m_VertexBufferSize)
 	{
@@ -148,12 +148,12 @@ void QuadBatchGL2::DrawTopLeft(float x, float y, float w, float h)
 	m_VertexBufferPos += 4;
 }
 
-void QuadBatchGL2::DrawCentered(float x, float y, float w, float h)
+void QuadBatchGL2::AddCentered(float x, float y, float w, float h)
 {
-	DrawTopLeft(x-w/2, y-h/2, w, h);
+	AddTopLeft(x-w/2, y-h/2, w, h);
 }
 
-void QuadBatchGL2::End()
+void QuadBatchGL2::Draw()
 {
 	Flush();
 }
@@ -177,6 +177,4 @@ void QuadBatchGL2::Flush()
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
-
-	m_VertexBufferPos = 0;
 }

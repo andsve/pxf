@@ -6,6 +6,7 @@
 #include <Pxf/Graphics/Window.h>
 #include <Pxf/Graphics/WindowSpecifications.h>
 #include <Pxf/Graphics/QuadBatch.h>
+#include <Pxf/Math/Math.h>
 #include <Pxf/Input/Input.h>
 #include <Pxf/Util/String.h>
 
@@ -36,6 +37,8 @@ bool PxfMain(Util::String _CmdLine)
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
 
 	Graphics::QuadBatch* pQBatch = pDevice->CreateQuadBatch(256);
+	pQBatch->Reset();
+	pQBatch->AddCentered(200, 200, 50, 50);
 
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
@@ -45,7 +48,7 @@ bool PxfMain(Util::String _CmdLine)
 	glLoadIdentity();
 	glTranslatef(0.375, 0.375, 0);
 
-	
+	float t_honk = 0.0f;
 	while (!pInput->IsKeyDown(Input::ESC))
 	{
 		// Update input
@@ -53,11 +56,12 @@ bool PxfMain(Util::String _CmdLine)
 
 		glClearColor(.3, .3, .3, 0);
 		glClear(GL_COLOR_BUFFER_BIT);
+		glLoadIdentity();
+		glTranslatef(0.375, 0.375, 0);
 
-
-		pQBatch->Begin();
-		pQBatch->DrawCentered(50, 50, 50, 50);
-		pQBatch->End();
+		t_honk += 0.01f;
+		glTranslatef(cosf(t_honk) * 100.0f, sinf(t_honk) * 100.0f, 0);
+		pQBatch->Draw();
 
 		// Swap buffers
 		pWindow->Swap();
