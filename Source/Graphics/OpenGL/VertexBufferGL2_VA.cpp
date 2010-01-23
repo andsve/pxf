@@ -14,7 +14,6 @@ using namespace Pxf::Graphics;
 using Util::String;
 
 VertexBufferGL2_VA::VertexBufferGL2_VA(VertexBufferType _VertexBufferType)
-	: m_PrimitiveMode(0)
 {
 
 }
@@ -24,15 +23,6 @@ VertexBufferGL2_VA::~VertexBufferGL2_VA()
 
 }
 
-PrimitiveType VertexBufferGL2_VA::GetPrimitive()
-{
-	return m_PrimitiveMode;
-}
-
-void VertexBufferGL2_VA::SetPrimitive(PrimitiveType _PrimitiveType)
-{
-	m_PrimitiveMode = _PrimitiveType;
-}
 void VertexBufferGL2_VA::PreDraw()
 {
 

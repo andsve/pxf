@@ -16,16 +16,12 @@ namespace Pxf
 		class VertexBufferGL2_VA : public VertexBuffer
 		{
 		private:
-			unsigned int m_PrimitiveMode;
 			void PreDraw();
 			void PostDraw();
 
 		public:
 			VertexBufferGL2_VA(VertexBufferType _VertexBufferType);
 			~VertexBufferGL2_VA();
-
-			void SetPrimitive(PrimitiveType _PrimitiveType);
-			PrimitiveType GetPrimitive();
 
 			void SetData(VertexBufferAttribute _AttribType, unsigned _TypeSize, const void* _Ptr, unsigned _Count, unsigned _Stride = 0);
 			bool Commit();
