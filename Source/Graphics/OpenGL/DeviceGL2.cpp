@@ -74,16 +74,31 @@ VertexBuffer* DeviceGL2::CreateVertexBuffer(VertexBufferLocation _VertexBufferLo
 {
 	switch(_VertexBufferLocation)
 	{
-	case VERTEXBUFFER_LOCATION_CPU: return new VertexBufferGL2_VA(_VertexBufferType);
-	//case VERTEXBUFFER_LOCATION_GPU: return new VertexBufferGL2_VBO();
+	case VB_LOCATION_CPU: return new VertexBufferGL2_VA(_VertexBufferType);
+	//case VB_LOCATION_GPU: return new VertexBufferGL2_VBO();
 	}
 	PXFASSERT(0, "Not implemented");
-
+	return NULL;
 }
 
 void DeviceGL2::DestroyVertexBuffer(VertexBuffer* _pVertexBuffer)
 {
 	PXFASSERT(0, "Not implemented");
+}
+
+static unsigned LookupPrimitiveType(PrimitiveType _PrimitiveType)
+{
+	switch(_PrimitiveType)
+	{
+		case EPointList: return GL_POINTS;
+		case ELineList: return GL_LINES;
+		case ELineStrip: return GL_LINE_STRIP;
+		case ETriangleList: return GL_TRIANGLES;
+		case ETriangleStrip: return GL_TRIANGLE_STRIP;
+		case ETriangleFan: return GL_TRIANGLE_FAN;
+	}
+	PXFASSERT(0, "Unknown primitive type.");
+	return 0;
 }
 
 void DeviceGL2::DrawVertexBuffer(VertexBuffer* _pVertexBuffer)

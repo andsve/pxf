@@ -47,7 +47,7 @@ namespace Pxf
 		/**
 		 * VertexBuffer attributes
 		 */
-		enum VertexBufferAttributes
+		enum VertexBufferAttribute
 		{
 			VB_VERTEX_DATA = 1,
 			VB_NORMAL_DATA = 2,
