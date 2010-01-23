@@ -176,7 +176,6 @@ void QuadBatchGL2::Flush()
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 
-	
 	glDrawArrays(GL_QUADS, 0, m_VertexBufferPos);
 
 	glDisableClientState(GL_VERTEX_ARRAY);

@@ -20,11 +20,17 @@ namespace Pxf
 			void Unload();
 			void Reload();
 
+			int GetWidth();
+			int GetHeight();
+			int GetChannels();
+			
+			// OGL specific
 			GLuint GetTextureID();
 
 		private:
 			GLuint m_TextureID;
 			Util::String m_Filepath;
+			int m_Width, m_Height, m_Channels;
 		};
 	} // Graphics
 } // Pxf

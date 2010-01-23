@@ -14,6 +14,10 @@ namespace Pxf
 			virtual void Load(const char* _filepath) = 0;
 			virtual void Unload() = 0;
 			virtual void Reload() = 0;
+
+			virtual int GetWidth() = 0;
+			virtual int GetHeight() = 0;
+			virtual int GetChannels() = 0;
 		};
 	} // Graphics
 } // Pxf

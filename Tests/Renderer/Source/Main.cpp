@@ -37,9 +37,15 @@ bool PxfMain(Util::String _CmdLine)
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
 
+	// Load some texture
+	glEnable(GL_TEXTURE_2D);
+	Graphics::Texture* pTexture = pDevice->CreateTexture("test.png");
+	pDevice->BindTexture(pTexture);
+
 	// Lets create some quads, but render them in "reverse" order via SetDepth(...).
 	Graphics::QuadBatch* pQBatch = pDevice->CreateQuadBatch(256);
 	pQBatch->Reset();
+	pQBatch->SetTextureSubset(0.0f, 0.0f, 32.0f / pTexture->GetWidth(), 32.0f / pTexture->GetHeight());
 	pQBatch->SetDepth(0.5f);
 	pQBatch->SetColor(1.0f, 0.0f, 0.0f, 1.0f);
 	pQBatch->AddCentered(200, 200, 50, 50);
@@ -47,16 +53,13 @@ bool PxfMain(Util::String _CmdLine)
 	pQBatch->SetColor(0.0f, 1.0f, 0.0f, 1.0f);
 	pQBatch->AddCentered(225, 225, 50, 50);
 
-	// Load some texture
-	Graphics::Texture* pTexture = pDevice->CreateTexture("test.png");
-
 	// Setup viewport and orthogonal projection
 	pDevice->SetViewport(0, 0, pWindowSpecs->Width / 2.0f, pWindowSpecs->Height);
 	Math::Mat4 t_ortho = Math::Mat4::Ortho(0, pWindowSpecs->Width / 2.0f, pWindowSpecs->Height, 0, 0, 1);
 	pDevice->SetProjection(&t_ortho);
 
 	float t_honk = 0.0f;
-	while (!pInput->IsKeyDown(Input::ESC))
+	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())
 	{
 		// Update input
 		pInput->Update();
@@ -70,7 +73,7 @@ bool PxfMain(Util::String _CmdLine)
 
 		t_honk += 0.001f;
 		glTranslatef(cosf(t_honk) * 200.0f, sinf(t_honk) * 200.0f, 0);
-		glEnable(GL_TEXTURE_2D);
+		
 		pDevice->BindTexture(pTexture);
 		pQBatch->Draw();
 
