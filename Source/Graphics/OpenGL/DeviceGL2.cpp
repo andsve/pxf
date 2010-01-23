@@ -54,6 +54,18 @@ void DeviceGL2::CloseWindow()
 	}
 }
 
+void DeviceGL2::SetViewport(int _x, int _y, int _w, int _h)
+{
+	glViewport(_x, _y, _w, _h);
+}
+
+void DeviceGL2::SetProjection(Math::Mat4 *_matrix)
+{
+	glMatrixMode (GL_PROJECTION);
+	glLoadMatrixf((GLfloat*)(_matrix->m));
+	glMatrixMode (GL_MODELVIEW);
+}
+
 void DeviceGL2::SwapBuffers()
 {
 	if (m_Window)

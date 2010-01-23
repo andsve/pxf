@@ -158,6 +158,26 @@
 							>
 						</File>
 					</Filter>
+					<Filter
+						Name="Math"
+						>
+						<File
+							RelativePath="..\..\Include\Pxf\Math\Math.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Math\Matrix.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Math\Quaternion.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Math\Vector.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 			</Filter>
 			<Filter
@@ -218,6 +238,14 @@
 					>
 					<File
 						RelativePath="..\..\Source\Input\OpenGL\InputGL2.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Math"
+					>
+					<File
+						RelativePath="..\..\Source\Math\Matrix.cpp"
 						>
 					</File>
 				</Filter>

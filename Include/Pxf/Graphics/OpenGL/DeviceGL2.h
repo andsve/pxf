@@ -36,6 +36,8 @@ namespace Pxf{
 
 			DeviceType GetDeviceType() { return EOpenGL2; }
 
+			void SetViewport(int _x, int _y, int _w, int _h);
+			void SetProjection(Math::Mat4 *_matrix);
 			void SwapBuffers();
 
 			QuadBatch* CreateQuadBatch(int _maxSize);

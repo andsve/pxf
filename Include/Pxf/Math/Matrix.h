@@ -3,7 +3,7 @@
 
 #include <Pxf/Math/Math.h>
 #include <Pxf/Math/Vector.h>
-#include <Pxf/Util/Debug.h>
+#include <Pxf/Base/Debug.h>
 
 namespace Pxf {
 namespace Math {
@@ -114,7 +114,7 @@ public:
 
 		if (determ == 0)
 		{
-			Util::Message("Matrix4", "Inverse with determinant == 0");
+			Message("Matrix4", "Inverse with determinant == 0");
 			return Zero;
 		}
 

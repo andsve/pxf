@@ -3,6 +3,7 @@
 
 #include <Pxf/Math/Math.h>
 #include <Pxf/Math/Vector.h>
+#include <Pxf/Math/Matrix.h>
 #include <Pxf/Graphics/DeviceType.h>
 
 namespace Pxf
@@ -37,6 +38,8 @@ namespace Pxf
 			virtual DeviceType GetDeviceType() = 0;
 
 			// Graphics
+			virtual void SetViewport(int _x, int _y, int _w, int _h) = 0;
+			virtual void SetProjection(Math::Mat4 *_matrix) = 0;
 			virtual void SwapBuffers() = 0;
 
 			// PrimitiveBatch
