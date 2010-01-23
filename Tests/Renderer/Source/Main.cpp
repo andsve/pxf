@@ -36,7 +36,7 @@ bool PxfMain(Util::String _CmdLine)
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
 
-	// Lets render some quads, but in "reverse" order via SetDepth(...).
+	// Lets create some quads, but render them in "reverse" order via SetDepth(...).
 	Graphics::QuadBatch* pQBatch = pDevice->CreateQuadBatch(256);
 	pQBatch->Reset();
 	pQBatch->SetDepth(0.5f);
