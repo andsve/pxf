@@ -1,13 +1,14 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/QuadBatch.h>
-#include <Pxf/Graphics/OpenGL/VertexBufferGL2_VA.h>
+#include <Pxf/Graphics/OpenGL/VertexBufferGL.h>
 #include <Pxf/Graphics/OpenGL/DeviceGL2.h>
 #include <Pxf/Graphics/OpenGL/QuadBatchGL2.h>
+#include <Pxf/Graphics/PrimitiveType.h>
 #include <Pxf/Input/OpenGL/InputGL2.h>
 #include <Pxf/Base/Debug.h>
 
-#include <GL/glfw.h>
+#include <Pxf/Graphics/OpenGL/OpenGL.h>
 
 #define LOCAL_MSG "DeviceGL2"
 
@@ -74,7 +75,7 @@ VertexBuffer* DeviceGL2::CreateVertexBuffer(VertexBufferLocation _VertexBufferLo
 {
 	switch(_VertexBufferLocation)
 	{
-	case VB_LOCATION_CPU: return new VertexBufferGL2_VA(_VertexBufferType);
+	//case VB_LOCATION_CPU:;
 	//case VB_LOCATION_GPU: return new VertexBufferGL2_VBO();
 	}
 	PXFASSERT(0, "Not implemented");
@@ -103,8 +104,6 @@ static unsigned LookupPrimitiveType(PrimitiveType _PrimitiveType)
 
 void DeviceGL2::DrawVertexBuffer(VertexBuffer* _pVertexBuffer)
 {
-	_pVertexBuffer->_PreDraw();
-	_pVertexBuffer->_PostDraw();
 	PXFASSERT(0, "Not implemented");
 }
 

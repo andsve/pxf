@@ -1,6 +1,6 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
-#include <Pxf/Graphics/OpenGL/VertexBufferGL2_VA.h>
+#include <Pxf/Graphics/OpenGL/InterleavedVertexBufferGL2.h>
 #include <Pxf/Graphics/PrimitiveType.h>
 #include <Pxf/Base/Debug.h>
 #include <Pxf/Base/Utils.h>
@@ -13,19 +13,19 @@ using namespace Pxf;
 using namespace Pxf::Graphics;
 using Util::String;
 
-VertexBufferGL2_VA::VertexBufferGL2_VA(VertexBufferType _VertexBufferType)
-	: VertexBuffer(_VertexBufferType)
+InterleavedVertexBufferGL2::InterleavedVertexBufferGL2(VertexBufferType _VertexBufferType)
+	: InterleavedVertexBuffer(_VertexBufferType)
 {
 
 }
 
-VertexBufferGL2_VA::~VertexBufferGL2_VA()
+InterleavedVertexBufferGL2::~InterleavedVertexBufferGL2()
 {
 
 }
 
 
-void VertexBufferGL2_VA::_PreDraw()
+void InterleavedVertexBufferGL2::_PreDraw()
 {
 	// VB_ATTRIB_DATA does not need to be handled?
 
@@ -60,7 +60,7 @@ void VertexBufferGL2_VA::_PreDraw()
 	}
 }
 
-void VertexBufferGL2_VA::_PostDraw()
+void InterleavedVertexBufferGL2::_PostDraw()
 {
 	glDisableClientState(GL_VERTEX_ARRAY);
 
@@ -92,7 +92,7 @@ void VertexBufferGL2_VA::_PostDraw()
 }
 
 
-void VertexBufferGL2_VA::SetData(VertexBufferAttribute _AttribType, unsigned _TypeSize, const void* _Ptr, unsigned _Count, unsigned _Stride)
+void InterleavedVertexBufferGL2::SetData(VertexBufferAttribute _AttribType, unsigned _TypeSize, const void* _Ptr, unsigned _Count, unsigned _Stride)
 {
 	m_Attributes |= _AttribType;
 
@@ -133,7 +133,7 @@ void VertexBufferGL2_VA::SetData(VertexBufferAttribute _AttribType, unsigned _Ty
 	}
 }
 
-bool VertexBufferGL2_VA::Commit()
+bool InterleavedVertexBufferGL2::Commit()
 {
 	return false;
 }

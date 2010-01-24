@@ -1,7 +1,7 @@
-#ifndef _PXF_GRAPHICS_VERTEXBUFFERGL2_VA_H_
-#define _PXF_GRAPHICS_VERTEXBUFFERGL2_VA_H_
+#ifndef _PXF_GRAPHICS_INTERLEAVEDVERTEXBUFFERGL2_H_
+#define _PXF_GRAPHICS_INTERLEAVEDVERTEXBUFFERGL2_H_
 
-#include <Pxf/Graphics/VertexBuffer.h>
+#include <Pxf/Graphics/InterleavedVertexBuffer.h>
 #include <Pxf/Graphics/DeviceType.h>
 #include <Pxf/Graphics/Device.h> // VertexBufferType
 
@@ -13,11 +13,11 @@ namespace Pxf
 	namespace Graphics
 	{
 		//! Abstract class for vertex buffer
-		class VertexBufferGL2_VA : public VertexBuffer
+		class InterleavedVertexBufferGL2 : public InterleavedVertexBuffer
 		{
 		public:
-			VertexBufferGL2_VA(VertexBufferType _VertexBufferType);
-			~VertexBufferGL2_VA();
+			InterleavedVertexBufferGL2(VertexBufferType _VertexBufferType);
+			~InterleavedVertexBufferGL2();
 
 			void SetData(VertexBufferAttribute _AttribType, unsigned _TypeSize, const void* _Ptr, unsigned _Count, unsigned _Stride = 0);
 			bool Commit();
@@ -28,4 +28,4 @@ namespace Pxf
 	} // Graphics
 } // Pxf
 
-#endif // _PXF_GRAPHICS_VERTEXBUFFERGL2_VA_H_
+#endif // _PXF_GRAPHICS_INTERLEAVEDVERTEXBUFFERGL2_H_

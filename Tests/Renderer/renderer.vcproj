@@ -122,6 +122,14 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\Include\Pxf\Graphics\InterleavedVertexBuffer.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Graphics\NonInterleavedVertexBuffer.h"
+							>
+						</File>
+						<File
 							RelativePath="..\..\Include\Pxf\Graphics\PrimitiveType.h"
 							>
 						</File>
@@ -153,11 +161,27 @@
 								>
 							</File>
 							<File
-								RelativePath="..\..\Source\Graphics\OpenGL\OpenGL.h"
+								RelativePath="..\..\Include\Pxf\Graphics\OpenGL\InterleavedVertexBufferGL2.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\Include\Pxf\Graphics\OpenGL\NonInterleavedVertexBufferGL2.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\Include\Pxf\Graphics\OpenGL\OpenGL.h"
 								>
 							</File>
 							<File
 								RelativePath="..\..\Include\Pxf\Graphics\OpenGL\QuadBatchGL2.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\Include\Pxf\Graphics\OpenGL\TypeTraits.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\Include\Pxf\Graphics\OpenGL\VertexBufferGL.h"
 								>
 							</File>
 							<File
@@ -212,7 +236,19 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\Source\Graphics\OpenGL\InterleavedVertexBufferGL2.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Source\Graphics\OpenGL\NonInterleavedVertexBufferGL2.cpp"
+							>
+						</File>
+						<File
 							RelativePath="..\..\Source\Graphics\OpenGL\QuadBatchGL2.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Source\Graphics\OpenGL\VertexBufferGL.cpp"
 							>
 						</File>
 						<File
