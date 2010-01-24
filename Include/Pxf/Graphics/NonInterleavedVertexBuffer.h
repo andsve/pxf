@@ -27,13 +27,13 @@ namespace Pxf
 		protected:
 			unsigned int m_Attributes;
 			PrimitiveType m_PrimitiveType;
-			VertexBufferType m_VertexBufferType;
+			VertexBufferLocation m_VertexBufferLocation;
 
 		public:
-			NonInterleavedVertexBuffer(VertexBufferType _VertexBufferType)
+			NonInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation)
 				: m_Attributes(0)
 				, m_PrimitiveType(ETriangleList)
-				, m_VertexBufferType(_VertexBufferType)
+				, m_VertexBufferLocation(_VertexBufferLocation)
 			{}
 
 			virtual void _PreDraw() = 0;

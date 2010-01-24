@@ -13,8 +13,8 @@ using namespace Pxf;
 using namespace Pxf::Graphics;
 using Util::String;
 
-NonInterleavedVertexBufferGL2::NonInterleavedVertexBufferGL2(VertexBufferType _VertexBufferType)
-	: NonInterleavedVertexBuffer(_VertexBufferType)
+NonInterleavedVertexBufferGL2::NonInterleavedVertexBufferGL2(VertexBufferLocation _VertexBufferLocation)
+	: NonInterleavedVertexBuffer(_VertexBufferLocation)
 {
 
 }

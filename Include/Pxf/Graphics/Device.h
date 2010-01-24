@@ -12,7 +12,8 @@ namespace Pxf
 	{
 		class Window;
 		class WindowSpecifications;
-		class VertexBuffer;
+		class InterleavedVertexBuffer;
+		class NonInterleavedVertexBuffer;
 
 		class Texture;
 
@@ -39,12 +40,12 @@ namespace Pxf
 		/**
 		 * VertexBuffer type
 		 * VB_TYPE_INTERLEAVED: stores data interleaved in one continuous chunk
-		 * VB_TYPE_INDEPENDENT: stores data in independent chunks
+		 * VB_TYPE_NONINTERLEAVED: stores data in independent chunks
 		 */
 		enum VertexBufferType
 		{
 			VB_TYPE_INTERLEAVED,
-			VB_TYPE_INDEPENDENT
+			VB_TYPE_NONINTERLEAVED
 		};
 
 		/**
@@ -86,9 +87,18 @@ namespace Pxf
 			// PrimitiveBatch
 			virtual QuadBatch* CreateQuadBatch(int _maxSize) = 0;
 			
-			virtual VertexBuffer* CreateVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferType _VertexBufferType) = 0;
-			virtual void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;
-			virtual void DrawVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;
+			virtual NonInterleavedVertexBuffer* CreateNonInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation) = 0;
+			virtual InterleavedVertexBuffer* CreateInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation) = 0;
+			virtual void DestroyVertexBuffer(NonInterleavedVertexBuffer* _pVertexBuffer) = 0;
+			virtual void DestroyVertexBuffer(InterleavedVertexBuffer* _pVertexBuffer) = 0;
+			//virtual void DrawVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;
+
+
+			// Need the name VertexBuffer for draw calls...?
+			// Or should *VertexArray inherit from Drawable?
+
+			// QuadBatch : public PrimitiveBatch public : Drawable
+			// 
 
 		};
 	} // Graphics

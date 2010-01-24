@@ -3,6 +3,8 @@
 #include <Pxf/Graphics/QuadBatch.h>
 #include <Pxf/Graphics/OpenGL/VertexBufferGL.h>
 #include <Pxf/Graphics/OpenGL/DeviceGL2.h>
+#include <Pxf/Graphics/OpenGL/NonInterleavedVertexBufferGL2.h>
+#include <Pxf/Graphics/OpenGL/InterleavedVertexBufferGL2.h>
 #include <Pxf/Graphics/OpenGL/TextureGL2.h>
 #include <Pxf/Graphics/OpenGL/QuadBatchGL2.h>
 #include <Pxf/Graphics/PrimitiveType.h>
@@ -107,20 +109,26 @@ QuadBatch* DeviceGL2::CreateQuadBatch(int _maxSize)
 }
 
 
-VertexBuffer* DeviceGL2::CreateVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferType _VertexBufferType)
+NonInterleavedVertexBuffer* DeviceGL2::CreateNonInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation)
 {
-	switch(_VertexBufferLocation)
-	{
-	//case VB_LOCATION_CPU:;
-	//case VB_LOCATION_GPU: return new VertexBufferGL2_VBO();
-	}
-	PXFASSERT(0, "Not implemented");
-	return NULL;
+	return new NonInterleavedVertexBufferGL2(_VertexBufferLocation);
 }
 
-void DeviceGL2::DestroyVertexBuffer(VertexBuffer* _pVertexBuffer)
+InterleavedVertexBuffer* DeviceGL2::CreateInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation)
 {
-	PXFASSERT(0, "Not implemented");
+	return new InterleavedVertexBufferGL2(_VertexBufferLocation);
+}
+
+void DeviceGL2::DestroyVertexBuffer(NonInterleavedVertexBuffer* _pVertexBuffer)
+{
+	if (_pVertexBuffer)
+		delete _pVertexBuffer;
+}
+
+void DeviceGL2::DestroyVertexBuffer(InterleavedVertexBuffer* _pVertexBuffer)
+{
+	if (_pVertexBuffer)
+		delete _pVertexBuffer;
 }
 
 static unsigned LookupPrimitiveType(PrimitiveType _PrimitiveType)

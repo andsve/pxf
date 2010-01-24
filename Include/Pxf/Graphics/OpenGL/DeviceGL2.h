@@ -33,8 +33,10 @@ namespace Pxf{
 
 			QuadBatch* CreateQuadBatch(int _maxSize);
 
-			VertexBuffer* CreateVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferType _VertexBufferType);
-			void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer);
+			NonInterleavedVertexBuffer* CreateNonInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation);
+			InterleavedVertexBuffer* CreateInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation);
+			void DestroyVertexBuffer(NonInterleavedVertexBuffer* _pVertexBuffer);
+			void DestroyVertexBuffer(InterleavedVertexBuffer* _pVertexBuffer);
 			void DrawVertexBuffer(VertexBuffer* _pVertexBuffer);
 		private:
 			Window* m_Window;
