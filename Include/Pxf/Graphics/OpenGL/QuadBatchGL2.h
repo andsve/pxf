@@ -21,6 +21,7 @@ namespace Pxf
 				void SetColor(Math::Vec4f* c);
 				void SetTextureSubset(float tl_u, float tl_v, float br_u, float br_v);
 				void SetRotation(float angle);
+				void SetDepth(float d);
 
 				void Reset();
 				void AddFreeform(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3);
