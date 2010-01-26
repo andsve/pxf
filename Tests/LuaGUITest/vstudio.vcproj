@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="Framework"
 	ProjectGUID="{87C65B1E-02E8-4E3F-A405-44A6F66F81E7}"
 	Keyword="MakeFileProj"
@@ -115,6 +115,14 @@
 						>
 						<File
 							RelativePath="..\..\Include\Pxf\Util\String.h"
+							>
+						</File>
+					</Filter>
+					<Filter
+						Name="Extra"
+						>
+						<File
+							RelativePath="..\..\Include\Pxf\Extra\LuaGUI\LuaGUI.h"
 							>
 						</File>
 					</Filter>

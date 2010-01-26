@@ -5,14 +5,13 @@
 #include <Pxf/Graphics/DeviceType.h>
 #include <Pxf/Graphics/Window.h>
 #include <Pxf/Graphics/WindowSpecifications.h>
-#include <Pxf/Graphics/Texture.h>
-#include <Pxf/Graphics/QuadBatch.h>
-#include <Pxf/Math/Math.h>
-#include <Pxf/Math/Matrix.h>
 #include <Pxf/Input/Input.h>
 #include <Pxf/Util/String.h>
 
+#include <Pxf/Extra/LuaGUI/LuaGUI.h>
+
 using namespace Pxf;
+using namespace Pxf::Extra::LuaGUI;
 
 bool PxfMain(Util::String _CmdLine)
 {

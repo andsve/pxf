@@ -10,12 +10,12 @@ namespace Pxf
 
 	namespace Extra
 	{
-		class LuaGUI
+
+		namespace LuaGUI
 		{
-		public:
-			LuaGUI();
-			~LuaGUI();
-		};
+			class Widget;
+		}
+
 	}
 
 }
