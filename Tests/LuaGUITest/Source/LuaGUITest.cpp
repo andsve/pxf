@@ -9,8 +9,10 @@
 #include <Pxf/Util/String.h>
 
 #include <Pxf/Extra/LuaGUI/LuaGUI.h>
+#include <Pxf/Extra/LuaGUI/GUIHandler.h>
 
 using namespace Pxf;
+using namespace Pxf::Graphics;
 using namespace Pxf::Extra::LuaGUI;
 
 bool PxfMain(Util::String _CmdLine)
@@ -35,6 +37,10 @@ bool PxfMain(Util::String _CmdLine)
 	Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL2);
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
+
+	GUIHandler* pGUI = new GUIHandler("testtheme.png", pDevice);
+	pGUI->AddScript("testscript.lua");
+	pGUI->Update(1.0f);
 
 	// Load some texture
 	/*glEnable(GL_TEXTURE_2D);
