@@ -5,6 +5,13 @@
 #include <Pxf/Base/Types.h>
 #include <Pxf/Base/ErrorType.h>
 
+extern "C" {
+#include <lua.h>
+#include <lauxlib.h>
+#include <lualib.h>
+}
+
+
 namespace Pxf
 {
 
@@ -13,7 +20,9 @@ namespace Pxf
 
 		namespace LuaGUI
 		{
-			class Widget;
+			class GUIWidget;
+			class GUIScript;
+			class GUIHandler;
 		}
 
 	}

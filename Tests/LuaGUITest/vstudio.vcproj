@@ -60,14 +60,6 @@
 	</References>
 	<Files>
 		<Filter
-			Name="LuaGUITest"
-			>
-			<File
-				RelativePath=".\Source\LuaGUITest.cpp"
-				>
-			</File>
-		</Filter>
-		<Filter
 			Name="Framework"
 			>
 			<Filter
@@ -121,10 +113,26 @@
 					<Filter
 						Name="Extra"
 						>
-						<File
-							RelativePath="..\..\Include\Pxf\Extra\LuaGUI\LuaGUI.h"
+						<Filter
+							Name="LuaGUI"
 							>
-						</File>
+							<File
+								RelativePath="..\..\Include\Pxf\Extra\LuaGUI\GUIHandler.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\Include\Pxf\Extra\LuaGUI\GUIScript.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\Include\Pxf\Extra\LuaGUI\GUIWidget.h"
+								>
+							</File>
+							<File
+								RelativePath="..\..\Include\Pxf\Extra\LuaGUI\LuaGUI.h"
+								>
+							</File>
+						</Filter>
 					</Filter>
 				</Filter>
 			</Filter>
@@ -137,7 +145,35 @@
 					RelativePath="..\..\Source\Pxf.cpp"
 					>
 				</File>
+				<Filter
+					Name="Extra"
+					>
+					<Filter
+						Name="LuaGUI"
+						>
+						<File
+							RelativePath="..\..\Source\Extra\LuaGUI\GUIHandler.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Source\Extra\LuaGUI\GUIScript.cpp"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Source\Extra\LuaGUI\GUIWidget.cpp"
+							>
+						</File>
+					</Filter>
+				</Filter>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="LuaGUITest"
+			>
+			<File
+				RelativePath=".\Source\LuaGUITest.cpp"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
