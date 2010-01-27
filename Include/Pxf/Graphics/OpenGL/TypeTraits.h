@@ -23,6 +23,12 @@ namespace Pxf
 	{
 		namespace GL
 		{
+			// Generic helper functions
+			inline GLvoid* BufferObjectPtr(unsigned int ptr)
+			{
+				return (GLvoid*)( ((char*)NULL) + ptr );
+			};
+
 			// OpenGL type traits
 			//    http://www.gamedev.net/reference/programming/features/ogltypetraits/
 			//    http://www.gamedev.net/community/forums/topic.asp?topic_id=510016&whichpage=1&#3325591
