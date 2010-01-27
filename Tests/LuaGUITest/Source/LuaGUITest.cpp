@@ -39,24 +39,7 @@ bool PxfMain(Util::String _CmdLine)
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
 
 	GUIHandler* pGUI = new GUIHandler("data/guilook.png", pDevice);
-	pGUI->AddScript("data/guitest.lua", &Pxf::Math::Vec4i(0,0,200,200));
-
-	// Load some texture
-	/*glEnable(GL_TEXTURE_2D);
-	Graphics::Texture* pTexture = pDevice->CreateTexture("test.png");
-	pDevice->BindTexture(pTexture);
-	*/
-
-	// Lets create some quads, but render them in "reverse" order via SetDepth(...).
-	/*Graphics::QuadBatch* pQBatch = pDevice->CreateQuadBatch(256);
-	pQBatch->Reset();
-	pQBatch->SetTextureSubset(0.0f, 0.0f, 32.0f / pTexture->GetWidth(), 32.0f / pTexture->GetHeight());
-	pQBatch->SetDepth(0.5f);
-	pQBatch->SetColor(1.0f, 0.0f, 0.0f, 1.0f);
-	pQBatch->AddCentered(200, 200, 50, 50);
-	pQBatch->SetDepth(0.1f);
-	pQBatch->SetColor(0.0f, 1.0f, 0.0f, 1.0f);
-	pQBatch->AddCentered(225, 225, 50, 50);*/
+	pGUI->AddScript("data/guitest.lua", &Pxf::Math::Vec4i(0,0,256,256));
 
 	// Setup viewport and orthogonal projection
 	pDevice->SetViewport(0, 0, pWindowSpecs->Width / 2.0f, pWindowSpecs->Height);
@@ -71,6 +54,8 @@ bool PxfMain(Util::String _CmdLine)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
 		glTranslatef(0.375, 0.375, 0);
+		glEnable(GL_TEXTURE_2D);
+		pDevice->SetProjection(&t_ortho);
 
 		// Update input
 		pInput->Update();

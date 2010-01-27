@@ -48,6 +48,7 @@ void GUIHandler::Update(float _delta)
 void GUIHandler::Draw()
 {
 	// Draw each GUIScript
+	m_Device->BindTexture(m_Theme);
 	for ( std::list<GUIScript*>::iterator it = m_Scripts.begin() ; it != m_Scripts.end(); it++ )
 	{
 		((GUIScript*)*it)->Draw();

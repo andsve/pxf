@@ -40,17 +40,24 @@ namespace Pxf
 				void Draw();
 
 				// lua callable methods
+				GUIWidget* AddWidget(const char* _name, Math::Vec4i _hitbox);
 				void AddQuad(GUIWidget* _widget, Math::Vec4i* _quad, Math::Vec4i* _texpixels);
 			
 			private:
 				Graphics::Device* m_Device;
 				Graphics::Texture* m_Texture;
-				Pxf::Util::String m_Filepath;
+				Util::String m_Filepath;
 				int m_Viewarea[4];
 
-				lua_State *L;
+				lua_State *L; // Lua state!
 
 				std::list<GUIWidget*> m_Widgets;
+
+				bool m_Running;
+
+				// Lua specific functions
+				void CallLuaFunc(const char* _funcname);
+				bool HandleLuaErrors(int _error);
 			};
 			
 		} // LuaGUI
