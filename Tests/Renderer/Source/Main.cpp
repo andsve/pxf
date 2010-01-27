@@ -11,6 +11,7 @@
 #include <Pxf/Math/Matrix.h>
 #include <Pxf/Input/Input.h>
 #include <Pxf/Util/String.h>
+#include <Pxf/Resource/Image.h>
 
 using namespace Pxf;
 

@@ -3,7 +3,7 @@
 
 #include <Pxf/Base/Types.h>
 #include <Pxf/Util/Noncopyable.h>
-#include <Pxf/Util/Tools.h>
+#include <Pxf/Base/Utils.h>
 
 namespace Pxf {
 namespace Resource {
@@ -27,7 +27,7 @@ namespace Resource {
 		{
 			if (!Static)
 			{
-				Util::SafeDeleteArray(Data);
+				SafeDeleteArray(Data);
 				Data = NULL;
 				Size = 0;
 			}

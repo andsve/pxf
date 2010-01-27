@@ -4,6 +4,8 @@
 #include <Pxf/Base/Config.h>
 
 // NO NAMESPACE
+typedef unsigned int uint;
+
 
 #if defined(CONF_COMPILER_GCC)
     typedef unsigned char uint8;

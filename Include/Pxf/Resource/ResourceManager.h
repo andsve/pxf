@@ -4,7 +4,7 @@
 #include <Pxf/Util/Map.h>
 #include <Pxf/Util/List.h>
 
-#include <Pxf/Util/Debug.h>
+#include <Pxf/Base/Debug.h>
 #include <Pxf/Util/String.h>
 
 #include <Pxf/Resource/AbstractResource.h>
