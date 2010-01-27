@@ -38,9 +38,8 @@ bool PxfMain(Util::String _CmdLine)
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
 
-	GUIHandler* pGUI = new GUIHandler("testtheme.png", pDevice);
-	pGUI->AddScript("testscript.lua");
-	pGUI->Update(1.0f);
+	GUIHandler* pGUI = new GUIHandler("data/guilook.png", pDevice);
+	pGUI->AddScript("data/guitest.lua", &Pxf::Math::Vec4i(0,0,200,200));
 
 	// Load some texture
 	/*glEnable(GL_TEXTURE_2D);
@@ -66,14 +65,21 @@ bool PxfMain(Util::String _CmdLine)
 
 	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())
 	{
-		// Update input
-		pInput->Update();
-
+		
 		// Some OGL stuff that hasn't been moved to the device yet
 		glClearColor(.3, .3, .3, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
 		glTranslatef(0.375, 0.375, 0);
+
+		// Update input
+		pInput->Update();
+
+		// GUI
+		pGUI->Update(1.0f);
+		pGUI->Draw();
+
+		
 
 		//glTranslatef(cosf(t_honk) * 200.0f, sinf(t_honk) * 200.0f, 0);
 

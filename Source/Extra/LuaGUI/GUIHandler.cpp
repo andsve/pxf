@@ -2,8 +2,13 @@
 #include <Pxf/Extra/LuaGUI/GUIScript.h>
 #include <Pxf/Graphics/Device.h>
 
+
+using namespace Pxf;
 using namespace Pxf::Graphics;
 using namespace Pxf::Extra::LuaGUI;
+
+//////////////////////////////////////////////////////////////////////////
+
 
 GUIHandler::GUIHandler(const char* _theme_filepath, Device* _device)
 {
@@ -23,9 +28,9 @@ GUIHandler::~GUIHandler()
 	m_Scripts.clear();
 }
 
-void GUIHandler::AddScript(const char* _filepath)
+void GUIHandler::AddScript(const char* _filepath, Math::Vec4i* _viewarea)
 {
-	GUIScript* script = new GUIScript(_filepath);
+	GUIScript* script = new GUIScript(_filepath, _viewarea, m_Device);
 	m_Scripts.push_front(script);
 }
 

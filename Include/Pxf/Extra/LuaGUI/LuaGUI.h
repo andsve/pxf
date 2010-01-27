@@ -5,12 +5,7 @@
 #include <Pxf/Base/Types.h>
 #include <Pxf/Base/ErrorType.h>
 
-extern "C" {
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
-}
-
+#define PXF_EXTRA_LUAGUI_MAXQUAD_PER_WIDGET 256
 
 namespace Pxf
 {

@@ -3,7 +3,15 @@
 
 #include <list>
 
+#include <Pxf/Math/Vector.h>
 #include <Pxf/Extra/LuaGUI/LuaGUI.h>
+
+// Lua includes
+extern "C" {
+#include <lua.h>
+#include <lauxlib.h>
+#include <lualib.h>
+}
 
 namespace Pxf
 {
@@ -24,7 +32,7 @@ namespace Pxf
 				GUIHandler(const char* _theme_filepath, Pxf::Graphics::Device* _device);
 				~GUIHandler();
 
-				void AddScript(const char* _filepath);
+				void AddScript(const char* _filepath, Math::Vec4i* _viewarea);
 
 				void Update(float _delta);
 				void Draw();

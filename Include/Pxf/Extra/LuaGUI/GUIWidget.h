@@ -1,11 +1,13 @@
 #ifndef _PXF_EXTRA_GUIWIDGET_H_
 #define _PXF_EXTRA_GUIWIDGET_H_
 
+#include <Pxf/Math/Vector.h>
 #include <Pxf/Extra/LuaGUI/LuaGUI.h>
 
 
 namespace Pxf
 {
+	namespace Graphics { class Device; class QuadBatch; }
 
 	namespace Extra
 	{
@@ -15,8 +17,11 @@ namespace Pxf
 			class GUIWidget
 			{
 			public:
-				GUIWidget();
+				GUIWidget(Math::Vec4i* _hitbox, Graphics::Device* _device);
 				~GUIWidget();
+			private:
+				Graphics::QuadBatch* m_QuadBatch;
+				Graphics::Device* m_Device;
 			};
 			
 		} // LuaGUI
