@@ -23,7 +23,7 @@ GUIWidget::~GUIWidget()
 
 void GUIWidget::SetPosition(Math::Vec2f _pos)
 {
-	m_Position = _pos;
+	m_Position = Math::Vec3f(_pos.x, _pos.y, 0.0f);
 }
 
 void GUIWidget::Reset()
@@ -54,5 +54,7 @@ void GUIWidget::AddQuad(Math::Vec4i* _quad, Math::Vec4i* _texcoord)
 
 void GUIWidget::Draw()
 {
+	m_Device->Translate(m_Position);
 	m_QuadBatch->Draw();
+	m_Device->Translate(-m_Position);
 }

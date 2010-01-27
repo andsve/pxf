@@ -37,7 +37,7 @@ namespace Pxf
 				Graphics::Device* m_Device;
 				Util::String m_Name;
 
-				Math::Vec2f m_Position;
+				Math::Vec3f m_Position;
 
 				std::list<Util::String> m_States;
 				Util::String m_ActiveState;

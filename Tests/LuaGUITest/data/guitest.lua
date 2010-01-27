@@ -9,6 +9,7 @@ function AddWidget(name, hitbox, states, activestate)
 	end
 	
 	_SetState(widget, activestate)
+	_SetPosition(widget, hitbox[1], hitbox[2])
 	
 	return widget
 end
@@ -34,7 +35,7 @@ end
 function init()
 	GUIWidgets({ { name = "Button1",
 	               hitbox = {10, 10, 100, 40},
-	               states = { idle   = function (instance) _AddQuad(instance, -127, 0, 256, 256, 0, 0, 256, 256); end,
+	               states = { idle   = function (instance) _AddQuad(instance, 0, 0, 256, 256, 0, 0, 256, 256); end,
 				              active = function (instance) print("in render function for active state"); end
 				            },
 				   activestate = "idle"
