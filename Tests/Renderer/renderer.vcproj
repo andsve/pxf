@@ -90,7 +90,15 @@
 						Name="Base"
 						>
 						<File
+							RelativePath="..\..\Include\Pxf\Base\Clock.h"
+							>
+						</File>
+						<File
 							RelativePath="..\..\Include\Pxf\Base\Config.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Base\Debug.h"
 							>
 						</File>
 						<File
@@ -98,13 +106,29 @@
 							>
 						</File>
 						<File
+							RelativePath="..\..\Include\Pxf\Base\Stream.h"
+							>
+						</File>
+						<File
 							RelativePath="..\..\Include\Pxf\Base\Types.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Base\Utils.h"
 							>
 						</File>
 					</Filter>
 					<Filter
 						Name="Util"
 						>
+						<File
+							RelativePath="..\..\Include\Pxf\Util\List.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Util\Map.h"
+							>
+						</File>
 						<File
 							RelativePath="..\..\Include\Pxf\Util\String.h"
 							>
@@ -210,6 +234,26 @@
 							>
 						</File>
 					</Filter>
+					<Filter
+						Name="Resource"
+						>
+						<File
+							RelativePath="..\..\Include\Pxf\Resource\AbstractResource.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Resource\Chunk.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Resource\Image.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Resource\ResourceManager.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 			</Filter>
 			<Filter
@@ -278,6 +322,42 @@
 					>
 					<File
 						RelativePath="..\..\Source\Input\OpenGL\InputGL2.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Resource"
+					>
+					<File
+						RelativePath="..\..\Source\Resource\Image.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Resource\ResourceManager.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Base"
+					>
+					<File
+						RelativePath="..\..\Source\Base\ClockPosix.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Base\ClockWin32.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Base\Debug.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Base\Stream.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Base\Utils.cpp"
 						>
 					</File>
 				</Filter>
