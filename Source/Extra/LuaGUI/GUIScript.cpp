@@ -47,9 +47,21 @@ void GUIScript::Load()
 	}
 }
 
+void GUIScript::testit(int _i)
+{
+	printf("inside testit! got: %i\n", _i);
+}
+
 void GUIScript::Update(float _delta)
 {
-	
+	g_CurrentScript.push(this);
+
+	// Call update(_delta)
+	lua_getfield(L, LUA_GLOBALSINDEX, "update");
+	lua_pushnumber(L, _delta);
+	int t_call_result = lua_pcall(L, 1, 0, -3);
+
+	g_CurrentScript.pop();
 }
 
 void GUIScript::Draw()

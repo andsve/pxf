@@ -38,6 +38,9 @@ namespace Pxf
 				void Load();
 				void Update(float _delta);
 				void Draw();
+
+				// lua callable methods
+				void testit(int _i);
 			
 			private:
 				Graphics::Device* m_Device;

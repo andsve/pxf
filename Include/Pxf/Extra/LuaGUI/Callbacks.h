@@ -1,7 +1,7 @@
 #ifndef _PXF_EXTRA_GUICALLBACKS_H_
 #define _PXF_EXTRA_GUICALLBACKS_H_
 
-#include <list>
+#include <stack>
 
 #include <Pxf/Math/Vector.h>
 #include <Pxf/Extra/LuaGUI/LuaGUI.h>
@@ -15,6 +15,14 @@ extern "C" {
 
 namespace Pxf
 {
+namespace Extra
+{
+namespace LuaGUI
+{
+	//////////////////////////////////////////////////////////////////////////
+	// Current active GUIScript
+	//////////////////////////////////////////////////////////////////////////
+	static std::stack<GUIScript*> g_CurrentScript;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Static Lua callbacks
@@ -26,6 +34,8 @@ namespace Pxf
 		int i;
 		for (i=1; i<=n; i++)
 		{
+			(*g_CurrentScript.top()).testit(lua_tointeger(L, i));
+
 			if (i>1) printf("\t");
 			if (lua_isstring(L,i))
 				printf("%s",lua_tostring(L,i));
@@ -68,7 +78,8 @@ namespace Pxf
 		// GUI callbacks
 		lua_register(L,"print", _guicb_print);
 	}
-
+} // LuaGUI
+} // Extra
 } // Pxf
 
 #endif // _PXF_EXTRA_GUICALLBACKS_H_

@@ -2,4 +2,6 @@ function honk()
 	return "sup?";
 end
 
-print(honk)
+function update(delta)
+	print(1337)
+end
