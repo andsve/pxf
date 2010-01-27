@@ -6,12 +6,16 @@
 #include <Pxf/Base/Utils.h>
 
 #include <Pxf/Graphics/OpenGL/OpenGL.h>
+#include <Pxf/Graphics/OpenGL/TypeTraits.h>
 
 #define LOCAL_MSG "VertexBufferGL"
 
 using namespace Pxf;
 using namespace Pxf::Graphics;
 using Util::String;
+
+
+
 
 InterleavedVertexBufferGL2::InterleavedVertexBufferGL2(VertexBufferLocation _VertexBufferLocation)
 	: InterleavedVertexBuffer(_VertexBufferLocation)
@@ -32,6 +36,7 @@ void InterleavedVertexBufferGL2::_PreDraw()
 
 	PXFASSERT(m_Attributes & VB_VERTEX_DATA, "Attempt to draw without vertex data.");
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(m_VertexAttributes.TypeSize, GL_FLOAT, m_VertexSize, GL::BufferObjectPtr(m_VertexAttributes.StrideOffset));
 
 
 	if(m_Attributes & VB_NORMAL_DATA)
@@ -92,13 +97,14 @@ void InterleavedVertexBufferGL2::_PostDraw()
 }
 
 
+/*
 void InterleavedVertexBufferGL2::SetData(VertexBufferAttribute _AttribType, unsigned _TypeSize, const void* _Ptr, unsigned _Count, unsigned _Stride)
 {
 	m_Attributes |= _AttribType;
 
 	if (_AttribType == VB_VERTEX_DATA)
 	{
-		glVertexPointer(_TypeSize, GL_FLOAT, _Stride, _Ptr);
+		
 	}
 
 	else if(_AttribType == VB_NORMAL_DATA)
@@ -131,6 +137,35 @@ void InterleavedVertexBufferGL2::SetData(VertexBufferAttribute _AttribType, unsi
 	{
 		PXFASSERT(0, "Not implemented.");
 	}
+}
+*/
+
+void* InterleavedVertexBufferGL2::CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag)
+{
+	m_VertexSize = _VertexSize;
+	m_VertexBufferUsageFlag = _UsageFlag;
+	return NULL;
+}
+
+void InterleavedVertexBufferGL2::SetBuffer(void* _Buffer,uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag)
+{
+	m_VertexSize = _VertexSize;
+	m_VertexBufferUsageFlag = _UsageFlag;
+}
+
+void InterleavedVertexBufferGL2::UpdateData(void* _Buffer, uint32 _Count, uint32 _Offset)
+{
+
+}
+
+void* InterleavedVertexBufferGL2::MapData(VertexBufferAccessFlag _AccessFlag)
+{
+	return NULL;
+}
+
+void InterleavedVertexBufferGL2::UnmapData()
+{
+
 }
 
 bool InterleavedVertexBufferGL2::Commit()

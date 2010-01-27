@@ -28,12 +28,12 @@ namespace Pxf
 
 		/**
 		 * VertexBuffer location types
-		 * VB_LOCATION_CPU is stored in local memory
+		 * VB_LOCATION_SYS is stored in system memory
 		 * VB_LOCATION_GPU is stored in GPU memory
 		 */
 		enum VertexBufferLocation
 		{
-			VB_LOCATION_CPU,
+			VB_LOCATION_SYS,
 			VB_LOCATION_GPU
 		};
 
@@ -60,6 +60,34 @@ namespace Pxf
 			VB_INDEX_DATA = 16,
 			VB_EDGEFLAG_DATA = 32,
 			VB_ATTRIB_DATA = 64
+		};
+
+		/**
+		 * Vertex buffer usage flags (used for GPU located memory)
+		 */
+
+		enum VertexBufferUsageFlag
+		{
+			VB_STATIC_DRAW = 1,
+			VB_STATIC_READ = 2,
+			VB_STATIC_COPY = 4,
+			VB_DYNAMIC_DRAW = 8,
+			VB_DYNAMIC_READ = 16,
+			VB_DYNAMIC_COPY = 32,
+			VB_STREAM_DRAW = 64,
+			VB_STREAM_READ = 128,
+			VB_STREAM_COPY = 256
+		};
+
+		/**
+		 * Vertex buffer access flags, specifies what type of access when
+		 * mapping gpu memory data.
+		 */
+		enum VertexBufferAccessFlag
+		{
+			VB_READ_ONLY = 1,
+			VB_WRITE_ONLY = 2,
+			VB_READ_WRITE = 4
 		};
 		
 		//! Abstract video device

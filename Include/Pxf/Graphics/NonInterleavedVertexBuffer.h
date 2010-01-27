@@ -42,6 +42,8 @@ namespace Pxf
 
 			// void* CreateNew();
 
+			//virtual void UpdateData(AttribType _AttribType, void* _Ptr, uint32 size); <- does not work for interleaved?
+
 			// Interleaved
 			virtual void SetData(VertexBufferAttribute _AttribType, unsigned _TypeSize, const void* _Ptr, unsigned _Count, unsigned _Stride = 0) = 0;
 

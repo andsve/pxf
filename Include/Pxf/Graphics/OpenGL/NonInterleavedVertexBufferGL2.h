@@ -1,5 +1,5 @@
-#ifndef _PXF_GRAPHICS_VERTEXBUFFERGL2_VA_H_
-#define _PXF_GRAPHICS_VERTEXBUFFERGL2_VA_H_
+#ifndef _PXF_GRAPHICS_NONINTERLEAVEDVERTEXBUFFERGL2_VA_H_
+#define _PXF_GRAPHICS_NONINTERLEAVEDVERTEXBUFFERGL2_VA_H_
 
 #include <Pxf/Graphics/NonInterleavedVertexBuffer.h>
 #include <Pxf/Graphics/DeviceType.h>
@@ -28,4 +28,4 @@ namespace Pxf
 	} // Graphics
 } // Pxf
 
-#endif // _PXF_GRAPHICS_VERTEXBUFFERGL2_VA_H_
+#endif // _PXF_GRAPHICS_NONINTERLEAVEDVERTEXBUFFERGL2_VA_H_

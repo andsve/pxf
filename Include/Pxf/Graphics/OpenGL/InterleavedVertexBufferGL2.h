@@ -19,7 +19,13 @@ namespace Pxf
 			InterleavedVertexBufferGL2(VertexBufferLocation _VertexBufferLocation);
 			virtual ~InterleavedVertexBufferGL2();
 
-			void SetData(VertexBufferAttribute _AttribType, unsigned _TypeSize, const void* _Ptr, unsigned _Count, unsigned _Stride = 0);
+			void* CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag);
+			void SetBuffer(void* _Buffer,uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag); 
+
+			void UpdateData(void* _Buffer, uint32 _Count, uint32 _Offset);
+
+			void* MapData(VertexBufferAccessFlag _AccessFlag);
+			void UnmapData();
 			bool Commit();
 
 			void _PreDraw();
