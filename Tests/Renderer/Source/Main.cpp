@@ -11,6 +11,9 @@
 #include <Pxf/Math/Matrix.h>
 #include <Pxf/Input/Input.h>
 #include <Pxf/Util/String.h>
+#include <Pxf/Resource/ResourceManager.h>
+#include <Pxf/Resource/Image.h>
+#include <Pxf/Resource/Chunk.h>
 
 using namespace Pxf;
 
@@ -36,6 +39,9 @@ bool PxfMain(Util::String _CmdLine)
 	Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL2);
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
+
+	Resource::ResourceManager* resourceManager = new Resource::ResourceManager();
+	Resource::Image* image = resourceManager->Acquire<Resource::Image>("test.png");
 
 	// Load some texture
 	glEnable(GL_TEXTURE_2D);
