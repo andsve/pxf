@@ -28,19 +28,28 @@ namespace Pxf
 				void AddState(const char* _stateid);
 				void AddQuad(Math::Vec4i* _quad, Math::Vec4i* _texcoord);
 				void Draw();
+				void Update(Math::Vec2f* _mouse, bool _mouse_down);
 
 				void SetState(const char* _stateid);
 				const char* GetState();
+
+				bool IsMouseOver();
+				bool IsClicked();
 
 			private:
 				Graphics::QuadBatch* m_QuadBatch;
 				Graphics::Device* m_Device;
 				Util::String m_Name;
+				Math::Vec4i m_HitBox;
 
 				Math::Vec3f m_Position;
 
 				std::list<Util::String> m_States;
 				Util::String m_ActiveState;
+
+				// state info
+				bool m_MouseOver;
+				bool m_MousePushed;
 			};
 			
 		} // LuaGUI

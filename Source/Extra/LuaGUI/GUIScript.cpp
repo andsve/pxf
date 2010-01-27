@@ -61,10 +61,17 @@ void GUIScript::AddQuad(GUIWidget* _widget, Math::Vec4i* _quad, Math::Vec4i* _te
 	_widget->AddQuad(_quad, &m_Texture->CreateTextureSubset(_texpixels->x, _texpixels->y, _texpixels->z, _texpixels->w));
 }
 
-void GUIScript::Update(float _delta)
+void GUIScript::Update(Math::Vec2f* _mouse, bool _mouse_down, float _delta)
 {
 	if (m_Running)
 	{
+
+		// Update widgets
+		for ( std::list<GUIWidget*>::iterator it = m_Widgets.begin() ; it != m_Widgets.end(); it++ )
+		{
+			((GUIWidget*)*it)->Update(_mouse, _mouse_down);
+		}
+
 		g_CurrentScript.push(this);
 
 		// Call update(_delta)

@@ -61,8 +61,14 @@ bool PxfMain(Util::String _CmdLine)
 		// Update input
 		pInput->Update();
 
+		Math::Vec2i mousepos_i;
+		Math::Vec2f mousepos_f;
+		pInput->GetMousePos(&mousepos_i.x, &mousepos_i.y);
+		mousepos_f.x = mousepos_i.x;
+		mousepos_f.y = mousepos_i.y;
+
 		// GUI
-		pGUI->Update(1.0f);
+		pGUI->Update(&mousepos_f, pInput->IsButtonDown(Pxf::Input::MOUSE_LEFT), 1.0f);
 		pGUI->Draw();
 
 		

@@ -36,7 +36,7 @@ namespace Pxf
 				~GUIScript();
 
 				void Load();
-				void Update(float _delta);
+				void Update(Math::Vec2f* _mouse, bool _mouse_down, float _delta);
 				void Draw();
 
 				// lua callable methods

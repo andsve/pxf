@@ -34,7 +34,7 @@ namespace Pxf
 
 				void AddScript(const char* _filepath, Math::Vec4i* _viewarea);
 
-				void Update(float _delta);
+				void Update(Math::Vec2f* _mouse, bool _mouse_down, float _delta);
 				void Draw();
 			private:
 				Pxf::Graphics::Texture* m_Theme;

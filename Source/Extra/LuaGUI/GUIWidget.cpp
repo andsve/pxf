@@ -13,6 +13,14 @@ GUIWidget::GUIWidget(const char* _name, Math::Vec4i* _hitbox, Graphics::Device* 
 	m_Name = _name;
 	m_Device = _device;
 	m_QuadBatch = m_Device->CreateQuadBatch(PXF_EXTRA_LUAGUI_MAXQUAD_PER_WIDGET);
+
+	m_MouseOver = false;
+	m_MousePushed = false;
+
+	m_HitBox.x = _hitbox->x;
+	m_HitBox.y = _hitbox->y;
+	m_HitBox.z = _hitbox->z;
+	m_HitBox.w = _hitbox->w;
 }
 
 GUIWidget::~GUIWidget()
@@ -57,4 +65,35 @@ void GUIWidget::Draw()
 	m_Device->Translate(m_Position);
 	m_QuadBatch->Draw();
 	m_Device->Translate(-m_Position);
+}
+
+void GUIWidget::Update(Math::Vec2f* _mouse, bool _mouse_down)
+{
+	m_MouseOver = false;
+	m_MousePushed = false;
+
+	if (_mouse->x < m_HitBox.x)
+		return;
+
+	if (_mouse->x > m_HitBox.x + m_HitBox.z)
+		return;
+
+	if (_mouse->y < m_HitBox.y)
+		return;
+
+	if (_mouse->y > m_HitBox.y + m_HitBox.w)
+		return;
+
+	m_MouseOver = true;
+	m_MousePushed = _mouse_down;
+}
+
+bool GUIWidget::IsMouseOver()
+{
+	return m_MouseOver;
+}
+
+bool GUIWidget::IsClicked()
+{
+	return m_MousePushed;
 }

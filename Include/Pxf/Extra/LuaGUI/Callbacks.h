@@ -138,6 +138,34 @@ namespace LuaGUI
 		return 0;
 	}
 
+	static int _guicb_IsMouseOver(lua_State *L)
+	{
+		int n = lua_gettop(L); // arguments
+		if (n == 1)
+		{
+			GUIWidget* widget = (GUIWidget*)lua_touserdata(L, 1);
+			lua_pushboolean(L, widget->IsMouseOver());
+			return 1;
+		} else {
+			Message(PXF_LUAGUI_MESSAGE_ID, "Wrong number (%i instead of 1) of parameters to IsMouseOver(...).", n);
+		}
+		return 0;
+	}
+
+	static int _guicb_IsClicked(lua_State *L)
+	{
+		int n = lua_gettop(L); // arguments
+		if (n == 1)
+		{
+			GUIWidget* widget = (GUIWidget*)lua_touserdata(L, 1);
+			lua_pushboolean(L, widget->IsClicked());
+			return 1;
+		} else {
+			Message(PXF_LUAGUI_MESSAGE_ID, "Wrong number (%i instead of 1) of parameters to IsClicked(...).", n);
+		}
+		return 0;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Register all the above callbacks
 	//////////////////////////////////////////////////////////////////////////
@@ -171,6 +199,8 @@ namespace LuaGUI
 		lua_register(L,"_SetState",     _guicb_SetState);
 		lua_register(L,"_GetState",     _guicb_GetState);
 		lua_register(L,"_SetPosition",  _guicb_SetPosition);
+		lua_register(L,"_IsMouseOver",  _guicb_IsMouseOver);
+		lua_register(L,"_IsClicked",    _guicb_IsClicked);
 	}
 } // LuaGUI
 } // Extra

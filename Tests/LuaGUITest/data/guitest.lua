@@ -1,5 +1,9 @@
 -- functions that should be moved to a helper script?
 
+function AddQuad(widget, quad, coords)
+	_AddQuad(widget, quad[1], quad[2], quad[3], quad[4], coords[1], coords[2], coords[3], coords[4])
+end
+
 function AddWidget(name, hitbox, states, activestate)
 	widget = _AddWidget(name, hitbox[1], hitbox[2], hitbox[3], hitbox[4])
 	
@@ -18,9 +22,19 @@ all_widgets = {}
 
 function GUIWidgets(widgets)
 	for i, w in pairs(widgets) do
-		all_widgets[#all_widgets] = {instance = AddWidget(w.name, w.hitbox, w.states, w.activestate),
-		                             states = w.states
-		                            }
+		widget = {instance = AddWidget(w.name, w.hitbox, w.states, w.activestate),
+		          states = w.states}
+		
+		function widget.IsMouseOver(self)
+			return _IsMouseOver(self.instance)
+		end
+		
+		function widget.IsClicked(self)
+			return _IsClicked(self.instance)
+		end
+		
+		--all_widgets[#all_widgets+1] = widget
+		all_widgets[w.name] = widget
 	end
 end
 
@@ -35,7 +49,7 @@ end
 function init()
 	GUIWidgets({ { name = "Button1",
 	               hitbox = {10, 10, 100, 40},
-	               states = { idle   = function (instance) _AddQuad(instance, 0, 0, 256, 256, 0, 0, 256, 256); end,
+	               states = { idle   = function (instance) AddQuad(instance, {0, 0, 256, 256}, {0, 0, 256, 256}); end,
 				              active = function (instance) print("in render function for active state"); end
 				            },
 				   activestate = "idle"
@@ -45,7 +59,7 @@ function init()
 end
 
 function update(delta)
-	--if (widget:MouseOver) then
-	--	widget:ChangeState("over")
-	--end
+	if (all_widgets.Button1:IsClicked()) then
+		print("Clicked!")
+	end
 end

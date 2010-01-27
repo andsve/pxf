@@ -34,14 +34,12 @@ void GUIHandler::AddScript(const char* _filepath, Math::Vec4i* _viewarea)
 	m_Scripts.push_front(script);
 }
 
-void GUIHandler::Update(float _delta)
+void GUIHandler::Update(Math::Vec2f* _mouse, bool _mouse_down, float _delta)
 {
-	// TODO: Take care of mouse inputs etc and forward to scripts
-
 	// Update each GUIScript
 	for ( std::list<GUIScript*>::iterator it = m_Scripts.begin() ; it != m_Scripts.end(); it++ )
 	{
-		((GUIScript*)*it)->Update(_delta);
+		((GUIScript*)*it)->Update(_mouse, _mouse_down, _delta);
 	}
 }
 
