@@ -34,6 +34,7 @@ namespace Pxf
 				const char* GetState();
 
 				bool IsMouseOver();
+				bool IsDown();
 				bool IsClicked();
 
 			private:
@@ -50,6 +51,8 @@ namespace Pxf
 				// state info
 				bool m_MouseOver;
 				bool m_MousePushed;
+				bool m_MouseClicked;
+				bool m_MousePushedLast;
 			};
 			
 		} // LuaGUI

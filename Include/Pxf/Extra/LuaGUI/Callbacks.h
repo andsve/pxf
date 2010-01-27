@@ -152,6 +152,20 @@ namespace LuaGUI
 		return 0;
 	}
 
+	static int _guicb_IsDown(lua_State *L)
+	{
+		int n = lua_gettop(L); // arguments
+		if (n == 1)
+		{
+			GUIWidget* widget = (GUIWidget*)lua_touserdata(L, 1);
+			lua_pushboolean(L, widget->IsDown());
+			return 1;
+		} else {
+			Message(PXF_LUAGUI_MESSAGE_ID, "Wrong number (%i instead of 1) of parameters to IsDown(...).", n);
+		}
+		return 0;
+	}
+
 	static int _guicb_IsClicked(lua_State *L)
 	{
 		int n = lua_gettop(L); // arguments
@@ -200,6 +214,7 @@ namespace LuaGUI
 		lua_register(L,"_GetState",     _guicb_GetState);
 		lua_register(L,"_SetPosition",  _guicb_SetPosition);
 		lua_register(L,"_IsMouseOver",  _guicb_IsMouseOver);
+		lua_register(L,"_IsDown",       _guicb_IsDown);
 		lua_register(L,"_IsClicked",    _guicb_IsClicked);
 	}
 } // LuaGUI

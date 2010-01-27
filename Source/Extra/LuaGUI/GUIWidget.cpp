@@ -16,6 +16,8 @@ GUIWidget::GUIWidget(const char* _name, Math::Vec4i* _hitbox, Graphics::Device* 
 
 	m_MouseOver = false;
 	m_MousePushed = false;
+	m_MouseClicked = false;
+	m_MousePushedLast = false;
 
 	m_HitBox.x = _hitbox->x;
 	m_HitBox.y = _hitbox->y;
@@ -71,6 +73,7 @@ void GUIWidget::Update(Math::Vec2f* _mouse, bool _mouse_down)
 {
 	m_MouseOver = false;
 	m_MousePushed = false;
+	m_MouseClicked = false;
 
 	if (_mouse->x < m_HitBox.x)
 		return;
@@ -86,6 +89,14 @@ void GUIWidget::Update(Math::Vec2f* _mouse, bool _mouse_down)
 
 	m_MouseOver = true;
 	m_MousePushed = _mouse_down;
+
+	if (m_MousePushed && !m_MousePushedLast)
+	{
+		m_MouseClicked = true;
+		printf("clicked\n");
+	}
+
+	m_MousePushedLast = m_MousePushed;
 }
 
 bool GUIWidget::IsMouseOver()
@@ -93,7 +104,12 @@ bool GUIWidget::IsMouseOver()
 	return m_MouseOver;
 }
 
-bool GUIWidget::IsClicked()
+bool GUIWidget::IsDown()
 {
 	return m_MousePushed;
+}
+
+bool GUIWidget::IsClicked()
+{
+	return m_MouseClicked;
 }

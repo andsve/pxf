@@ -33,6 +33,19 @@ function GUIWidgets(widgets)
 			return _IsClicked(self.instance)
 		end
 		
+		function widget.IsDown(self)
+			return _IsDown(self.instance)
+		end
+		
+		function widget.GetState(self)
+			return self.activestate
+		end
+		
+		function widget.SetState(self, state)
+			self.activestate = state
+			_SetState(self.instance, state)
+		end
+		
 		--all_widgets[#all_widgets+1] = widget
 		all_widgets[w.name] = widget
 	end
@@ -45,12 +58,15 @@ function DrawWidgets()
 	end
 end
 
+
+
+
 -- real gui user functions
 function init()
 	GUIWidgets({ { name = "Button1",
 	               hitbox = {10, 10, 100, 40},
 	               states = { idle   = function (instance) AddQuad(instance, {0, 0, 256, 256}, {0, 0, 256, 256}); end,
-				              active = function (instance) print("in render function for active state"); end
+				              active = function (instance) AddQuad(instance, {0, 0, 256, 256}, {256, 256, 0, 0}); end
 				            },
 				   activestate = "idle"
 				 }
@@ -60,6 +76,10 @@ end
 
 function update(delta)
 	if (all_widgets.Button1:IsClicked()) then
-		print("Clicked!")
+		if (all_widgets.Button1:GetState() == "idle") then
+			all_widgets.Button1:SetState("active")
+		else
+			all_widgets.Button1:SetState("idle")
+		end
 	end
 end
