@@ -34,7 +34,7 @@ namespace LuaGUI
 		int i;
 		for (i=1; i<=n; i++)
 		{
-			(*g_CurrentScript.top()).testit(lua_tointeger(L, i));
+			//(*g_CurrentScript.top()).testit(lua_tointeger(L, i));
 
 			if (i>1) printf("\t");
 			if (lua_isstring(L,i))

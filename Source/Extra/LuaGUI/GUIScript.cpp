@@ -1,5 +1,6 @@
 #include <Pxf/Graphics/Device.h>
 
+#include <Pxf/Graphics/Texture.h>
 #include <Pxf/Extra/LuaGUI/GUIScript.h>
 #include <Pxf/Extra/LuaGUI/Callbacks.h> // lua callbacks
 
@@ -8,10 +9,11 @@ using namespace Pxf::Math;
 using namespace Pxf::Graphics;
 using namespace Pxf::Extra::LuaGUI;
 
-GUIScript::GUIScript(const char* _filepath, Vec4i* _viewarea, Device* _device)
+GUIScript::GUIScript(const char* _filepath, Math::Vec4i* _viewarea, Graphics::Device* _device, Graphics::Texture* _texture)
 {
 	m_Filepath = _filepath;
 	m_Device = _device;
+	m_Texture = _texture;
 
 	m_Viewarea[0] = _viewarea->x;
 	m_Viewarea[1] = _viewarea->y;
@@ -47,9 +49,10 @@ void GUIScript::Load()
 	}
 }
 
-void GUIScript::testit(int _i)
+void GUIScript::AddQuad(GUIWidget* _widget, Math::Vec4i* _quad, Math::Vec4i* _texpixels)
 {
-	printf("inside testit! got: %i\n", _i);
+	//printf("inside testit! got: %i\n", _i);
+	_widget->AddQuad(_quad, &m_Texture->CreateTextureSubset(_texpixels->x, _texpixels->y, _texpixels->z, _texpixels->w));
 }
 
 void GUIScript::Update(float _delta)

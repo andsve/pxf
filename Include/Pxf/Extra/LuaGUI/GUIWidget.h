@@ -19,6 +19,10 @@ namespace Pxf
 			public:
 				GUIWidget(Math::Vec4i* _hitbox, Graphics::Device* _device);
 				~GUIWidget();
+
+				void Reset();
+				void AddQuad(Math::Vec4i* _quad, Math::Vec4i* _texcoord);
+
 			private:
 				Graphics::QuadBatch* m_QuadBatch;
 				Graphics::Device* m_Device;

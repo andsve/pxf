@@ -30,7 +30,7 @@ GUIHandler::~GUIHandler()
 
 void GUIHandler::AddScript(const char* _filepath, Math::Vec4i* _viewarea)
 {
-	GUIScript* script = new GUIScript(_filepath, _viewarea, m_Device);
+	GUIScript* script = new GUIScript(_filepath, _viewarea, m_Device, m_Theme);
 	m_Scripts.push_front(script);
 }
 

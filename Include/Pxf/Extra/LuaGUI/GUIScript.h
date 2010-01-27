@@ -22,7 +22,7 @@ extern "C" {
 namespace Pxf
 {
 
-	namespace Graphics { class Device; }
+	namespace Graphics { class Device; class Texture; }
 
 	namespace Extra
 	{
@@ -32,7 +32,7 @@ namespace Pxf
 			class GUIScript
 			{
 			public:
-				GUIScript(const char* _filepath, Math::Vec4i* _viewarea, Graphics::Device* _device);
+				GUIScript(const char* _filepath, Math::Vec4i* _viewarea, Graphics::Device* _device, Graphics::Texture* _texture);
 				~GUIScript();
 
 				void Load();
@@ -40,10 +40,11 @@ namespace Pxf
 				void Draw();
 
 				// lua callable methods
-				void testit(int _i);
+				void AddQuad(GUIWidget* _widget, Math::Vec4i* _quad, Math::Vec4i* _texpixels);
 			
 			private:
 				Graphics::Device* m_Device;
+				Graphics::Texture* m_Texture;
 				Pxf::Util::String m_Filepath;
 				int m_Viewarea[4];
 

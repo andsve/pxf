@@ -22,6 +22,20 @@ TextureGL2::~TextureGL2()
 	Unload();
 }
 
+Math::Vec4i TextureGL2::CreateTextureSubset(float _x1, float _y1, float _x2, float _y2)
+{
+	float xdelta, ydelta;
+	xdelta = 1.0f / m_Width;
+	ydelta = 1.0f / m_Height;
+
+	Math::Vec4i coords;
+	coords.x = _x1 * xdelta;
+	coords.y = _y1 * ydelta;
+	coords.z = _x2 * xdelta;
+	coords.w = _y2 * ydelta;
+	return coords;
+}
+
 void TextureGL2::Load(const char* _filepath)
 {
 	m_Filepath = _filepath;
