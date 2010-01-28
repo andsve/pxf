@@ -26,7 +26,7 @@ namespace Pxf
 				void SetPosition(Math::Vec2f _pos);
 				void Reset();
 				void AddState(const char* _stateid);
-				void AddQuad(Math::Vec4i* _quad, Math::Vec4i* _texcoord);
+				void AddQuad(Math::Vec4i* _quad, Math::Vec4f* _texcoord);
 				void Draw();
 				void Update(Math::Vec2f* _mouse, bool _mouse_down);
 

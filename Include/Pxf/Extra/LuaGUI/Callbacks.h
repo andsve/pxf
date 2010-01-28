@@ -50,6 +50,12 @@ namespace LuaGUI
 		return 0;
 	}
 
+	static int _guicb_ReloadScript(lua_State *L)
+	{
+		(*g_CurrentScript.top()).Reload();
+		return 0;
+	}
+
 	static int _guicb_AddWidget(lua_State *L)
 	{
 		int n = lua_gettop(L); // arguments
@@ -207,6 +213,7 @@ namespace LuaGUI
 
 		// GUI callbacks
 		lua_register(L,"print",         _guicb_print);
+		lua_register(L,"_ReloadScript", _guicb_ReloadScript);
 		lua_register(L,"_AddWidget",    _guicb_AddWidget);
 		lua_register(L,"_AddQuad",      _guicb_AddQuad);
 		lua_register(L,"_AddState",     _guicb_AddState);

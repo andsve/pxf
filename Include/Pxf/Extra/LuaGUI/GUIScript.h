@@ -36,6 +36,8 @@ namespace Pxf
 				~GUIScript();
 
 				void Load();
+				void Unload();
+				void Reload();
 				void Update(Math::Vec2f* _mouse, bool _mouse_down, float _delta);
 				void Draw();
 
@@ -54,6 +56,7 @@ namespace Pxf
 				std::list<GUIWidget*> m_Widgets;
 
 				bool m_Running;
+				bool m_ShouldReload;
 
 				// Lua specific functions
 				void CallLuaFunc(const char* _funcname);

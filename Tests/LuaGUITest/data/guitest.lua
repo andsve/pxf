@@ -1,5 +1,9 @@
 -- functions that should be moved to a helper script?
 
+function ReloadScript()
+	return _ReloadScript()
+end
+
 function AddQuad(widget, quad, coords)
 	_AddQuad(widget, quad[1], quad[2], quad[3], quad[4], coords[1], coords[2], coords[3], coords[4])
 end
@@ -24,7 +28,8 @@ function GUIWidgets(widgets)
 	for i, w in pairs(widgets) do
 		widget = {instance = AddWidget(w.name, w.hitbox, w.states, w.activestate),
 		          states = w.states,
-				  activestate = w.activestate
+				  activestate = w.activestate,
+				  size = {w = w.hitbox[3], h = w.hitbox[4]}
 				 }
 		
 		function widget.IsMouseOver(self)
@@ -56,11 +61,47 @@ end
 function DrawWidgets()
 	for i, w in pairs(all_widgets) do
 		activestate = _GetState(w.instance)
-		w.states[activestate](w.instance)
+		w.states[activestate](w.instance, w)
 	end
 end
 
 
+-- temp render funcs
+function render_button_active(instance, widget)
+	size = widget.size
+	
+	if (widget:IsDown()) then
+		AddQuad(instance, {0, 0, size.w, size.h}, {244, 0, 1, 255}); -- back
+		
+		AddQuad(instance, {-1, -1, 3, 3}, {0, 7, 3, 3}); -- top left corner
+		AddQuad(instance, {size.w -2, -1, 3, 3}, {4, 7, 3, 3}); -- top right corner
+		AddQuad(instance, {2, -1, size.w-4, 3}, {3, 7, 1, 3}); -- top border
+		
+		AddQuad(instance, {-1, size.h-2, 3, 3}, {0, 11, 3, 3}); -- bottom left corner
+		AddQuad(instance, {size.w -2, size.h-2, 3, 3}, {4, 11, 3, 3}); -- bottom right corner
+		AddQuad(instance, {2, size.h-2, size.w-4, 3}, {3, 11, 1, 3}); -- bottom border
+		
+		AddQuad(instance, {-1, 2, 3, size.h-4}, {0, 11, 3, 0}); -- left
+		AddQuad(instance, {size.w -2, 2, 3, size.h-4}, {4, 11, 3, 0}); -- left
+	else
+		AddQuad(instance, {0, 0, size.w, size.h}, {254, 0, 1, 255}); -- back
+		
+		AddQuad(instance, {-1, -1, 3, 3}, {0, 0, 3, 3}); -- top left corner
+		AddQuad(instance, {size.w -2, -1, 3, 3}, {4, 0, 3, 3}); -- top right corner
+		AddQuad(instance, {2, -1, size.w-4, 3}, {3, 0, 1, 3}); -- top border
+		
+		AddQuad(instance, {-1, size.h-2, 3, 3}, {0, 4, 3, 3}); -- bottom left corner
+		AddQuad(instance, {size.w -2, size.h-2, 3, 3}, {4, 4, 3, 3}); -- bottom right corner
+		AddQuad(instance, {2, size.h-2, size.w-4, 3}, {3, 4, 1, 3}); -- bottom border
+		
+		AddQuad(instance, {-1, 2, 3, size.h-4}, {0, 4, 3, 0}); -- left
+		AddQuad(instance, {size.w -2, 2, 3, size.h-4}, {4, 4, 3, 0}); -- left
+
+	end
+
+end
+
+render_button_inactive = render_button_active
 
 
 -- real gui user functions
@@ -68,11 +109,18 @@ theme_texture = "data/guilook.png"
 
 function init()
 	GUIWidgets({ { name = "Button1",
-	               hitbox = {10, 10, 100, 40},
-	               states = { idle   = function (instance) AddQuad(instance, {0, 0, 256, 256}, {0, 0, 256, 256}); end,
-				              active = function (instance) AddQuad(instance, {0, 0, 256, 256}, {256, 256, 0, 0}); end
+	               hitbox = {10, 10, 500, 50},
+	               states = { active   = render_button_active,
+				              inactive = render_button_inactive
 				            },
-				   activestate = "idle"
+				   activestate = "active"
+				 },
+				 { name = "Button2",
+	               hitbox = {10, 100, 130, 30},
+	               states = { active   = render_button_active,
+				              inactive = render_button_inactive
+				            },
+				   activestate = "active"
 				 }
                }
               )
@@ -80,11 +128,12 @@ end
 
 function update(delta)
 	if (all_widgets.Button1:IsClicked()) then
-		print(all_widgets.Button1:GetState() == "idle")
-		if (all_widgets.Button1:GetState() == "idle") then
-			all_widgets.Button1:SetState("active")
-		else
-			all_widgets.Button1:SetState("idle")
-		end
+		-- nothing?
+		print("Hey Button1 got clicked!")
+	end
+	
+	if (all_widgets.Button2:IsClicked()) then
+		print("Reloading GUI script!")
+		ReloadScript()
 	end
 end

@@ -25,7 +25,12 @@ namespace Pxf
 			int GetHeight();
 			int GetChannels();
 
-			Math::Vec4i CreateTextureSubset(float _x1, float _y1, float _x2, float _y2);
+			void SetMagFilter(TextureFilter _Filter);
+			void SetMinFilter(TextureFilter _Filter);
+
+			void SetClampMethod(TextureClampMethod _Method);
+
+			Math::Vec4f CreateTextureSubset(float _x1, float _y1, float _x2, float _y2);
 			
 			// OGL specific
 			GLuint GetTextureID();

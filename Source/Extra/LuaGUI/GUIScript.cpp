@@ -14,6 +14,7 @@ GUIScript::GUIScript(const char* _filepath, Math::Vec4i* _viewarea, Graphics::De
 	m_Filepath = _filepath;
 	m_Device = _device;
 	m_Running = false;
+	m_ShouldReload = false;
 
 	m_Viewarea[0] = _viewarea->x;
 	m_Viewarea[1] = _viewarea->y;
@@ -59,17 +60,47 @@ void GUIScript::Load()
 	}
 }
 
+void GUIScript::Unload()
+{
+	m_Running = false;
+
+	delete m_Texture;
+
+	for ( std::list<GUIWidget*>::iterator it = m_Widgets.begin() ; it != m_Widgets.end(); it++ )
+	{
+		GUIWidget* widget = ((GUIWidget*)*it);
+		delete widget;
+	}
+
+	m_Widgets.clear();
+
+	lua_close(L);
+}
+
+void GUIScript::Reload()
+{
+	m_ShouldReload = true;
+}
+
 void GUIScript::AddQuad(GUIWidget* _widget, Math::Vec4i* _quad, Math::Vec4i* _texpixels)
 {
 	//printf("inside testit! got: %i\n", _i);
-	_widget->AddQuad(_quad, &m_Texture->CreateTextureSubset(_texpixels->x, _texpixels->y, _texpixels->z, _texpixels->w));
+	Math::Vec4f coords = m_Texture->CreateTextureSubset(_texpixels->x, _texpixels->y, _texpixels->z, _texpixels->w);
+	_widget->AddQuad(_quad, &coords);
 }
 
 void GUIScript::Update(Math::Vec2f* _mouse, bool _mouse_down, float _delta)
 {
+	// Reload script if needed
+	if (m_ShouldReload)
+	{
+		Unload();
+		Load();
+		m_ShouldReload = false;
+	}
+
 	if (m_Running)
 	{
-
 		// Update widgets
 		for ( std::list<GUIWidget*>::iterator it = m_Widgets.begin() ; it != m_Widgets.end(); it++ )
 		{

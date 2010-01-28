@@ -7,6 +7,26 @@ namespace Pxf
 {
 	namespace Graphics
 	{
+
+		enum TextureFilter
+		{
+			// valid for min & mag
+			FILTER_NEAREST = 0,
+			FILTER_LINEAR,
+
+			// valid only for min, obviously.
+			FILTER_LINEAR_MIPMAP_LINEAR,
+			FILTER_LINEAR_MIPMAP_NEAREST,
+			FILTER_NEAREST_MIPMAP_LINEAR,
+			FILTER_NEAREST_MIPMAP_NEAREST
+		};
+
+		enum TextureClampMethod
+		{
+			CLAMP,
+			CLAMP_TO_EDGE,
+			REPEAT
+		};
 		
 		//! Abstract texture class
 		class Texture
@@ -20,7 +40,12 @@ namespace Pxf
 			virtual int GetHeight() = 0;
 			virtual int GetChannels() = 0;
 
-			virtual Math::Vec4i CreateTextureSubset(float _x1, float _y1, float _x2, float _y2) = 0;
+			virtual void SetMagFilter(TextureFilter _Filter) = 0;
+			virtual void SetMinFilter(TextureFilter _Filter) = 0;
+
+			virtual void SetClampMethod(TextureClampMethod _Method) = 0;
+
+			virtual Math::Vec4f CreateTextureSubset(float _x1, float _y1, float _x2, float _y2) = 0;
 		};
 	} // Graphics
 } // Pxf

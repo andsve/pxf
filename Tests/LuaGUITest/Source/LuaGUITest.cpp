@@ -39,7 +39,7 @@ bool PxfMain(Util::String _CmdLine)
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
 
 	GUIHandler* pGUI = new GUIHandler(pDevice);
-	pGUI->AddScript("data/guitest.lua", &Pxf::Math::Vec4i(0,0,200,pWindowSpecs->Height)); // Fix this? viewport seems to be set from bottom left corner?
+	pGUI->AddScript("data/guitest.lua", &Pxf::Math::Vec4i(0,0,300,pWindowSpecs->Height)); // Fix this? viewport seems to be set from bottom left corner?
 
 	// Setup viewport and orthogonal projection
 	pDevice->SetViewport(0, 0, pWindowSpecs->Width / 2.0f, pWindowSpecs->Height);
