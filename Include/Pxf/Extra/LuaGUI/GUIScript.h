@@ -32,7 +32,7 @@ namespace Pxf
 			class GUIScript
 			{
 			public:
-				GUIScript(const char* _filepath, Math::Vec4i* _viewarea, Graphics::Device* _device, Graphics::Texture* _texture);
+				GUIScript(const char* _filepath, Math::Vec4i* _viewarea, Graphics::Device* _device);
 				~GUIScript();
 
 				void Load();

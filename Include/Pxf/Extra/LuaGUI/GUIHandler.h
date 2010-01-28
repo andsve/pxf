@@ -29,7 +29,7 @@ namespace Pxf
 			class GUIHandler
 			{
 			public:
-				GUIHandler(const char* _theme_filepath, Pxf::Graphics::Device* _device);
+				GUIHandler(Pxf::Graphics::Device* _device);
 				~GUIHandler();
 
 				void AddScript(const char* _filepath, Math::Vec4i* _viewarea);
@@ -37,7 +37,6 @@ namespace Pxf
 				void Update(Math::Vec2f* _mouse, bool _mouse_down, float _delta);
 				void Draw();
 			private:
-				Pxf::Graphics::Texture* m_Theme;
 				Pxf::Graphics::Device* m_Device;
 				std::list<GUIScript*> m_Scripts;
 			};

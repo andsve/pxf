@@ -9,11 +9,10 @@ using namespace Pxf::Math;
 using namespace Pxf::Graphics;
 using namespace Pxf::Extra::LuaGUI;
 
-GUIScript::GUIScript(const char* _filepath, Math::Vec4i* _viewarea, Graphics::Device* _device, Graphics::Texture* _texture)
+GUIScript::GUIScript(const char* _filepath, Math::Vec4i* _viewarea, Graphics::Device* _device)
 {
 	m_Filepath = _filepath;
 	m_Device = _device;
-	m_Texture = _texture;
 	m_Running = false;
 
 	m_Viewarea[0] = _viewarea->x;
@@ -45,6 +44,11 @@ void GUIScript::Load()
 			lua_pop(L, 1); // remove error message
 		} else {
 			m_Running = true;
+
+			// Load theme file
+			lua_getglobal(L, "theme_texture");
+			m_Texture = m_Device->CreateTexture(lua_tostring(L, 1));
+			lua_pop(L, 1);
 
 			// Call init()
 			CallLuaFunc("init");
@@ -94,6 +98,7 @@ void GUIScript::Draw()
 		m_Device->SetViewport(m_Viewarea[0], m_Viewarea[1], m_Viewarea[2], m_Viewarea[3]);
 		Math::Mat4 t_ortho = Math::Mat4::Ortho(0, m_Viewarea[2], m_Viewarea[3], 0, 0, 1);
 		m_Device->SetProjection(&t_ortho);
+		m_Device->BindTexture(m_Texture);
 
 		for ( std::list<GUIWidget*>::iterator it = m_Widgets.begin() ; it != m_Widgets.end(); it++ )
 		{

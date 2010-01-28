@@ -38,7 +38,7 @@ bool PxfMain(Util::String _CmdLine)
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
 
-	GUIHandler* pGUI = new GUIHandler("data/guilook.png", pDevice);
+	GUIHandler* pGUI = new GUIHandler(pDevice);
 	pGUI->AddScript("data/guitest.lua", &Pxf::Math::Vec4i(0,0,200,pWindowSpecs->Height)); // Fix this? viewport seems to be set from bottom left corner?
 
 	// Setup viewport and orthogonal projection
@@ -56,6 +56,8 @@ bool PxfMain(Util::String _CmdLine)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
 		glEnable(GL_TEXTURE_2D);
+		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
 		
 
 		// Update input

@@ -10,10 +10,9 @@ using namespace Pxf::Extra::LuaGUI;
 //////////////////////////////////////////////////////////////////////////
 
 
-GUIHandler::GUIHandler(const char* _theme_filepath, Device* _device)
+GUIHandler::GUIHandler(Device* _device)
 {
 	m_Device = _device;
-	m_Theme = m_Device->CreateTexture(_theme_filepath);
 }
 
 GUIHandler::~GUIHandler()
@@ -30,7 +29,7 @@ GUIHandler::~GUIHandler()
 
 void GUIHandler::AddScript(const char* _filepath, Math::Vec4i* _viewarea)
 {
-	GUIScript* script = new GUIScript(_filepath, _viewarea, m_Device, m_Theme);
+	GUIScript* script = new GUIScript(_filepath, _viewarea, m_Device);
 	m_Scripts.push_front(script);
 }
 
@@ -46,7 +45,6 @@ void GUIHandler::Update(Math::Vec2f* _mouse, bool _mouse_down, float _delta)
 void GUIHandler::Draw()
 {
 	// Draw each GUIScript
-	m_Device->BindTexture(m_Theme);
 	for ( std::list<GUIScript*>::iterator it = m_Scripts.begin() ; it != m_Scripts.end(); it++ )
 	{
 		((GUIScript*)*it)->Draw();

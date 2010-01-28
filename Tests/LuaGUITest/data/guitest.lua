@@ -23,7 +23,9 @@ all_widgets = {}
 function GUIWidgets(widgets)
 	for i, w in pairs(widgets) do
 		widget = {instance = AddWidget(w.name, w.hitbox, w.states, w.activestate),
-		          states = w.states}
+		          states = w.states,
+				  activestate = w.activestate
+				 }
 		
 		function widget.IsMouseOver(self)
 			return _IsMouseOver(self.instance)
@@ -62,6 +64,8 @@ end
 
 
 -- real gui user functions
+theme_texture = "data/guilook.png"
+
 function init()
 	GUIWidgets({ { name = "Button1",
 	               hitbox = {10, 10, 100, 40},
@@ -76,6 +80,7 @@ end
 
 function update(delta)
 	if (all_widgets.Button1:IsClicked()) then
+		print(all_widgets.Button1:GetState() == "idle")
 		if (all_widgets.Button1:GetState() == "idle") then
 			all_widgets.Button1:SetState("active")
 		else
