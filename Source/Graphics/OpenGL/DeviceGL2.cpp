@@ -78,6 +78,11 @@ void DeviceGL2::SwapBuffers()
 	}
 }
 
+void DeviceGL2::Translate(Math::Vec3f _translate)
+{
+	glTranslatef(_translate.x, _translate.y, _translate.z);
+}
+
 Texture* DeviceGL2::CreateTexture(const char* _filepath)
 {
 	TextureGL2* _tex = new TextureGL2();
