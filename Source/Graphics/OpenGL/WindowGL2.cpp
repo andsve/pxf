@@ -7,7 +7,7 @@
 #ifdef CONF_PLATFORM_MACOSX
 #include <Carbon/Carbon.h>
 #endif
-#include <GL/glfw.h>
+#include <Pxf/Graphics/OpenGL/OpenGL.h>
 
 using namespace Pxf;
 using namespace Pxf::Graphics;
@@ -73,6 +73,12 @@ bool WindowGL2::Open()
 		TransformProcessType(&psn,kProcessTransformToForegroundApplication);
 		SetFrontProcess(&psn);
 #endif
+		
+		GLenum err = glewInit();
+		if (err != GLEW_OK)
+		{
+			Message("WindowGL2", "Could not initiate glew.");
+		}
 
 		Message("WindowGL2", "Opened window of %dx%d@%d (r: %d g: %d b: %d a: %d d: %d s: %d)", m_width, m_height, m_bits_color*3+m_bits_alpha, m_bits_color, m_bits_color, m_bits_color, m_bits_alpha, m_bits_depth, m_bits_stencil);
 
