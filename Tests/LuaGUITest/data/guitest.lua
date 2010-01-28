@@ -8,66 +8,95 @@ function AddQuad(widget, quad, coords)
 	_AddQuad(widget, quad[1], quad[2], quad[3], quad[4], coords[1], coords[2], coords[3], coords[4])
 end
 
-function AddWidget(name, hitbox, states, activestate)
-	widget = _AddWidget(name, hitbox[1], hitbox[2], hitbox[3], hitbox[4])
+function AddWidget(name, _hitbox, _states, _activestate, events, _render)
+	widget = {states = _states,
+			  hitbox = _hitbox,
+			  activestate = _activestate,
+			  size = {w = _hitbox[3], h = _hitbox[4]},
+			  render = _render,
+			  onClick = events.onClick,
+			  onPush = events.onPush,
+			  onOver = events.onOver
+			 }
+	widget.instance = _AddWidget(name, _hitbox[1], _hitbox[2], _hitbox[3], _hitbox[4])
 	
 	
-	for i, w in pairs(states) do
-		_AddState(widget, i)
+	for i, _s in pairs(_states) do
+		_AddState(widget.instance, _s)
 	end
 	
-	_SetState(widget, activestate)
-	_SetPosition(widget, hitbox[1], hitbox[2])
+	_SetState(widget.instance, _activestate)
+	_SetPosition(widget.instance, _hitbox[1], _hitbox[2])
+	
+	-- setup calls
+	
+	function widget.IsOver(self)
+		return _IsMouseOver(self.instance)
+	end
+	
+	function widget.IsClicked(self)
+		return _IsClicked(self.instance)
+	end
+	
+	function widget.IsDown(self)
+		return _IsDown(self.instance)
+	end
+	
+	function widget.GetState(self)
+		return self.activestate
+	end
+	
+	function widget.SetState(self, state)
+		self.activestate = state
+		_SetState(self.instance, state)
+	end
 	
 	return widget
 end
 
-all_widgets = {}
+widgets = {}
 
-function GUIWidgets(widgets)
-	for i, w in pairs(widgets) do
-		widget = {instance = AddWidget(w.name, w.hitbox, w.states, w.activestate),
-		          states = w.states,
-				  activestate = w.activestate,
-				  size = {w = w.hitbox[3], h = w.hitbox[4]}
-				 }
+function CreateGUIWidgets(_widgets)
+	for i, w in pairs(_widgets) do
+		widget = AddWidget(w.name, w.hitbox, w.states, w.activestate, w.events, w.render)
 		
-		function widget.IsMouseOver(self)
-			return _IsMouseOver(self.instance)
-		end
-		
-		function widget.IsClicked(self)
-			return _IsClicked(self.instance)
-		end
-		
-		function widget.IsDown(self)
-			return _IsDown(self.instance)
-		end
-		
-		function widget.GetState(self)
-			return self.activestate
-		end
-		
-		function widget.SetState(self, state)
-			self.activestate = state
-			_SetState(self.instance, state)
-		end
-		
-		--all_widgets[#all_widgets+1] = widget
-		all_widgets[w.name] = widget
+		widgets[w.name] = widget
 	end
 end
 
 function DrawWidgets()
-	for i, w in pairs(all_widgets) do
-		activestate = _GetState(w.instance)
-		w.states[activestate](w.instance, w)
+	for i, w in pairs(widgets) do
+		w.render(w.instance, w)
 	end
+end
+
+function UpdateWidgets(delta)
+	for i, w in pairs(widgets) do
+		if (w.onClick) then
+			if (w:IsClicked()) then
+				w.onClick(widget)
+			end
+		end
+		
+		if (w.onDown) then
+			if (w:IsDown()) then
+				w.onDown(widget)
+			end
+		end
+		
+		if (w.onOver) then
+			if (w:IsOver()) then
+				w.onOver(widget)
+			end
+		end
+	end
+	
+	update(delta)
 end
 
 
 -- temp render funcs
-function render_button_active(instance, widget)
+function render_button(instance, widget)
 	size = widget.size
 	
 	if (widget:IsDown()) then
@@ -101,38 +130,37 @@ function render_button_active(instance, widget)
 
 end
 
-render_button_inactive = render_button_active
-
 
 -- real gui user functions
 theme_texture = "data/guilook.png"
 
 function init()
-	GUIWidgets({ { name = "Button1",
-	               hitbox = {10, 10, 10, 10},
-	               states = { active   = render_button_active,
-				              inactive = render_button_inactive
-				            },
-				   activestate = "active"
-				 },
-				 { name = "Button2",
-	               hitbox = {10, 100, 130, 30},
-	               states = { active   = render_button_active,
-				              inactive = render_button_inactive
-				            },
-				   activestate = "active"
-				 }
-               }
-              )
+	CreateGUIWidgets({ { name = "Button1",
+					     hitbox = {10, 10, 10, 10},
+					     states = { "active", "inactive" },
+					     activestate = "active",
+						 render = render_button,
+						 events = { onClick = function (widget) print("Hey now!"); end, 
+						            onDown = nil, onOver = nil}
+					 },
+					   { name = "ReloadButton",
+						 hitbox = {10, 100, 130, 30},
+						 states = { "active", "inactive" },
+					     activestate = "active",
+						 render = render_button,
+						 events = { onClick = nil, onDown = nil, onOver = nil}
+					   }
+				     }
+				    )
 end
 
 function update(delta)
-	if (all_widgets.Button1:IsClicked()) then
+	if (widgets.Button1:IsClicked()) then
 		-- nothing?
 		print("Hey Button1 got clicked!")
 	end
 	
-	if (all_widgets.Button2:IsClicked()) then
+	if (widgets.ReloadButton:IsClicked()) then
 		print("Reloading GUI script!")
 		ReloadScript()
 	end

@@ -113,7 +113,7 @@ void GUIScript::Update(Math::Vec2f* _mouse, bool _mouse_down, float _delta)
 		lua_getglobal(L, "debug");
 		lua_getfield(L, -1, "traceback");
 		lua_remove(L, -2);
-		lua_getfield(L, LUA_GLOBALSINDEX, "update");
+		lua_getfield(L, LUA_GLOBALSINDEX, "UpdateWidgets");
 		lua_pushnumber(L, _delta);
 		m_Running = HandleLuaErrors(lua_pcall(L, 1, 0, -3));
 
