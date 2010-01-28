@@ -59,7 +59,6 @@ namespace Pxf
 			VB_COLOR_DATA = 8,
 			VB_INDEX_DATA = 16,
 			VB_EDGEFLAG_DATA = 32,
-			VB_ATTRIB_DATA = 64
 		};
 
 		/**
@@ -119,7 +118,7 @@ namespace Pxf
 			virtual InterleavedVertexBuffer* CreateInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation) = 0;
 			virtual void DestroyVertexBuffer(NonInterleavedVertexBuffer* _pVertexBuffer) = 0;
 			virtual void DestroyVertexBuffer(InterleavedVertexBuffer* _pVertexBuffer) = 0;
-			//virtual void DrawVertexBuffer(VertexBuffer* _pVertexBuffer) = 0;
+			virtual void DrawBuffer(InterleavedVertexBuffer* _pVertexBuffer) = 0;
 
 
 			// Need the name VertexBuffer for draw calls...?

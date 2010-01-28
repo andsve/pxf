@@ -7,6 +7,8 @@
 #include <Pxf/Graphics/Device.h> // enumerations for VertexBuffer
 #include <Pxf/Math/Vector.h>
 
+// TODO: Support attribute data: http://www.opengl.org/wiki/Vertex_Array_Objects
+
 namespace Pxf
 {
 	namespace Graphics
@@ -34,6 +36,7 @@ namespace Pxf
 			VertexBufferLocation m_VertexBufferLocation;
 			VertexBufferUsageFlag m_VertexBufferUsageFlag;
 
+			
 			void* m_InterleavedData;
 			uint32 m_VertexCount;
 			uint32 m_VertexSize;
@@ -46,7 +49,6 @@ namespace Pxf
 			AttributeData m_ColorAttributes;
 			AttributeData m_IndexAttributes;
 			AttributeData m_EdgeFlagAttributes;
-			AttributeData m_VertexAttribAttributes;
 
 		public:
 			InterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation)
@@ -60,7 +62,6 @@ namespace Pxf
 				, m_ColorAttributes(0, 0)
 				, m_IndexAttributes(0, 0)
 				, m_EdgeFlagAttributes(0, 0)
-				, m_VertexAttribAttributes(0, 0)
 				, m_InterleavedData(0)
 				, m_VertexSize(0)
 				, m_VertexCount(0)
@@ -72,8 +73,8 @@ namespace Pxf
 			virtual void _PostDraw() = 0;
 
 
-			virtual void* CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag) = 0;
-			virtual void SetBuffer(void* _Buffer,uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag) = 0; 
+			virtual void CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag) = 0;
+			virtual void CreateFromBuffer(void* _Buffer,uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag) = 0; 
 
 			virtual void UpdateData(void* _Buffer, uint32 _Count, uint32 _Offset) = 0;
 
@@ -86,7 +87,7 @@ namespace Pxf
 				switch(_AttribType)
 				{
 				case VB_VERTEX_DATA:	m_VertexAttributes.StrideOffset = _StrideOffset;
-										m_VertexAttribAttributes.TypeSize = _TypeSize;
+										m_VertexAttributes.TypeSize = _TypeSize;
 										break;
 				case VB_NORMAL_DATA:	m_NormalAttributes.StrideOffset = _StrideOffset;
 										m_NormalAttributes.TypeSize = _TypeSize;
@@ -103,14 +104,8 @@ namespace Pxf
 				case VB_EDGEFLAG_DATA:	m_EdgeFlagAttributes.StrideOffset = _StrideOffset;
 										m_EdgeFlagAttributes.TypeSize = _TypeSize;
 										break;
-				case VB_ATTRIB_DATA:	m_VertexAttribAttributes.StrideOffset = _StrideOffset;
-										m_VertexAttribAttributes.TypeSize = _TypeSize;
-										break;
 				}
 			}
-
-			// Commit and create vertex object
-			virtual bool Commit() = 0;
 
 			uint8 GetStrideOffset(VertexBufferAttribute _AttribType)
 			{
@@ -122,7 +117,6 @@ namespace Pxf
 				case VB_COLOR_DATA:    return m_ColorAttributes.StrideOffset;
 				case VB_INDEX_DATA:    return m_IndexAttributes.StrideOffset;
 				case VB_EDGEFLAG_DATA: return m_EdgeFlagAttributes.StrideOffset;
-				case VB_ATTRIB_DATA:   return m_VertexAttribAttributes.StrideOffset;;
 				}
 
 				PXFASSERT(0, "Unknown attribute type specified");
@@ -139,7 +133,6 @@ namespace Pxf
 				case VB_COLOR_DATA:    return m_ColorAttributes.TypeSize;
 				case VB_INDEX_DATA:    return m_IndexAttributes.TypeSize;
 				case VB_EDGEFLAG_DATA: return m_EdgeFlagAttributes.TypeSize;
-				case VB_ATTRIB_DATA:   return m_VertexAttribAttributes.TypeSize;;
 				}
 
 				PXFASSERT(0, "Unknown attribute type specified");

@@ -146,8 +146,11 @@ static unsigned LookupPrimitiveType(PrimitiveType _PrimitiveType)
 	return 0;
 }
 
-void DeviceGL2::DrawVertexBuffer(VertexBuffer* _pVertexBuffer)
+void DeviceGL2::DrawBuffer(InterleavedVertexBuffer* _pVertexBuffer)
 {
-	PXFASSERT(0, "Not implemented");
+	_pVertexBuffer->_PreDraw();
+	GLuint primitive = LookupPrimitiveType(_pVertexBuffer->GetPrimitive());
+	glDrawArrays(GL_QUADS, 0, _pVertexBuffer->GetVertexCount());
+	_pVertexBuffer->_PostDraw();
 }
 

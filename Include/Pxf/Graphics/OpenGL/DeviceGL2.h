@@ -37,7 +37,7 @@ namespace Pxf{
 			InterleavedVertexBuffer* CreateInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation);
 			void DestroyVertexBuffer(NonInterleavedVertexBuffer* _pVertexBuffer);
 			void DestroyVertexBuffer(InterleavedVertexBuffer* _pVertexBuffer);
-			void DrawVertexBuffer(VertexBuffer* _pVertexBuffer);
+			void DrawBuffer(InterleavedVertexBuffer* _pVertexBuffer);
 		private:
 			Window* m_Window;
 		};

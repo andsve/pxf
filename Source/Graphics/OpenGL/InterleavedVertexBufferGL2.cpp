@@ -4,69 +4,123 @@
 #include <Pxf/Graphics/PrimitiveType.h>
 #include <Pxf/Base/Debug.h>
 #include <Pxf/Base/Utils.h>
+#include <Pxf/Base/Stream.h>
 
 #include <Pxf/Graphics/OpenGL/OpenGL.h>
 #include <Pxf/Graphics/OpenGL/TypeTraits.h>
 
-#define LOCAL_MSG "VertexBufferGL"
+#define LOCAL_MSG "InterleavedVertexBuffer"
 
 using namespace Pxf;
 using namespace Pxf::Graphics;
 using Util::String;
 
 
+static GLuint LookupUsageFlag(VertexBufferUsageFlag _BufferUsageFlag)
+{
+	switch(_BufferUsageFlag)
+	{
+	case VB_STATIC_DRAW: return GL_STATIC_DRAW;
+	case VB_STATIC_READ: return GL_STATIC_READ;
+	case VB_STATIC_COPY: return GL_STATIC_COPY;
+	case VB_DYNAMIC_DRAW: return GL_DYNAMIC_DRAW;
+	case VB_DYNAMIC_READ: return GL_DYNAMIC_READ;
+	case VB_DYNAMIC_COPY: return GL_DYNAMIC_COPY;
+	case VB_STREAM_DRAW: return GL_STREAM_DRAW;
+	case VB_STREAM_READ: return GL_STREAM_READ;
+	case VB_STREAM_COPY: return GL_STREAM_COPY;
+	}
+	return 0;
+}
+
+static GLuint LookupAccessFlag(VertexBufferAccessFlag _BufferAccessFlag)
+{
+	switch(_BufferAccessFlag)
+	{
+	case VB_READ_ONLY: return GL_READ_ONLY;
+	case VB_WRITE_ONLY: return GL_WRITE_ONLY;
+	case VB_READ_WRITE: return GL_READ_WRITE;
+	}
+
+	return 0;
+}
 
 
 InterleavedVertexBufferGL2::InterleavedVertexBufferGL2(VertexBufferLocation _VertexBufferLocation)
 	: InterleavedVertexBuffer(_VertexBufferLocation)
-{
-
-}
+	, m_BufferObjectId(0)
+{}
 
 InterleavedVertexBufferGL2::~InterleavedVertexBufferGL2()
 {
-
+	if (m_VertexBufferLocation == VB_LOCATION_GPU)
+	{
+		if (m_InterleavedData)
+			glDeleteBuffers(1, (GLuint*) &m_BufferObjectId);
+	}
+	else
+	{
+		if (m_InterleavedData)
+			delete [] m_InterleavedData;
+	}
 }
 
 
 void InterleavedVertexBufferGL2::_PreDraw()
 {
-	// VB_ATTRIB_DATA does not need to be handled?
-
+	unsigned int BufferOffset = 0;
+	if (m_VertexBufferLocation == VB_LOCATION_GPU)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, (GLuint) m_BufferObjectId);
+	}
+	else
+	{
+		BufferOffset = (unsigned int)m_InterleavedData;
+	}
 
 	PXFASSERT(m_Attributes & VB_VERTEX_DATA, "Attempt to draw without vertex data.");
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(m_VertexAttributes.TypeSize, GL_FLOAT, m_VertexSize, GL::BufferObjectPtr(m_VertexAttributes.StrideOffset));
+	glVertexPointer(m_VertexAttributes.TypeSize, GL_FLOAT, m_VertexSize, GL::BufferObjectPtr(BufferOffset + m_VertexAttributes.StrideOffset));
 
 
 	if(m_Attributes & VB_NORMAL_DATA)
 	{
 		glEnableClientState(GL_NORMAL_ARRAY);
+		glNormalPointer(GL_FLOAT, m_VertexSize, GL::BufferObjectPtr(BufferOffset + m_NormalAttributes.StrideOffset));
 	}
 
 	if(m_Attributes & VB_TEXCOORD_DATA)
 	{
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glTexCoordPointer(m_TexCoordAttributes.TypeSize, GL_FLOAT, m_VertexSize, GL::BufferObjectPtr(BufferOffset + m_TexCoordAttributes.StrideOffset));
 	}
 
 	if(m_Attributes & VB_COLOR_DATA)
 	{
 		glEnableClientState(GL_COLOR_ARRAY);
+		glColorPointer(m_ColorAttributes.TypeSize, GL_FLOAT, m_VertexSize, GL::BufferObjectPtr(BufferOffset + m_ColorAttributes.StrideOffset));
 	}
 
 	if(m_Attributes & VB_INDEX_DATA)
 	{
 		glEnableClientState(GL_INDEX_ARRAY);
+		glIndexPointer(GL_FLOAT, m_VertexSize, GL::BufferObjectPtr(BufferOffset + m_ColorAttributes.StrideOffset));
 	}
 
 	if(m_Attributes & VB_EDGEFLAG_DATA)
 	{
 		glEnableClientState(GL_EDGE_FLAG_ARRAY);
+		glEdgeFlagPointer(m_VertexSize, GL::BufferObjectPtr(BufferOffset + m_EdgeFlagAttributes.StrideOffset));
 	}
 }
 
 void InterleavedVertexBufferGL2::_PostDraw()
 {
+	if (m_VertexBufferLocation == VB_LOCATION_GPU)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 
@@ -97,79 +151,106 @@ void InterleavedVertexBufferGL2::_PostDraw()
 }
 
 
-/*
-void InterleavedVertexBufferGL2::SetData(VertexBufferAttribute _AttribType, unsigned _TypeSize, const void* _Ptr, unsigned _Count, unsigned _Stride)
+
+void InterleavedVertexBufferGL2::CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag)
 {
-	m_Attributes |= _AttribType;
+	if (m_InterleavedData != 0 || m_BufferObjectId != 0)
+		return;
 
-	if (_AttribType == VB_VERTEX_DATA)
+	if (m_VertexBufferLocation == VB_LOCATION_GPU)
 	{
-		
+		GLuint usage = LookupUsageFlag(_UsageFlag);
+		glGenBuffers(1, (GLuint*)&m_BufferObjectId);
+		glBindBuffer(GL_ARRAY_BUFFER, (GLuint) m_BufferObjectId);
+		glBufferData(GL_ARRAY_BUFFER_ARB, _NumVertices * _VertexSize, 0, usage);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	else
+	{
+		m_InterleavedData = new char[_NumVertices * _VertexSize];
 	}
 
-	else if(_AttribType == VB_NORMAL_DATA)
-	{
-		PXFASSERT(_TypeSize == 3, "Wrong size specified for normal data");
-		glNormalPointer(GL_FLOAT, _Stride, _Ptr);
-	}
-
-	else if(_AttribType == VB_TEXCOORD_DATA)
-	{
-		glTexCoordPointer(_TypeSize, GL_FLOAT, _Stride, _Ptr);
-	}
-
-	else if(_AttribType == VB_COLOR_DATA)
-	{
-		glVertexPointer(_TypeSize, GL_FLOAT, _Stride, _Ptr);
-	}
-
-	else if(_AttribType == VB_INDEX_DATA)
-	{
-		glIndexPointer(GL_FLOAT, _Stride, _Ptr);
-	}
-
-	else if(_AttribType == VB_EDGEFLAG_DATA)
-	{
-		glEdgeFlagPointer(_Stride, _Ptr);
-	}
-
-	else if(_AttribType == VB_ATTRIB_DATA)
-	{
-		PXFASSERT(0, "Not implemented.");
-	}
-}
-*/
-
-void* InterleavedVertexBufferGL2::CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag)
-{
+	m_VertexCount = _NumVertices;
 	m_VertexSize = _VertexSize;
+	m_ByteCount = _NumVertices * _VertexSize;
 	m_VertexBufferUsageFlag = _UsageFlag;
-	return NULL;
 }
 
-void InterleavedVertexBufferGL2::SetBuffer(void* _Buffer,uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag)
+void InterleavedVertexBufferGL2::CreateFromBuffer(void* _Buffer,uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag)
 {
+	if (m_InterleavedData != 0 && m_BufferObjectId != 0)
+		return;
+
+	if (m_VertexBufferUsageFlag == VB_LOCATION_GPU)
+	{
+		// Copy to gpu memory
+		GLuint usage = LookupUsageFlag(_UsageFlag);
+		glBindBuffer(GL_ARRAY_BUFFER, (GLuint) m_BufferObjectId);
+		glBufferData(GL_ARRAY_BUFFER_ARB, _NumVertices * _VertexSize, _Buffer, usage);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	else
+	{
+		m_InterleavedData = new char[_NumVertices * _VertexSize];
+		MemoryStream stream((char*)m_InterleavedData, _NumVertices * _VertexSize);
+		stream.Write(_Buffer, _NumVertices * _VertexSize);
+	}
+
+	m_VertexCount = _NumVertices;
 	m_VertexSize = _VertexSize;
+	m_ByteCount = _NumVertices * _VertexSize;
 	m_VertexBufferUsageFlag = _UsageFlag;
 }
 
 void InterleavedVertexBufferGL2::UpdateData(void* _Buffer, uint32 _Count, uint32 _Offset)
 {
-
+	if (m_VertexBufferLocation == VB_LOCATION_GPU && m_BufferObjectId != 0)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, (GLuint) m_BufferObjectId);
+		glBufferSubData(GL_ARRAY_BUFFER, _Offset, _Count, _Buffer);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	else if (m_VertexBufferLocation == VB_LOCATION_SYS && m_InterleavedData != 0)
+	{
+		MemoryStream stream((char*)m_InterleavedData, m_ByteCount);
+		stream.SeekTo(_Offset);
+		stream.Write(_Buffer, _Count);
+	}
 }
 
 void* InterleavedVertexBufferGL2::MapData(VertexBufferAccessFlag _AccessFlag)
 {
+	if (m_VertexBufferLocation == VB_LOCATION_GPU && m_BufferObjectId != 0)
+	{
+		GLuint access = LookupAccessFlag(_AccessFlag);
+		glBindBuffer(GL_ARRAY_BUFFER, (GLuint) m_BufferObjectId);
+		void* data = glMapBuffer(GL_ARRAY_BUFFER, access);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		return data;
+	}
+	else if (m_VertexBufferLocation == VB_LOCATION_SYS && m_InterleavedData != 0)
+	{
+		m_IsMapped = true;
+		return m_InterleavedData;
+	}
+
 	return NULL;
 }
 
 void InterleavedVertexBufferGL2::UnmapData()
 {
 
-}
-
-bool InterleavedVertexBufferGL2::Commit()
-{
-	return false;
+	if (m_VertexBufferLocation == VB_LOCATION_GPU && m_BufferObjectId != 0)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, (GLuint) m_BufferObjectId);
+		glUnmapBuffer(GL_ARRAY_BUFFER);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		m_IsMapped = false;
+	}
+	
+	if (m_VertexBufferLocation == VB_LOCATION_SYS && m_InterleavedData != 0)
+	{
+		m_IsMapped = false;
+	}
 }
 
