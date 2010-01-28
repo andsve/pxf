@@ -26,6 +26,7 @@ namespace Pxf{
 			void SetViewport(int _x, int _y, int _w, int _h);
 			void SetProjection(Math::Mat4 *_matrix);
 			void SwapBuffers();
+			void Translate(Math::Vec3f _translate);
 
 			Texture* CreateTexture(const char* _filepath);
 			void BindTexture(Texture* _texture);
