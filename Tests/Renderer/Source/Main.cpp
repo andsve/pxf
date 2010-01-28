@@ -85,7 +85,7 @@ bool PxfMain(Util::String _CmdLine)
 	
 	pBuff->CreateNewBuffer(24, sizeof(Vec3f) + sizeof(Vec4f), Graphics::VB_USAGE_STATIC_DRAW);
 
-	// SetData(Type, Offset, NumFloats)
+	// SetData(Type, OffsetInBytes, NumComponents)
 	pBuff->SetData(Graphics::VB_VERTEX_DATA, 0, 3);
 	pBuff->SetData(Graphics::VB_COLOR_DATA, sizeof(Vec3f), 4);
 	pBuff->SetPrimitive(Graphics::VB_PRIMITIVE_QUADS);
