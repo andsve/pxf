@@ -75,6 +75,7 @@ bool PxfMain(Util::String _CmdLine)
 	{
 		Vec3f v;
 		Vec4f c;
+		MyVertex(){}
 		MyVertex(Vec3f _v, Vec4f _c)
 		{
 			v = _v;
@@ -90,7 +91,9 @@ bool PxfMain(Util::String _CmdLine)
 	pBuff->SetData(Graphics::VB_COLOR_DATA, sizeof(Vec3f), 4);
 	pBuff->SetPrimitive(Graphics::VB_PRIMITIVE_QUADS);
 
-	MyVertex* data = (MyVertex*)pBuff->MapData(Graphics::VB_ACCESS_WRITE_ONLY);
+	//MyVertex* data = (MyVertex*)pBuff->MapData(Graphics::VB_ACCESS_WRITE_ONLY);
+	
+	MyVertex data[24];
 
 	// Front
 	data[0]  = MyVertex(Vec3f(-0.5f, -0.5f, 0.5f), Vec4f(0, 0, 1, 1.0f));
@@ -123,7 +126,8 @@ bool PxfMain(Util::String _CmdLine)
 	data[22] = MyVertex(Vec3f(0.5f, -0.5f, -0.5f), Vec4f(0, 1, 1, 1.0f));
 	data[23] = MyVertex(Vec3f(0.5f, -0.5f, 0.5f), Vec4f(0, 1, 1, 1.0f));
 
-	pBuff->UnmapData();
+	pBuff->UpdateData(data, sizeof(data), 0);
+	//pBuff->UnmapData();
 
 
 	float t_honk = 0.0f;
