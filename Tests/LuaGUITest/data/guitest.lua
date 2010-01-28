@@ -139,6 +139,7 @@ function NewSimpleButton(_name, _position, _size, _events)
 	widget = AddWidget(_name, {_position[1], _position[2], _size[1], _size[2]},
 	                   states, activestate,
 					   _events, render_button)
+	
 	return widget
 end
 
