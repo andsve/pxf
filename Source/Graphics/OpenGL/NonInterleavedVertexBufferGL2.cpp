@@ -1,7 +1,6 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/OpenGL/NonInterleavedVertexBufferGL2.h>
-#include <Pxf/Graphics/PrimitiveType.h>
 #include <Pxf/Base/Debug.h>
 #include <Pxf/Base/Utils.h>
 
@@ -125,11 +124,6 @@ void NonInterleavedVertexBufferGL2::SetData(VertexBufferAttribute _AttribType, u
 	else if(_AttribType == VB_EDGEFLAG_DATA)
 	{
 		glEdgeFlagPointer(_Stride, _Ptr);
-	}
-
-	else if(_AttribType == VB_ATTRIB_DATA)
-	{
-		PXFASSERT(0, "Not implemented.");
 	}
 }
 

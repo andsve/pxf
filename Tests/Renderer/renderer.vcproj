@@ -154,10 +154,6 @@
 							>
 						</File>
 						<File
-							RelativePath="..\..\Include\Pxf\Graphics\PrimitiveType.h"
-							>
-						</File>
-						<File
 							RelativePath="..\..\Include\Pxf\Graphics\QuadBatch.h"
 							>
 						</File>

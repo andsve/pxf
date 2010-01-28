@@ -3,7 +3,6 @@
 
 #include <Pxf/Base/Types.h>
 #include <Pxf/Graphics/DeviceType.h> // enum DeviceType
-#include <Pxf/Graphics/PrimitiveType.h> // enum PrimitiveType
 #include <Pxf/Graphics/Device.h> // enumerations for VertexBuffer
 #include <Pxf/Math/Vector.h>
 
@@ -32,7 +31,7 @@ namespace Pxf
 			};
 		protected:
 			uint32 m_Attributes;
-			PrimitiveType m_PrimitiveType;
+			VertexBufferPrimitiveType m_PrimitiveType;
 			VertexBufferLocation m_VertexBufferLocation;
 			VertexBufferUsageFlag m_VertexBufferUsageFlag;
 
@@ -53,9 +52,9 @@ namespace Pxf
 		public:
 			InterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation)
 				: m_Attributes(0)
-				, m_PrimitiveType(ETriangleList)
+				, m_PrimitiveType(VB_PRIMITIVE_NONE)
 				, m_VertexBufferLocation(_VertexBufferLocation)
-				, m_VertexBufferUsageFlag(VB_STATIC_DRAW)
+				, m_VertexBufferUsageFlag(VB_USAGE_STATIC_DRAW)
 				, m_VertexAttributes(0, 0)
 				, m_NormalAttributes(0, 0)
 				, m_TexCoordAttributes(0, 0)
@@ -149,12 +148,12 @@ namespace Pxf
 				return m_ByteCount;
 			}
 
-			void SetPrimitive(PrimitiveType _PrimitiveType)
+			void SetPrimitive(VertexBufferPrimitiveType _PrimitiveType)
 			{
 				m_PrimitiveType = _PrimitiveType;
 			}
 
-			PrimitiveType GetPrimitive()
+			VertexBufferPrimitiveType GetPrimitive()
 			{
 				return m_PrimitiveType;
 			}

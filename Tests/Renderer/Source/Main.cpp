@@ -83,14 +83,14 @@ bool PxfMain(Util::String _CmdLine)
 	};
 
 	
-	pBuff->CreateNewBuffer(24, sizeof(Vec3f) + sizeof(Vec4f), Graphics::VB_STATIC_DRAW);
+	pBuff->CreateNewBuffer(24, sizeof(Vec3f) + sizeof(Vec4f), Graphics::VB_USAGE_STATIC_DRAW);
 
 	// SetData(Type, Offset, NumFloats)
 	pBuff->SetData(Graphics::VB_VERTEX_DATA, 0, 3);
 	pBuff->SetData(Graphics::VB_COLOR_DATA, sizeof(Vec3f), 4);
-	//pBuff->SetPrimitive(PRIMITIVE_QUAD);
+	pBuff->SetPrimitive(Graphics::VB_PRIMITIVE_QUADS);
 
-	MyVertex* data = (MyVertex*)pBuff->MapData(Graphics::VB_WRITE_ONLY);
+	MyVertex* data = (MyVertex*)pBuff->MapData(Graphics::VB_ACCESS_WRITE_ONLY);
 
 	// Front
 	data[0]  = MyVertex(Vec3f(-0.5f, -0.5f, 0.5f), Vec4f(0, 0, 1, 1.0f));

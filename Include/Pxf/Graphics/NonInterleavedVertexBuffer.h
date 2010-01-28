@@ -2,7 +2,6 @@
 #define _PXF_GRAPHICS_NONINTERLEAVEDVERTEXBUFFER_H_
 
 #include <Pxf/Graphics/DeviceType.h> // enum DeviceType
-#include <Pxf/Graphics/PrimitiveType.h> // enum PrimitiveType
 #include <Pxf/Graphics/Device.h> // enumerations for VertexBuffer
 #include <Pxf/Math/Vector.h>
 
@@ -26,13 +25,13 @@ namespace Pxf
 		{
 		protected:
 			unsigned int m_Attributes;
-			PrimitiveType m_PrimitiveType;
+			VertexBufferPrimitiveType m_PrimitiveType;
 			VertexBufferLocation m_VertexBufferLocation;
 
 		public:
 			NonInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation)
 				: m_Attributes(0)
-				, m_PrimitiveType(ETriangleList)
+				, m_PrimitiveType(VB_PRIMITIVE_NONE)
 				, m_VertexBufferLocation(_VertexBufferLocation)
 			{}
 
@@ -50,12 +49,12 @@ namespace Pxf
 			// Commit and create vertex object
 			virtual bool Commit() = 0;
 
-			void SetPrimitive(PrimitiveType _PrimitiveType)
+			void SetPrimitive(VertexBufferPrimitiveType _PrimitiveType)
 			{
 				m_PrimitiveType = _PrimitiveType;
 			}
 
-			PrimitiveType GetPrimitive()
+			VertexBufferPrimitiveType GetPrimitive()
 			{
 				return m_PrimitiveType;
 			}

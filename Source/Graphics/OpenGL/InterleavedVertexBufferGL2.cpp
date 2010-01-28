@@ -1,7 +1,6 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/OpenGL/InterleavedVertexBufferGL2.h>
-#include <Pxf/Graphics/PrimitiveType.h>
 #include <Pxf/Base/Debug.h>
 #include <Pxf/Base/Utils.h>
 #include <Pxf/Base/Stream.h>
@@ -20,15 +19,15 @@ static GLuint LookupUsageFlag(VertexBufferUsageFlag _BufferUsageFlag)
 {
 	switch(_BufferUsageFlag)
 	{
-	case VB_STATIC_DRAW: return GL_STATIC_DRAW;
-	case VB_STATIC_READ: return GL_STATIC_READ;
-	case VB_STATIC_COPY: return GL_STATIC_COPY;
-	case VB_DYNAMIC_DRAW: return GL_DYNAMIC_DRAW;
-	case VB_DYNAMIC_READ: return GL_DYNAMIC_READ;
-	case VB_DYNAMIC_COPY: return GL_DYNAMIC_COPY;
-	case VB_STREAM_DRAW: return GL_STREAM_DRAW;
-	case VB_STREAM_READ: return GL_STREAM_READ;
-	case VB_STREAM_COPY: return GL_STREAM_COPY;
+	case VB_USAGE_STATIC_DRAW: return GL_STATIC_DRAW;
+	case VB_USAGE_STATIC_READ: return GL_STATIC_READ;
+	case VB_USAGE_STATIC_COPY: return GL_STATIC_COPY;
+	case VB_USAGE_DYNAMIC_DRAW: return GL_DYNAMIC_DRAW;
+	case VB_USAGE_DYNAMIC_READ: return GL_DYNAMIC_READ;
+	case VB_USAGE_DYNAMIC_COPY: return GL_DYNAMIC_COPY;
+	case VB_USAGE_STREAM_DRAW: return GL_STREAM_DRAW;
+	case VB_USAGE_STREAM_READ: return GL_STREAM_READ;
+	case VB_USAGE_STREAM_COPY: return GL_STREAM_COPY;
 	}
 	return 0;
 }
@@ -37,9 +36,9 @@ static GLuint LookupAccessFlag(VertexBufferAccessFlag _BufferAccessFlag)
 {
 	switch(_BufferAccessFlag)
 	{
-	case VB_READ_ONLY: return GL_READ_ONLY;
-	case VB_WRITE_ONLY: return GL_WRITE_ONLY;
-	case VB_READ_WRITE: return GL_READ_WRITE;
+	case VB_ACCESS_READ_ONLY: return GL_READ_ONLY;
+	case VB_ACCESS_WRITE_ONLY: return GL_WRITE_ONLY;
+	case VB_ACCESS_READ_WRITE: return GL_READ_WRITE;
 	}
 
 	return 0;

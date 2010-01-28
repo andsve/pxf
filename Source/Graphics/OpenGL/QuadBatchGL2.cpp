@@ -2,7 +2,6 @@
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/OpenGL/DeviceGL2.h>
 #include <Pxf/Graphics/OpenGL/QuadBatchGL2.h>
-#include <Pxf/Graphics/PrimitiveType.h>
 #include <Pxf/Base/Debug.h>
 #include <Pxf/Base/Utils.h>
 

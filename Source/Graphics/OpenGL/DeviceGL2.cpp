@@ -7,7 +7,6 @@
 #include <Pxf/Graphics/OpenGL/InterleavedVertexBufferGL2.h>
 #include <Pxf/Graphics/OpenGL/TextureGL2.h>
 #include <Pxf/Graphics/OpenGL/QuadBatchGL2.h>
-#include <Pxf/Graphics/PrimitiveType.h>
 #include <Pxf/Input/OpenGL/InputGL2.h>
 #include <Pxf/Base/Debug.h>
 
@@ -131,16 +130,19 @@ void DeviceGL2::DestroyVertexBuffer(InterleavedVertexBuffer* _pVertexBuffer)
 		delete _pVertexBuffer;
 }
 
-static unsigned LookupPrimitiveType(PrimitiveType _PrimitiveType)
+static unsigned LookupPrimitiveType(VertexBufferPrimitiveType _PrimitiveType)
 {
 	switch(_PrimitiveType)
 	{
-		case EPointList: return GL_POINTS;
-		case ELineList: return GL_LINES;
-		case ELineStrip: return GL_LINE_STRIP;
-		case ETriangleList: return GL_TRIANGLES;
-		case ETriangleStrip: return GL_TRIANGLE_STRIP;
-		case ETriangleFan: return GL_TRIANGLE_FAN;
+	case VB_PRIMITIVE_POINTS:		return GL_POINTS;
+	case VB_PRIMITIVE_LINES:		return GL_LINES;
+	case VB_PRIMITIVE_LINE_LOOP:	return GL_LINE_LOOP;
+	case VB_PRIMITIVE_LINE_STRIP:	return GL_LINE_STRIP;
+	case VB_PRIMITIVE_TRIANGLES:	return GL_TRIANGLES;
+	case VB_PRIMITIVE_TRIANGLE_STRIP:	return GL_TRIANGLE_STRIP;
+	case VB_PRIMITIVE_TRIANGLE_FAN:	return GL_TRIANGLE_FAN;
+	case VB_PRIMITIVE_QUADS:		return GL_QUADS;
+	case VB_PRIMITIVE_QUAD_STRIP:	return GL_QUAD_STRIP;
 	}
 	PXFASSERT(0, "Unknown primitive type.");
 	return 0;
@@ -150,7 +152,7 @@ void DeviceGL2::DrawBuffer(InterleavedVertexBuffer* _pVertexBuffer)
 {
 	_pVertexBuffer->_PreDraw();
 	GLuint primitive = LookupPrimitiveType(_pVertexBuffer->GetPrimitive());
-	glDrawArrays(GL_QUADS, 0, _pVertexBuffer->GetVertexCount());
+	glDrawArrays(primitive, 0, _pVertexBuffer->GetVertexCount());
 	_pVertexBuffer->_PostDraw();
 }
 
