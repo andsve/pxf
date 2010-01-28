@@ -1,5 +1,7 @@
 -- functions that should be moved to a helper script?
 
+widgets = {}
+
 function ReloadScript()
 	return _ReloadScript()
 end
@@ -51,18 +53,13 @@ function AddWidget(name, _hitbox, _states, _activestate, events, _render)
 		_SetState(self.instance, state)
 	end
 	
+	widgets[name] = widget
+	
 	return widget
 end
 
-widgets = {}
 
-function CreateGUIWidgets(_widgets)
-	for i, w in pairs(_widgets) do
-		widget = AddWidget(w.name, w.hitbox, w.states, w.activestate, w.events, w.render)
-		
-		widgets[w.name] = widget
-	end
-end
+-- engine calls these functions
 
 function DrawWidgets()
 	for i, w in pairs(widgets) do
@@ -96,67 +93,66 @@ end
 
 
 -- temp render funcs
-function render_button(instance, widget)
-	size = widget.size
-	
-	if (widget:IsDown()) then
-		AddQuad(instance, {0, 0, size.w, size.h}, {244, 0, 1, 255}); -- back
+
+
+----------------------------------------------------
+-- standard widgets
+
+function NewSimpleButton(_name, _position, _size, _events)
+
+	function render_button(instance, widget)
+		size = widget.size
 		
-		AddQuad(instance, {-1, -1, 3, 3}, {0, 7, 3, 3}); -- top left corner
-		AddQuad(instance, {size.w -2, -1, 3, 3}, {4, 7, 3, 3}); -- top right corner
-		AddQuad(instance, {2, -1, size.w-4, 3}, {3, 7, 1, 3}); -- top border
-		
-		AddQuad(instance, {-1, size.h-2, 3, 3}, {0, 11, 3, 3}); -- bottom left corner
-		AddQuad(instance, {size.w -2, size.h-2, 3, 3}, {4, 11, 3, 3}); -- bottom right corner
-		AddQuad(instance, {2, size.h-2, size.w-4, 3}, {3, 11, 1, 3}); -- bottom border
-		
-		AddQuad(instance, {-1, 2, 3, size.h-4}, {0, 11, 3, 0}); -- left
-		AddQuad(instance, {size.w -2, 2, 3, size.h-4}, {4, 11, 3, 0}); -- left
-	else
-		AddQuad(instance, {0, 0, size.w, size.h}, {254, 0, 1, 255}); -- back
-		
-		AddQuad(instance, {-1, -1, 3, 3}, {0, 0, 3, 3}); -- top left corner
-		AddQuad(instance, {size.w -2, -1, 3, 3}, {4, 0, 3, 3}); -- top right corner
-		AddQuad(instance, {2, -1, size.w-4, 3}, {3, 0, 1, 3}); -- top border
-		
-		AddQuad(instance, {-1, size.h-2, 3, 3}, {0, 4, 3, 3}); -- bottom left corner
-		AddQuad(instance, {size.w -2, size.h-2, 3, 3}, {4, 4, 3, 3}); -- bottom right corner
-		AddQuad(instance, {2, size.h-2, size.w-4, 3}, {3, 4, 1, 3}); -- bottom border
-		
-		AddQuad(instance, {-1, 2, 3, size.h-4}, {0, 4, 3, 0}); -- left
-		AddQuad(instance, {size.w -2, 2, 3, size.h-4}, {4, 4, 3, 0}); -- left
+		if (widget:IsDown()) then
+			AddQuad(instance, {0, 0, size.w, size.h}, {244, 0, 1, 255}); -- back
+			
+			AddQuad(instance, {-1, -1, 3, 3}, {0, 7, 3, 3}); -- top left corner
+			AddQuad(instance, {size.w -2, -1, 3, 3}, {4, 7, 3, 3}); -- top right corner
+			AddQuad(instance, {2, -1, size.w-4, 3}, {3, 7, 1, 3}); -- top border
+			
+			AddQuad(instance, {-1, size.h-2, 3, 3}, {0, 11, 3, 3}); -- bottom left corner
+			AddQuad(instance, {size.w -2, size.h-2, 3, 3}, {4, 11, 3, 3}); -- bottom right corner
+			AddQuad(instance, {2, size.h-2, size.w-4, 3}, {3, 11, 1, 3}); -- bottom border
+			
+			AddQuad(instance, {-1, 2, 3, size.h-4}, {0, 11, 3, 0}); -- left
+			AddQuad(instance, {size.w -2, 2, 3, size.h-4}, {4, 11, 3, 0}); -- left
+		else
+			AddQuad(instance, {0, 0, size.w, size.h}, {254, 0, 1, 255}); -- back
+			
+			AddQuad(instance, {-1, -1, 3, 3}, {0, 0, 3, 3}); -- top left corner
+			AddQuad(instance, {size.w -2, -1, 3, 3}, {4, 0, 3, 3}); -- top right corner
+			AddQuad(instance, {2, -1, size.w-4, 3}, {3, 0, 1, 3}); -- top border
+			
+			AddQuad(instance, {-1, size.h-2, 3, 3}, {0, 4, 3, 3}); -- bottom left corner
+			AddQuad(instance, {size.w -2, size.h-2, 3, 3}, {4, 4, 3, 3}); -- bottom right corner
+			AddQuad(instance, {2, size.h-2, size.w-4, 3}, {3, 4, 1, 3}); -- bottom border
+			
+			AddQuad(instance, {-1, 2, 3, size.h-4}, {0, 4, 3, 0}); -- left
+			AddQuad(instance, {size.w -2, 2, 3, size.h-4}, {4, 4, 3, 0}); -- left
+
+		end
 
 	end
 
+	states = { "active", "inactive" }
+	activestate = "active"
+	widget = AddWidget(_name, {_position[1], _position[2], _size[1], _size[2]},
+	                   states, activestate,
+					   _events, render_button)
+	return widget
 end
 
-
+----------------------------------------------------
 -- real gui user functions
 theme_texture = "data/guilook.png"
 
 function init()
-	CreateGUIWidgets({ { name = "Button1",
-					     hitbox = {10, 10, 10, 10},
-					     states = { "active", "inactive" },
-					     activestate = "active",
-						 render = render_button,
-						 events = { onClick = function (widget) print("Hey now!"); end, 
-						            onDown = nil, onOver = nil}
-					 },
-					   { name = "ReloadButton",
-						 hitbox = {10, 100, 130, 30},
-						 states = { "active", "inactive" },
-					     activestate = "active",
-						 render = render_button,
-						 events = { onClick = nil, onDown = nil, onOver = nil}
-					   }
-				     }
-				    )
+	NewSimpleButton("Button1", {10, 10}, {10, 10}, {onClick = nil, onPush = nil, onOver = nil})
+	NewSimpleButton("ReloadButton", {10, 100}, {130, 30}, {onClick = nil, onPush = nil, onOver = nil})
 end
 
 function update(delta)
 	if (widgets.Button1:IsClicked()) then
-		-- nothing?
 		print("Hey Button1 got clicked!")
 	end
 	
