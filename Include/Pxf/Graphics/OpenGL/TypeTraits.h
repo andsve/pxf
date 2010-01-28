@@ -29,6 +29,19 @@ namespace Pxf
 				return (GLvoid*)( ((char*)NULL) + ptr );
 			};
 
+			// TODO: This should not be inline
+			inline void CheckError(const char* _Source)
+			{
+				int error = GL_NO_ERROR;
+				while((error = glGetError()) != GL_NO_ERROR)
+				{
+					Message(_Source, "GL error %d => '%s'", error, gluErrorString(error));
+#if defined(CONF_FAMILY_WINDOWS )&& defined(CONF_COMPILER_MSVC)
+					__asm int 3;
+#endif
+				}
+			}
+
 			// OpenGL type traits
 			//    http://www.gamedev.net/reference/programming/features/ogltypetraits/
 			//    http://www.gamedev.net/community/forums/topic.asp?topic_id=510016&whichpage=1&#3325591
