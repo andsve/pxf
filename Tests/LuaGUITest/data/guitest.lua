@@ -109,7 +109,7 @@ theme_texture = "data/guilook.png"
 
 function init()
 	GUIWidgets({ { name = "Button1",
-	               hitbox = {10, 10, 500, 50},
+	               hitbox = {10, 10, 10, 10},
 	               states = { active   = render_button_active,
 				              inactive = render_button_inactive
 				            },

@@ -76,21 +76,33 @@ void GUIWidget::Update(Math::Vec2f* _mouse, bool _mouse_down)
 	m_MouseClicked = false;
 
 	if (_mouse->x < m_HitBox.x)
+	{
+		m_MousePushedLast = false;
 		return;
+	}
 
 	if (_mouse->x > m_HitBox.x + m_HitBox.z)
+	{
+		m_MousePushedLast = false;
 		return;
+	}
 
 	if (_mouse->y < m_HitBox.y)
+	{
+		m_MousePushedLast = false;
 		return;
+	}
 
 	if (_mouse->y > m_HitBox.y + m_HitBox.w)
+	{
+		m_MousePushedLast = false;
 		return;
+	}
 
 	m_MouseOver = true;
 	m_MousePushed = _mouse_down;
 
-	if (m_MousePushed && !m_MousePushedLast)
+	if (!m_MousePushed && m_MousePushedLast)
 	{
 		m_MouseClicked = true;
 	}
