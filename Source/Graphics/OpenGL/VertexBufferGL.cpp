@@ -1,7 +1,7 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/OpenGL/VertexBufferGL.h>
-#include <Pxf/Graphics/PrimitiveType.h>
+#include <Pxf/Graphics/Device.h>
 #include <Pxf/Base/Debug.h>
 #include <Pxf/Base/Utils.h>
 
@@ -87,33 +87,33 @@ void VertexBufferGL::Unbind()
 	m_Bound = false;
 }
 
-PrimitiveType VertexBufferGL::GetPrimitive()
+VertexBufferPrimitiveType VertexBufferGL::GetPrimitive()
 {
 	switch(m_PrimitiveMode)
 	{
 		// might be wrong or something missing
-		case(GL_POINTS): return EPointList;
-		case(GL_LINES):	return ELineList;
-		case(GL_LINE_STRIP): return ELineStrip;
-		case(GL_TRIANGLES): return ETriangleList;
-		case(GL_TRIANGLE_STRIP): return ETriangleStrip;
-		case(GL_TRIANGLE_FAN): return ETriangleFan;
+		case(GL_POINTS): return VB_PRIMITIVE_POINTS;
+		case(GL_LINES):	return VB_PRIMITIVE_LINES;
+		case(GL_LINE_STRIP): return VB_PRIMITIVE_LINE_STRIP;
+		case(GL_TRIANGLES): return VB_PRIMITIVE_TRIANGLES;
+		case(GL_TRIANGLE_STRIP): return VB_PRIMITIVE_TRIANGLE_STRIP;
+		case(GL_TRIANGLE_FAN): return VB_PRIMITIVE_TRIANGLE_FAN;
 	}
 
 	// default enum (is there a better solution?:E)
-	return EUnknown;
+	return VB_PRIMITIVE_NONE;
 }
 
-void VertexBufferGL::SetPrimitive(PrimitiveType _PrimitiveType)
+void VertexBufferGL::SetPrimitive(VertexBufferPrimitiveType _PrimitiveType)
 {
 	switch(_PrimitiveType)
 	{
-		case(EPointList): m_PrimitiveMode = GL_POINTS;
-		case(ELineList): m_PrimitiveMode = GL_LINES;
-		case(ELineStrip): m_PrimitiveMode = GL_LINE_STRIP;
-		case(ETriangleList): m_PrimitiveMode = GL_TRIANGLES;
-		case(ETriangleStrip): m_PrimitiveMode = GL_TRIANGLE_STRIP;
-		case(ETriangleFan): m_PrimitiveMode = GL_TRIANGLE_FAN;
+		case(VB_PRIMITIVE_POINTS): m_PrimitiveMode = GL_POINTS;
+		case(VB_PRIMITIVE_LINES): m_PrimitiveMode = GL_LINES;
+		case(VB_PRIMITIVE_LINE_STRIP): m_PrimitiveMode = GL_LINE_STRIP;
+		case(VB_PRIMITIVE_TRIANGLES): m_PrimitiveMode = GL_TRIANGLES;
+		case(VB_PRIMITIVE_TRIANGLE_STRIP): m_PrimitiveMode = GL_TRIANGLE_STRIP;
+		case(VB_PRIMITIVE_TRIANGLE_FAN): m_PrimitiveMode = GL_TRIANGLE_FAN;
 	}
 }
 

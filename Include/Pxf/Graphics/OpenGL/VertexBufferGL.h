@@ -2,6 +2,7 @@
 #define _PXF_GRAPHICS_VERTEXBUFFERGL_H_
 
 #include <Pxf/Graphics/VertexBuffer.h>
+#include <Pxf/Graphics/Device.h>
 #include <Pxf/Graphics/DeviceType.h>
 
 #include <Pxf/Graphics/OpenGL/OpenGL.h>
@@ -31,8 +32,8 @@ namespace Pxf
 				~VertexBufferGL();
 
 				//virtual bool Fill(float* _Data,int _Stride,int _Size); 
-				void SetPrimitive(PrimitiveType _PrimitiveType);
-				PrimitiveType GetPrimitive(); 
+				void SetPrimitive(VertexBufferPrimitiveType _PrimitiveType);
+				VertexBufferPrimitiveType GetPrimitive(); 
 				DeviceType GetDeviceType() { return EOpenGL2; }
 
 				// OpenGL-specific:
