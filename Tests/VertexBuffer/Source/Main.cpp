@@ -15,12 +15,38 @@
 #include <Pxf/Resource/ResourceManager.h>
 #include <Pxf/Resource/Image.h>
 #include <Pxf/Resource/Chunk.h>
+#include <Pxf/Base/Stream.h>
 
 #include <Pxf/Graphics/InterleavedVertexBuffer.h>
 
 using namespace Pxf;
+using namespace Pxf::Graphics;
 using Math::Vec3f;
 using Math::Vec4f;
+
+struct MyVertex
+{
+	Vec3f v;
+	Vec4f c;
+	MyVertex(){}
+	MyVertex(Vec3f _v, Vec4f _c)
+	{
+		v = _v;
+		c = _c;
+	}
+};
+
+Graphics::InterleavedVertexBuffer* CreateBuffer(Graphics::Device* _Device, Graphics::VertexBufferLocation _Location)
+{
+	Graphics::InterleavedVertexBuffer* pBuff = _Device->CreateInterleavedVertexBuffer(Graphics::VB_LOCATION_SYS);
+	pBuff->CreateNewBuffer(24, sizeof(Vec3f) + sizeof(Vec4f), Graphics::VB_USAGE_STATIC_DRAW);
+
+	pBuff->SetData(Graphics::VB_VERTEX_DATA, 0, 3); // SetData(Type, OffsetInBytes, NumComponents)
+
+	pBuff->SetData(Graphics::VB_COLOR_DATA, sizeof(Vec3f), 4);
+	pBuff->SetPrimitive(Graphics::VB_PRIMITIVE_QUADS);
+	return pBuff;
+}
 
 bool PxfMain(Util::String _CmdLine)
 {
@@ -65,36 +91,14 @@ bool PxfMain(Util::String _CmdLine)
 	pQBatch->AddCentered(225, 225, 50, 50);
 
 	// Setup viewport and orthogonal projection
-	pDevice->SetViewport(0, 0, pWindowSpecs->Width / 2.0f, pWindowSpecs->Height);
-	Math::Mat4 t_ortho = Math::Mat4::Ortho(0, pWindowSpecs->Width / 2.0f, pWindowSpecs->Height, 0, -1000, 1000);
+	pDevice->SetViewport(0, 0, pWindowSpecs->Width, pWindowSpecs->Height);
+	Math::Mat4 t_ortho = Math::Mat4::Ortho(0, pWindowSpecs->Width, pWindowSpecs->Height, 0, -1000, 1000);
 	pDevice->SetProjection(&t_ortho);
 
-	Graphics::InterleavedVertexBuffer* pBuff = pDevice->CreateInterleavedVertexBuffer(Graphics::VB_LOCATION_SYS);
+	// InterleavedVertexBuffer
 	
-	struct MyVertex
-	{
-		Vec3f v;
-		Vec4f c;
-		MyVertex(){}
-		MyVertex(Vec3f _v, Vec4f _c)
-		{
-			v = _v;
-			c = _c;
-		}
-	};
 
-	
-	pBuff->CreateNewBuffer(24, sizeof(Vec3f) + sizeof(Vec4f), Graphics::VB_USAGE_STATIC_DRAW);
-
-	// SetData(Type, OffsetInBytes, NumComponents)
-	pBuff->SetData(Graphics::VB_VERTEX_DATA, 0, 3);
-	pBuff->SetData(Graphics::VB_COLOR_DATA, sizeof(Vec3f), 4);
-	pBuff->SetPrimitive(Graphics::VB_PRIMITIVE_QUADS);
-
-	//MyVertex* data = (MyVertex*)pBuff->MapData(Graphics::VB_ACCESS_WRITE_ONLY);
-	
 	MyVertex data[24];
-
 	// Front
 	data[0]  = MyVertex(Vec3f(-0.5f, -0.5f, 0.5f), Vec4f(0, 0, 1, 1.0f));
 	data[1]  = MyVertex(Vec3f(0.5f, -0.5f, 0.5f), Vec4f(0, 0, 1, 1.0f));
@@ -125,9 +129,26 @@ bool PxfMain(Util::String _CmdLine)
 	data[21] = MyVertex(Vec3f(-0.5f, -0.5f, -0.5f), Vec4f(0, 1, 1, 1.0f));
 	data[22] = MyVertex(Vec3f(0.5f, -0.5f, -0.5f), Vec4f(0, 1, 1, 1.0f));
 	data[23] = MyVertex(Vec3f(0.5f, -0.5f, 0.5f), Vec4f(0, 1, 1, 1.0f));
+	
+	InterleavedVertexBuffer* pBuffs[4];
+	pBuffs[0] = CreateBuffer(pDevice, VB_LOCATION_SYS);
+	pBuffs[1] = CreateBuffer(pDevice, VB_LOCATION_GPU);
+	pBuffs[2] = CreateBuffer(pDevice, VB_LOCATION_SYS);
+	pBuffs[3] = CreateBuffer(pDevice, VB_LOCATION_GPU);
 
-	pBuff->UpdateData(data, sizeof(data), 0);
-	//pBuff->UnmapData();
+	
+	MyVertex* mapped_data = (MyVertex*)pBuffs[0]->MapData(Graphics::VB_ACCESS_WRITE_ONLY);
+	for(unsigned i = 24; i--;)
+		mapped_data[i] = data[i];
+	pBuffs[0]->UnmapData();
+	
+	mapped_data = (MyVertex*)pBuffs[1]->MapData(Graphics::VB_ACCESS_WRITE_ONLY);
+	for(unsigned i = 24; i--;)
+		mapped_data[i] = data[i];
+	pBuffs[1]->UnmapData();
+	
+	pBuffs[2]->UpdateData(data, sizeof(data), 0);
+	pBuffs[3]->UpdateData(data, sizeof(data), 0);
 
 
 	float t_honk = 0.0f;
@@ -146,12 +167,15 @@ bool PxfMain(Util::String _CmdLine)
 
 		glEnable(GL_DEPTH_TEST);
 		glBindTexture(GL_TEXTURE_2D, 0);
-		glTranslatef(100, 100, 0);
-		glRotatef(t_honk*80, 0, 1, 1);
-		glScalef(50, 50, 50);
-
-		pDevice->DrawBuffer(pBuff);
-
+	
+		for(int i = 0; i < 4; i++)
+		{
+			glLoadIdentity();
+			glTranslatef(50 + 100 * i, 100, 0);
+			glRotatef(t_honk*80, 0, 1, 1);
+			glScalef(50, 50, 50);
+			pDevice->DrawBuffer(pBuffs[i]);
+		}
 		//pDevice->BindTexture(pTexture);
 		//pQBatch->Draw();
 
