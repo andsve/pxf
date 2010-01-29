@@ -54,7 +54,7 @@ InterleavedVertexBufferGL2::~InterleavedVertexBufferGL2()
 {
 	if (m_VertexBufferLocation == VB_LOCATION_GPU)
 	{
-		if (m_InterleavedData)
+		if (m_BufferObjectId)
 			glDeleteBuffers(1, (GLuint*) &m_BufferObjectId);
 	}
 	else
