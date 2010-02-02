@@ -113,14 +113,14 @@ QuadBatch* DeviceGL2::CreateQuadBatch(int _maxSize)
 }
 
 
-NonInterleavedVertexBuffer* DeviceGL2::CreateNonInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation)
+NonInterleavedVertexBuffer* DeviceGL2::CreateNonInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
 {
-	return new NonInterleavedVertexBufferGL2(_VertexBufferLocation);
+	return new NonInterleavedVertexBufferGL2(_VertexBufferLocation, _VertexBufferUsageFlag);
 }
 
-InterleavedVertexBuffer* DeviceGL2::CreateInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation)
+InterleavedVertexBuffer* DeviceGL2::CreateInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
 {
-	return new InterleavedVertexBufferGL2(_VertexBufferLocation);
+	return new InterleavedVertexBufferGL2(_VertexBufferLocation, _VertexBufferUsageFlag);
 }
 
 void DeviceGL2::DestroyVertexBuffer(NonInterleavedVertexBuffer* _pVertexBuffer)
