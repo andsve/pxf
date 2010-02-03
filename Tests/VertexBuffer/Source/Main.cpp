@@ -18,6 +18,7 @@
 #include <Pxf/Base/Stream.h>
 
 #include <Pxf/Graphics/InterleavedVertexBuffer.h>
+#include <Pxf/Graphics/NonInterleavedVertexBuffer.h>
 
 using namespace Pxf;
 using namespace Pxf::Graphics;
@@ -36,10 +37,10 @@ struct MyVertex
 	}
 };
 
-Graphics::InterleavedVertexBuffer* CreateBuffer(Graphics::Device* _Device, Graphics::VertexBufferLocation _Location)
+Graphics::InterleavedVertexBuffer* CreateIBuffer(Graphics::Device* _Device, Graphics::VertexBufferLocation _Location)
 {
-	Graphics::InterleavedVertexBuffer* pBuff = _Device->CreateInterleavedVertexBuffer(Graphics::VB_LOCATION_SYS);
-	pBuff->CreateNewBuffer(24, sizeof(Vec3f) + sizeof(Vec4f), Graphics::VB_USAGE_STATIC_DRAW);
+	Graphics::InterleavedVertexBuffer* pBuff = _Device->CreateInterleavedVertexBuffer(_Location, Graphics::VB_USAGE_STATIC_DRAW);
+	pBuff->CreateNewBuffer(24, sizeof(Vec3f) + sizeof(Vec4f));
 
 	pBuff->SetData(Graphics::VB_VERTEX_DATA, 0, 3); // SetData(Type, OffsetInBytes, NumComponents)
 
@@ -47,6 +48,20 @@ Graphics::InterleavedVertexBuffer* CreateBuffer(Graphics::Device* _Device, Graph
 	pBuff->SetPrimitive(Graphics::VB_PRIMITIVE_QUADS);
 	return pBuff;
 }
+
+Graphics::NonInterleavedVertexBuffer* CreateNIBuffer(Graphics::Device* _Device, Graphics::VertexBufferLocation _Location)
+{
+	Graphics::NonInterleavedVertexBuffer* pBuff = _Device->CreateNonInterleavedVertexBuffer(_Location, Graphics::VB_USAGE_STATIC_DRAW);
+	//pBuff->CreateNewBuffer(24, sizeof(Vec3f) + sizeof(Vec4f));
+
+	//pBuff->SetData(Graphics::VB_VERTEX_DATA, 0, 3); // SetData(Type, OffsetInBytes, NumComponents)
+
+	//pBuff->SetData(Graphics::VB_COLOR_DATA, sizeof(Vec3f), 4);
+	pBuff->SetPrimitive(Graphics::VB_PRIMITIVE_QUADS);
+	return pBuff;
+}
+
+
 
 bool PxfMain(Util::String _CmdLine)
 {
@@ -130,26 +145,31 @@ bool PxfMain(Util::String _CmdLine)
 	data[22] = MyVertex(Vec3f(0.5f, -0.5f, -0.5f), Vec4f(0, 1, 1, 1.0f));
 	data[23] = MyVertex(Vec3f(0.5f, -0.5f, 0.5f), Vec4f(0, 1, 1, 1.0f));
 	
-	InterleavedVertexBuffer* pBuffs[4];
-	pBuffs[0] = CreateBuffer(pDevice, VB_LOCATION_SYS);
-	pBuffs[1] = CreateBuffer(pDevice, VB_LOCATION_GPU);
-	pBuffs[2] = CreateBuffer(pDevice, VB_LOCATION_SYS);
-	pBuffs[3] = CreateBuffer(pDevice, VB_LOCATION_GPU);
+	InterleavedVertexBuffer* pIBuffs[4];
+	pIBuffs[0] = CreateIBuffer(pDevice, VB_LOCATION_SYS);
+	pIBuffs[1] = CreateIBuffer(pDevice, VB_LOCATION_GPU);
+	pIBuffs[2] = CreateIBuffer(pDevice, VB_LOCATION_SYS);
+	pIBuffs[3] = CreateIBuffer(pDevice, VB_LOCATION_GPU);
 
 	
-	MyVertex* mapped_data = (MyVertex*)pBuffs[0]->MapData(Graphics::VB_ACCESS_WRITE_ONLY);
+	MyVertex* mapped_data = (MyVertex*)pIBuffs[0]->MapData(Graphics::VB_ACCESS_WRITE_ONLY);
 	for(unsigned i = 24; i--;)
 		mapped_data[i] = data[i];
-	pBuffs[0]->UnmapData();
+	pIBuffs[0]->UnmapData();
 	
-	mapped_data = (MyVertex*)pBuffs[1]->MapData(Graphics::VB_ACCESS_WRITE_ONLY);
+	mapped_data = (MyVertex*)pIBuffs[1]->MapData(Graphics::VB_ACCESS_WRITE_ONLY);
 	for(unsigned i = 24; i--;)
 		mapped_data[i] = data[i];
-	pBuffs[1]->UnmapData();
+	pIBuffs[1]->UnmapData();
 	
-	pBuffs[2]->UpdateData(data, sizeof(data), 0);
-	pBuffs[3]->UpdateData(data, sizeof(data), 0);
+	pIBuffs[2]->UpdateData(data, sizeof(data), 0);
+	pIBuffs[3]->UpdateData(data, sizeof(data), 0);
 
+	NonInterleavedVertexBuffer* pNIBuffs[4];
+	pNIBuffs[0] = CreateNIBuffer(pDevice, VB_LOCATION_SYS);
+	pNIBuffs[1] = CreateNIBuffer(pDevice, VB_LOCATION_GPU);
+	pNIBuffs[2] = CreateNIBuffer(pDevice, VB_LOCATION_SYS);
+	pNIBuffs[3] = CreateNIBuffer(pDevice, VB_LOCATION_GPU);
 
 	float t_honk = 0.0f;
 	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())
@@ -174,7 +194,7 @@ bool PxfMain(Util::String _CmdLine)
 			glTranslatef(50 + 100 * i, 100, 0);
 			glRotatef(t_honk*80, 0, 1, 1);
 			glScalef(50, 50, 50);
-			pDevice->DrawBuffer(pBuffs[i]);
+			pDevice->DrawBuffer(pIBuffs[i]);
 		}
 		//pDevice->BindTexture(pTexture);
 		//pQBatch->Draw();
