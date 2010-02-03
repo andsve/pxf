@@ -36,7 +36,7 @@ namespace Pxf
 				bool IsMouseOver();
 				bool IsDown();
 				bool IsClicked();
-				Math::Vec2f* GetMouseHit();
+				Math::Vec2f GetMouseHit();
 
 			private:
 				Graphics::QuadBatch* m_QuadBatch;

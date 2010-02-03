@@ -100,6 +100,7 @@ void GUIWidget::Update(Math::Vec2f* _mouse, bool _mouse_down)
 	}
 
 	m_MouseHit = Math::Vec2f(_mouse->x - m_Position.x, _mouse->y - m_Position.y);
+	//printf("_x: %f, _y: %f\n", m_MouseHit.x, m_MouseHit.y);
 
 	m_MouseOver = true;
 	m_MousePushed = _mouse_down;
@@ -112,9 +113,10 @@ void GUIWidget::Update(Math::Vec2f* _mouse, bool _mouse_down)
 	m_MousePushedLast = m_MousePushed;
 }
 
-Math::Vec2f* GUIWidget::GetMouseHit()
+Math::Vec2f GUIWidget::GetMouseHit()
 {
-	return &m_MouseHit;
+	//printf("_x: %f, _y: %f\n", m_MouseHit.x, m_MouseHit.y);
+	return m_MouseHit;
 }
 
 bool GUIWidget::IsMouseOver()

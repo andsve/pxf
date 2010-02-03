@@ -192,9 +192,9 @@ namespace LuaGUI
 		if (n == 1)
 		{
 			GUIWidget* widget = (GUIWidget*)lua_touserdata(L, 1);
-			Math::Vec2f* pos = widget->GetMouseHit();
-			lua_pushnumber(L, pos->x);
-			lua_pushnumber(L, pos->y);
+			Math::Vec2f pos = widget->GetMouseHit();
+			lua_pushnumber(L, pos.x);
+			lua_pushnumber(L, pos.y);
 			return 2;
 		} else {
 			Message(PXF_LUAGUI_MESSAGE_ID, "Wrong number (%i instead of 1) of parameters to GetMouseHit(...).", n);
