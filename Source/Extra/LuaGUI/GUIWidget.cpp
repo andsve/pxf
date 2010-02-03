@@ -19,10 +19,10 @@ GUIWidget::GUIWidget(const char* _name, Math::Vec4i* _hitbox, Graphics::Device* 
 	m_MouseClicked = false;
 	m_MousePushedLast = false;
 
-	m_HitBox.x = _hitbox->x;
-	m_HitBox.y = _hitbox->y;
-	m_HitBox.z = _hitbox->z;
-	m_HitBox.w = _hitbox->w;
+	m_Position.x = _hitbox->x;
+	m_Position.y = _hitbox->y;
+	m_Size.x = _hitbox->z;
+	m_Size.y = _hitbox->w;
 }
 
 GUIWidget::~GUIWidget()
@@ -75,29 +75,31 @@ void GUIWidget::Update(Math::Vec2f* _mouse, bool _mouse_down)
 	m_MousePushed = false;
 	m_MouseClicked = false;
 
-	if (_mouse->x < m_HitBox.x)
+	if (_mouse->x < m_Position.x)
 	{
 		m_MousePushedLast = false;
 		return;
 	}
 
-	if (_mouse->x > m_HitBox.x + m_HitBox.z)
+	if (_mouse->x > m_Position.x + m_Size.x)
 	{
 		m_MousePushedLast = false;
 		return;
 	}
 
-	if (_mouse->y < m_HitBox.y)
+	if (_mouse->y < m_Position.y)
 	{
 		m_MousePushedLast = false;
 		return;
 	}
 
-	if (_mouse->y > m_HitBox.y + m_HitBox.w)
+	if (_mouse->y > m_Position.y + m_Size.y)
 	{
 		m_MousePushedLast = false;
 		return;
 	}
+
+	m_MouseHit = Math::Vec2f(_mouse->x - m_Position.x, _mouse->y - m_Position.y);
 
 	m_MouseOver = true;
 	m_MousePushed = _mouse_down;
@@ -108,6 +110,11 @@ void GUIWidget::Update(Math::Vec2f* _mouse, bool _mouse_down)
 	}
 
 	m_MousePushedLast = m_MousePushed;
+}
+
+Math::Vec2f* GUIWidget::GetMouseHit()
+{
+	return &m_MouseHit;
 }
 
 bool GUIWidget::IsMouseOver()

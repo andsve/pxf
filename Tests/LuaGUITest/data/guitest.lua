@@ -5,18 +5,15 @@ require("data/basetheme")
 -- real gui user functions
 
 function init()
-	NewSimpleButton("Button1", {10, 10}, {100, 15}, {onClick = function (self) print("button1 state: " .. self:GetState()); end})
-	NewSimpleButton("ReloadButton", {10, 100}, {130, 30})
-	NewCheckbox("TestCheckbox", {10, 200})
+	NewSimpleButton("Button1", {10, 10}, {100, 15})
+	NewSimpleButton("ReloadButton", {10, 100}, {130, 30}, {onClick = function (self) print("Reloading GUI script!"); ReloadScript(); end })
+	NewCheckbox("TestCheckbox", {10, 200}, {onClick = function (self) print("oh hai, im a onClick event!"); end})
 end
 
 function update(delta)
 	if (widgets.Button1:IsClicked()) then
-		print("Hey Button1 got clicked!")
-	end
-	
-	if (widgets.ReloadButton:IsClicked()) then
-		print("Reloading GUI script!")
-		ReloadScript()
+		--print("TestCheckbox state is: " .. widgets.TestCheckbox:GetState())
+		widgets.Button1:SetPosition({10, 15})
+		GetMouseHit(widgets.Button1)
 	end
 end

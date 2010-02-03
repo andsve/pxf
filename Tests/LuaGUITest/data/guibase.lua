@@ -35,6 +35,10 @@ function AddWidget(name, _hitbox, _states, _activestate, events, _render)
 	
 	-- setup calls
 	
+	function widget.SetPosition(self, pos)
+		_SetPosition(self.instance, pos[1], pos[2])
+	end
+	
 	function widget.IsOver(self)
 		return _IsMouseOver(self.instance)
 	end
@@ -59,6 +63,12 @@ function AddWidget(name, _hitbox, _states, _activestate, events, _render)
 	widgets[name] = widget
 	
 	return widget
+end
+
+function GetMouseHit(widget)
+	x, y = _GetMouseHit(widget.instance)
+	print("x: " .. tostring(x) .. " y: " .. tostring(y))
+	return {x, y}
 end
 
 

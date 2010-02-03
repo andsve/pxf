@@ -36,12 +36,14 @@ namespace Pxf
 				bool IsMouseOver();
 				bool IsDown();
 				bool IsClicked();
+				Math::Vec2f* GetMouseHit();
 
 			private:
 				Graphics::QuadBatch* m_QuadBatch;
 				Graphics::Device* m_Device;
 				Util::String m_Name;
-				Math::Vec4i m_HitBox;
+				//Math::Vec4i m_HitBox;
+				Math::Vec2i m_Size;
 
 				Math::Vec3f m_Position;
 
@@ -53,6 +55,7 @@ namespace Pxf
 				bool m_MousePushed;
 				bool m_MouseClicked;
 				bool m_MousePushedLast;
+				Math::Vec2f m_MouseHit;
 			};
 			
 		} // LuaGUI
