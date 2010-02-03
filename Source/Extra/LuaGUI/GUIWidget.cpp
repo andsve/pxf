@@ -14,6 +14,8 @@ GUIWidget::GUIWidget(const char* _name, Math::Vec4i* _hitbox, Graphics::Device* 
 	m_Device = _device;
 	m_QuadBatch = m_Device->CreateQuadBatch(PXF_EXTRA_LUAGUI_MAXQUAD_PER_WIDGET);
 
+	m_Draging = false;
+	m_MouseDownLast = false;
 	m_MouseOver = false;
 	m_MousePushed = false;
 	m_MouseClicked = false;
@@ -71,6 +73,18 @@ void GUIWidget::Draw()
 
 void GUIWidget::Update(Math::Vec2f* _mouse, bool _mouse_down)
 {
+
+	m_MouseHit = Math::Vec2f(_mouse->x - m_Position.x, _mouse->y - m_Position.y);
+
+	if (m_Draging && m_MouseDownLast && _mouse_down)
+	{
+		m_Draging = true;
+	} else {
+		m_Draging = false;
+	}
+
+	m_MouseDownLast = _mouse_down;
+
 	m_MouseOver = false;
 	m_MousePushed = false;
 	m_MouseClicked = false;
@@ -99,8 +113,9 @@ void GUIWidget::Update(Math::Vec2f* _mouse, bool _mouse_down)
 		return;
 	}
 
-	m_MouseHit = Math::Vec2f(_mouse->x - m_Position.x, _mouse->y - m_Position.y);
-	//printf("_x: %f, _y: %f\n", m_MouseHit.x, m_MouseHit.y);
+	// Start draging
+	if (_mouse_down)
+		m_Draging = true;
 
 	m_MouseOver = true;
 	m_MousePushed = _mouse_down;
@@ -115,7 +130,6 @@ void GUIWidget::Update(Math::Vec2f* _mouse, bool _mouse_down)
 
 Math::Vec2f GUIWidget::GetMouseHit()
 {
-	//printf("_x: %f, _y: %f\n", m_MouseHit.x, m_MouseHit.y);
 	return m_MouseHit;
 }
 
@@ -132,4 +146,9 @@ bool GUIWidget::IsDown()
 bool GUIWidget::IsClicked()
 {
 	return m_MouseClicked;
+}
+
+bool GUIWidget::IsDraging()
+{
+	return m_Draging;
 }

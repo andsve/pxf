@@ -158,30 +158,49 @@ function NewScroller(_name, _position, _size, _events)
 	-- calculate slider size -> height = max(size[2] * 0.2, 20)
 	widget.slider_height = math.max(_size[2] * 0.2, 20)
 	
-	-- save scroll position
+	-- save scroll position and default data
 	widget.slider_position = 0
 	widget.last_mouse_hit = nil
+	widget.value = 0
 	
-	-- modify onDown
-	old_ondown = widget.onDown
-	function widget.onDown(self)
+	-- modify onUpdate
+	old_onupdate = widget.onUpdate
+	function widget.onUpdate(self)
 		
-		if (old_ondown) then
-			old_ondown(self)
+		if (old_onupdate) then
+			old_onupdate(self)
 		end
 		
-		-- calc delta
-		if (self.last_mouse_hit == nil) then
-			-- starting to drag
-		else
-			-- continue to drag
+		if (self:IsDraging()) then
+			-- calc delta
 			new_pos = self:GetMouseHit()
-			d = self.last_mouse_hit[2] - new_pos[2]
-			--if (not new_pos[2] == 0) then print("new_pos: " .. tostring(new_pos[2])) end
-			--print("delta: " .. tostring(d))
-			self.slider_position = self.slider_position - d
+			if (self.last_mouse_hit) then
+				-- continue to drag
+				d = self.last_mouse_hit[2] - new_pos[2]
+				self.slider_position = self.slider_position - d
+			else
+				-- start drag
+				-- check if outside slider-button
+				if (new_pos[2] < self.slider_position or new_pos[2] > self.slider_position + self.slider_height) then
+					self.slider_position = new_pos[2] - self.slider_height / 2.0
+				end
+			end
+			
+			-- make sure we are inside our slider area
+			if (self.slider_position < 0) then
+				self.slider_position = 0
+			elseif (self.slider_position + self.slider_height > self.size.h) then
+				self.slider_position = self.size.h - self.slider_height
+			end
+			
+			-- update value
+			self.value = self.slider_position / (self.size.h - self.slider_height)
+			print("value: " .. tostring(self.value))
+			
+			self.last_mouse_hit = self:GetMouseHit()
+		else
+			self.last_mouse_hit = nil
 		end
-		self.last_mouse_hit = self:GetMouseHit()
 	end
 	
 	return widget

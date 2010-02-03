@@ -18,6 +18,7 @@ function AddWidget(_name, _hitbox, _states, _activestate, events, _render)
 			  states = _states,
 			  hitbox = _hitbox,
 			  activestate = _activestate,
+			  position = {x = _hitbox[1], y = _hitbox[2]},
 			  size = {w = _hitbox[3], h = _hitbox[4]},
 			  render = _render,
 			  onClick = events.onClick,
@@ -37,6 +38,7 @@ function AddWidget(_name, _hitbox, _states, _activestate, events, _render)
 	-- setup calls
 	
 	function widget.SetPosition(self, pos)
+		self.position = {x = pos[1], y = pos[2]},
 		_SetPosition(self.instance, pos[1], pos[2])
 	end
 	
@@ -50,6 +52,10 @@ function AddWidget(_name, _hitbox, _states, _activestate, events, _render)
 	
 	function widget.IsDown(self)
 		return _IsDown(self.instance)
+	end
+	
+	function widget.IsDraging(self)
+		return _IsDraging(self.instance)
 	end
 	
 	function widget.GetState(self)
@@ -98,6 +104,10 @@ function UpdateWidgets(delta)
 			if (w:IsOver()) then
 				w.onOver(w)
 			end
+		end
+		
+		if (w.onUpdate) then
+			w.onUpdate(w, delta)
 		end
 	end
 	
