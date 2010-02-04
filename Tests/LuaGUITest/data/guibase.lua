@@ -9,21 +9,23 @@ function AddQuad(widget, quad, coords)
 	_AddQuad(widget, quad[1], quad[2], quad[3], quad[4], coords[1], coords[2], coords[3], coords[4])
 end
 
-function AddWidget(name, _hitbox, _states, _activestate, events, _render)
+function AddWidget(_name, _hitbox, _states, _activestate, events, _render)
 	if (events == nil) then
 		events = {}
 	end
 	
-	widget = {states = _states,
+	widget = {name = _name,
+			  states = _states,
 			  hitbox = _hitbox,
 			  activestate = _activestate,
+			  position = {x = _hitbox[1], y = _hitbox[2]},
 			  size = {w = _hitbox[3], h = _hitbox[4]},
 			  render = _render,
 			  onClick = events.onClick,
 			  onPush = events.onPush,
 			  onOver = events.onOver
 			 }
-	widget.instance = _AddWidget(name, _hitbox[1], _hitbox[2], _hitbox[3], _hitbox[4])
+	widget.instance = _AddWidget(_name, _hitbox[1], _hitbox[2], _hitbox[3], _hitbox[4])
 	
 	
 	for i, _s in pairs(_states) do
@@ -34,6 +36,11 @@ function AddWidget(name, _hitbox, _states, _activestate, events, _render)
 	_SetPosition(widget.instance, _hitbox[1], _hitbox[2])
 	
 	-- setup calls
+	
+	function widget.SetPosition(self, pos)
+		self.position = {x = pos[1], y = pos[2]},
+		_SetPosition(self.instance, pos[1], pos[2])
+	end
 	
 	function widget.IsOver(self)
 		return _IsMouseOver(self.instance)
@@ -47,6 +54,10 @@ function AddWidget(name, _hitbox, _states, _activestate, events, _render)
 		return _IsDown(self.instance)
 	end
 	
+	function widget.IsDraging(self)
+		return _IsDraging(self.instance)
+	end
+	
 	function widget.GetState(self)
 		return self.activestate
 	end
@@ -56,7 +67,12 @@ function AddWidget(name, _hitbox, _states, _activestate, events, _render)
 		_SetState(self.instance, state)
 	end
 	
-	widgets[name] = widget
+	function widget.GetMouseHit(self)
+		x, y = _GetMouseHit(self.instance)
+		return {x, y}
+	end
+	
+	widgets[_name] = widget
 	
 	return widget
 end
@@ -88,6 +104,10 @@ function UpdateWidgets(delta)
 			if (w:IsOver()) then
 				w.onOver(w)
 			end
+		end
+		
+		if (w.onUpdate) then
+			w.onUpdate(w, delta)
 		end
 	end
 	

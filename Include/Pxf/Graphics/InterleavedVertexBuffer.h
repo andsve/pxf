@@ -20,12 +20,11 @@ namespace Pxf
 		private:
 			struct AttributeData
 			{
-				/* uint8 should be large enough to handle stride offsets and type sizes */
-				uint8 TypeSize;
+				uint8 NumComponents;
 				uint8 StrideOffset;
-				AttributeData(uint8 _TypeSize, uint8 _StrideOffset)
+				AttributeData(uint8 _NumComponents, uint8 _StrideOffset)
 				{
-					TypeSize = _TypeSize;
+					NumComponents = _NumComponents;
 					StrideOffset = _StrideOffset;
 				}
 			};
@@ -35,7 +34,6 @@ namespace Pxf
 			VertexBufferLocation m_VertexBufferLocation;
 			VertexBufferUsageFlag m_VertexBufferUsageFlag;
 
-			
 			void* m_InterleavedData;
 			uint32 m_VertexCount;
 			uint32 m_VertexSize;
@@ -50,11 +48,11 @@ namespace Pxf
 			AttributeData m_EdgeFlagAttributes;
 
 		public:
-			InterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation)
+			InterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
 				: m_Attributes(0)
 				, m_PrimitiveType(VB_PRIMITIVE_NONE)
 				, m_VertexBufferLocation(_VertexBufferLocation)
-				, m_VertexBufferUsageFlag(VB_USAGE_STATIC_DRAW)
+				, m_VertexBufferUsageFlag(_VertexBufferUsageFlag)
 				, m_VertexAttributes(0, 0)
 				, m_NormalAttributes(0, 0)
 				, m_TexCoordAttributes(0, 0)
@@ -68,40 +66,41 @@ namespace Pxf
 				, m_IsMapped(false)
 			{}
 
+			// TODO: Combine into Draw() and move glDrawArrays() from Device to the implementation.
 			virtual void _PreDraw() = 0;
 			virtual void _PostDraw() = 0;
 
 
-			virtual void CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag) = 0;
-			virtual void CreateFromBuffer(void* _Buffer,uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag) = 0; 
+			virtual void CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize) = 0;
+			virtual void CreateFromBuffer(void* _Buffer,uint32 _NumVertices, uint32 _VertexSize) = 0; 
 
 			virtual void UpdateData(void* _Buffer, uint32 _Count, uint32 _Offset) = 0;
 
 			virtual void* MapData(VertexBufferAccessFlag _AccessFlag) = 0;
 			virtual void UnmapData() = 0;
 
-			void SetData(VertexBufferAttribute _AttribType, uint8 _StrideOffset, uint8 _TypeSize)
+			void SetData(VertexBufferAttribute _AttribType, uint8 _StrideOffset, uint8 _NumComponents)
 			{
 				m_Attributes |= _AttribType;
 				switch(_AttribType)
 				{
 				case VB_VERTEX_DATA:	m_VertexAttributes.StrideOffset = _StrideOffset;
-										m_VertexAttributes.TypeSize = _TypeSize;
+										m_VertexAttributes.NumComponents = _NumComponents;
 										break;
 				case VB_NORMAL_DATA:	m_NormalAttributes.StrideOffset = _StrideOffset;
-										m_NormalAttributes.TypeSize = _TypeSize;
+										m_NormalAttributes.NumComponents = _NumComponents;
 										break;
 				case VB_TEXCOORD_DATA:	m_TexCoordAttributes.StrideOffset = _StrideOffset;
-										m_TexCoordAttributes.TypeSize = _TypeSize;
+										m_TexCoordAttributes.NumComponents = _NumComponents;
 										break;
 				case VB_COLOR_DATA:		m_ColorAttributes.StrideOffset = _StrideOffset;
-										m_ColorAttributes.TypeSize = _TypeSize;
+										m_ColorAttributes.NumComponents = _NumComponents;
 										break;
 				case VB_INDEX_DATA:		m_IndexAttributes.StrideOffset = _StrideOffset;
-										m_IndexAttributes.TypeSize = _TypeSize;
+										m_IndexAttributes.NumComponents = _NumComponents;
 										break;
 				case VB_EDGEFLAG_DATA:	m_EdgeFlagAttributes.StrideOffset = _StrideOffset;
-										m_EdgeFlagAttributes.TypeSize = _TypeSize;
+										m_EdgeFlagAttributes.NumComponents = _NumComponents;
 										break;
 				}
 			}
@@ -126,12 +125,12 @@ namespace Pxf
 			{
 				switch(_AttribType)
 				{
-				case VB_VERTEX_DATA:   return m_VertexAttributes.TypeSize;
-				case VB_NORMAL_DATA:   return m_NormalAttributes.TypeSize;
-				case VB_TEXCOORD_DATA: return m_TexCoordAttributes.TypeSize;
-				case VB_COLOR_DATA:    return m_ColorAttributes.TypeSize;
-				case VB_INDEX_DATA:    return m_IndexAttributes.TypeSize;
-				case VB_EDGEFLAG_DATA: return m_EdgeFlagAttributes.TypeSize;
+				case VB_VERTEX_DATA:   return m_VertexAttributes.NumComponents;
+				case VB_NORMAL_DATA:   return m_NormalAttributes.NumComponents;
+				case VB_TEXCOORD_DATA: return m_TexCoordAttributes.NumComponents;
+				case VB_COLOR_DATA:    return m_ColorAttributes.NumComponents;
+				case VB_INDEX_DATA:    return m_IndexAttributes.NumComponents;
+				case VB_EDGEFLAG_DATA: return m_EdgeFlagAttributes.NumComponents;
 				}
 
 				PXFASSERT(0, "Unknown attribute type specified");

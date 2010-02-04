@@ -23,31 +23,55 @@ namespace Pxf
 		//! Abstract class for vertex buffer
 		class NonInterleavedVertexBuffer
 		{
+		private:
+			struct AttributeData
+			{
+				uint8 NumComponents;
+				void* Data;
+				AttributeData(uint8 _NumComponents, void* _Data)
+				{
+					NumComponents = _NumComponents;
+					Data = _Data;
+				}
+			};
+
 		protected:
 			unsigned int m_Attributes;
 			VertexBufferPrimitiveType m_PrimitiveType;
 			VertexBufferLocation m_VertexBufferLocation;
+			VertexBufferUsageFlag m_VertexBufferUsageFlag;
+
+			uint32 m_VertexCount;
+			bool m_IsMapped;
+
+			AttributeData m_VertexAttributes;
+			AttributeData m_NormalAttributes;
+			AttributeData m_TexCoordAttributes;
+			AttributeData m_ColorAttributes;
+			AttributeData m_IndexAttributes;
+			AttributeData m_EdgeFlagAttributes;
 
 		public:
-			NonInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation)
+			NonInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
 				: m_Attributes(0)
 				, m_PrimitiveType(VB_PRIMITIVE_NONE)
 				, m_VertexBufferLocation(_VertexBufferLocation)
+				, m_VertexBufferUsageFlag(_VertexBufferUsageFlag)
+				, m_VertexAttributes(0, 0)
+				, m_NormalAttributes(0, 0)
+				, m_TexCoordAttributes(0, 0)
+				, m_ColorAttributes(0, 0)
+				, m_IndexAttributes(0, 0)
+				, m_EdgeFlagAttributes(0, 0)
+				, m_VertexCount(0)
+				, m_IsMapped(false)
 			{}
 
 			virtual void _PreDraw() = 0;
 			virtual void _PostDraw() = 0;
 
 
-			// void* CreateNew();
-
-			//virtual void UpdateData(AttribType _AttribType, void* _Ptr, uint32 size); <- does not work for interleaved?
-
-			// Interleaved
-			virtual void SetData(VertexBufferAttribute _AttribType, unsigned _TypeSize, const void* _Ptr, unsigned _Count, unsigned _Stride = 0) = 0;
-
-			// Commit and create vertex object
-			virtual bool Commit() = 0;
+			void SetData(VertexBufferAttribute _AttribType, uint8 _StrideOffset, uint8 _NumComponents);
 
 			void SetPrimitive(VertexBufferPrimitiveType _PrimitiveType)
 			{

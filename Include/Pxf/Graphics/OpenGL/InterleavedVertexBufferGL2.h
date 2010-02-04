@@ -18,11 +18,11 @@ namespace Pxf
 		private:
 			unsigned m_BufferObjectId;
 		public:
-			InterleavedVertexBufferGL2(VertexBufferLocation _VertexBufferLocation);
+			InterleavedVertexBufferGL2(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag);
 			virtual ~InterleavedVertexBufferGL2();
 
-			void CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag);
-			void CreateFromBuffer(void* _Buffer,uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag); 
+			void CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize);
+			void CreateFromBuffer(void* _Buffer,uint32 _NumVertices, uint32 _VertexSize); 
 
 			void UpdateData(void* _Buffer, uint32 _Count, uint32 _Offset);
 

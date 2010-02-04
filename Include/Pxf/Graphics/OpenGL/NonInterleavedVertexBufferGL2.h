@@ -16,7 +16,7 @@ namespace Pxf
 		class NonInterleavedVertexBufferGL2 : public NonInterleavedVertexBuffer
 		{
 		public:
-			NonInterleavedVertexBufferGL2(VertexBufferLocation _VertexBufferLocation);
+			NonInterleavedVertexBufferGL2(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag);
 			virtual ~NonInterleavedVertexBufferGL2();
 
 			void SetData(VertexBufferAttribute _AttribType, unsigned _TypeSize, const void* _Ptr, unsigned _Count, unsigned _Stride = 0);

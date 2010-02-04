@@ -45,8 +45,8 @@ static GLuint LookupAccessFlag(VertexBufferAccessFlag _BufferAccessFlag)
 }
 
 
-InterleavedVertexBufferGL2::InterleavedVertexBufferGL2(VertexBufferLocation _VertexBufferLocation)
-	: InterleavedVertexBuffer(_VertexBufferLocation)
+InterleavedVertexBufferGL2::InterleavedVertexBufferGL2(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
+	: InterleavedVertexBuffer(_VertexBufferLocation, _VertexBufferUsageFlag)
 	, m_BufferObjectId(0)
 {}
 
@@ -79,7 +79,7 @@ void InterleavedVertexBufferGL2::_PreDraw()
 
 	PXFASSERT(m_Attributes & VB_VERTEX_DATA, "Attempt to draw without vertex data.");
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(m_VertexAttributes.TypeSize, GL_FLOAT, m_VertexSize, GL::BufferObjectPtr(BufferOffset + m_VertexAttributes.StrideOffset));
+	glVertexPointer(m_VertexAttributes.NumComponents, GL_FLOAT, m_VertexSize, GL::BufferObjectPtr(BufferOffset + m_VertexAttributes.StrideOffset));
 
 
 	if(m_Attributes & VB_NORMAL_DATA)
@@ -91,13 +91,13 @@ void InterleavedVertexBufferGL2::_PreDraw()
 	if(m_Attributes & VB_TEXCOORD_DATA)
 	{
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glTexCoordPointer(m_TexCoordAttributes.TypeSize, GL_FLOAT, m_VertexSize, GL::BufferObjectPtr(BufferOffset + m_TexCoordAttributes.StrideOffset));
+		glTexCoordPointer(m_TexCoordAttributes.NumComponents, GL_FLOAT, m_VertexSize, GL::BufferObjectPtr(BufferOffset + m_TexCoordAttributes.StrideOffset));
 	}
 
 	if(m_Attributes & VB_COLOR_DATA)
 	{
 		glEnableClientState(GL_COLOR_ARRAY);
-		glColorPointer(m_ColorAttributes.TypeSize, GL_FLOAT, m_VertexSize, GL::BufferObjectPtr(BufferOffset + m_ColorAttributes.StrideOffset));
+		glColorPointer(m_ColorAttributes.NumComponents, GL_FLOAT, m_VertexSize, GL::BufferObjectPtr(BufferOffset + m_ColorAttributes.StrideOffset));
 	}
 
 	if(m_Attributes & VB_INDEX_DATA)
@@ -151,14 +151,14 @@ void InterleavedVertexBufferGL2::_PostDraw()
 
 
 
-void InterleavedVertexBufferGL2::CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag)
+void InterleavedVertexBufferGL2::CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize)
 {
 	if (m_InterleavedData != 0 || m_BufferObjectId != 0)
 		return;
 
 	if (m_VertexBufferLocation == VB_LOCATION_GPU)
 	{
-		GLuint usage = LookupUsageFlag(_UsageFlag);
+		GLuint usage = LookupUsageFlag(m_VertexBufferUsageFlag);
 		glGenBuffers(1, (GLuint*)&m_BufferObjectId);
 		glBindBuffer(GL_ARRAY_BUFFER, (GLuint) m_BufferObjectId);
 		glBufferData(GL_ARRAY_BUFFER_ARB, _NumVertices * _VertexSize, 0, usage);
@@ -172,10 +172,9 @@ void InterleavedVertexBufferGL2::CreateNewBuffer(uint32 _NumVertices, uint32 _Ve
 	m_VertexCount = _NumVertices;
 	m_VertexSize = _VertexSize;
 	m_ByteCount = _NumVertices * _VertexSize;
-	m_VertexBufferUsageFlag = _UsageFlag;
 }
 
-void InterleavedVertexBufferGL2::CreateFromBuffer(void* _Buffer,uint32 _NumVertices, uint32 _VertexSize, VertexBufferUsageFlag _UsageFlag)
+void InterleavedVertexBufferGL2::CreateFromBuffer(void* _Buffer,uint32 _NumVertices, uint32 _VertexSize)
 {
 	if (m_InterleavedData != 0 && m_BufferObjectId != 0)
 		return;
@@ -183,7 +182,7 @@ void InterleavedVertexBufferGL2::CreateFromBuffer(void* _Buffer,uint32 _NumVerti
 	if (m_VertexBufferUsageFlag == VB_LOCATION_GPU)
 	{
 		// Copy to gpu memory
-		GLuint usage = LookupUsageFlag(_UsageFlag);
+		GLuint usage = LookupUsageFlag(m_VertexBufferUsageFlag);
 		glBindBuffer(GL_ARRAY_BUFFER, (GLuint) m_BufferObjectId);
 		glBufferData(GL_ARRAY_BUFFER_ARB, _NumVertices * _VertexSize, _Buffer, usage);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -198,7 +197,6 @@ void InterleavedVertexBufferGL2::CreateFromBuffer(void* _Buffer,uint32 _NumVerti
 	m_VertexCount = _NumVertices;
 	m_VertexSize = _VertexSize;
 	m_ByteCount = _NumVertices * _VertexSize;
-	m_VertexBufferUsageFlag = _UsageFlag;
 }
 
 void InterleavedVertexBufferGL2::UpdateData(void* _Buffer, uint32 _Count, uint32 _Offset)
