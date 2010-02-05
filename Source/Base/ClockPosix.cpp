@@ -12,7 +12,7 @@ void Clock::Initialize()
 {
 	struct timeval timeVal;
 	gettimeofday(&timeVal, NULL);
-	m_Starttime = (int64)timeVal.tv_sec * (int64)1000000 + (int64)timeVal.tv_usec;
+	m_Timestamp = (int64)timeVal.tv_sec * (int64)1000000 + (int64)timeVal.tv_usec;
 	m_Frequency = 1e-6;
 }
 
