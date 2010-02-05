@@ -12,7 +12,6 @@ namespace Pxf
 		static bool s_Initialized;
 		static int64 m_Frequency;
 		static int64 m_Timestamp;
-		static int64 m_Starttime;
 		static void Initialize();
 	public:
 		Clock()

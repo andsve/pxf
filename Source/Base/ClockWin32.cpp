@@ -8,7 +8,6 @@ using namespace Pxf;
 
 bool Clock::s_Initialized = false;
 int64 Clock::m_Frequency = -1;
-int64 Clock::m_Timestamp = 0;
 
 void Clock::Initialize()
 {
