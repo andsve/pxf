@@ -41,16 +41,17 @@ function CreateSettings(settings)
     -- Intermediate directory for object files
     settings.cc.Output = Intermediate_Output
     
-    -- Set compiler specific values
---  if config.compiler.value == "cl" then
---      settings.cc.flags:Add("/EHsc")
---  elseif config.compiler.value == "gcc" then
---      settings.cc.flags:Add("-Wall", "-fno-exceptions")
---  end
-    settings.cc.flags:Add("/EHsc")
-    
        -- Libraries
     if family == "windows" then
+    
+        -- Set compiler specific values
+        --  if config.compiler.value == "cl" then
+        --      settings.cc.flags:Add("/EHsc")
+        --  elseif config.compiler.value == "gcc" then
+        --      settings.cc.flags:Add("-Wall", "-fno-exceptions")
+        --  end
+        settings.cc.flags:Add("/EHsc")
+        
         settings.link.libs:Add("opengl32")
         settings.link.libs:Add("glu32")
         settings.link.libs:Add("gdi32")
