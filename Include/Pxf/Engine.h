@@ -4,6 +4,7 @@
 #include <Pxf/Base/Config.h>
 #include <Pxf/Base/Types.h>
 #include <Pxf/Base/ErrorType.h>
+#include <Pxf/Graphics/DeviceDefs.h>
 #include <Pxf/Graphics/DeviceType.h>
 
 namespace Pxf

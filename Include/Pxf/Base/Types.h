@@ -10,7 +10,10 @@ typedef unsigned int uint;
 #if defined(CONF_COMPILER_GCC)
     typedef unsigned char uint8;
     typedef unsigned short uint16;
-    typedef unsigned long uint32;
+#ifndef _UINT32
+    typedef unsigned long uint32; // fails on osx: /System/Library/Frameworks/Security.framework/Headers/cssmconfig.h:69: error: conflicting declaration ‘typedef uint32_t uint32’
+#define _UINT32
+#endif
     typedef char int8;
     typedef short int16;
     typedef long int32;
