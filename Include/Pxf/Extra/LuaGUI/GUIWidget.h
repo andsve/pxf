@@ -24,10 +24,8 @@ namespace Pxf
 				~GUIWidget();
 
 				void SetPosition(Math::Vec2f _pos);
-				void Reset();
+				Math::Vec3f* GetPosition();
 				void AddState(const char* _stateid);
-				void AddQuad(Math::Vec4i* _quad, Math::Vec4f* _texcoord);
-				void Draw();
 				void Update(Math::Vec2f* _mouse, bool _mouse_down);
 
 				void SetState(const char* _stateid);
@@ -40,8 +38,6 @@ namespace Pxf
 				Math::Vec2f GetMouseHit();
 
 			private:
-				Graphics::QuadBatch* m_QuadBatch;
-				Graphics::Device* m_Device;
 				Util::String m_Name;
 				Math::Vec2i m_Size;
 

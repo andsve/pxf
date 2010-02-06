@@ -22,7 +22,7 @@ extern "C" {
 namespace Pxf
 {
 
-	namespace Graphics { class Device; class Texture; }
+	namespace Graphics { class Device; class Texture; class QuadBatch; }
 
 	namespace Extra
 	{
@@ -47,6 +47,7 @@ namespace Pxf
 			
 			private:
 				Graphics::Device* m_Device;
+				Graphics::QuadBatch* m_QuadBatch;
 				Graphics::Texture* m_Texture;
 				Util::String m_Filepath;
 				int m_Viewarea[4];

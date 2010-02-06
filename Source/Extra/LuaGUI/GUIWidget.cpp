@@ -1,5 +1,5 @@
 #include <Pxf/Graphics/Device.h>
-#include <Pxf/Graphics/QuadBatch.h>
+//#include <Pxf/Graphics/QuadBatch.h>
 
 #include <Pxf/Extra/LuaGUI/GUIWidget.h>
 
@@ -11,8 +11,8 @@ using namespace Pxf::Extra::LuaGUI;
 GUIWidget::GUIWidget(const char* _name, Math::Vec4i* _hitbox, Graphics::Device* _device)
 {
 	m_Name = _name;
-	m_Device = _device;
-	m_QuadBatch = m_Device->CreateQuadBatch(PXF_EXTRA_LUAGUI_MAXQUAD_PER_WIDGET);
+//	m_Device = _device;
+//	m_QuadBatch = m_Device->CreateQuadBatch(PXF_EXTRA_LUAGUI_MAXQUAD_PER_WIDGET);
 
 	m_Draging = false;
 	m_MouseDownLast = false;
@@ -29,8 +29,8 @@ GUIWidget::GUIWidget(const char* _name, Math::Vec4i* _hitbox, Graphics::Device* 
 
 GUIWidget::~GUIWidget()
 {
-	if (m_QuadBatch)
-		delete m_QuadBatch;
+	//if (m_QuadBatch)
+	//	delete m_QuadBatch;
 }
 
 void GUIWidget::SetPosition(Math::Vec2f _pos)
@@ -38,9 +38,9 @@ void GUIWidget::SetPosition(Math::Vec2f _pos)
 	m_Position = Math::Vec3f(_pos.x, _pos.y, 0.0f);
 }
 
-void GUIWidget::Reset()
+Math::Vec3f* GUIWidget::GetPosition()
 {
-	m_QuadBatch->Reset();
+	return &m_Position;
 }
 
 void GUIWidget::AddState(const char* _stateid)
@@ -56,19 +56,6 @@ void GUIWidget::SetState(const char* _stateid)
 const char* GUIWidget::GetState()
 {
 	return m_ActiveState.c_str();
-}
-
-void GUIWidget::AddQuad(Math::Vec4i* _quad, Math::Vec4f* _texcoord)
-{
-	m_QuadBatch->SetTextureSubset(_texcoord->x, _texcoord->y, _texcoord->z, _texcoord->w);
-	m_QuadBatch->AddTopLeft(_quad->x, _quad->y, _quad->z, _quad->w);
-}
-
-void GUIWidget::Draw()
-{
-	m_Device->Translate(m_Position);
-	m_QuadBatch->Draw();
-	m_Device->Translate(-m_Position);
 }
 
 void GUIWidget::Update(Math::Vec2f* _mouse, bool _mouse_down)
