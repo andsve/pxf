@@ -212,7 +212,7 @@ function NewScroller(_name, _position, _size, _events)
 	end
 	
 	function scroll_widget.IncreaseValue(self)
-		self.slider_position = self.slider_position + self.slider_height * 0.5
+		self.slider_position = self.slider_position + self.slider_height * 0.2
 		
 		if (self.slider_position < 0) then
 			self.slider_position = 0
@@ -224,7 +224,7 @@ function NewScroller(_name, _position, _size, _events)
 	end
 	
 	function scroll_widget.DecreaseValue(self)
-		self.slider_position = self.slider_position - self.slider_height * 0.5
+		self.slider_position = self.slider_position - self.slider_height * 0.2
 		
 		if (self.slider_position < 0) then
 			self.slider_position = 0
@@ -235,11 +235,16 @@ function NewScroller(_name, _position, _size, _events)
 		self:UpdateValue()
 	end
 	
-	-- add arrow-buttons
-	scroll_widget.arrow_up = NewSimpleButton(scroll_widget.name .. "arrow_up", {scroll_widget.position.x, scroll_widget.position.y - 32}, {scroll_widget.size.w, 15}, {onClick = function (self) self.owner:DecreaseValue(); end })
-	scroll_widget.arrow_up.owner = scroll_widget
-	scroll_widget.arrow_down = NewSimpleButton(scroll_widget.name .. "arrow_down", {scroll_widget.position.x, scroll_widget.position.y - 16}, {scroll_widget.size.w, 15}, {onClick = function (self) self.owner:IncreaseValue(); end })
-	scroll_widget.arrow_down.owner = scroll_widget
+	-- add arrow-buttons above
+	scroll_widget.arrow_up_above = NewSimpleButton(scroll_widget.name .. "arrow_up_above", {scroll_widget.position.x, scroll_widget.position.y - 32}, {scroll_widget.size.w, 15}, {onClick = function (self) self.owner:DecreaseValue(); end })
+	scroll_widget.arrow_up_above.owner = scroll_widget
+	scroll_widget.arrow_down_above = NewSimpleButton(scroll_widget.name .. "arrow_down_above", {scroll_widget.position.x, scroll_widget.position.y - 16}, {scroll_widget.size.w, 15}, {onClick = function (self) self.owner:IncreaseValue(); end })
+	scroll_widget.arrow_down_above.owner = scroll_widget
+	
+	scroll_widget.arrow_up_below = NewSimpleButton(scroll_widget.name .. "arrow_up_below", {scroll_widget.position.x, scroll_widget.position.y + scroll_widget.size.h + 1}, {scroll_widget.size.w, 15}, {onClick = function (self) self.owner:DecreaseValue(); end })
+	scroll_widget.arrow_up_below.owner = scroll_widget
+	scroll_widget.arrow_down_below = NewSimpleButton(scroll_widget.name .. "arrow_down_below", {scroll_widget.position.x, scroll_widget.position.y + scroll_widget.size.h + 17}, {scroll_widget.size.w, 15}, {onClick = function (self) self.owner:IncreaseValue(); end })
+	scroll_widget.arrow_down_below.owner = scroll_widget
 	
 	return scroll_widget
 end
