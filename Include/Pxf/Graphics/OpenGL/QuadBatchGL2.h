@@ -8,8 +8,6 @@ namespace Pxf
 {
 	namespace Graphics
 	{
-		enum DeviceType;
-		enum PrimitiveType;
 		
 		class QuadBatchGL2 : public QuadBatch
 		{

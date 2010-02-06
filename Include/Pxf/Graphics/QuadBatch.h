@@ -7,8 +7,6 @@ namespace Pxf
 {
 	namespace Graphics
 	{
-		enum DeviceType;
-		enum PrimitiveType;
 
 		//! Abstract class for quad primitive batches (2D rendering tool)
 		class QuadBatch

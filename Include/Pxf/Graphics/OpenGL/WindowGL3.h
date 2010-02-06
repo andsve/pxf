@@ -1,7 +1,11 @@
 #ifndef _PXF_GRAPHICS_WINDOWGL3_H_
 #define _PXF_GRAPHICS_WINDOWGL3_H_
 
-#include <windows.h>		// Header File For Windows
+#ifdef CONF_FAMILY_WINDOWS
+// Header File For Windows
+#include <windows.h>
+#endif
+#include <Pxf/Base/Config.h>
 #include <Pxf/Graphics/Window.h>
 #include <Pxf/Graphics/WindowSpecifications.h>
 
