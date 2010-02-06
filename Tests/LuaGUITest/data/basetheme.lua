@@ -119,7 +119,7 @@ function NewScroller(_name, _position, _size, _events)
 		size =  {w = widget.size.w, h = widget.slider_height}
 		pos_y = widget.slider_position
 		
-		if (widget:IsDown()) then
+		if (widget:IsOver() and widget.last_mouse_hit) then
 			AddQuad(instance, {0, pos_y, size.w, size.h}, {244, 0, 1, 255}); -- back
 			
 			AddQuad(instance, {-1, pos_y-1, 3, 3}, {0, 7, 3, 3}); -- top left corner
@@ -152,20 +152,20 @@ function NewScroller(_name, _position, _size, _events)
 
 	states = { "active", "inactive" }
 	activestate = "active"
-	widget = AddWidget(_name, {_position[1], _position[2], _size[1], _size[2]},
+	scroll_widget = AddWidget(_name, {_position[1], _position[2], _size[1], _size[2]},
 	                   states, activestate,
 					   _events, render_slider)
 	-- calculate slider size -> height = max(size[2] * 0.2, 20)
-	widget.slider_height = math.max(_size[2] * 0.2, 20)
+	scroll_widget.slider_height = math.max(_size[2] * 0.2, 20)
 	
 	-- save scroll position and default data
-	widget.slider_position = 0
-	widget.last_mouse_hit = nil
-	widget.value = 0
+	scroll_widget.slider_position = 0
+	scroll_widget.last_mouse_hit = nil
+	scroll_widget.value = 0
 	
 	-- modify onUpdate
-	old_onupdate = widget.onUpdate
-	function widget.onUpdate(self)
+	old_onupdate = scroll_widget.onUpdate
+	function scroll_widget.onUpdate(self)
 		
 		if (old_onupdate) then
 			old_onupdate(self)
@@ -174,8 +174,13 @@ function NewScroller(_name, _position, _size, _events)
 		if (self:IsDraging()) then
 			-- calc delta
 			new_pos = self:GetMouseHit()
+			
+			if (not (new_pos[2] > 5 and new_pos[2] < self.size.h - 5 and new_pos[1] > -30 and new_pos[1] < 30)) then
+				return -- only allow draging inside this "safe zone"
+			end
+			
 			if (self.last_mouse_hit) then
-				-- continue to drag
+				-- continue to drag				
 				d = self.last_mouse_hit[2] - new_pos[2]
 				self.slider_position = self.slider_position - d
 			else
@@ -194,8 +199,7 @@ function NewScroller(_name, _position, _size, _events)
 			end
 			
 			-- update value
-			self.value = self.slider_position / (self.size.h - self.slider_height)
-			print("value: " .. tostring(self.value))
+			self:UpdateValue()
 			
 			self.last_mouse_hit = self:GetMouseHit()
 		else
@@ -203,6 +207,40 @@ function NewScroller(_name, _position, _size, _events)
 		end
 	end
 	
-	return widget
+	function scroll_widget.UpdateValue(self)
+		self.value = self.slider_position / (self.size.h - self.slider_height)
+	end
+	
+	function scroll_widget.IncreaseValue(self)
+		self.slider_position = self.slider_position + self.slider_height * 0.5
+		
+		if (self.slider_position < 0) then
+			self.slider_position = 0
+		elseif (self.slider_position + self.slider_height > self.size.h) then
+			self.slider_position = self.size.h - self.slider_height
+		end
+		
+		self:UpdateValue()
+	end
+	
+	function scroll_widget.DecreaseValue(self)
+		self.slider_position = self.slider_position - self.slider_height * 0.5
+		
+		if (self.slider_position < 0) then
+			self.slider_position = 0
+		elseif (self.slider_position + self.slider_height > self.size.h) then
+			self.slider_position = self.size.h - self.slider_height
+		end
+		
+		self:UpdateValue()
+	end
+	
+	-- add arrow-buttons
+	scroll_widget.arrow_up = NewSimpleButton(scroll_widget.name .. "arrow_up", {scroll_widget.position.x, scroll_widget.position.y - 32}, {scroll_widget.size.w, 15}, {onClick = function (self) self.owner:DecreaseValue(); end })
+	scroll_widget.arrow_up.owner = scroll_widget
+	scroll_widget.arrow_down = NewSimpleButton(scroll_widget.name .. "arrow_down", {scroll_widget.position.x, scroll_widget.position.y - 16}, {scroll_widget.size.w, 15}, {onClick = function (self) self.owner:IncreaseValue(); end })
+	scroll_widget.arrow_down.owner = scroll_widget
+	
+	return scroll_widget
 end
 
