@@ -99,6 +99,8 @@ void SimpleFont::AddText(Util::String _text, Math::Vec3f _pos)
 void SimpleFont::Draw()
 {
 	m_Device->BindTexture(m_CharmapTexture);
+	m_CharmapTexture->SetMagFilter(TEX_FILTER_NEAREST);
+	m_CharmapTexture->SetMinFilter(TEX_FILTER_NEAREST);
 	m_QuadBatch->Draw();
 }
 

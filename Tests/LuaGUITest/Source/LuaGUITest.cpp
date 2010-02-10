@@ -63,8 +63,8 @@ bool PxfMain(Util::String _CmdLine)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
 		glEnable(GL_TEXTURE_2D);
-		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+		//glEnable(GL_BLEND);
 		
 
 		// Update input
@@ -77,9 +77,13 @@ bool PxfMain(Util::String _CmdLine)
 		mousepos_f.y = mousepos_i.y;
 
 		// GUI
+		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
 		pGUI->Update(&mousepos_f, pInput->IsButtonDown(Pxf::Input::MOUSE_LEFT), 1.0f);
 		pGUI->Draw();
 		
+		glBlendFunc(GL_SRC_COLOR,GL_ONE_MINUS_SRC_COLOR);
+		//glEnable(GL_BLEND);
 		_fonttest->Draw();
 
 		

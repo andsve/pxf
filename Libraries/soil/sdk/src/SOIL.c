@@ -1177,7 +1177,7 @@ unsigned int
 		switch( channels )
 		{
 		case 1:
-			original_texture_format = GL_ALPHA;
+			original_texture_format = GL_LUMINANCE;//GL_ALPHA;
 			break;
 		case 2:
 			original_texture_format = GL_LUMINANCE_ALPHA;
