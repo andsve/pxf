@@ -7,6 +7,7 @@
 #include <Pxf/Graphics/DeviceDefs.h>
 #include <Pxf/Graphics/DeviceType.h>
 #include <Pxf/Graphics/TextureDefs.h>
+#include <Pxf/Graphics/VertexBufferDefs.h>
 #include <Pxf/Graphics/RenderTarget.h>
 
 namespace Pxf
