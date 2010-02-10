@@ -27,8 +27,10 @@ void FBO::AddColorAttachment(Texture* _Color)
 		Message(LOCAL_MSG,"Could not attach color texture to FBO");
 	
 	glDisable(GL_TEXTURE_2D);
-
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	if(glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT) != GL_FRAMEBUFFER_COMPLETE_EXT)
+		Message(LOCAL_MSG,"Framebuffer not ready");
 }
 
 void FBO::AddDepthAttachment(Texture* _Depth)
@@ -41,30 +43,25 @@ void FBO::AddDepthAttachment(Texture* _Depth)
 	
 	glDisable(GL_TEXTURE_2D);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	if(glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT) != GL_FRAMEBUFFER_COMPLETE_EXT)
+		Message(LOCAL_MSG,"Framebuffer not ready");
 }
 
-FBO::FBO(int _Width,int _Height,GLenum _ColorFormat = GL_RGBA8, GLenum _DepthFormat = GL_DEPTH_COMPONENT)
+void FBO::_Initialize()
 {
-	m_Width = _Width;
-	m_Height = _Height;
-	m_ColorFormat = _ColorFormat;
-	m_DepthFormat = _DepthFormat;
-
-	// generate handles
 	glEnable(GL_TEXTURE_2D);
 	glGenFramebuffers(1, &m_FBOHandle);
 	glDisable(GL_TEXTURE_2D);
+
+	GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
 }
+
 
 FBO::~FBO()
 {
 	//
 	glDeleteFramebuffersEXT(1,&m_FBOHandle);
-}
-
-PBO::PBO()
-{
-	//
 }
 
 PBO::~PBO()

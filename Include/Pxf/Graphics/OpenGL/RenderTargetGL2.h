@@ -7,7 +7,7 @@
 namespace Pxf
 {
 	namespace Graphics
-	{	
+	{			
 		const GLenum FBO_Buffers[] = { 	GL_COLOR_ATTACHMENT0_EXT, 
 										GL_COLOR_ATTACHMENT1_EXT,
 										GL_COLOR_ATTACHMENT2_EXT,
@@ -19,6 +19,7 @@ namespace Pxf
 		{
 		private:
 			bool 	m_MRTEnabled;
+			
 			int 	m_Width;
 			int 	m_Height;
 
@@ -31,8 +32,14 @@ namespace Pxf
 			// pointers instead?
 			GLuint 	m_ColorAttachments[4];
 			GLuint 	m_DepthAttachment;
+
+			void _Initialize();
 		public:
-			FBO(int _Width,int _Height,GLenum _ColorFormat,GLenum _DepthFormat);
+			FBO() : RenderTarget(RT_TYPE_FBO)
+			{
+				_Initialize();
+			}
+
 			~FBO();
 			void AddColorAttachment(Texture* _Color);
 			void AddDepthAttachment(Texture* _Color);
@@ -44,9 +51,10 @@ namespace Pxf
 		class PBO : public RenderTarget
 		{
 		private:
-			// lol
 		public:
-			PBO();
+			PBO() : RenderTarget(RT_TYPE_PBO)
+			{
+			}
 			~PBO();
 		};
 	} // Graphics

@@ -49,11 +49,10 @@ void TextureGL2::Load(const char* _filepath)
 
 }
 
-void TextureGL2::LoadData(const unsigned char* _datachunk, int _width, int _height, int _channels, TextureFormatStorage _format)
+void TextureGL2::LoadData(const unsigned char* _datachunk, int _width, int _height, TextureFormatStorage _format)
 {
 	m_Width = _width;
 	m_Height = _height;
-	m_Channels = _channels;
 	
 	GLuint tformat;
 	
@@ -70,6 +69,7 @@ void TextureGL2::LoadData(const unsigned char* _datachunk, int _width, int _heig
 	glGenTextures(1, &m_TextureID);
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
 	glTexImage2D(GL_TEXTURE_2D, 0, tformat, _width, _height, 0, tformat, GL_UNSIGNED_BYTE, _datachunk);
+	glGenerateMipmapEXT(GL_TEXTURE_2D);
 	
 	/*
 	m_TextureID = SOIL_create_OGL_texture(
