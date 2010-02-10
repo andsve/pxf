@@ -14,7 +14,7 @@ namespace Pxf
 		{
 		public:
 			virtual void Load(const char* _filepath) = 0;
-			virtual void LoadData(const unsigned char* _datachunk, int _width, int _height, int _channels, TextureFormatStorage _format = FORMAT_RGBA) = 0;
+			virtual void LoadData(const unsigned char* _datachunk, int _width, int _height, int _channels) = 0;
 			virtual void Unload() = 0;
 			virtual void Reload() = 0;
 

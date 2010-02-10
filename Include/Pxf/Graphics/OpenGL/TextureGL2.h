@@ -19,7 +19,7 @@ namespace Pxf
 			TextureGL2();
 			~TextureGL2();
 			void Load(const char* _filepath);
-			void LoadData(const unsigned char* _datachunk, int _width, int _height, int _channels, TextureFormatStorage _format = FORMAT_RGBA);
+			void LoadData(const unsigned char* _datachunk, int _width, int _height, int _channels);
 			void Unload();
 			void Reload();
 

@@ -42,7 +42,7 @@ namespace Pxf
 
 			// Texture
 			virtual Texture* CreateTexture(const char* _filepath) = 0;
-			virtual Texture* CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, int _channels, TextureFormatStorage _format = FORMAT_RGBA) = 0;
+			virtual Texture* CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, int _channels) = 0;
 			virtual void BindTexture(Texture* _texture) = 0;
 			virtual void BindTexture(Texture* _texture, unsigned int _texture_unit) = 0; // Multi-texturing
 
