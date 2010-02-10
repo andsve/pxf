@@ -62,7 +62,7 @@ void SimpleFont::Load()
 		delete _ttf_buffer;
 		
 		// create texture
-		m_CharmapTexture = m_Device->CreateTextureFromData(_temp_bitmap, m_TextureSize, m_TextureSize, 1, FORMAT_A);
+		m_CharmapTexture = m_Device->CreateTextureFromData(_temp_bitmap, m_TextureSize, m_TextureSize, 1, FORMAT_RGBA);
 		delete _temp_bitmap;
 		
 		// set some texture filtering

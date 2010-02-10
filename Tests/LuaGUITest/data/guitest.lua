@@ -17,5 +17,6 @@ function update(delta)
 		--widgets.Button1:SetPosition({10, 15})
 		--GetMouseHit(widgets.Button1)
 		print("Scroll value: " .. tostring(widgets.Scroll.value))
+		print("HONK!")
 	end
 end
