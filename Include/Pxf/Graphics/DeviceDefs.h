@@ -9,7 +9,6 @@ namespace Pxf
 {
 	namespace Graphics
 	{
-		
 		enum DeviceType
 		{
 			EOpenGL2,

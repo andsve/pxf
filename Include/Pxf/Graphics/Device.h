@@ -6,6 +6,7 @@
 #include <Pxf/Math/Matrix.h>
 #include <Pxf/Graphics/DeviceDefs.h>
 #include <Pxf/Graphics/DeviceType.h>
+//#include <Pxf/Graphics/Device.h>
 
 namespace Pxf
 {
@@ -19,6 +20,8 @@ namespace Pxf
 		class Texture;
 
 		class QuadBatch;
+		class RenderTarget;
+		enum RTFormat;
 		
 		//! Abstract video device
 		class Device
@@ -51,6 +54,10 @@ namespace Pxf
 			virtual void DestroyVertexBuffer(NonInterleavedVertexBuffer* _pVertexBuffer) = 0;
 			virtual void DestroyVertexBuffer(InterleavedVertexBuffer* _pVertexBuffer) = 0;
 			virtual void DrawBuffer(InterleavedVertexBuffer* _pVertexBuffer) = 0;
+
+			virtual void BindRenderTarget(RenderTarget* _RenderTarget) = 0;
+			virtual void ReleaseRenderTarget(RenderTarget* _RenderTarget) = 0;
+			virtual RenderTarget* CreateRenderTarget(int _Width,int _Height,RTFormat _ColorFormat,RTFormat _DepthFormat) = 0;
 
 
 			// Need the name VertexBuffer for draw calls...?

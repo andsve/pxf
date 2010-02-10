@@ -4,6 +4,7 @@
 #include <Pxf/Math/Vector.h>
 #include <Pxf/Graphics/OpenGL/DeviceGL2.h>
 #include <Pxf/Graphics/Texture.h>
+#include <Pxf/Util/String.h>
 
 namespace Pxf
 {

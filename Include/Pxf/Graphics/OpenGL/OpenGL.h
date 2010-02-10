@@ -5,6 +5,7 @@
 
 #include <GL/glew.h>
 
+
 #if defined(CONF_FAMILY_WINDOWS)
 	#define WIN32_LEAN_AND_MEAN
 	#include <windows.h>
@@ -21,5 +22,7 @@
 #endif
 
 #include <GL/glfw.h>
+
+
 
 #endif // _PXF_GRAPHICS_OPENGL_H_

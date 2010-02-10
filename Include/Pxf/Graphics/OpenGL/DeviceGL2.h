@@ -11,6 +11,7 @@ namespace Pxf{
 
 		class QuadBatch;
 		class VertexBuffer;
+		class RenderTarget;
 
 		class DeviceGL2 : public Device
 		{
@@ -39,6 +40,11 @@ namespace Pxf{
 			void DestroyVertexBuffer(NonInterleavedVertexBuffer* _pVertexBuffer);
 			void DestroyVertexBuffer(InterleavedVertexBuffer* _pVertexBuffer);
 			void DrawBuffer(InterleavedVertexBuffer* _pVertexBuffer);
+
+			void BindRenderTarget(RenderTarget* _RenderTarget);
+			void BindRenderTarget(RenderTarget* _RenderTarget, int _DrawID);
+			void ReleaseRenderTarget(RenderTarget* _RenderTarget);
+			RenderTarget* CreateRenderTarget(int _Width,int _Height,RTFormat _ColorFormat,RTFormat _DepthFormat);
 		private:
 			Window* m_Window;
 		};

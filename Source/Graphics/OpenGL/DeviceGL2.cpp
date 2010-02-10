@@ -6,11 +6,13 @@
 #include <Pxf/Graphics/OpenGL/NonInterleavedVertexBufferGL2.h>
 #include <Pxf/Graphics/OpenGL/InterleavedVertexBufferGL2.h>
 #include <Pxf/Graphics/OpenGL/TextureGL2.h>
+#include <Pxf/Graphics/OpenGL/RenderTargetGL2.h>
 #include <Pxf/Graphics/OpenGL/QuadBatchGL2.h>
 #include <Pxf/Input/OpenGL/InputGL2.h>
 #include <Pxf/Base/Debug.h>
 
 #include <Pxf/Graphics/OpenGL/OpenGL.h>
+#include <Pxf/Graphics/OpenGL/OpenGLUtils.h>
 
 
 #define LOCAL_MSG "DeviceGL2"
@@ -160,4 +162,42 @@ void DeviceGL2::DrawBuffer(InterleavedVertexBuffer* _pVertexBuffer)
 	glDrawArrays(primitive, 0, _pVertexBuffer->GetVertexCount());
 	_pVertexBuffer->_PostDraw();
 }
+
+RenderTarget* DeviceGL2::CreateRenderTarget(int _Width,int _Height,RTFormat _ColorFormat,RTFormat _DepthFormat)
+{
+	bool t_FBOSupported = IsExtensionSupported("GL_ARB_framebuffer_object");
+	bool t_PBOSupported = IsExtensionSupported("GL_ARB_pixel_buffer_object");
+
+	if (t_FBOSupported)
+		return new FBO(_Width,_Height,_ColorFormat,_DepthFormat);
+	else if(t_PBOSupported)
+		return new PBO();
+	else
+	{
+		Message(LOCAL_MSG,"Graphics card does not have support for buffer objects");
+		return NULL;
+	}
+}
+
+void DeviceGL2::BindRenderTarget(RenderTarget* _RenderTarget)
+{
+	// ??
+}
+
+void DeviceGL2::BindRenderTarget(RenderTarget* _RenderTarget, int _DrawID = 1)
+{
+
+	/* TODO: Add type enum to distinguish between types of render targets :|
+	((TextureGL2*)_texture)->GetTextureID()
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, ((RenderTargetGL2*)_RenderTarget)->GetFBOHandle() );
+	glDrawBuffers(_DrawID, ((RenderTargetGL2*)_RenderTarget)->GetColorAttachments());
+	*/
+}
+
+void DeviceGL2::ReleaseRenderTarget(RenderTarget* _RenderTarget)
+{
+	//
+}
+
+
 
