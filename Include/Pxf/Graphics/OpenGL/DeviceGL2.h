@@ -29,7 +29,7 @@ namespace Pxf{
 			void SwapBuffers();
 			void Translate(Math::Vec3f _translate);
 
-			Texture* CreateEmptyTexture(int _Width,int _Height, TextureFormatStorage _Format);
+			Texture* CreateEmptyTexture(int _Width,int _Height, TextureFormatStorage _Format = FORMAT_RGBA);
 			Texture* CreateTexture(const char* _filepath);
 			Texture* CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, TextureFormatStorage _format = FORMAT_RGBA);
 			void BindTexture(Texture* _texture);

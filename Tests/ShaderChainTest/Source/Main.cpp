@@ -66,7 +66,9 @@ bool PxfMain(Util::String _CmdLine)
 	Math::Mat4 t_ortho = Math::Mat4::Ortho(0, pWindowSpecs->Width / 2.0f, pWindowSpecs->Height, 0, 0, 1);
 	pDevice->SetProjection(&t_ortho);
 
+	Graphics::Texture* pRColorTex0 = pDevice->CreateEmptyTexture(200,200);
 	Pxf::Graphics::RenderTarget* pRT0 = pDevice->CreateRenderTarget(pWindowSpecs->Width,pWindowSpecs->Height,Pxf::Graphics::RT_FORMAT_RGBA8,Pxf::Graphics::RT_FORMAT_DEPTH_COMPONENT);
+	pRT0->AddColorAttachment(pRColorTex0);
 
 	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())
 	{

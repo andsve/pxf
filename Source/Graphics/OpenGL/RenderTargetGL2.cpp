@@ -68,3 +68,14 @@ PBO::~PBO()
 {
 	//
 }
+
+void PBO::AddColorAttachment(Texture* _Color)
+{
+	// 
+}
+
+void PBO::AddDepthAttachment(Texture* _Depth)
+{
+	Message("RenderTarget","Depth texture attachment not supported on PBOs");
+}
+					

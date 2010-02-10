@@ -42,7 +42,7 @@ namespace Pxf
 
 			~FBO();
 			void AddColorAttachment(Texture* _Color);
-			void AddDepthAttachment(Texture* _Color);
+			void AddDepthAttachment(Texture* _Depth);
 
 			GLuint GetFBOHandle() { return m_FBOHandle; }
 			GLuint* GetColorAttachments() { return m_ColorAttachments; }
@@ -54,8 +54,12 @@ namespace Pxf
 		public:
 			PBO() : RenderTarget(RT_TYPE_PBO)
 			{
+				
 			}
 			~PBO();
+			
+			void AddColorAttachment(Texture* _Color);
+			void AddDepthAttachment(Texture* _Depth);
 		};
 	} // Graphics
 } // Pxf

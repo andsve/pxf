@@ -86,7 +86,7 @@ void DeviceGL2::Translate(Math::Vec3f _translate)
 	glTranslatef(_translate.x, _translate.y, _translate.z);
 }
 
-Texture* DeviceGL2::CreateEmptyTexture(int _Width,int _Height, TextureFormatStorage _Format = FORMAT_RGBA)
+Texture* DeviceGL2::CreateEmptyTexture(int _Width,int _Height, TextureFormatStorage _Format)
 {
 	TextureGL2* _Tex = new TextureGL2();
 	_Tex->LoadData(NULL,_Width,_Height,_Format);
