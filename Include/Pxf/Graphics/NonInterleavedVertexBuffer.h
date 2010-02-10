@@ -2,7 +2,7 @@
 #define _PXF_GRAPHICS_NONINTERLEAVEDVERTEXBUFFER_H_
 
 #include <Pxf/Graphics/DeviceType.h> // enum DeviceType
-#include <Pxf/Graphics/Device.h> // enumerations for VertexBuffer
+#include <Pxf/Graphics/Device.h>
 #include <Pxf/Math/Vector.h>
 
 /*

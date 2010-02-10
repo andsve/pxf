@@ -7,6 +7,7 @@
 #include <Pxf/Graphics/DeviceDefs.h>
 #include <Pxf/Graphics/DeviceType.h>
 #include <Pxf/Graphics/TextureDefs.h>
+#include <Pxf/Graphics/VertexBufferDefs.h>
 #include <Pxf/Graphics/RenderTarget.h>
 
 namespace Pxf
@@ -41,9 +42,9 @@ namespace Pxf
 			virtual void SwapBuffers() = 0;
 
 			// Texture
-			virtual Texture* CreateEmptyTexture(int _Width,int _Height,TextureFormatStorage _Format = FORMAT_RGBA) = 0;
+			virtual Texture* CreateEmptyTexture(int _Width,int _Height,TextureFormatStorage _Format = TEX_FORMAT_RGBA) = 0;
 			virtual Texture* CreateTexture(const char* _filepath) = 0;
-			virtual Texture* CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, TextureFormatStorage _format = FORMAT_RGBA) = 0;
+			virtual Texture* CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, TextureFormatStorage _format = TEX_FORMAT_RGBA) = 0;
 			virtual void BindTexture(Texture* _texture) = 0;
 			virtual void BindTexture(Texture* _texture, unsigned int _texture_unit) = 0; // Multi-texturing
 

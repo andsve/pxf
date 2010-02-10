@@ -29,9 +29,9 @@ namespace Pxf{
 			void SwapBuffers();
 			void Translate(Math::Vec3f _translate);
 
-			Texture* CreateEmptyTexture(int _Width,int _Height, TextureFormatStorage _Format = FORMAT_RGBA);
+			Texture* CreateEmptyTexture(int _Width,int _Height, TextureFormatStorage _Format = TEX_FORMAT_RGBA);
 			Texture* CreateTexture(const char* _filepath);
-			Texture* CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, TextureFormatStorage _format = FORMAT_RGBA);
+			Texture* CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, TextureFormatStorage _format = TEX_FORMAT_RGBA);
 			void BindTexture(Texture* _texture);
 			void BindTexture(Texture* _texture, unsigned int _texture_unit);
 

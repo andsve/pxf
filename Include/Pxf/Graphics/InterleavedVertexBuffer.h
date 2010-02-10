@@ -3,7 +3,7 @@
 
 #include <Pxf/Base/Types.h>
 #include <Pxf/Graphics/DeviceType.h> // enum DeviceType
-#include <Pxf/Graphics/Device.h> // enumerations for VertexBuffer
+#include <Pxf/Graphics/Device.h>
 #include <Pxf/Math/Vector.h>
 
 // TODO: Support attribute data: http://www.opengl.org/wiki/Vertex_Array_Objects
