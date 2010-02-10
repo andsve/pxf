@@ -90,10 +90,6 @@
 						Name="Base"
 						>
 						<File
-							RelativePath="..\..\Include\Pxf\Base\Clock.h"
-							>
-						</File>
-						<File
 							RelativePath="..\..\Include\Pxf\Base\Config.h"
 							>
 						</File>
@@ -103,6 +99,10 @@
 						</File>
 						<File
 							RelativePath="..\..\Include\Pxf\Base\ErrorType.h"
+							>
+						</File>
+						<File
+							RelativePath="..\..\Include\Pxf\Base\Platform.h"
 							>
 						</File>
 						<File
@@ -337,15 +337,15 @@
 					Name="Base"
 					>
 					<File
-						RelativePath="..\..\Source\Base\ClockPosix.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\..\Source\Base\ClockWin32.cpp"
-						>
-					</File>
-					<File
 						RelativePath="..\..\Source\Base\Debug.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Base\PlatformPosix.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\Source\Base\PlatformWin32.cpp"
 						>
 					</File>
 					<File
