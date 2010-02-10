@@ -30,8 +30,8 @@ SimpleFont::SimpleFont( Util::String _font_filepath, Device *_device)
 	
 	m_QuadBatch = m_Device->CreateQuadBatch(PXF_EXTRA_SIMPLEFONT_MAXQUAD_PER_FONT);
 	m_QuadBatch->Reset();
-	m_QuadBatch->SetTextureSubset(0, 0, 1, 1);
-	m_QuadBatch->AddTopLeft(0, 0, m_TextureSize, m_TextureSize);
+	//m_QuadBatch->SetTextureSubset(0, 0, 1, 1);
+	//m_QuadBatch->AddTopLeft(0, 0, m_TextureSize, m_TextureSize);
 }
 
 SimpleFont::~SimpleFont()
