@@ -12,13 +12,12 @@
 namespace Pxf
 {
 	namespace Graphics { class QuadBatch; class Texture; }
-
+	
 	namespace Extra
 	{
 		class SimpleFont
 		{
 		public:
-			
 			SimpleFont (Util::String _font_filepath, Graphics::Device *_device);
 			~SimpleFont ();
 			
