@@ -20,6 +20,7 @@ void FBO::AddColorAttachment(Texture* _Color)
 			m_ColorAttachments[i] = ((TextureGL2*)_Color)->GetTextureID();
 			glFramebufferTexture2D(GL_FRAMEBUFFER, FBO_Buffers[i],GL_TEXTURE_2D, m_ColorAttachments[i], 0);
 			t_Sucess = true;
+			break;
 		}
 	}
 
@@ -53,8 +54,6 @@ void FBO::_Initialize()
 	glEnable(GL_TEXTURE_2D);
 	glGenFramebuffers(1, &m_FBOHandle);
 	glDisable(GL_TEXTURE_2D);
-
-	GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
 }
 
 

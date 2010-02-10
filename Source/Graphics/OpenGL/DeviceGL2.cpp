@@ -197,11 +197,13 @@ RenderTarget* DeviceGL2::CreateRenderTarget(int _Width,int _Height,RTFormat _Col
 void DeviceGL2::BindRenderTarget(RenderTarget* _RenderTarget)
 {
 	// ??
+	BindRenderTarget(_RenderTarget,1);
 }
 
 void DeviceGL2::BindRenderTarget(RenderTarget* _RenderTarget, int _DrawID = 1)
 {
 	RTType _Type =_RenderTarget->GetType();
+
 	if (_Type == RT_TYPE_FBO)
 	{
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, ((FBO*)_RenderTarget)->GetFBOHandle() );

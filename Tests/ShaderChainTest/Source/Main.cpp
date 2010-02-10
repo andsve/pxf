@@ -68,12 +68,14 @@ bool PxfMain(Util::String _CmdLine)
 
 	Graphics::Texture* pRColorTex0 = pDevice->CreateEmptyTexture(200,200);
 	Pxf::Graphics::RenderTarget* pRT0 = pDevice->CreateRenderTarget(pWindowSpecs->Width,pWindowSpecs->Height,Pxf::Graphics::RT_FORMAT_RGBA8,Pxf::Graphics::RT_FORMAT_DEPTH_COMPONENT);
-	pRT0->AddColorAttachment(pRColorTex0);
+	pRT0->AddColorAttachment(pRColorTex0);	
 
 	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())
 	{
 		// Update input
 		pInput->Update();
+
+		pDevice->BindRenderTarget(pRT0);
 
 		// Some OGL stuff that hasn't been moved to the device yet
 		glClearColor(0.0f,0.0f,0.0f,1.0f);
@@ -81,6 +83,8 @@ bool PxfMain(Util::String _CmdLine)
 		glLoadIdentity();
 		pDevice->BindTexture(pTexture);
 		pQBatch->Draw();
+
+		pDevice->ReleaseRenderTarget(pRT0);
 
 		// Swap buffers
 		pWindow->Swap();

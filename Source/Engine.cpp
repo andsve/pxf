@@ -5,7 +5,7 @@
 //#include <Pxf/Graphics/Device.h> // replace with OGL and D3D device headers
 #include <Pxf/Graphics/D3D9/DeviceD3D9.h>
 #include <Pxf/Graphics/OpenGL/DeviceGL2.h>
-#include <Pxf/Graphics/OpenGL/DeviceGL3.h>
+#include <Pxf/Graphics/OpenGL3/DeviceGL3.h>
 #include <Pxf/Input/OpenGL/InputGL2.h>
 
 #include <cstdio>

@@ -1,7 +1,7 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Base/Platform.h>
 #include <Pxf/Util/String.h>
-#include <Pxf/Graphics/OpenGL/WindowGL3.h>
+#include <Pxf/Graphics/OpenGL3/WindowGL3.h>
 #include <Pxf/Base/Debug.h>
 
 #ifdef CONF_PLATFORM_MACOSX
