@@ -49,11 +49,10 @@ void TextureGL2::Load(const char* _filepath)
 
 }
 
-void TextureGL2::LoadData(const unsigned char* _datachunk, int _width, int _height, int _channels, TextureFormatStorage _format)
+void TextureGL2::LoadData(const unsigned char* _datachunk, int _width, int _height, TextureFormatStorage _format)
 {
 	m_Width = _width;
 	m_Height = _height;
-	m_Channels = _channels;
 	
 	GLuint tformat;
 	
