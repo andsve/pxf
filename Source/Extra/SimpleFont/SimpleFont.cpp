@@ -66,8 +66,8 @@ void SimpleFont::Load()
 		delete _temp_bitmap;
 		
 		// set some texture filtering
-		m_CharmapTexture->SetMagFilter(FILTER_NEAREST);
-		m_CharmapTexture->SetMinFilter(FILTER_NEAREST);
+		m_CharmapTexture->SetMagFilter(TEX_FILTER_NEAREST);
+		m_CharmapTexture->SetMinFilter(TEX_FILTER_NEAREST);
 	} else {
 		Message(LOCAL_MSG, "Could not open font: %s", m_FontFilepath.c_str());
 	}

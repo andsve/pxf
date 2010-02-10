@@ -12,6 +12,14 @@ namespace Pxf
 		class QuadBatchGL2 : public QuadBatch
 		{
 			public:
+
+				struct Vertex
+				{
+					Math::Vec3f pos;
+					Math::Vec2f tex;
+					Math::Vec4f color;
+				};
+
 				QuadBatchGL2(int _maxSize);
 				~QuadBatchGL2();
 

@@ -86,6 +86,14 @@ void DeviceGL2::Translate(Math::Vec3f _translate)
 	glTranslatef(_translate.x, _translate.y, _translate.z);
 }
 
+Texture* DeviceGL2::CreateEmptyTexture(int _Width,int _Height, TextureFormatStorage _Format = TEX_FORMAT_RGBA)
+{
+	TextureGL2* _Tex = new TextureGL2();
+	_Tex->LoadData(NULL,_Width,_Height,_Format);
+
+	return _Tex;
+}
+
 Texture* DeviceGL2::CreateTexture(const char* _filepath)
 {
 	TextureGL2* _tex = new TextureGL2();
@@ -176,7 +184,7 @@ RenderTarget* DeviceGL2::CreateRenderTarget(int _Width,int _Height,RTFormat _Col
 	bool t_PBOSupported = IsExtensionSupported("GL_ARB_pixel_buffer_object");
 
 	if (t_FBOSupported)
-		return new FBO(_Width,_Height,_ColorFormat,_DepthFormat);
+		return new FBO();
 	else if(t_PBOSupported)
 		return new PBO();
 	else
@@ -193,17 +201,31 @@ void DeviceGL2::BindRenderTarget(RenderTarget* _RenderTarget)
 
 void DeviceGL2::BindRenderTarget(RenderTarget* _RenderTarget, int _DrawID = 1)
 {
-
-	/* TODO: Add type enum to distinguish between types of render targets :|
-	((TextureGL2*)_texture)->GetTextureID()
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, ((RenderTargetGL2*)_RenderTarget)->GetFBOHandle() );
-	glDrawBuffers(_DrawID, ((RenderTargetGL2*)_RenderTarget)->GetColorAttachments());
-	*/
+	RTType _Type =_RenderTarget->GetType();
+	if (_Type == RT_TYPE_FBO)
+	{
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, ((FBO*)_RenderTarget)->GetFBOHandle() );
+		glDrawBuffers(_DrawID, ((FBO*)_RenderTarget)->GetColorAttachments());
+	}
+	else if(_Type == RT_TYPE_PBO)
+	{
+		// do something
+		;
+	}
+	else
+		Message(LOCAL_MSG,"Trying to bind RenderType to incompatible device context");
 }
 
 void DeviceGL2::ReleaseRenderTarget(RenderTarget* _RenderTarget)
 {
-	//
+	RTType _Type =_RenderTarget->GetType();
+	if (_Type == RT_TYPE_FBO)
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	else if(_Type == RT_TYPE_PBO)
+	{
+		// do something
+		;
+	}
 }
 
 
