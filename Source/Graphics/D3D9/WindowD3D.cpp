@@ -1,6 +1,6 @@
 #include <Pxf/Pxf.h>
 #ifdef CONF_FAMILY_WINDOWS
-#include <Pxf/Base/Clock.h>
+#include <Pxf/Base/Platform.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/D3D9/WindowD3D.h>
 #include <Pxf/Base/Debug.h>
@@ -47,7 +47,7 @@ WindowD3D::WindowD3D(WindowSpecifications *_window_spec)
 	// FPS
 	m_fps = 0;
 	m_fps_count = 0;
-	m_fps_laststamp = Clock::GetTime();
+	m_fps_laststamp = Platform::GetTime();
 
 	// Win32 poop :O
 	m_window = NULL;
@@ -113,7 +113,7 @@ void WindowD3D::Swap()
 
 	// FPS
 	int64 diff;
-	int64 t_current_time = Clock::GetTime();
+	int64 t_current_time = Platform::GetTime();
 	diff = t_current_time - m_fps_laststamp;
 	if (diff >= 1000)
 	{

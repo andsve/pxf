@@ -1,25 +1,25 @@
-#ifndef __PXF_BASE_CLOCK_H__
-#define __PXF_BASE_CLOCK_H__
+#ifndef __PXF_BASE_PLATFORM_H__
+#define __PXF_BASE_PLATFORM_H__
 
 #include <Pxf/Base/Types.h>
 #include <Pxf/Base/Config.h>
 
 namespace Pxf
 {
-	class Clock
+	class Platform
 	{
 	private:
-		static bool s_Initialized;
+		static bool s_TimeInitialized;
 		static int64 m_Frequency;
 		static int64 m_Timestamp;
 		static void Initialize();
 	public:
-		Clock()
+		Platform()
 		{
-			if (!s_Initialized)
+			if (!s_TimeInitialized)
 			{
 				Initialize();
-				s_Initialized = true;
+				s_TimeInitialized = true;
 			}
 		}
 		
@@ -27,5 +27,5 @@ namespace Pxf
 	};
 }
 
-#endif //__PXF_BASE_CLOCK_H__
+#endif //__PXF_BASE_PLATFORM_H__
 
