@@ -1,7 +1,7 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
-#include <Pxf/Graphics/OpenGL/DeviceGL3.h>
-#include <Pxf/Graphics/OpenGL/WindowGL3.h>
+#include <Pxf/Graphics/OpenGL3/DeviceGL3.h>
+#include <Pxf/Graphics/OpenGL3/WindowGL3.h>
 #include <Pxf/Base/Debug.h>
 
 #define LOCAL_MSG "DeviceGL3"
