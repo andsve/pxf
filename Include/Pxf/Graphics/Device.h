@@ -7,6 +7,7 @@
 #include <Pxf/Graphics/DeviceDefs.h>
 #include <Pxf/Graphics/DeviceType.h>
 #include <Pxf/Graphics/TextureDefs.h>
+#include <Pxf/Graphics/RenderTarget.h>
 
 namespace Pxf
 {
@@ -18,8 +19,6 @@ namespace Pxf
 		class NonInterleavedVertexBuffer;
 
 		class QuadBatch;
-		class RenderTarget;
-		enum RTFormat;
 		
 		class Texture;
 		
