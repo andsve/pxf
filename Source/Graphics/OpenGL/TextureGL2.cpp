@@ -49,6 +49,43 @@ void TextureGL2::Load(const char* _filepath)
 
 }
 
+void TextureGL2::LoadData(const unsigned char* _datachunk, int _width, int _height, int _channels, TextureFormatStorage _format)
+{
+	m_Width = _width;
+	m_Height = _height;
+	m_Channels = _channels;
+	
+	GLuint tformat;
+	
+	if (_format == FORMAT_RGBA)
+	{
+		tformat = GL_RGBA;
+	} else if (_format == FORMAT_A)
+	{
+		tformat = GL_ALPHA;
+	}
+	
+	
+	// doing it old-school
+	glGenTextures(1, &m_TextureID);
+	glBindTexture(GL_TEXTURE_2D, m_TextureID);
+	glTexImage2D(GL_TEXTURE_2D, 0, tformat, _width, _height, 0, tformat, GL_UNSIGNED_BYTE, _datachunk);
+	
+	/*
+	m_TextureID = SOIL_create_OGL_texture(
+		_datachunk,
+		m_Width, m_Height, m_Channels,
+		SOIL_CREATE_NEW_ID,
+		NULL
+		);
+	*/	
+	if( m_TextureID == 0)
+	{
+		Message(LOCAL_MSG, "SOIL loading error data chunk: '%s';", SOIL_last_result() );
+		return;
+	}
+}
+
 void TextureGL2::Unload()
 {
 	glDeleteTextures( 1, &m_TextureID );

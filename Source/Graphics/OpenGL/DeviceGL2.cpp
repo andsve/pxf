@@ -93,6 +93,13 @@ Texture* DeviceGL2::CreateTexture(const char* _filepath)
 	return _tex;
 }
 
+Texture* DeviceGL2::CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, int _channels, TextureFormatStorage _format)
+{
+	TextureGL2* _tex = new TextureGL2();
+	_tex->LoadData(_datachunk, _width, _height, _channels, _format);
+	return _tex;
+}
+
 void DeviceGL2::BindTexture(Texture* _texture)
 {
 	glBindTexture(GL_TEXTURE_2D, ((TextureGL2*)_texture)->GetTextureID());
