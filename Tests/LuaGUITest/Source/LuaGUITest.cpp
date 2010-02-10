@@ -8,11 +8,13 @@
 #include <Pxf/Input/Input.h>
 #include <Pxf/Util/String.h>
 
+#include <Pxf/Extra/SimpleFont/SimpleFont.h>
 #include <Pxf/Extra/LuaGUI/LuaGUI.h>
 #include <Pxf/Extra/LuaGUI/GUIHandler.h>
 
 using namespace Pxf;
 using namespace Pxf::Graphics;
+using namespace Pxf::Extra;
 using namespace Pxf::Extra::LuaGUI;
 
 bool PxfMain(Util::String _CmdLine)
@@ -45,6 +47,11 @@ bool PxfMain(Util::String _CmdLine)
 	pDevice->SetViewport(0, 0, pWindowSpecs->Width / 2.0f, pWindowSpecs->Height);
 	Math::Mat4 t_ortho = Math::Mat4::Ortho(0, pWindowSpecs->Width / 2.0f, pWindowSpecs->Height, 0, 0, 1);
 	pDevice->SetProjection(&t_ortho);
+	
+	// Test font
+	SimpleFont *_fonttest = new SimpleFont("data/alterebro_pixel.ttf", pDevice);
+	_fonttest->Load();
+	_fonttest->AddText("Hey, some text! :)", Math::Vec3f(20,10,0));
 
 	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())
 	{
@@ -72,6 +79,8 @@ bool PxfMain(Util::String _CmdLine)
 		// GUI
 		pGUI->Update(&mousepos_f, pInput->IsButtonDown(Pxf::Input::MOUSE_LEFT), 1.0f);
 		pGUI->Draw();
+		
+		_fonttest->Draw();
 
 		
 
@@ -93,6 +102,7 @@ bool PxfMain(Util::String _CmdLine)
 		}
 	}
 
+	delete _fonttest;
 	pDevice->CloseWindow();
 	engine.DestroyDevice(pDevice);
 

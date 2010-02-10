@@ -1,38 +1,20 @@
 #ifndef _PXF_GRAPHICS_TEXTURE_H_
 #define _PXF_GRAPHICS_TEXTURE_H_
 
+#include <Pxf/Graphics/TextureDefs.h>
 #include <Pxf/Math/Vector.h>
 
 namespace Pxf
 {
 	namespace Graphics
 	{
-
-		enum TextureFilter
-		{
-			// valid for min & mag
-			FILTER_NEAREST = 0,
-			FILTER_LINEAR,
-
-			// valid only for min, obviously.
-			FILTER_LINEAR_MIPMAP_LINEAR,
-			FILTER_LINEAR_MIPMAP_NEAREST,
-			FILTER_NEAREST_MIPMAP_LINEAR,
-			FILTER_NEAREST_MIPMAP_NEAREST
-		};
-
-		enum TextureClampMethod
-		{
-			CLAMP,
-			CLAMP_TO_EDGE,
-			REPEAT
-		};
 		
 		//! Abstract texture class
 		class Texture
 		{
 		public:
 			virtual void Load(const char* _filepath) = 0;
+			virtual void LoadData(const unsigned char* _datachunk, int _width, int _height, int _channels, TextureFormatStorage _format = FORMAT_RGBA) = 0;
 			virtual void Unload() = 0;
 			virtual void Reload() = 0;
 
