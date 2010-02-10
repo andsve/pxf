@@ -1,6 +1,7 @@
 #ifndef _PXF_GRAPHICS_TEXTURE_H_
 #define _PXF_GRAPHICS_TEXTURE_H_
 
+#include <Pxf/Graphics/DeviceResource.h>
 #include <Pxf/Graphics/TextureDefs.h>
 #include <Pxf/Math/Vector.h>
 
@@ -10,9 +11,13 @@ namespace Pxf
 	{
 		
 		//! Abstract texture class
-		class Texture
+		class Texture : public DeviceResource
 		{
 		public:
+			Texture(Device* _pDevice)
+				: DeviceResource(_pDevice)
+			{}
+
 			virtual void Load(const char* _filepath) = 0;
 			virtual void LoadData(const unsigned char* _datachunk, int _width, int _height, int _channels) = 0;
 			virtual void Unload() = 0;

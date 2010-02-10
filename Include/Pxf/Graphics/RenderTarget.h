@@ -2,6 +2,7 @@
 #define _PXF_GRAPHICS_RENDERTARGET_H_
 
 #include <Pxf/Base/Debug.h>
+#include <Pxf/Graphics/DeviceResource.h>
 
 namespace Pxf
 {
@@ -20,15 +21,19 @@ namespace Pxf
 			RT_TYPE_PBO
 		};
 
+		class Device;
 		class Texture;
 
 		//! Abstract render target 
-		class RenderTarget
+		class RenderTarget : public DeviceResource
 		{
 			RTType m_RTType;
 		public:
 			// TODO: How does directx handle RTs? :(
-			RenderTarget(RTType _Type) { m_RTType = _Type; }
+			RenderTarget(Device* _pDevice, RTType _Type)
+				: DeviceResource(_pDevice)
+			{ m_RTType = _Type; }
+
 			RTType GetType() { return m_RTType; }
 
 			virtual void AddColorAttachment(Texture* _Color) = 0;

@@ -1,7 +1,6 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/QuadBatch.h>
-#include <Pxf/Graphics/OpenGL/VertexBufferGL.h>
 #include <Pxf/Graphics/OpenGL/DeviceGL2.h>
 #include <Pxf/Graphics/OpenGL/NonInterleavedVertexBufferGL2.h>
 #include <Pxf/Graphics/OpenGL/InterleavedVertexBufferGL2.h>
@@ -88,7 +87,7 @@ void DeviceGL2::Translate(Math::Vec3f _translate)
 
 Texture* DeviceGL2::CreateEmptyTexture(int _Width,int _Height, TextureFormatStorage _Format)
 {
-	TextureGL2* _Tex = new TextureGL2();
+	TextureGL2* _Tex = new TextureGL2(this);
 	_Tex->LoadData(NULL,_Width,_Height,_Format);
 
 	return _Tex;
@@ -96,14 +95,14 @@ Texture* DeviceGL2::CreateEmptyTexture(int _Width,int _Height, TextureFormatStor
 
 Texture* DeviceGL2::CreateTexture(const char* _filepath)
 {
-	TextureGL2* _tex = new TextureGL2();
+	TextureGL2* _tex = new TextureGL2(this);
 	_tex->Load(_filepath);
 	return _tex;
 }
 
 Texture* DeviceGL2::CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, int _channels)
 {
-	TextureGL2* _tex = new TextureGL2();
+	TextureGL2* _tex = new TextureGL2(this);
 	_tex->LoadData(_datachunk, _width, _height, _channels);
 	return _tex;
 }
@@ -126,18 +125,18 @@ void DeviceGL2::BindTexture(Texture* _texture, unsigned int _texture_unit)
 
 QuadBatch* DeviceGL2::CreateQuadBatch(int _maxSize)
 {
-	return new QuadBatchGL2(_maxSize);
+	return new QuadBatchGL2(this, _maxSize);
 }
 
 
 NonInterleavedVertexBuffer* DeviceGL2::CreateNonInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
 {
-	return new NonInterleavedVertexBufferGL2(_VertexBufferLocation, _VertexBufferUsageFlag);
+	return new NonInterleavedVertexBufferGL2(this, _VertexBufferLocation, _VertexBufferUsageFlag);
 }
 
 InterleavedVertexBuffer* DeviceGL2::CreateInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
 {
-	return new InterleavedVertexBufferGL2(_VertexBufferLocation, _VertexBufferUsageFlag);
+	return new InterleavedVertexBufferGL2(this, _VertexBufferLocation, _VertexBufferUsageFlag);
 }
 
 void DeviceGL2::DestroyVertexBuffer(NonInterleavedVertexBuffer* _pVertexBuffer)
@@ -184,9 +183,9 @@ RenderTarget* DeviceGL2::CreateRenderTarget(int _Width,int _Height,RTFormat _Col
 	bool t_PBOSupported = IsExtensionSupported("GL_ARB_pixel_buffer_object");
 
 	if (t_FBOSupported)
-		return new FBO();
+		return new FBO(this);
 	else if(t_PBOSupported)
-		return new PBO();
+		return new PBO(this);
 	else
 	{
 		Message(LOCAL_MSG,"Graphics card does not have support for buffer objects");

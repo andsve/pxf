@@ -35,7 +35,7 @@ namespace Pxf
 
 			void _Initialize();
 		public:
-			FBO() : RenderTarget(RT_TYPE_FBO)
+			FBO(Device* _pDevice) : RenderTarget(_pDevice, RT_TYPE_FBO)
 			{
 				_Initialize();
 			}
@@ -52,7 +52,7 @@ namespace Pxf
 		{
 		private:
 		public:
-			PBO() : RenderTarget(RT_TYPE_PBO)
+			PBO(Device* _pDevice) : RenderTarget(_pDevice, RT_TYPE_PBO)
 			{
 				
 			}
