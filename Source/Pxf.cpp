@@ -1,5 +1,5 @@
 #include <Pxf/Pxf.h>
-#include <Pxf/Base/Clock.h>
+#include <Pxf/Base/Platform.h>
 #include <Pxf/Util/String.h>
 
 #include <cstdio>
@@ -21,7 +21,7 @@ int main(int argc, const char** argv)
 			cmdLine += " ";
 	}
 
-	Clock::Clock();
+	Platform p;
 
 	PxfMain(cmdLine);	
 
