@@ -6,11 +6,11 @@
 #include <Pxf/Graphics/QuadBatch.h>
 #include <Pxf/Extra/SimpleFont/SimpleFont.h>
 
-//#ifdef MACOSX
-#include "sys/malloc.h" // mac os x
-//#else
-//#include "malloc.h" // linux, windows
-//#endif
+#if defined(CONF_PLATFORM_MACOSX)
+	#include "sys/malloc.h" // mac os x
+#else
+	#include "malloc.h" // linux, windows
+#endif
 
 #define STB_TRUETYPE_IMPLEMENTATION
 #include <Pxf/Extra/SimpleFont/stb_truetype.h>
