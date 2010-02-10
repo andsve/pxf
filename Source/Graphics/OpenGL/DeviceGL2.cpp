@@ -101,10 +101,10 @@ Texture* DeviceGL2::CreateTexture(const char* _filepath)
 	return _tex;
 }
 
-Texture* DeviceGL2::CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, TextureFormatStorage _format)
+Texture* DeviceGL2::CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, int _channels)
 {
 	TextureGL2* _tex = new TextureGL2();
-	_tex->LoadData(_datachunk, _width, _height, _format);
+	_tex->LoadData(_datachunk, _width, _height, _channels);
 	return _tex;
 }
 
