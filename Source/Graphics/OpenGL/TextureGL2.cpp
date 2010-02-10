@@ -56,10 +56,10 @@ void TextureGL2::LoadData(const unsigned char* _datachunk, int _width, int _heig
 	
 	GLuint tformat;
 	
-	if (_format == FORMAT_RGBA)
+	if (_format == TEX_FORMAT_RGBA)
 	{
 		tformat = GL_RGBA;
-	} else if (_format == FORMAT_A)
+	} else if (_format == TEX_FORMAT_A)
 	{
 		tformat = GL_ALPHA;
 	}
@@ -148,8 +148,8 @@ void TextureGL2::SetMagFilter(TextureFilter _Filter)
 	GLint param = GL_NEAREST;
 
 	// use a lut
-	if      (_Filter == FILTER_NEAREST) param = GL_NEAREST;
-	else if (_Filter == FILTER_LINEAR)  param = GL_LINEAR;
+	if      (_Filter == TEX_FILTER_NEAREST) param = GL_NEAREST;
+	else if (_Filter == TEX_FILTER_LINEAR)  param = GL_LINEAR;
 	else    Message("TextureGL2", "invalid mag filter, using GL_NEAREST");
 	
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
@@ -161,12 +161,12 @@ void TextureGL2::SetMinFilter(TextureFilter _Filter)
 	GLint param = GL_NEAREST;
 
 	// use a lut
-	if      (_Filter == FILTER_NEAREST) param = GL_NEAREST;
-	else if (_Filter == FILTER_LINEAR)  param = GL_LINEAR;
-	else if (_Filter == FILTER_LINEAR_MIPMAP_LINEAR)  param = GL_LINEAR_MIPMAP_LINEAR;
-	else if (_Filter == FILTER_LINEAR_MIPMAP_NEAREST)  param = GL_LINEAR_MIPMAP_NEAREST;
-	else if (_Filter == FILTER_NEAREST_MIPMAP_LINEAR)  param = GL_NEAREST_MIPMAP_LINEAR;
-	else if (_Filter == FILTER_NEAREST_MIPMAP_NEAREST)  param = GL_NEAREST_MIPMAP_NEAREST;
+	if      (_Filter == TEX_FILTER_NEAREST) param = GL_NEAREST;
+	else if (_Filter == TEX_FILTER_LINEAR)  param = GL_LINEAR;
+	else if (_Filter == TEX_FILTER_LINEAR_MIPMAP_LINEAR)  param = GL_LINEAR_MIPMAP_LINEAR;
+	else if (_Filter == TEX_FILTER_LINEAR_MIPMAP_NEAREST)  param = GL_LINEAR_MIPMAP_NEAREST;
+	else if (_Filter == TEX_FILTER_NEAREST_MIPMAP_LINEAR)  param = GL_NEAREST_MIPMAP_LINEAR;
+	else if (_Filter == TEX_FILTER_NEAREST_MIPMAP_NEAREST)  param = GL_NEAREST_MIPMAP_NEAREST;
 	else    Message("TextureGL2", "invalid mag filter, using GL_NEAREST");
 
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
@@ -178,9 +178,9 @@ void TextureGL2::SetClampMethod(TextureClampMethod _Method)
 	GLint m = 0;
 	switch(_Method)
 	{
-	case CLAMP: m = GL_CLAMP; break;
-	case CLAMP_TO_EDGE: m = GL_CLAMP_TO_EDGE; break;
-	case REPEAT: m = GL_REPEAT; break;
+	case TEX_CLAMP: m = GL_CLAMP; break;
+	case TEX_CLAMP_TO_EDGE: m = GL_CLAMP_TO_EDGE; break;
+	case TEX_REPEAT: m = GL_REPEAT; break;
 	default:
 		PXFASSERT(false, "No such clamp method");
 	}
