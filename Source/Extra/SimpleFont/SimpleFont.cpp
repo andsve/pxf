@@ -22,12 +22,9 @@ using namespace Pxf;
 using namespace Pxf::Graphics;
 using namespace Pxf::Extra;
 
-SimpleFont::SimpleFont( Util::String _font_filepath, Device *_device)
+SimpleFont::SimpleFont(Device *_device)
 {
 	m_Device = _device;
-	m_FontFilepath = _font_filepath;
-	m_TextureSize = 256;
-	m_FontSize = 13.0f;
 	
 	m_QuadBatch = m_Device->CreateQuadBatch(PXF_EXTRA_SIMPLEFONT_MAXQUAD_PER_FONT);
 	m_QuadBatch->Reset();
@@ -46,8 +43,12 @@ void SimpleFont::ResetText()
 	m_QuadBatch->Reset();
 }
 
-void SimpleFont::Load()
+void SimpleFont::Load(Util::String _font_filepath, float _font_size, int _texture_size)
 {
+	m_FontFilepath = _font_filepath;
+	m_TextureSize = _texture_size;
+	m_FontSize = _font_size;
+	
 	FileStream fs;
 	if (fs.OpenReadBinary(m_FontFilepath.c_str()))
 	{
@@ -72,6 +73,27 @@ void SimpleFont::Load()
 	} else {
 		Message(LOCAL_MSG, "Could not open font: %s", m_FontFilepath.c_str());
 	}
+}
+
+void SimpleFont::AddTextCentered(Util::String _text, Math::Vec3f _pos)
+{
+	const char *text = _text.c_str();
+	float _height = 0.0f;
+	float _x = 0.0f;
+	float _y = _pos.y;
+	
+	while (*text) {
+		if (*text >= 32 && *text < 128) {
+			stbtt_aligned_quad q;
+			stbtt_GetBakedQuad(m_CharData, m_TextureSize, m_TextureSize, *text-32, &_x,&_y,&q,1);//1=opengl,0=old d3d
+			
+			if (_height < q.y1 - q.y0)
+				_height = q.y1 - q.y0;
+		}
+		++text;
+	}
+	
+	AddText(_text, Math::Vec3f(_pos.x - ceil(_x / 2.0f), _pos.y + floor((_height / 2.0f)), _pos.z));
 }
 
 void SimpleFont::AddText(Util::String _text, Math::Vec3f _pos)

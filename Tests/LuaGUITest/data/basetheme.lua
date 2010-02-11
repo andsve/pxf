@@ -1,4 +1,6 @@
 theme_texture = "data/guilook.png"
+theme_font_file = "data/alterebro_pixel.ttf"
+theme_font_size = 13
 
 ----------------------------------------------------
 -- standard widgets
@@ -7,6 +9,10 @@ function NewSimpleButton(_name, _position, _size, _events)
 
 	function render_button(instance, widget)
 		size = widget.size
+		
+		if (widget.label) then
+			AddTextCentered(instance, widget.label, {size.w / 2, size.h / 2})
+		end
 		
 		if (widget:IsDown()) then
 			AddQuad(instance, {0, 0, size.w, size.h}, {244, 0, 1, 255}); -- back
@@ -45,6 +51,12 @@ function NewSimpleButton(_name, _position, _size, _events)
 	                   states, activestate,
 					   _events, render_button)
 	
+	return widget
+end
+
+function NewLabeledButton(_name, _label, _position, _size, _events)
+	widget = NewSimpleButton(_name, _position, _size, _events)
+	widget.label = _label
 	return widget
 end
 

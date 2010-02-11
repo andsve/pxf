@@ -18,12 +18,13 @@ namespace Pxf
 		class SimpleFont
 		{
 		public:
-			SimpleFont (Util::String _font_filepath, Graphics::Device *_device);
+			SimpleFont (Graphics::Device *_device);
 			~SimpleFont ();
 			
-			void Load();
+			void Load(Util::String _font_filepath, float _font_size, int _texture_size = 512);
 			void ResetText();
 			void AddText(Util::String _text, Math::Vec3f _pos);
+			void AddTextCentered(Util::String _text, Math::Vec3f _pos);
 			void Draw();
 		private:
 			
