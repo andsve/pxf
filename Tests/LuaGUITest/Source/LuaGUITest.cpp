@@ -49,8 +49,8 @@ bool PxfMain(Util::String _CmdLine)
 	pDevice->SetProjection(&t_ortho);
 	
 	// Test font
-	SimpleFont *_fonttest = new SimpleFont("data/alterebro_pixel.ttf", pDevice);
-	_fonttest->Load();
+	SimpleFont *_fonttest = new SimpleFont(pDevice);
+	_fonttest->Load("data/alterebro_pixel.ttf", 13.0f, 256);
 	_fonttest->AddTextCentered("Hey, some text! :)", Math::Vec3f(0,10,0));
 
 	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())

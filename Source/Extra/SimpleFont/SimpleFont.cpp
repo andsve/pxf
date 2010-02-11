@@ -22,12 +22,9 @@ using namespace Pxf;
 using namespace Pxf::Graphics;
 using namespace Pxf::Extra;
 
-SimpleFont::SimpleFont( Util::String _font_filepath, Device *_device)
+SimpleFont::SimpleFont(Device *_device)
 {
 	m_Device = _device;
-	m_FontFilepath = _font_filepath;
-	m_TextureSize = 256;
-	m_FontSize = 13.0f;
 	
 	m_QuadBatch = m_Device->CreateQuadBatch(PXF_EXTRA_SIMPLEFONT_MAXQUAD_PER_FONT);
 	m_QuadBatch->Reset();
@@ -46,8 +43,12 @@ void SimpleFont::ResetText()
 	m_QuadBatch->Reset();
 }
 
-void SimpleFont::Load()
+void SimpleFont::Load(Util::String _font_filepath, float _font_size, int _texture_size)
 {
+	m_FontFilepath = _font_filepath;
+	m_TextureSize = _texture_size;
+	m_FontSize = _font_size;
+	
 	FileStream fs;
 	if (fs.OpenReadBinary(m_FontFilepath.c_str()))
 	{
