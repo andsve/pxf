@@ -23,6 +23,7 @@ GUIScript::GUIScript(const char* _filepath, Math::Vec4i* _viewarea, Graphics::De
 	m_Viewarea[3] = _viewarea->w;
 	
 	m_QuadBatch = m_Device->CreateQuadBatch(PXF_EXTRA_LUAGUI_MAXQUAD_PER_WIDGET);
+	//m_Font = new SimpleFontSimpleFont (Util::String _font_filepath, Graphics::Device *_device);
 
 	// All saved, lets load the script
 	Load();

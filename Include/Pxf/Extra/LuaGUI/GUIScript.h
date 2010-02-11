@@ -12,6 +12,8 @@
 #include <Pxf/Extra/LuaGUI/GUIHandler.h>
 #include <Pxf/Extra/LuaGUI/GUIWidget.h>
 
+#include <Pxf/Extra/SimpleFont/SimpleFont.h>
+
 // Lua includes
 extern "C" {
 #include <lua.h>
@@ -49,6 +51,7 @@ namespace Pxf
 				Graphics::Device* m_Device;
 				Graphics::QuadBatch* m_QuadBatch;
 				Graphics::Texture* m_Texture;
+				SimpleFont* m_Font;
 				Util::String m_Filepath;
 				int m_Viewarea[4];
 

@@ -74,6 +74,26 @@ void SimpleFont::Load()
 	}
 }
 
+void SimpleFont::AddTextCentered(Util::String _text, Math::Vec3f _pos)
+{
+	const char *text = _text.c_str();
+	float _width = 0.0f;
+	float _x = _pos.x;
+	float _y = _pos.y;
+	
+	while (*text) {
+		if (*text >= 32 && *text < 128) {
+			stbtt_aligned_quad q;
+			stbtt_GetBakedQuad(m_CharData, m_TextureSize, m_TextureSize, *text-32, &_x,&_y,&q,1);//1=opengl,0=old d3d
+			
+			_width += q.x1 - q.x0;
+		}
+		++text;
+	}
+	
+	AddText(_text, Math::Vec3f(_pos.x - (_width / 2.0f), _pos.y, _pos.x));
+}
+
 void SimpleFont::AddText(Util::String _text, Math::Vec3f _pos)
 {
 	const char *text = _text.c_str();
