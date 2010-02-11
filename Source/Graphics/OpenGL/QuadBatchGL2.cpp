@@ -12,7 +12,8 @@ using namespace Pxf::Graphics;
 using namespace Pxf::Math;
 using Util::String;
 
-QuadBatchGL2::QuadBatchGL2(int _maxSize)
+QuadBatchGL2::QuadBatchGL2(Device* _pDevice, int _maxSize)
+	: QuadBatch(_pDevice)
 {
 	m_VertexBufferSize = _maxSize * 4; // _maxSize * number of vertices per quad
 	m_Vertices = new Vertex[m_VertexBufferSize];

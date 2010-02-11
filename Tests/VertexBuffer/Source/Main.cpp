@@ -17,6 +17,8 @@
 #include <Pxf/Resource/Chunk.h>
 #include <Pxf/Base/Stream.h>
 
+#include <Pxf/Base/Timer.h>
+
 #include <Pxf/Graphics/InterleavedVertexBuffer.h>
 #include <Pxf/Graphics/NonInterleavedVertexBuffer.h>
 
@@ -68,6 +70,8 @@ bool PxfMain(Util::String _CmdLine)
 	char t_title[512];
 	char t_pxftitle[] = "PXF Engine";
 	int t_fps = 0;
+
+	Timer t;
 
 	Pxf::Graphics::WindowSpecifications* pWindowSpecs = new Pxf::Graphics::WindowSpecifications();
 	pWindowSpecs->Width = 720;
@@ -172,6 +176,7 @@ bool PxfMain(Util::String _CmdLine)
 	pNIBuffs[3] = CreateNIBuffer(pDevice, VB_LOCATION_GPU);
 
 	float t_honk = 0.0f;
+	t.Start();
 	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())
 	{
 		// Update input
@@ -210,9 +215,12 @@ bool PxfMain(Util::String _CmdLine)
 			pWindow->SetTitle(t_title);
 		}
 	}
+	t.Stop();
 
 	pDevice->CloseWindow();
 	engine.DestroyDevice(pDevice);
+
+	Message("HONK", "Number of ms passed: %d", t.Interval());
 
 	return true;
 }

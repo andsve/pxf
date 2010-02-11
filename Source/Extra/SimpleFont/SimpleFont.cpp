@@ -1,6 +1,7 @@
 #include <fstream>
 
 #include <Pxf/Base/Debug.h>
+#include <Pxf/Base/Stream.h>
 #include <Pxf/Graphics/Device.h>
 #include <Pxf/Graphics/Texture.h>
 #include <Pxf/Graphics/QuadBatch.h>
@@ -30,8 +31,8 @@ SimpleFont::SimpleFont( Util::String _font_filepath, Device *_device)
 	
 	m_QuadBatch = m_Device->CreateQuadBatch(PXF_EXTRA_SIMPLEFONT_MAXQUAD_PER_FONT);
 	m_QuadBatch->Reset();
-	m_QuadBatch->SetTextureSubset(0, 0, 1, 1);
-	m_QuadBatch->AddTopLeft(0, 0, m_TextureSize, m_TextureSize);
+	//m_QuadBatch->SetTextureSubset(0, 0, 1, 1);
+	//m_QuadBatch->AddTopLeft(0, 0, m_TextureSize, m_TextureSize);
 }
 
 SimpleFont::~SimpleFont()
@@ -47,25 +48,23 @@ void SimpleFont::ResetText()
 
 void SimpleFont::Load()
 {
-	FILE *_ttf_file;
-	_ttf_file = fopen (m_FontFilepath.c_str(),"r");
-	if (_ttf_file != NULL)
+	FileStream fs;
+	if (fs.OpenReadBinary(m_FontFilepath.c_str()))
 	{
-		int _filesize = _get_filesize();
-		unsigned char *_ttf_buffer = new unsigned char[_filesize];                    // store ttf data
-		unsigned char *_temp_bitmap = new unsigned char[m_TextureSize*m_TextureSize]; // store texture pixels
+		int filesize = fs.GetSize();
+		unsigned char *ttf_buffer = new unsigned char[filesize];                    // store ttf data
+		unsigned char *temp_bitmap = new unsigned char[m_TextureSize*m_TextureSize]; // store texture pixels
 		
 		// read ttf data
-		fread(_ttf_buffer, 1, _filesize, _ttf_file);
-		fclose (_ttf_file);
+		fs.Read(ttf_buffer, filesize);
 		
 		// bake ttf font data
-		stbtt_BakeFontBitmap(_ttf_buffer, 0, m_FontSize, _temp_bitmap, m_TextureSize, m_TextureSize, 32, 96, m_CharData);
-		delete _ttf_buffer;
+		stbtt_BakeFontBitmap(ttf_buffer, 0, m_FontSize, temp_bitmap, m_TextureSize, m_TextureSize, 32, 96, m_CharData);
+		delete ttf_buffer;
 		
 		// create texture
-		m_CharmapTexture = m_Device->CreateTextureFromData(_temp_bitmap, m_TextureSize, m_TextureSize, 1);
-		delete _temp_bitmap;
+		m_CharmapTexture = m_Device->CreateTextureFromData(temp_bitmap, m_TextureSize, m_TextureSize, 1);
+		delete temp_bitmap;
 		
 		// set some texture filtering
 		m_CharmapTexture->SetMagFilter(TEX_FILTER_NEAREST);
@@ -99,20 +98,7 @@ void SimpleFont::AddText(Util::String _text, Math::Vec3f _pos)
 void SimpleFont::Draw()
 {
 	m_Device->BindTexture(m_CharmapTexture);
+	m_CharmapTexture->SetMagFilter(TEX_FILTER_NEAREST);
+	m_CharmapTexture->SetMinFilter(TEX_FILTER_NEAREST);
 	m_QuadBatch->Draw();
-}
-
-// Portable file size getter from:
-// http://www.codeproject.com/KB/files/filesize.aspx
-int SimpleFont::_get_filesize()
-{
-	std::ifstream f;
-	f.open(m_FontFilepath.c_str(), std::ios_base::binary | std::ios_base::in);
-	
-	if (!f.good() || f.eof() || !f.is_open()) { return 0; }
-		f.seekg(0, std::ios_base::beg);
-		
-	std::ifstream::pos_type begin_pos = f.tellg();
-	f.seekg(0, std::ios_base::end);
-	return static_cast<int>(f.tellg() - begin_pos);
 }

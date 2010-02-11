@@ -18,7 +18,7 @@ namespace Pxf
 		private:
 			unsigned m_BufferObjectId;
 		public:
-			InterleavedVertexBufferGL2(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag);
+			InterleavedVertexBufferGL2(Device* _pDevice, VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag);
 			virtual ~InterleavedVertexBufferGL2();
 
 			void CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize);
