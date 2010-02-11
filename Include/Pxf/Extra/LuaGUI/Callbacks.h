@@ -143,6 +143,40 @@ namespace LuaGUI
 		}
 		return 0;
 	}
+	
+	static int _guicb_AddText(lua_State *L)
+	{
+		int n = lua_gettop(L); // arguments
+		if (n == 4) // AddText(instance, text, x1, y1)
+		{
+			Math::Vec3f _pos(lua_tonumber(L, 3), lua_tonumber(L, 4), 0.0f);
+			GUIWidget* widget = (GUIWidget*)lua_touserdata(L, 1);
+
+			(*g_CurrentScript.top()).AddText(widget, lua_tostring(L, 2), _pos);
+			
+			return 0;
+		} else {
+			Message(PXF_LUAGUI_MESSAGE_ID, "Wrong number (%i instead of 4) of parameters to AddText(...).", n);
+		}
+		return 0;
+	}
+	
+	static int _guicb_AddTextCentered(lua_State *L)
+	{
+		int n = lua_gettop(L); // arguments
+		if (n == 4) // AddTextCentered(text, x1, y1)
+		{
+			Math::Vec3f _pos(lua_tonumber(L, 3), lua_tonumber(L, 4), 0.0f);
+			GUIWidget* widget = (GUIWidget*)lua_touserdata(L, 1);
+
+			(*g_CurrentScript.top()).AddTextCentered(widget, lua_tostring(L, 2), _pos);
+			
+			return 0;
+		} else {
+			Message(PXF_LUAGUI_MESSAGE_ID, "Wrong number (%i instead of 4) of parameters to AddTextCentered(...).", n);
+		}
+		return 0;
+	}
 
 	static int _guicb_IsMouseOver(lua_State *L)
 	{
@@ -242,19 +276,21 @@ namespace LuaGUI
 
 
 		// GUI callbacks
-		lua_register(L,"print",         _guicb_print);
-		lua_register(L,"_ReloadScript", _guicb_ReloadScript);
-		lua_register(L,"_AddWidget",    _guicb_AddWidget);
-		lua_register(L,"_AddQuad",      _guicb_AddQuad);
-		lua_register(L,"_AddState",     _guicb_AddState);
-		lua_register(L,"_SetState",     _guicb_SetState);
-		lua_register(L,"_GetState",     _guicb_GetState);
-		lua_register(L,"_SetPosition",  _guicb_SetPosition);
-		lua_register(L,"_IsMouseOver",  _guicb_IsMouseOver);
-		lua_register(L,"_IsDown",       _guicb_IsDown);
-		lua_register(L,"_IsDraging",    _guicb_IsDraging);
-		lua_register(L,"_IsClicked",    _guicb_IsClicked);
-		lua_register(L,"_GetMouseHit",  _guicb_GetMouseHit);
+		lua_register(L,"print",            _guicb_print);
+		lua_register(L,"_ReloadScript",    _guicb_ReloadScript);
+		lua_register(L,"_AddWidget",       _guicb_AddWidget);
+		lua_register(L,"_AddQuad",         _guicb_AddQuad);
+		lua_register(L,"_AddText",         _guicb_AddText);
+		lua_register(L,"_AddTextCentered", _guicb_AddTextCentered);
+		lua_register(L,"_AddState",        _guicb_AddState);
+		lua_register(L,"_SetState",        _guicb_SetState);
+		lua_register(L,"_GetState",        _guicb_GetState);
+		lua_register(L,"_SetPosition",     _guicb_SetPosition);
+		lua_register(L,"_IsMouseOver",     _guicb_IsMouseOver);
+		lua_register(L,"_IsDown",          _guicb_IsDown);
+		lua_register(L,"_IsDraging",       _guicb_IsDraging);
+		lua_register(L,"_IsClicked",       _guicb_IsClicked);
+		lua_register(L,"_GetMouseHit",     _guicb_GetMouseHit);
 	}
 } // LuaGUI
 } // Extra

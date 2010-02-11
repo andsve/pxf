@@ -8,6 +8,7 @@
 using namespace Pxf;
 using namespace Pxf::Math;
 using namespace Pxf::Graphics;
+using namespace Pxf::Extra;
 using namespace Pxf::Extra::LuaGUI;
 
 GUIScript::GUIScript(const char* _filepath, Math::Vec4i* _viewarea, Graphics::Device* _device)
@@ -23,7 +24,7 @@ GUIScript::GUIScript(const char* _filepath, Math::Vec4i* _viewarea, Graphics::De
 	m_Viewarea[3] = _viewarea->w;
 	
 	m_QuadBatch = m_Device->CreateQuadBatch(PXF_EXTRA_LUAGUI_MAXQUAD_PER_WIDGET);
-	//m_Font = new SimpleFontSimpleFont (Util::String _font_filepath, Graphics::Device *_device);
+	m_Font = new SimpleFont(m_Device);
 
 	// All saved, lets load the script
 	Load();
@@ -55,6 +56,13 @@ void GUIScript::Load()
 			lua_getglobal(L, "theme_texture");
 			m_Texture = m_Device->CreateTexture(lua_tostring(L, 1));
 			lua_pop(L, 1);
+			
+			// Load font file
+			lua_getglobal(L, "theme_font_file");
+			lua_getglobal(L, "theme_font_size");
+			m_Font->Load(lua_tostring(L, 1), lua_tonumber(L, 2));
+			//m_Texture = m_Device->CreateTexture(lua_tostring(L, 1));
+			lua_pop(L, 2);
 
 			// Call init()
 			CallLuaFunc("init");
@@ -93,6 +101,20 @@ void GUIScript::AddQuad(GUIWidget* _widget, Math::Vec4i* _quad, Math::Vec4i* _te
 	
 	m_QuadBatch->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
 	m_QuadBatch->AddTopLeft(_widget->GetPosition()->x + _quad->x, _widget->GetPosition()->y + _quad->y, _quad->z, _quad->w);
+}
+
+void GUIScript::AddText(GUIWidget* _widget, Util::String _text, Math::Vec3f _pos)
+{
+	_pos.x += _widget->GetPosition()->x;
+	_pos.y += _widget->GetPosition()->y;
+	m_Font->AddText(_text, _pos);
+}
+
+void GUIScript::AddTextCentered(GUIWidget* _widget, Util::String _text, Math::Vec3f _pos)
+{
+	_pos.x += _widget->GetPosition()->x;
+	_pos.y += _widget->GetPosition()->y;
+	m_Font->AddTextCentered(_text, _pos);
 }
 
 void GUIScript::Update(Math::Vec2f* _mouse, bool _mouse_down, float _delta)
@@ -139,12 +161,14 @@ void GUIScript::Draw()
 
 		// Reset quad batch an make ready for script to send draw-data
 		m_QuadBatch->Reset();
+		m_Font->ResetText();
 
 		// Setup draw calls
 		CallLuaFunc("DrawWidgets");
 
 		// Draw our quad batch!
 		m_QuadBatch->Draw();
+		m_Font->Draw();
 	}
 }
 

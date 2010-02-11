@@ -49,9 +49,9 @@ bool PxfMain(Util::String _CmdLine)
 	pDevice->SetProjection(&t_ortho);
 	
 	// Test font
-	SimpleFont *_fonttest = new SimpleFont(pDevice);
-	_fonttest->Load("data/alterebro_pixel.ttf", 13.0f, 256);
-	_fonttest->AddTextCentered("Hey, some text! :)", Math::Vec3f(0,10,0));
+	/*SimpleFont *_fonttest = new SimpleFont(pDevice);
+	_fonttest->Load("data/alterebro_pixel.ttf", 13.0f, 128);
+	_fonttest->AddTextCentered("Hey, some text! :)", Math::Vec3f(0,10,0));*/
 
 	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())
 	{
@@ -82,9 +82,9 @@ bool PxfMain(Util::String _CmdLine)
 		pGUI->Update(&mousepos_f, pInput->IsButtonDown(Pxf::Input::MOUSE_LEFT), 1.0f);
 		pGUI->Draw();
 		
-		glBlendFunc(GL_SRC_COLOR,GL_ONE_MINUS_SRC_COLOR);
+		//glBlendFunc(GL_SRC_COLOR,GL_ONE_MINUS_SRC_COLOR);
 		//glEnable(GL_BLEND);
-		_fonttest->Draw();
+		//_fonttest->Draw();
 
 		
 
@@ -106,7 +106,6 @@ bool PxfMain(Util::String _CmdLine)
 		}
 	}
 
-	delete _fonttest;
 	pDevice->CloseWindow();
 	engine.DestroyDevice(pDevice);
 

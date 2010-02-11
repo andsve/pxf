@@ -46,6 +46,8 @@ namespace Pxf
 				// lua callable methods
 				GUIWidget* AddWidget(const char* _name, Math::Vec4i _hitbox);
 				void AddQuad(GUIWidget* _widget, Math::Vec4i* _quad, Math::Vec4i* _texpixels);
+				void AddText(GUIWidget* _widget, Util::String _text, Math::Vec3f _pos);
+				void AddTextCentered(GUIWidget* _widget, Util::String _text, Math::Vec3f _pos);
 			
 			private:
 				Graphics::Device* m_Device;
