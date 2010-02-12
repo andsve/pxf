@@ -2,7 +2,8 @@
 #define _PXF_GRAPHICS_NONINTERLEAVEDVERTEXBUFFER_H_
 
 #include <Pxf/Graphics/DeviceType.h> // enum DeviceType
-#include <Pxf/Graphics/Device.h> // enumerations for VertexBuffer
+#include <Pxf/Graphics/Device.h>
+#include <Pxf/Graphics/DeviceResource.h>
 #include <Pxf/Math/Vector.h>
 
 /*
@@ -21,7 +22,7 @@ namespace Pxf
 		class Device;
 
 		//! Abstract class for vertex buffer
-		class NonInterleavedVertexBuffer
+		class NonInterleavedVertexBuffer : public DeviceResource
 		{
 		private:
 			struct AttributeData
@@ -52,8 +53,9 @@ namespace Pxf
 			AttributeData m_EdgeFlagAttributes;
 
 		public:
-			NonInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
-				: m_Attributes(0)
+			NonInterleavedVertexBuffer(Device* _pDevice, VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
+				: DeviceResource(_pDevice)
+				, m_Attributes(0)
 				, m_PrimitiveType(VB_PRIMITIVE_NONE)
 				, m_VertexBufferLocation(_VertexBufferLocation)
 				, m_VertexBufferUsageFlag(_VertexBufferUsageFlag)

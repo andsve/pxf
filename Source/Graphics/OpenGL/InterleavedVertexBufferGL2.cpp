@@ -45,8 +45,8 @@ static GLuint LookupAccessFlag(VertexBufferAccessFlag _BufferAccessFlag)
 }
 
 
-InterleavedVertexBufferGL2::InterleavedVertexBufferGL2(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
-	: InterleavedVertexBuffer(_VertexBufferLocation, _VertexBufferUsageFlag)
+InterleavedVertexBufferGL2::InterleavedVertexBufferGL2(Device* _pDevice, VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
+	: InterleavedVertexBuffer(_pDevice, _VertexBufferLocation, _VertexBufferUsageFlag)
 	, m_BufferObjectId(0)
 {}
 

@@ -3,12 +3,12 @@
 
 #include <string>
 
-namespace Pxf{
-namespace Util {
+namespace Pxf {
+	namespace Util {
 
-typedef std::string String;
+	typedef std::string String;
 
-} // Util
+	} // Util
 } // Pxf
 
 #endif //_PXF_UTIL_STRING_H_

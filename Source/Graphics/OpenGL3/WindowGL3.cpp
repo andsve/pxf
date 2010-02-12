@@ -1,7 +1,7 @@
 #include <Pxf/Pxf.h>
-#include <Pxf/Base/Clock.h>
+#include <Pxf/Base/Platform.h>
 #include <Pxf/Util/String.h>
-#include <Pxf/Graphics/OpenGL/WindowGL3.h>
+#include <Pxf/Graphics/OpenGL3/WindowGL3.h>
 #include <Pxf/Base/Debug.h>
 
 #ifdef CONF_PLATFORM_MACOSX
@@ -36,7 +36,7 @@ WindowGL3::WindowGL3(WindowSpecifications *_window_spec)
 	// FPS
 	m_fps = 0;
 	m_fps_count = 0;
-	m_fps_laststamp = Clock::GetTime();
+	m_fps_laststamp = Platform::GetTime();
 
 	#ifdef CONF_FAMILY_WINDOWS
 	// reset windows params
@@ -232,7 +232,7 @@ void WindowGL3::Swap()
 	if (IsOpen())
 	{
 		int64 diff;
-		int64 t_current_time = Clock::GetTime();
+		int64 t_current_time = Platform::GetTime();
 		diff = t_current_time - m_fps_laststamp;
 		if (diff >= 1000)
 		{

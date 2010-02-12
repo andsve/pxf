@@ -9,6 +9,14 @@ function AddQuad(widget, quad, coords)
 	_AddQuad(widget, quad[1], quad[2], quad[3], quad[4], coords[1], coords[2], coords[3], coords[4])
 end
 
+function AddText(widget, text, pos)
+	_AddText(widget, text, pos[1], pos[2])
+end
+
+function AddTextCentered(widget, text, pos)
+	_AddTextCentered(widget, text, pos[1], pos[2])
+end
+
 function AddWidget(_name, _hitbox, _states, _activestate, events, _render)
 	if (events == nil) then
 		events = {}

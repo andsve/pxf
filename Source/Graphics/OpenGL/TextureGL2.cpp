@@ -12,7 +12,8 @@ using namespace Pxf;
 using namespace Pxf::Graphics;
 using Util::String;
 
-TextureGL2::TextureGL2()
+TextureGL2::TextureGL2(Device* _pDevice)
+	: Texture(_pDevice)
 {
 	m_TextureID = 0;
 }
@@ -47,6 +48,46 @@ void TextureGL2::Load(const char* _filepath)
 
 	Reload();
 
+}
+
+void TextureGL2::LoadData(const unsigned char* _datachunk, int _width, int _height, int _channels)
+{
+	m_Width = _width;
+	m_Height = _height;
+	m_Channels = _channels;
+	
+	/*
+	GLuint tformat;
+	
+	if (_format == TEX_FORMAT_RGBA)
+	{
+		tformat = GL_RGBA;
+	} else if (_format == TEX_FORMAT_A)
+	{
+		tformat = GL_ALPHA;
+	}
+	
+	
+	// doing it old-school
+	glGenTextures(1, &m_TextureID);
+	glBindTexture(GL_TEXTURE_2D, m_TextureID);
+	glTexImage2D(GL_TEXTURE_2D, 0, tformat, _width, _height, 0, tformat, GL_UNSIGNED_BYTE, _datachunk);
+	glGenerateMipmapEXT(GL_TEXTURE_2D);
+	*/
+	
+	
+	m_TextureID = SOIL_create_OGL_texture(
+		_datachunk,
+		m_Width, m_Height, m_Channels,
+		SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS
+		);
+	
+	if( m_TextureID == 0)
+	{
+		Message(LOCAL_MSG, "SOIL loading error data chunk: '%s';", SOIL_last_result() );
+		return;
+	}
 }
 
 void TextureGL2::Unload()
@@ -111,8 +152,8 @@ void TextureGL2::SetMagFilter(TextureFilter _Filter)
 	GLint param = GL_NEAREST;
 
 	// use a lut
-	if      (_Filter == FILTER_NEAREST) param = GL_NEAREST;
-	else if (_Filter == FILTER_LINEAR)  param = GL_LINEAR;
+	if      (_Filter == TEX_FILTER_NEAREST) param = GL_NEAREST;
+	else if (_Filter == TEX_FILTER_LINEAR)  param = GL_LINEAR;
 	else    Message("TextureGL2", "invalid mag filter, using GL_NEAREST");
 	
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
@@ -124,12 +165,12 @@ void TextureGL2::SetMinFilter(TextureFilter _Filter)
 	GLint param = GL_NEAREST;
 
 	// use a lut
-	if      (_Filter == FILTER_NEAREST) param = GL_NEAREST;
-	else if (_Filter == FILTER_LINEAR)  param = GL_LINEAR;
-	else if (_Filter == FILTER_LINEAR_MIPMAP_LINEAR)  param = GL_LINEAR_MIPMAP_LINEAR;
-	else if (_Filter == FILTER_LINEAR_MIPMAP_NEAREST)  param = GL_LINEAR_MIPMAP_NEAREST;
-	else if (_Filter == FILTER_NEAREST_MIPMAP_LINEAR)  param = GL_NEAREST_MIPMAP_LINEAR;
-	else if (_Filter == FILTER_NEAREST_MIPMAP_NEAREST)  param = GL_NEAREST_MIPMAP_NEAREST;
+	if      (_Filter == TEX_FILTER_NEAREST) param = GL_NEAREST;
+	else if (_Filter == TEX_FILTER_LINEAR)  param = GL_LINEAR;
+	else if (_Filter == TEX_FILTER_LINEAR_MIPMAP_LINEAR)  param = GL_LINEAR_MIPMAP_LINEAR;
+	else if (_Filter == TEX_FILTER_LINEAR_MIPMAP_NEAREST)  param = GL_LINEAR_MIPMAP_NEAREST;
+	else if (_Filter == TEX_FILTER_NEAREST_MIPMAP_LINEAR)  param = GL_NEAREST_MIPMAP_LINEAR;
+	else if (_Filter == TEX_FILTER_NEAREST_MIPMAP_NEAREST)  param = GL_NEAREST_MIPMAP_NEAREST;
 	else    Message("TextureGL2", "invalid mag filter, using GL_NEAREST");
 
 	glBindTexture(GL_TEXTURE_2D, m_TextureID);
@@ -141,9 +182,9 @@ void TextureGL2::SetClampMethod(TextureClampMethod _Method)
 	GLint m = 0;
 	switch(_Method)
 	{
-	case CLAMP: m = GL_CLAMP; break;
-	case CLAMP_TO_EDGE: m = GL_CLAMP_TO_EDGE; break;
-	case REPEAT: m = GL_REPEAT; break;
+	case TEX_CLAMP: m = GL_CLAMP; break;
+	case TEX_CLAMP_TO_EDGE: m = GL_CLAMP_TO_EDGE; break;
+	case TEX_REPEAT: m = GL_REPEAT; break;
 	default:
 		PXFASSERT(false, "No such clamp method");
 	}

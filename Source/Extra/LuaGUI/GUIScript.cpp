@@ -1,4 +1,5 @@
 #include <Pxf/Graphics/Device.h>
+#include <Pxf/Graphics/QuadBatch.h>
 
 #include <Pxf/Graphics/Texture.h>
 #include <Pxf/Extra/LuaGUI/GUIScript.h>
@@ -7,6 +8,7 @@
 using namespace Pxf;
 using namespace Pxf::Math;
 using namespace Pxf::Graphics;
+using namespace Pxf::Extra;
 using namespace Pxf::Extra::LuaGUI;
 
 GUIScript::GUIScript(const char* _filepath, Math::Vec4i* _viewarea, Graphics::Device* _device)
@@ -20,6 +22,9 @@ GUIScript::GUIScript(const char* _filepath, Math::Vec4i* _viewarea, Graphics::De
 	m_Viewarea[1] = _viewarea->y;
 	m_Viewarea[2] = _viewarea->z;
 	m_Viewarea[3] = _viewarea->w;
+	
+	m_QuadBatch = m_Device->CreateQuadBatch(PXF_EXTRA_LUAGUI_MAXQUAD_PER_WIDGET);
+	m_Font = new SimpleFont(m_Device);
 
 	// All saved, lets load the script
 	Load();
@@ -27,7 +32,8 @@ GUIScript::GUIScript(const char* _filepath, Math::Vec4i* _viewarea, Graphics::De
 
 GUIScript::~GUIScript()
 {
-	// clean up
+	if (m_QuadBatch)
+		delete m_QuadBatch;
 }
 
 void GUIScript::Load()
@@ -50,6 +56,13 @@ void GUIScript::Load()
 			lua_getglobal(L, "theme_texture");
 			m_Texture = m_Device->CreateTexture(lua_tostring(L, 1));
 			lua_pop(L, 1);
+			
+			// Load font file
+			lua_getglobal(L, "theme_font_file");
+			lua_getglobal(L, "theme_font_size");
+			m_Font->Load(lua_tostring(L, 1), lua_tonumber(L, 2));
+			//m_Texture = m_Device->CreateTexture(lua_tostring(L, 1));
+			lua_pop(L, 2);
 
 			// Call init()
 			CallLuaFunc("init");
@@ -84,9 +97,24 @@ void GUIScript::Reload()
 
 void GUIScript::AddQuad(GUIWidget* _widget, Math::Vec4i* _quad, Math::Vec4i* _texpixels)
 {
-	//printf("inside testit! got: %i\n", _i);
 	Math::Vec4f coords = m_Texture->CreateTextureSubset(_texpixels->x, _texpixels->y, _texpixels->z, _texpixels->w);
-	_widget->AddQuad(_quad, &coords);
+	
+	m_QuadBatch->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
+	m_QuadBatch->AddTopLeft(_widget->GetPosition()->x + _quad->x, _widget->GetPosition()->y + _quad->y, _quad->z, _quad->w);
+}
+
+void GUIScript::AddText(GUIWidget* _widget, Util::String _text, Math::Vec3f _pos)
+{
+	_pos.x += _widget->GetPosition()->x;
+	_pos.y += _widget->GetPosition()->y;
+	m_Font->AddText(_text, _pos);
+}
+
+void GUIScript::AddTextCentered(GUIWidget* _widget, Util::String _text, Math::Vec3f _pos)
+{
+	_pos.x += _widget->GetPosition()->x;
+	_pos.y += _widget->GetPosition()->y;
+	m_Font->AddTextCentered(_text, _pos);
 }
 
 void GUIScript::Update(Math::Vec2f* _mouse, bool _mouse_down, float _delta)
@@ -131,19 +159,16 @@ void GUIScript::Draw()
 		m_Device->SetProjection(&t_ortho);
 		m_Device->BindTexture(m_Texture);
 
-		for ( std::list<GUIWidget*>::iterator it = m_Widgets.begin() ; it != m_Widgets.end(); it++ )
-		{
-			((GUIWidget*)*it)->Reset();
-		}
+		// Reset quad batch an make ready for script to send draw-data
+		m_QuadBatch->Reset();
+		m_Font->ResetText();
 
 		// Setup draw calls
 		CallLuaFunc("DrawWidgets");
 
-		// Loop through widgets
-		for ( std::list<GUIWidget*>::iterator it = m_Widgets.begin() ; it != m_Widgets.end(); it++ )
-		{
-			((GUIWidget*)*it)->Draw();
-		}
+		// Draw our quad batch!
+		m_QuadBatch->Draw();
+		m_Font->Draw();
 	}
 }
 

@@ -11,6 +11,7 @@ namespace Pxf{
 
 		class QuadBatch;
 		class VertexBuffer;
+		class RenderTarget;
 
 		class DeviceGL2 : public Device
 		{
@@ -28,7 +29,9 @@ namespace Pxf{
 			void SwapBuffers();
 			void Translate(Math::Vec3f _translate);
 
+			Texture* CreateEmptyTexture(int _Width,int _Height, TextureFormatStorage _Format = TEX_FORMAT_RGBA);
 			Texture* CreateTexture(const char* _filepath);
+			Texture* CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, int _channels);
 			void BindTexture(Texture* _texture);
 			void BindTexture(Texture* _texture, unsigned int _texture_unit);
 
@@ -39,6 +42,11 @@ namespace Pxf{
 			void DestroyVertexBuffer(NonInterleavedVertexBuffer* _pVertexBuffer);
 			void DestroyVertexBuffer(InterleavedVertexBuffer* _pVertexBuffer);
 			void DrawBuffer(InterleavedVertexBuffer* _pVertexBuffer);
+
+			void BindRenderTarget(RenderTarget* _RenderTarget);
+			void BindRenderTarget(RenderTarget* _RenderTarget, int _DrawID);
+			void ReleaseRenderTarget(RenderTarget* _RenderTarget);
+			RenderTarget* CreateRenderTarget(int _Width,int _Height,RTFormat _ColorFormat,RTFormat _DepthFormat);
 		private:
 			Window* m_Window;
 		};

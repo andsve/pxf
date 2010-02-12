@@ -1,4 +1,4 @@
-#include <Pxf/Base/Clock.h>
+#include <Pxf/Base/Platform.h>
 #ifdef CONF_FAMILY_WINDOWS
 
 #define WIN32_LEAN_AND_MEAN 1
@@ -6,11 +6,11 @@
 
 using namespace Pxf;
 
-bool Clock::s_Initialized = false;
-int64 Clock::m_Timestamp = 0;
-int64 Clock::m_Frequency = -1;
+bool Platform::s_TimeInitialized = false;
+int64 Platform::m_Timestamp = 0;
+int64 Platform::m_Frequency = -1;
 
-void Clock::Initialize()
+void Platform::Initialize()
 {
 	int64 freq = 0;
 	if (QueryPerformanceFrequency((LARGE_INTEGER*) &freq))
@@ -25,7 +25,7 @@ void Clock::Initialize()
 	}
 }
 
-int64 Clock::GetTime()
+int64 Platform::GetTime()
 {
 	int64 newTimeStamp;
 	QueryPerformanceCounter((LARGE_INTEGER*) &newTimeStamp);

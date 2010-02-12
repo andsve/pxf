@@ -4,6 +4,7 @@
 #include <Pxf/Math/Vector.h>
 #include <Pxf/Graphics/OpenGL/DeviceGL2.h>
 #include <Pxf/Graphics/Texture.h>
+#include <Pxf/Util/String.h>
 
 namespace Pxf
 {
@@ -15,9 +16,10 @@ namespace Pxf
 		class TextureGL2 : public Texture
 		{
 		public:
-			TextureGL2();
+			TextureGL2(Device* _pDevice);
 			~TextureGL2();
 			void Load(const char* _filepath);
+			void LoadData(const unsigned char* _datachunk, int _width, int _height, int _channels);
 			void Unload();
 			void Reload();
 

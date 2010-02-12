@@ -12,7 +12,15 @@ namespace Pxf
 		class QuadBatchGL2 : public QuadBatch
 		{
 			public:
-				QuadBatchGL2(int _maxSize);
+
+				struct Vertex
+				{
+					Math::Vec3f pos;
+					Math::Vec2f tex;
+					Math::Vec4f color;
+				};
+
+				QuadBatchGL2(Device* _pDevice, int _maxSize);
 				~QuadBatchGL2();
 
 				void SetColor(float r, float g, float b, float a);

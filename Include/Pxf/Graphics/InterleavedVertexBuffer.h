@@ -3,7 +3,8 @@
 
 #include <Pxf/Base/Types.h>
 #include <Pxf/Graphics/DeviceType.h> // enum DeviceType
-#include <Pxf/Graphics/Device.h> // enumerations for VertexBuffer
+#include <Pxf/Graphics/Device.h>
+#include <Pxf/Graphics/DeviceResource.h>
 #include <Pxf/Math/Vector.h>
 
 // TODO: Support attribute data: http://www.opengl.org/wiki/Vertex_Array_Objects
@@ -15,7 +16,7 @@ namespace Pxf
 		class Device;
 
 		//! Abstract class for vertex buffer
-		class InterleavedVertexBuffer
+		class InterleavedVertexBuffer : public DeviceResource
 		{
 		private:
 			struct AttributeData
@@ -48,8 +49,9 @@ namespace Pxf
 			AttributeData m_EdgeFlagAttributes;
 
 		public:
-			InterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
-				: m_Attributes(0)
+			InterleavedVertexBuffer(Device* _pDevice, VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
+				: DeviceResource(_pDevice)
+				, m_Attributes(0)
 				, m_PrimitiveType(VB_PRIMITIVE_NONE)
 				, m_VertexBufferLocation(_VertexBufferLocation)
 				, m_VertexBufferUsageFlag(_VertexBufferUsageFlag)
