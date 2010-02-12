@@ -12,9 +12,11 @@
 #include <Pxf/Math/Matrix.h>
 #include <Pxf/Input/Input.h>
 #include <Pxf/Util/String.h>
+#include <Pxf/Resource/ShaderSource.h>
 #include <Pxf/Resource/Image.h>
 #include <Pxf/Resource/Chunk.h>
 #include <Pxf/Resource/ResourceManager.h>
+#include <Pxf/Resource/ShaderSource.h>
 
 using namespace Pxf;
 
@@ -42,8 +44,9 @@ bool PxfMain(Util::String _CmdLine)
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
 
 	Pxf::Resource::Image t_Image(new Pxf::Resource::Chunk(),"test.png");
-	Pxf::Resource::ResourceManager t_ResourceManager();
+	Pxf::Resource::ResourceManager* t_ResourceManager = new Pxf::Resource::ResourceManager();
 
+	Pxf::Resource::ShaderSource* t_ShaderSrc = t_ResourceManager->Acquire<Pxf::Resource::ShaderSource>("shader_test.txt");
 
 	// Load some texture
 	glEnable(GL_TEXTURE_2D);
