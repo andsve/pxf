@@ -1,5 +1,5 @@
-#ifndef __PXF_RESOURCE_SHADER_H__
-#define __PXF_RESOURCE_SHADER_H__
+#ifndef __PXF_RESOURCE_SHADERSOURCE_H__
+#define __PXF_RESOURCE_SHADERSOURCE_H__
 
 #include <Pxf/Resource/AbstractResource.h>
 
@@ -31,4 +31,4 @@ namespace Pxf {
 }
 
 
-#endif // __PXF_RESOURCE_SHADER_H__
+#endif // __PXF_RESOURCE_SHADERSOURCE_H
