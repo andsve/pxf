@@ -71,7 +71,7 @@ namespace Pxf
 			virtual void _PostDraw() = 0;
 
 
-			void SetData(VertexBufferAttribute _AttribType, uint8 _StrideOffset, uint8 _NumComponents);
+			//void SetData(VertexBufferAttribute _AttribType, void* _DataPtr, uint8 _NumComponents);
 
 			void SetPrimitive(VertexBufferPrimitiveType _PrimitiveType)
 			{
