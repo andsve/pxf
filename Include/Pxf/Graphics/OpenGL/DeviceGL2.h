@@ -37,11 +37,9 @@ namespace Pxf{
 
 			QuadBatch* CreateQuadBatch(int _maxSize);
 
-			NonInterleavedVertexBuffer* CreateNonInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag);
-			InterleavedVertexBuffer* CreateInterleavedVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag);
-			void DestroyVertexBuffer(NonInterleavedVertexBuffer* _pVertexBuffer);
-			void DestroyVertexBuffer(InterleavedVertexBuffer* _pVertexBuffer);
-			void DrawBuffer(InterleavedVertexBuffer* _pVertexBuffer);
+			VertexBuffer* CreateVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag);
+			void DestroyVertexBuffer(VertexBuffer* _pVertexBuffer);
+			void DrawBuffer(VertexBuffer* _pVertexBuffer);
 
 			void BindRenderTarget(RenderTarget* _RenderTarget);
 			void BindRenderTarget(RenderTarget* _RenderTarget, int _DrawID);

@@ -1,5 +1,5 @@
-#ifndef _PXF_GRAPHICS_INTERLEAVEDVERTEXBUFFER_H_
-#define _PXF_GRAPHICS_INTERLEAVEDVERTEXBUFFER_H_
+#ifndef _PXF_GRAPHICS_VERTEXBUFFER_H_
+#define _PXF_GRAPHICS_VERTEXBUFFER_H_
 
 #include <Pxf/Base/Types.h>
 #include <Pxf/Graphics/DeviceType.h> // enum DeviceType
@@ -16,7 +16,7 @@ namespace Pxf
 		class Device;
 
 		//! Abstract class for vertex buffer
-		class InterleavedVertexBuffer : public DeviceResource
+		class VertexBuffer : public DeviceResource
 		{
 		private:
 			struct AttributeData
@@ -49,7 +49,7 @@ namespace Pxf
 			AttributeData m_EdgeFlagAttributes;
 
 		public:
-			InterleavedVertexBuffer(Device* _pDevice, VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
+			VertexBuffer(Device* _pDevice, VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
 				: DeviceResource(_pDevice)
 				, m_Attributes(0)
 				, m_PrimitiveType(VB_PRIMITIVE_NONE)

@@ -1,6 +1,6 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
-#include <Pxf/Graphics/OpenGL/InterleavedVertexBufferGL2.h>
+#include <Pxf/Graphics/OpenGL/VertexBufferGL2.h>
 #include <Pxf/Base/Debug.h>
 #include <Pxf/Base/Utils.h>
 #include <Pxf/Base/Stream.h>
@@ -8,7 +8,7 @@
 #include <Pxf/Graphics/OpenGL/OpenGL.h>
 #include <Pxf/Graphics/OpenGL/TypeTraits.h>
 
-#define LOCAL_MSG "InterleavedVertexBuffer"
+#define LOCAL_MSG "VertexBuffer"
 
 using namespace Pxf;
 using namespace Pxf::Graphics;
@@ -45,12 +45,12 @@ static GLuint LookupAccessFlag(VertexBufferAccessFlag _BufferAccessFlag)
 }
 
 
-InterleavedVertexBufferGL2::InterleavedVertexBufferGL2(Device* _pDevice, VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
-	: InterleavedVertexBuffer(_pDevice, _VertexBufferLocation, _VertexBufferUsageFlag)
+VertexBufferGL2::VertexBufferGL2(Device* _pDevice, VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
+	: VertexBuffer(_pDevice, _VertexBufferLocation, _VertexBufferUsageFlag)
 	, m_BufferObjectId(0)
 {}
 
-InterleavedVertexBufferGL2::~InterleavedVertexBufferGL2()
+VertexBufferGL2::~VertexBufferGL2()
 {
 	if (m_VertexBufferLocation == VB_LOCATION_GPU)
 	{
@@ -65,7 +65,7 @@ InterleavedVertexBufferGL2::~InterleavedVertexBufferGL2()
 }
 
 
-void InterleavedVertexBufferGL2::_PreDraw()
+void VertexBufferGL2::_PreDraw()
 {
 	unsigned int BufferOffset = 0;
 	if (m_VertexBufferLocation == VB_LOCATION_GPU)
@@ -113,7 +113,7 @@ void InterleavedVertexBufferGL2::_PreDraw()
 	}
 }
 
-void InterleavedVertexBufferGL2::_PostDraw()
+void VertexBufferGL2::_PostDraw()
 {
 	if (m_VertexBufferLocation == VB_LOCATION_GPU)
 	{
@@ -151,7 +151,7 @@ void InterleavedVertexBufferGL2::_PostDraw()
 
 
 
-void InterleavedVertexBufferGL2::CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize)
+void VertexBufferGL2::CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize)
 {
 	if (m_InterleavedData != 0 || m_BufferObjectId != 0)
 		return;
@@ -174,7 +174,7 @@ void InterleavedVertexBufferGL2::CreateNewBuffer(uint32 _NumVertices, uint32 _Ve
 	m_ByteCount = _NumVertices * _VertexSize;
 }
 
-void InterleavedVertexBufferGL2::CreateFromBuffer(void* _Buffer,uint32 _NumVertices, uint32 _VertexSize)
+void VertexBufferGL2::CreateFromBuffer(void* _Buffer,uint32 _NumVertices, uint32 _VertexSize)
 {
 	if (m_InterleavedData != 0 && m_BufferObjectId != 0)
 		return;
@@ -199,7 +199,7 @@ void InterleavedVertexBufferGL2::CreateFromBuffer(void* _Buffer,uint32 _NumVerti
 	m_ByteCount = _NumVertices * _VertexSize;
 }
 
-void InterleavedVertexBufferGL2::UpdateData(void* _Buffer, uint32 _Count, uint32 _Offset)
+void VertexBufferGL2::UpdateData(void* _Buffer, uint32 _Count, uint32 _Offset)
 {
 	if (m_VertexBufferLocation == VB_LOCATION_GPU && m_BufferObjectId != 0)
 	{
@@ -215,7 +215,7 @@ void InterleavedVertexBufferGL2::UpdateData(void* _Buffer, uint32 _Count, uint32
 	}
 }
 
-void* InterleavedVertexBufferGL2::MapData(VertexBufferAccessFlag _AccessFlag)
+void* VertexBufferGL2::MapData(VertexBufferAccessFlag _AccessFlag)
 {
 	if (m_VertexBufferLocation == VB_LOCATION_GPU && m_BufferObjectId != 0)
 	{
@@ -234,7 +234,7 @@ void* InterleavedVertexBufferGL2::MapData(VertexBufferAccessFlag _AccessFlag)
 	return NULL;
 }
 
-void InterleavedVertexBufferGL2::UnmapData()
+void VertexBufferGL2::UnmapData()
 {
 
 	if (m_VertexBufferLocation == VB_LOCATION_GPU && m_BufferObjectId != 0)
