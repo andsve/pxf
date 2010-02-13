@@ -12,9 +12,12 @@
 #include <Pxf/Math/Matrix.h>
 #include <Pxf/Input/Input.h>
 #include <Pxf/Util/String.h>
+#include <Pxf/Resource/ShaderSource.h>
 #include <Pxf/Resource/Image.h>
 #include <Pxf/Resource/Chunk.h>
 #include <Pxf/Resource/ResourceManager.h>
+#include <Pxf/Resource/ShaderSource.h>
+#include <Pxf/Graphics/Shader/GLSLShader.h>
 
 using namespace Pxf;
 
@@ -42,8 +45,13 @@ bool PxfMain(Util::String _CmdLine)
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
 
 	Pxf::Resource::Image t_Image(new Pxf::Resource::Chunk(),"test.png");
-	Pxf::Resource::ResourceManager t_ResourceManager();
+	Pxf::Resource::ResourceManager* t_ResourceManager = new Pxf::Resource::ResourceManager();
 
+	Pxf::Resource::ShaderSource* t_ShaderSrc = t_ResourceManager->Acquire<Pxf::Resource::ShaderSource>("shader_test.txt");
+
+	Pxf::Graphics::GLSLComponent t_GlslTestVP(new Pxf::Resource::Chunk(),"shader_test.txt",Pxf::Resource::SH_TYPE_VERTEX);
+	Pxf::Graphics::GLSLComponent t_GlslTestFP(new Pxf::Resource::Chunk(),"shader_test.txt",Pxf::Resource::SH_TYPE_FRAGMENT);
+	Pxf::Graphics::GLSLShader t_GlslShader(&t_GlslTestVP,&t_GlslTestFP);
 
 	// Load some texture
 	glEnable(GL_TEXTURE_2D);
@@ -68,12 +76,16 @@ bool PxfMain(Util::String _CmdLine)
 
 	Graphics::Texture* pRColorTex0 = pDevice->CreateEmptyTexture(200,200);
 	Pxf::Graphics::RenderTarget* pRT0 = pDevice->CreateRenderTarget(pWindowSpecs->Width,pWindowSpecs->Height,Pxf::Graphics::RT_FORMAT_RGBA8,Pxf::Graphics::RT_FORMAT_DEPTH_COMPONENT);
-	pRT0->AddColorAttachment(pRColorTex0);
+	pRT0->AddColorAttachment(pRColorTex0);	
 
 	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())
 	{
 		// Update input
 		pInput->Update();
+
+		//pDevice->BindRenderTarget(pRT0);
+
+		t_GlslShader.Bind();
 
 		// Some OGL stuff that hasn't been moved to the device yet
 		glClearColor(0.0f,0.0f,0.0f,1.0f);
@@ -81,6 +93,10 @@ bool PxfMain(Util::String _CmdLine)
 		glLoadIdentity();
 		pDevice->BindTexture(pTexture);
 		pQBatch->Draw();
+
+		t_GlslShader.Unbind();
+
+		//pDevice->ReleaseRenderTarget(pRT0);
 
 		// Swap buffers
 		pWindow->Swap();
