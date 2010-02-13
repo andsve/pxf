@@ -1,21 +1,25 @@
 #ifndef __PXF_RESOURCE_GLSLSHADER_H__
 #define __PXF_RESOURCE_GLSLSHADER_H__
 
-#include <Pxf/Resource/Shader/ShaderComponent.h>
+#include <Pxf/Resource/ShaderSource.h>
 #include <Pxf/Resource/Chunk.h>
+#include <Pxf/Base/Debug.h>
+
+#define LOCAL_MSG "GLSLShader"
 
 namespace Pxf {
 	namespace Graphics {
 
-		class GLSLComponent : public Resource::ShaderComponent
+		class GLSLComponent : public Resource::ShaderSource
 		{
 		private:
 			unsigned m_ShaderHandle;
 			bool m_IsValid;
 			bool m_IsAttached;
+			bool m_SourceChanged;
 			void _Init();
 		public:
-			GLSLComponent(Resource::Chunk* _Chunk, const char* _Source,Resource::SHType _Type) : Resource::ShaderComponent(_Chunk,_Source,_Type)
+			GLSLComponent(Resource::Chunk* _Chunk, const char* _Source,Resource::SHType _Type) : Resource::ShaderSource(_Chunk,_Source,_Type)
 			{
 				_Init();	
 			}
@@ -26,6 +30,9 @@ namespace Pxf {
 			unsigned GetHandle() const { return m_ShaderHandle; }
 			bool IsValid() { return m_IsValid; }
 			//bool IsAttached() { return m_IsAttached; }
+
+			void Attach(unsigned _Handle);
+			void Detach(unsigned _Handle);
 			bool Reload();
 			bool Load();
 		};
@@ -36,12 +43,23 @@ namespace Pxf {
 			unsigned m_ProgramHandle;
 			GLSLComponent* m_VertexProgram;
 			GLSLComponent* m_FragmentProgram;
+			// static ID not very nice :(
+			static unsigned int _ID; 
 			bool m_IsValid;
 			bool m_IsBound;
 			void _Init();			
 		public:
 			GLSLShader(GLSLComponent* _Vertex,GLSLComponent* _Fragment)
 			{
+				// simple type checking
+				if(_Vertex->GetType() == Resource::SH_TYPE_VERTEX)
+					m_VertexProgram = _Vertex;
+				else
+					Message(LOCAL_MSG,"Vertex program has wrong type");	
+				if(_Fragment->GetType() == Resource::SH_TYPE_FRAGMENT)
+					m_FragmentProgram = _Fragment;
+				else
+					Message(LOCAL_MSG,"Fragment progam has wrong type");
 				_Init();
 			}
 			~GLSLShader();
@@ -50,6 +68,7 @@ namespace Pxf {
 			void Unbind();
 			bool IsValid() { return m_IsValid; }
 			unsigned GetHandle() const { return m_ProgramHandle; }
+			Pxf::Util::String GetString();
 		};
 	}
 }

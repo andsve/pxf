@@ -50,7 +50,8 @@ bool PxfMain(Util::String _CmdLine)
 	Pxf::Resource::ShaderSource* t_ShaderSrc = t_ResourceManager->Acquire<Pxf::Resource::ShaderSource>("shader_test.txt");
 
 	Pxf::Graphics::GLSLComponent t_GlslTestVP(new Pxf::Resource::Chunk(),"shader_test.txt",Pxf::Resource::SH_TYPE_VERTEX);
-	Pxf::Graphics::GLSLShader t_GlslShader(&t_GlslTestVP,NULL);
+	Pxf::Graphics::GLSLComponent t_GlslTestFP(new Pxf::Resource::Chunk(),"shader_test.txt",Pxf::Resource::SH_TYPE_FRAGMENT);
+	Pxf::Graphics::GLSLShader t_GlslShader(&t_GlslTestVP,&t_GlslTestFP);
 
 	// Load some texture
 	glEnable(GL_TEXTURE_2D);
@@ -82,7 +83,9 @@ bool PxfMain(Util::String _CmdLine)
 		// Update input
 		pInput->Update();
 
-		pDevice->BindRenderTarget(pRT0);
+		//pDevice->BindRenderTarget(pRT0);
+
+		t_GlslShader.Bind();
 
 		// Some OGL stuff that hasn't been moved to the device yet
 		glClearColor(0.0f,0.0f,0.0f,1.0f);
@@ -91,7 +94,9 @@ bool PxfMain(Util::String _CmdLine)
 		pDevice->BindTexture(pTexture);
 		pQBatch->Draw();
 
-		pDevice->ReleaseRenderTarget(pRT0);
+		t_GlslShader.Unbind();
+
+		//pDevice->ReleaseRenderTarget(pRT0);
 
 		// Swap buffers
 		pWindow->Swap();

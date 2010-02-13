@@ -8,10 +8,11 @@ using namespace Pxf;
 using namespace Pxf::Resource;
 using namespace Pxf::Util;
 
-ShaderSource::ShaderSource(Chunk* _Chunk, const char* _Source)
+ShaderSource::ShaderSource(Chunk* _Chunk, const char* _Source,SHType _Type)
 	: AbstractResource(_Chunk, _Source)
 	, m_ShaderSource(NULL)
 {
+	m_SType = _Type;
 	m_FileName = _Source;
 	Build();
 }
@@ -35,7 +36,7 @@ bool ShaderSource::Build()
 
 	m_ShaderSource = new char[_Size];
 	strncpy(m_ShaderSource, Data, _Size);
-	m_ShaderSource[_Size] = 0;
+	//m_ShaderSource[_Size] = 0;
 
 	return true;
 }

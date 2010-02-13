@@ -37,6 +37,23 @@ namespace Pxf
 			}
 			return false;
 		}
+
+		void PrintGLSLInfoLog(unsigned obj)
+		{
+			int infologLength = 0;
+			int charsWritten  = 0;
+			char *infoLog;
+
+			glGetObjectParameterivARB(obj, GL_OBJECT_INFO_LOG_LENGTH_ARB, &infologLength);
+
+			if (infologLength > 0)
+			{
+				infoLog = (char *)malloc(infologLength);
+				glGetInfoLogARB(obj, infologLength, &charsWritten, infoLog);
+				printf("%s\n",infoLog);
+				free(infoLog);
+			}
+		}
 	}
 }
 
