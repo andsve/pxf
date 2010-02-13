@@ -10,6 +10,7 @@
 namespace Pxf {
 	namespace Graphics {
 
+		// TODO: redo.
 		class GLSLComponent : public Resource::ShaderSource
 		{
 		private:
@@ -19,18 +20,17 @@ namespace Pxf {
 			bool m_SourceChanged;
 			void _Init();
 		public:
-			GLSLComponent(Resource::Chunk* _Chunk, const char* _Source,Resource::SHType _Type) : Resource::ShaderSource(_Chunk,_Source,_Type)
+			GLSLComponent(Resource::Chunk* _Chunk, const char* _Source,Resource::SHType _Type) 
+				: Resource::ShaderSource(_Chunk,_Source,_Type)
+				,m_ShaderHandle(0)
 			{
 				_Init();	
 			}
 
 			~GLSLComponent();
-			
-			//void SetAttached(bool _Val) { m_IsAttached = _Val; }
+		
 			unsigned GetHandle() const { return m_ShaderHandle; }
 			bool IsValid() { return m_IsValid; }
-			//bool IsAttached() { return m_IsAttached; }
-
 			void Attach(unsigned _Handle);
 			void Detach(unsigned _Handle);
 			bool Reload();
@@ -43,7 +43,7 @@ namespace Pxf {
 			unsigned m_ProgramHandle;
 			GLSLComponent* m_VertexProgram;
 			GLSLComponent* m_FragmentProgram;
-			// static ID not very nice :(
+	
 			static unsigned int _ID; 
 			bool m_IsValid;
 			bool m_IsBound;
