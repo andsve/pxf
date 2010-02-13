@@ -17,6 +17,7 @@
 #include <Pxf/Resource/Chunk.h>
 #include <Pxf/Resource/ResourceManager.h>
 #include <Pxf/Resource/ShaderSource.h>
+#include <Pxf/Graphics/Shader/GLSLShader.h>
 
 using namespace Pxf;
 
@@ -47,6 +48,9 @@ bool PxfMain(Util::String _CmdLine)
 	Pxf::Resource::ResourceManager* t_ResourceManager = new Pxf::Resource::ResourceManager();
 
 	Pxf::Resource::ShaderSource* t_ShaderSrc = t_ResourceManager->Acquire<Pxf::Resource::ShaderSource>("shader_test.txt");
+
+	Pxf::Graphics::GLSLComponent t_GlslTestVP(new Pxf::Resource::Chunk(),"shader_test.txt",Pxf::Resource::SH_TYPE_VERTEX);
+	Pxf::Graphics::GLSLShader t_GlslShader(&t_GlslTestVP,NULL);
 
 	// Load some texture
 	glEnable(GL_TEXTURE_2D);

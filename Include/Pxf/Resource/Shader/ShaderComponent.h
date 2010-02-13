@@ -27,12 +27,15 @@ namespace Pxf {
 		{
 		private:
 			SHType m_SType;
+			const char* m_FileName;
 
 		public:
 			ShaderComponent(Chunk* _Chunk, const char* _Source, SHType _Type) : ShaderSource(_Chunk,_Source)
 			{
 				m_SType = _Type;
 			}
+
+			SHType GetType() { return m_SType; }
 		};
 	}
 }

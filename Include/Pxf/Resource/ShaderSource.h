@@ -9,6 +9,7 @@ namespace Pxf {
 		{
 		private:
 			char* m_ShaderSource;
+			const char* m_FileName;
 
 			virtual bool Build();
 
@@ -25,6 +26,11 @@ namespace Pxf {
 			char* GetShaderSource() const
 			{
 				return m_ShaderSource;
+			}
+
+			const char* GetFileName()
+			{
+				return m_FileName;
 			}
 		};
 	}

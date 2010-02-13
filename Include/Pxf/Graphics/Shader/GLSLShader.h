@@ -11,6 +11,8 @@ namespace Pxf {
 		{
 		private:
 			unsigned m_ShaderHandle;
+			bool m_IsValid;
+			bool m_IsAttached;
 			void _Init();
 		public:
 			GLSLComponent(Resource::Chunk* _Chunk, const char* _Source,Resource::SHType _Type) : Resource::ShaderComponent(_Chunk,_Source,_Type)
@@ -19,8 +21,11 @@ namespace Pxf {
 			}
 
 			~GLSLComponent();
-
+			
+			//void SetAttached(bool _Val) { m_IsAttached = _Val; }
 			unsigned GetHandle() const { return m_ShaderHandle; }
+			bool IsValid() { return m_IsValid; }
+			//bool IsAttached() { return m_IsAttached; }
 			bool Reload();
 			bool Load();
 		};
@@ -31,14 +36,19 @@ namespace Pxf {
 			unsigned m_ProgramHandle;
 			GLSLComponent* m_VertexProgram;
 			GLSLComponent* m_FragmentProgram;
+			bool m_IsValid;
 			bool m_IsBound;
-			
+			void _Init();			
 		public:
-			GLSLShader(const char* _Vertex,const char* _Fragment);
+			GLSLShader(GLSLComponent* _Vertex,GLSLComponent* _Fragment)
+			{
+				_Init();
+			}
 			~GLSLShader();
 
 			void Bind();
 			void Unbind();
+			bool IsValid() { return m_IsValid; }
 			unsigned GetHandle() const { return m_ProgramHandle; }
 		};
 	}

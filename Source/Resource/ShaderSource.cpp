@@ -12,6 +12,7 @@ ShaderSource::ShaderSource(Chunk* _Chunk, const char* _Source)
 	: AbstractResource(_Chunk, _Source)
 	, m_ShaderSource(NULL)
 {
+	m_FileName = _Source;
 	Build();
 }
 
