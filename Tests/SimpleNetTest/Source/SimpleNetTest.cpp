@@ -9,6 +9,8 @@
 #include <Pxf/Util/String.h>
 
 #include <Pxf/Extra/SimpleNet/SimpleNet.h>
+#include <Pxf/Extra/SimpleNet/SimpleClient.h>
+#include <Pxf/Extra/SimpleNet/SimpleServer.h>
 #include <Pxf/Extra/SimpleFont/SimpleFont.h>
 #include <Pxf/Extra/LuaGUI/LuaGUI.h>
 #include <Pxf/Extra/LuaGUI/GUIHandler.h>
@@ -58,7 +60,8 @@ bool PxfMain(Util::String _CmdLine)
 	_fonttest->AddTextCentered("Hey, some text! :)", Math::Vec3f(0,10,0));*/
 	
 	// Setup networking
-  SimpleNet *pNet = new SimpleNet();
+  SimpleServer *pNet = new SimpleServer(NULL, 4632);
+  pNet->Open();
 
 	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())
 	{
