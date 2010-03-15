@@ -15,7 +15,7 @@
 #include <Pxf/Extra/LuaGUI/LuaGUI.h>
 #include <Pxf/Extra/LuaGUI/GUIHandler.h>
 
-#define IS_SERVER 1
+//#define IS_SERVER 1
 
 
 using namespace Pxf;
