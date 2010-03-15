@@ -39,6 +39,7 @@ bool PxfMain(Util::String _CmdLine)
 	Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL2);
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
+	pInput->ShowCursor(true);
 
 	GUIHandler* pGUI = new GUIHandler(pDevice);
 	pGUI->AddScript("data/guitest.lua", &Pxf::Math::Vec4i(0,0,300,pWindowSpecs->Height)); // Fix this? viewport seems to be set from bottom left corner?

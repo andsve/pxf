@@ -5,7 +5,7 @@ require("data/basetheme")
 -- real gui user functions
 
 function init()
-	NewLabeledButton("Button1", "Hi, im a label!", {10, 15}, {100, 15})
+	NewLabeledButton("Button1", "HONK-KNAPPEN!", {10, 15}, {100, 15})
 	NewScroller("Scroll", {60, 70}, {15, 300})
 	NewSimpleButton("ReloadButton", {10, 100}, {30, 30}, {onClick = function (self) print("Reloading GUI script!"); ReloadScript(); end })
 	NewCheckbox("TestCheckbox", {10, 200}, {onClick = function (self) print("oh hai, im a onClick event!"); end})

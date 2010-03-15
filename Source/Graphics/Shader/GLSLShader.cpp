@@ -51,7 +51,11 @@ GLSLShader::~GLSLShader()
 Pxf::Util::String GLSLShader::GetString() 
 {
 	char _OutStr[16];
+#if defined(CONF_PLATFORM_MACOSX)
+	snprintf(_OutStr,sizeof(_OutStr),"Shader %i", (int) _ID);
+#else
 	sprintf_s(_OutStr,sizeof(_OutStr),"Shader %i", (int) _ID); 
+#endif
 	return Pxf::Util::String(_OutStr);
 }
 
