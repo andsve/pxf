@@ -8,6 +8,7 @@
 #include <Pxf/Input/Input.h>
 #include <Pxf/Util/String.h>
 
+#include <Pxf/Extra/SimpleNet/SimpleNet.h>
 #include <Pxf/Extra/SimpleFont/SimpleFont.h>
 #include <Pxf/Extra/LuaGUI/LuaGUI.h>
 #include <Pxf/Extra/LuaGUI/GUIHandler.h>
@@ -20,7 +21,7 @@ using namespace Pxf::Extra::LuaGUI;
 bool PxfMain(Util::String _CmdLine)
 {
 	char t_title[512];
-	char t_pxftitle[] = "PXF Engine";
+	char t_pxftitle[] = "Network Test";
 	int t_fps = 0;
 
 	Pxf::Graphics::WindowSpecifications* pWindowSpecs = new Pxf::Graphics::WindowSpecifications();
@@ -34,13 +35,15 @@ bool PxfMain(Util::String _CmdLine)
 	pWindowSpecs->FSAASamples = 0;
 	pWindowSpecs->Fullscreen = false;
 	pWindowSpecs->Resizeable = false;
-
+  
+  // Setup engine/device/window
 	Pxf::Engine engine;
 	Graphics::Device* pDevice = engine.CreateDevice(Graphics::EOpenGL2);
 	Graphics::Window* pWindow = pDevice->OpenWindow(pWindowSpecs);
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
 	pInput->ShowCursor(true);
 
+  // Setup testgui
 	GUIHandler* pGUI = new GUIHandler(pDevice);
 	pGUI->AddScript("data/guitest.lua", &Pxf::Math::Vec4i(0,0,300,pWindowSpecs->Height)); // Fix this? viewport seems to be set from bottom left corner?
 
@@ -53,6 +56,9 @@ bool PxfMain(Util::String _CmdLine)
 	/*SimpleFont *_fonttest = new SimpleFont(pDevice);
 	_fonttest->Load("data/alterebro_pixel.ttf", 13.0f, 128);
 	_fonttest->AddTextCentered("Hey, some text! :)", Math::Vec3f(0,10,0));*/
+	
+	// Setup networking
+  SimpleNet *pNet = new SimpleNet();
 
 	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())
 	{
@@ -64,13 +70,11 @@ bool PxfMain(Util::String _CmdLine)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
 		glEnable(GL_TEXTURE_2D);
-		//glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-		//glEnable(GL_BLEND);
-		
 
 		// Update input
 		pInput->Update();
 
+    // Store mouse input for GUI
 		Math::Vec2i mousepos_i;
 		Math::Vec2f mousepos_f;
 		pInput->GetMousePos(&mousepos_i.x, &mousepos_i.y);
@@ -82,18 +86,6 @@ bool PxfMain(Util::String _CmdLine)
 		glEnable(GL_BLEND);
 		pGUI->Update(&mousepos_f, pInput->IsButtonDown(Pxf::Input::MOUSE_LEFT), 1.0f);
 		pGUI->Draw();
-		
-		//glBlendFunc(GL_SRC_COLOR,GL_ONE_MINUS_SRC_COLOR);
-		//glEnable(GL_BLEND);
-		//_fonttest->Draw();
-
-		
-
-		//glTranslatef(cosf(t_honk) * 200.0f, sinf(t_honk) * 200.0f, 0);
-
-		/*pDevice->BindTexture(pTexture);
-		pQBatch->Draw();
-		*/
 
 		// Swap buffers
 		pWindow->Swap();
@@ -106,6 +98,8 @@ bool PxfMain(Util::String _CmdLine)
 			pWindow->SetTitle(t_title);
 		}
 	}
+	
+  delete pNet;
 
 	pDevice->CloseWindow();
 	engine.DestroyDevice(pDevice);
