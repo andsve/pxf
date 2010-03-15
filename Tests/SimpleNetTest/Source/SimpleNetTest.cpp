@@ -15,6 +15,9 @@
 #include <Pxf/Extra/LuaGUI/LuaGUI.h>
 #include <Pxf/Extra/LuaGUI/GUIHandler.h>
 
+#define IS_SERVER 1
+
+
 using namespace Pxf;
 using namespace Pxf::Graphics;
 using namespace Pxf::Extra;
@@ -23,7 +26,11 @@ using namespace Pxf::Extra::LuaGUI;
 bool PxfMain(Util::String _CmdLine)
 {
 	char t_title[512];
-	char t_pxftitle[] = "Network Test";
+#ifdef IS_SERVER
+	char t_pxftitle[] = "Network Test Server";
+#else
+	char t_pxftitle[] = "Network Test Client";
+#endif
 	int t_fps = 0;
 
 	Pxf::Graphics::WindowSpecifications* pWindowSpecs = new Pxf::Graphics::WindowSpecifications();
@@ -60,8 +67,13 @@ bool PxfMain(Util::String _CmdLine)
 	_fonttest->AddTextCentered("Hey, some text! :)", Math::Vec3f(0,10,0));*/
 	
 	// Setup networking
+#ifdef IS_SERVER
   SimpleServer *pNet = new SimpleServer(NULL, 4632);
   pNet->Open();
+#else
+  SimpleClient *pNet = new SimpleClient();
+  pNet->Connect("localhost", 4632);
+#endif
 
 	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())
 	{
@@ -73,6 +85,9 @@ bool PxfMain(Util::String _CmdLine)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
 		glEnable(GL_TEXTURE_2D);
+
+    // Update network
+    pNet->MessagePump();
 
 		// Update input
 		pInput->Update();
