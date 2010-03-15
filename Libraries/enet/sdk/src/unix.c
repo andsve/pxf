@@ -24,6 +24,7 @@
 
 #ifdef __APPLE__
 #undef HAS_POLL
+#define HAS_SOCKLEN_T
 #endif
 
 #ifdef HAS_POLL
