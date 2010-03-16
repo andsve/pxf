@@ -45,6 +45,14 @@ void SimpleServer::Open()
 
 void SimpleServer::Close()
 {
+  
+  ENetEvent event;
+  
+  for(size_t i = 0; i < m_server->peerCount; ++i)
+  {
+    enet_peer_disconnect_now(&m_server->peers[i], (enet_uint32)"Server is closing!");
+  }
+  
   if (m_server != NULL)
   {
     enet_host_destroy(m_server);

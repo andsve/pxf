@@ -15,7 +15,7 @@
 #include <Pxf/Extra/LuaGUI/LuaGUI.h>
 #include <Pxf/Extra/LuaGUI/GUIHandler.h>
 
-#define IS_SERVER 1
+//#define IS_SERVER 1
 
 
 using namespace Pxf;
@@ -105,7 +105,7 @@ bool PxfMain(Util::String _CmdLine)
           break;
           
         case PUMP_RESULT_DISCONNECT:
-          Message("honker", "%s disconected.", (const char*)_message.peer->data);
+          Message("honker", "%s disconected, got: %s", (const char*)_message.peer->data, (const char*)_message.data);
 
           /* Reset the peer's client information. */
           _message.peer->data = NULL;
