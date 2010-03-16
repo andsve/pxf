@@ -15,7 +15,7 @@ namespace Pxf
       
       void Open();
       void Close();
-      void MessagePump();
+      int MessagePump(NetMessage* _message);
 
     private:
       unsigned int m_max_clients;

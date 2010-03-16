@@ -51,43 +51,29 @@ void SimpleServer::Close()
   }
 }
 
-void SimpleServer::MessagePump()
+int SimpleServer::MessagePump(NetMessage* _message)
 {
-  ENetEvent m_event;
-
-  /* Wait up to 1000 milliseconds for an event. */
-  while (enet_host_service (m_server, &m_event, 0) > 0)
+  
+  if (enet_host_service (m_server, (ENetEvent*)_message, 0) > 0)
   {
-    switch (m_event.type)
+    switch (_message->type)
     {
       case ENET_EVENT_TYPE_CONNECT:
-        Message(LOCAL_MSG, "A new client connected from %x:%u.", 
-        m_event.peer->address.host,
-        m_event.peer->address.port);
-
-        /* Store any relevant client information here. */
-        m_event.peer->data = (void*)"Client information";
-
+        return PUMP_RESULT_CONNECT;
         break;
-
-      case ENET_EVENT_TYPE_RECEIVE:
-        Message(LOCAL_MSG, "A packet of length %u containing %s was received from %s on channel %u.",
-        m_event.packet->dataLength,
-        m_event.packet->data,
-        m_event.peer->data,
-        m_event.channelID);
-
-        /* Clean up the packet now that we're done using it. */
-        enet_packet_destroy(m_event.packet);
-
-        break;
-
       case ENET_EVENT_TYPE_DISCONNECT:
-        Message(LOCAL_MSG, "%s disconected.\n", (const char*)m_event.peer->data);
-
-        /* Reset the peer's client information. */
-        m_event.peer->data = NULL;
+        return PUMP_RESULT_DISCONNECT;
+        break;
+      case ENET_EVENT_TYPE_RECEIVE:
+        
+        // Take care of internal data
+        // return NetPumpResult.INTERNAL;
+        
+        return PUMP_RESULT_DATA;
+        break;
     }
   }
+  
+  return PUMP_RESULT_EMPTY;
 }
 

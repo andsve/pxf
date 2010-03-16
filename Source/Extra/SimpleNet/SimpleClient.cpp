@@ -21,11 +21,17 @@ SimpleClient::SimpleClient()
 SimpleClient::~SimpleClient()
 {
   Disconnect();
+  
+  if (m_client)
+    enet_host_destroy(m_client);
 }
 
 void SimpleClient::Connect(char* _host, unsigned int _port, unsigned int _channels)
 {
+  ENetEvent event;
+  
   m_channels = _channels;
+  
   if (_host != NULL)
     m_address_host = _host;
   else
@@ -44,8 +50,8 @@ void SimpleClient::Connect(char* _host, unsigned int _port, unsigned int _channe
   }
 
   /* Wait up to 5 seconds for the connection attempt to succeed. */
-  if (enet_host_service (m_client, &m_event, 5000) > 0 &&
-  m_event.type == ENET_EVENT_TYPE_CONNECT)
+  if (enet_host_service (m_client, &event, 5000) > 0 &&
+  event.type == ENET_EVENT_TYPE_CONNECT)
   {
     Message(LOCAL_MSG, "Connection to %s:%i succeeded.", m_address_host, m_address.port);
   }
@@ -62,45 +68,88 @@ void SimpleClient::Connect(char* _host, unsigned int _port, unsigned int _channe
 
 void SimpleClient::Disconnect()
 {
-  if (m_client)
-    enet_host_destroy(m_client);
+  ENetEvent event;
+
+  enet_peer_disconnect (m_peer, (enet_uint32)"I WANT OUT!");
+
+  while (enet_host_service (m_client, &event, 3000) > 0)
+  {
+    switch (event.type)
+    {
+      case ENET_EVENT_TYPE_RECEIVE:
+        enet_packet_destroy (event.packet);
+        break;
+
+      case ENET_EVENT_TYPE_DISCONNECT:
+        Message(LOCAL_MSG, "Disconnection succeeded.");
+        return;
+    }
+  }
+
+  /* We've arrived here, so the disconnect attempt didn't */
+  /* succeed yet.  Force the connection down.             */
+  enet_peer_reset (m_peer);
 }
 
-void SimpleClient::MessagePump()
+int SimpleClient::MessagePump(NetMessage* _message)
 {
-  ENetEvent m_event;
-
-  while (enet_host_service (m_client, &m_event, 0) > 0)
+  
+  if (enet_host_service (m_client, (ENetEvent*)_message, 0) > 0)
   {
-    switch (m_event.type)
+    switch (_message->type)
+    {
+      case ENET_EVENT_TYPE_CONNECT:
+        return PUMP_RESULT_CONNECT;
+        break;
+      case ENET_EVENT_TYPE_DISCONNECT:
+        return PUMP_RESULT_DISCONNECT;
+        break;
+      case ENET_EVENT_TYPE_RECEIVE:
+        
+        // Take care of internal data
+        // return NetPumpResult.INTERNAL;
+        
+        return PUMP_RESULT_DATA;
+        break;
+    }
+  }
+  
+  return PUMP_RESULT_EMPTY;
+  /*
+  ENetEvent event;
+
+  while (enet_host_service (m_client, &event, 0) > 0)
+  {
+    switch (event.type)
     {
       case ENET_EVENT_TYPE_CONNECT:
         Message(LOCAL_MSG, "A new client connected from %x:%u.", 
-        m_event.peer->address.host,
-        m_event.peer->address.port);
+        event.peer->address.host,
+        event.peer->address.port);
 
-        /* Store any relevant client information here. */
-        m_event.peer->data = (void*)"Client information";
+        /* Store any relevant client information here. 
+        event.peer->data = (void*)"Client information";
 
         break;
 
       case ENET_EVENT_TYPE_RECEIVE:
         Message(LOCAL_MSG, "A packet of length %u containing %s was received from %s on channel %u.",
-        m_event.packet->dataLength,
-        m_event.packet->data,
-        m_event.peer->data,
-        m_event.channelID);
+        event.packet->dataLength,
+        event.packet->data,
+        event.peer->data,
+        event.channelID);
 
-        /* Clean up the packet now that we're done using it. */
-        enet_packet_destroy(m_event.packet);
+        /* Clean up the packet now that we're done using it. 
+        enet_packet_destroy(event.packet);
 
         break;
 
       case ENET_EVENT_TYPE_DISCONNECT:
-        Message(LOCAL_MSG, "%s disconected.\n", (const char*)m_event.peer->data);
+        Message(LOCAL_MSG, "%s disconected.", (const char*)event.peer->data);
 
-        /* Reset the peer's client information. */
-        m_event.peer->data = NULL;
+        /* Reset the peer's client information. 
+        event.peer->data = NULL;
     }
   }
+  */
 }

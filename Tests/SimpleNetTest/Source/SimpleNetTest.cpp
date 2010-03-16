@@ -15,7 +15,7 @@
 #include <Pxf/Extra/LuaGUI/LuaGUI.h>
 #include <Pxf/Extra/LuaGUI/GUIHandler.h>
 
-//#define IS_SERVER 1
+#define IS_SERVER 1
 
 
 using namespace Pxf;
@@ -87,7 +87,44 @@ bool PxfMain(Util::String _CmdLine)
 		glEnable(GL_TEXTURE_2D);
 
     // Update network
-    pNet->MessagePump();
+    NetMessage _message;
+    int _pumpres;
+
+    while ((_pumpres = pNet->MessagePump(&_message)) > 0)
+    {
+      switch (_pumpres)
+      {
+        case PUMP_RESULT_CONNECT:
+          Message("honker", "A new client connected from %x:%u.", 
+          _message.peer->address.host,
+          _message.peer->address.port);
+
+          /* Store any relevant client information here.*/
+          _message.peer->data = (void*)"Client information";
+
+          break;
+          
+        case PUMP_RESULT_DISCONNECT:
+          Message("honker", "%s disconected.", (const char*)_message.peer->data);
+
+          /* Reset the peer's client information. */
+          _message.peer->data = NULL;
+          break;
+
+        case PUMP_RESULT_DATA:
+          Message("honker", "A packet of length %u containing %s was received from %s on channel %u.",
+          _message.packet->dataLength,
+          _message.packet->data,
+          _message.peer->data,
+          _message.channelID);
+
+          /* Clean up the packet now that we're done using it. */
+          enet_packet_destroy(_message.packet);
+
+          break;
+
+      }
+    }
 
 		// Update input
 		pInput->Update();

@@ -16,7 +16,7 @@ namespace Pxf
       void Connect(char* _host, unsigned int _port, unsigned int _channels = 1);
       void Disconnect();
       
-      void MessagePump();
+      int MessagePump(NetMessage* _message);
 
     private:
       char* m_address_host;
@@ -24,7 +24,6 @@ namespace Pxf
       // ENet specifics
       ENetHost* m_client;
       ENetAddress m_address;
-      ENetEvent m_event;
       ENetPeer* m_peer;
     };
   } /* Extra */
