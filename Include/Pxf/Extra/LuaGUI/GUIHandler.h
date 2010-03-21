@@ -26,6 +26,14 @@ namespace Pxf
 
 		namespace LuaGUI
 		{
+		  enum ScriptMessageID { SCRIPT_MESSAGE_TEST = 1 };
+		  
+		  struct ScriptMessage
+		  {
+        int id;
+        void* data;
+		  };
+		  
 			class GUIHandler
 			{
 			public:
@@ -33,6 +41,7 @@ namespace Pxf
 				~GUIHandler();
 
 				void AddScript(const char* _filepath, Math::Vec4i* _viewarea);
+        bool MessagePump(ScriptMessage* _pmessage);
 
 				void Update(Math::Vec2f* _mouse, bool _mouse_down, float _delta);
 				void Draw();

@@ -5,6 +5,10 @@ function ReloadScript()
 	return _ReloadScript()
 end
 
+function Message(widget, id, data)
+  _Message(widget, id, data)
+end
+
 function AddQuad(widget, quad, coords)
 	_AddQuad(widget, quad[1], quad[2], quad[3], quad[4], coords[1], coords[2], coords[3], coords[4])
 end

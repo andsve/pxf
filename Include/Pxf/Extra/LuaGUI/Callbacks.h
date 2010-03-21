@@ -249,6 +249,20 @@ namespace LuaGUI
 		}
 		return 0;
 	}
+	
+	static int _guicb_Message(lua_State *L)
+	{
+		int n = lua_gettop(L); // arguments
+		if (n == 3)
+		{
+		  GUIWidget* widget = (GUIWidget*)lua_touserdata(L, 1);
+      (*g_CurrentScript.top()).SendMessage(widget, lua_tointeger(L, 2), (void*)lua_tostring(L, 3));
+			return 0;
+		} else {
+			Message(PXF_LUAGUI_MESSAGE_ID, "Wrong number (%i instead of 3) of parameters to Message(...).", n);
+		}
+		return 0;
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Register all the above callbacks
@@ -291,6 +305,7 @@ namespace LuaGUI
 		lua_register(L,"_IsDraging",       _guicb_IsDraging);
 		lua_register(L,"_IsClicked",       _guicb_IsClicked);
 		lua_register(L,"_GetMouseHit",     _guicb_GetMouseHit);
+		lua_register(L,"_Message",         _guicb_Message);
 	}
 } // LuaGUI
 } // Extra

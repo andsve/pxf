@@ -172,11 +172,34 @@ void GUIScript::Draw()
 	}
 }
 
+bool GUIScript::MessagePump(ScriptMessage* _pmessage)
+{
+  if (!m_Messages.empty())
+  {
+    ScriptMessage* tmpmessage = m_Messages.back();
+    _pmessage->id = tmpmessage->id;
+    _pmessage->data = tmpmessage->data;
+    m_Messages.pop_back();
+    return true;
+  }
+  
+  return false;
+}
+
 GUIWidget* GUIScript::AddWidget(const char* _name, Math::Vec4i _hitbox)
 {
 	GUIWidget* widget = new GUIWidget(_name, &_hitbox, m_Device);
 	m_Widgets.push_front(widget);
 	return widget;
+}
+
+void GUIScript::SendMessage(GUIWidget* _widget, int _messageid, void* _data)
+{
+  ScriptMessage* _message = new ScriptMessage();
+  _message->id = _messageid;
+  _message->data = _data;
+  
+  m_Messages.push_front(_message);
 }
 
 void GUIScript::CallLuaFunc(const char* _funcname)

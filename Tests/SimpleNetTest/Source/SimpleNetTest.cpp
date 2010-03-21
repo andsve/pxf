@@ -14,6 +14,7 @@
 #include <Pxf/Extra/SimpleFont/SimpleFont.h>
 #include <Pxf/Extra/LuaGUI/LuaGUI.h>
 #include <Pxf/Extra/LuaGUI/GUIHandler.h>
+#include <Pxf/Extra/LuaGUI/GUIScript.h>
 
 //#define IS_SERVER 1
 
@@ -54,7 +55,11 @@ bool PxfMain(Util::String _CmdLine)
 
   // Setup testgui
 	GUIHandler* pGUI = new GUIHandler(pDevice);
-	pGUI->AddScript("data/guitest.lua", &Pxf::Math::Vec4i(0,0,300,pWindowSpecs->Height)); // Fix this? viewport seems to be set from bottom left corner?
+#ifdef IS_SERVER
+	pGUI->AddScript("data/server_gui.lua", &Pxf::Math::Vec4i(0,0,300,pWindowSpecs->Height));
+#else
+  pGUI->AddScript("data/client_gui.lua", &Pxf::Math::Vec4i(0,0,300,pWindowSpecs->Height));
+#endif
 
 	// Setup viewport and orthogonal projection
 	pDevice->SetViewport(0, 0, pWindowSpecs->Width / 2.0f, pWindowSpecs->Height);
@@ -72,7 +77,7 @@ bool PxfMain(Util::String _CmdLine)
   pNet->Open();
 #else
   SimpleClient *pNet = new SimpleClient();
-  pNet->Connect("localhost", 4632);
+  //pNet->Connect("localhost", 4632);
 #endif
 
 	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())
@@ -89,13 +94,14 @@ bool PxfMain(Util::String _CmdLine)
     // Update network
     NetMessage _message;
     int _pumpres;
-
+    
+    // Pump network messages
     while ((_pumpres = pNet->MessagePump(&_message)) > 0)
     {
       switch (_pumpres)
       {
         case PUMP_RESULT_CONNECT:
-          Message("honker", "A new client connected from %x:%u.", 
+          Message("Application", "A new client connected from %x:%u.", 
           _message.peer->address.host,
           _message.peer->address.port);
 
@@ -105,14 +111,14 @@ bool PxfMain(Util::String _CmdLine)
           break;
           
         case PUMP_RESULT_DISCONNECT:
-          Message("honker", "%s disconected, got: %s", (const char*)_message.peer->data, (const char*)_message.data);
+          Message("Application", "%s disconected, got: %s", (const char*)_message.peer->data, (const char*)_message.data);
 
           /* Reset the peer's client information. */
           _message.peer->data = NULL;
           break;
 
         case PUMP_RESULT_DATA:
-          Message("honker", "A packet of length %u containing %s was received from %s on channel %u.",
+          Message("Application", "A packet of length %u containing %s was received from %s on channel %u.",
           _message.packet->dataLength,
           _message.packet->data,
           _message.peer->data,
@@ -124,6 +130,37 @@ bool PxfMain(Util::String _CmdLine)
           break;
 
       }
+    }
+    
+    // Pump script messages
+    ScriptMessage _scriptmessage;
+    while (pGUI->MessagePump(&_scriptmessage))
+    {
+      //Message("Application", "Got message: %i - %s", _scriptmessage.id, (char*)_scriptmessage.data);
+#ifdef IS_SERVER
+      switch (_scriptmessage.id)
+      {
+        case 2: // DISCONNECT
+          pNet->Close();
+          break;
+        default:
+          Message("Application", "Scriptmessage error!");
+          break;
+      }
+#else
+      switch (_scriptmessage.id)
+      {
+        case 1: // CONNECT
+          pNet->Connect("localhost", 4632);
+          break;
+        case 2: // DISCONNECT
+          pNet->Disconnect();
+          break;
+        default:
+          Message("Application", "Scriptmessage error!");
+          break;
+      }
+#endif
     }
 
 		// Update input

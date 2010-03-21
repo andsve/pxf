@@ -51,4 +51,18 @@ void GUIHandler::Draw()
 	}
 }
 
+bool GUIHandler::MessagePump(ScriptMessage* _pmessage)
+{
+  // Update each GUIScript
+	for ( std::list<GUIScript*>::iterator it = m_Scripts.begin() ; it != m_Scripts.end(); it++ )
+	{
+		if (((GUIScript*)*it)->MessagePump(_pmessage))
+		{
+      return true;
+		}
+	}
+	
+  return false;
+}
+
 

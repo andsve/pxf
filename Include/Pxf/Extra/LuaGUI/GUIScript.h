@@ -31,6 +31,7 @@ namespace Pxf
 
 		namespace LuaGUI
 		{
+		  
 			class GUIScript
 			{
 			public:
@@ -48,6 +49,10 @@ namespace Pxf
 				void AddQuad(GUIWidget* _widget, Math::Vec4i* _quad, Math::Vec4i* _texpixels);
 				void AddText(GUIWidget* _widget, Util::String _text, Math::Vec3f _pos);
 				void AddTextCentered(GUIWidget* _widget, Util::String _text, Math::Vec3f _pos);
+				void SendMessage(GUIWidget* _widget, int _messageid, void* _data);
+				
+				// Messages from script to engine
+        bool MessagePump(ScriptMessage* _pmessage);
 			
 			private:
 				Graphics::Device* m_Device;
@@ -63,6 +68,9 @@ namespace Pxf
 
 				bool m_Running;
 				bool m_ShouldReload;
+				
+				// Messages from script to engine
+				std::list<ScriptMessage*> m_Messages;
 
 				// Lua specific functions
 				void CallLuaFunc(const char* _funcname);
