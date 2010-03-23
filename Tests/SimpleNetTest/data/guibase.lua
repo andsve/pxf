@@ -5,6 +5,10 @@ function ReloadScript()
 	return _ReloadScript()
 end
 
+function _RecieveMessage(data)
+  print("LOL: " .. tostring(data))
+end
+
 function Message(widget, id, data)
   _Message(widget, id, data)
 end

@@ -256,7 +256,7 @@ namespace LuaGUI
 		if (n == 3)
 		{
 		  GUIWidget* widget = (GUIWidget*)lua_touserdata(L, 1);
-      (*g_CurrentScript.top()).SendMessage(widget, lua_tointeger(L, 2), (void*)lua_tostring(L, 3));
+      (*g_CurrentScript.top()).SendMessageInternal(widget, lua_tointeger(L, 2), (void*)lua_tostring(L, 3));
 			return 0;
 		} else {
 			Message(PXF_LUAGUI_MESSAGE_ID, "Wrong number (%i instead of 3) of parameters to Message(...).", n);

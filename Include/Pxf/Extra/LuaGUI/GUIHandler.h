@@ -31,6 +31,7 @@ namespace Pxf
 		  struct ScriptMessage
 		  {
         int id;
+				GUIScript* script;
         void* data;
 		  };
 		  

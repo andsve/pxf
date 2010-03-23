@@ -16,6 +16,9 @@
 #include <Pxf/Extra/LuaGUI/GUIHandler.h>
 #include <Pxf/Extra/LuaGUI/GUIScript.h>
 
+// Test include of lua as enum?
+#include "../data/messagetypes.lua"
+
 //#define IS_SERVER 1
 
 
@@ -140,7 +143,7 @@ bool PxfMain(Util::String _CmdLine)
 #ifdef IS_SERVER
       switch (_scriptmessage.id)
       {
-        case 2: // DISCONNECT
+        case DISCONNECT: // DISCONNECT
           pNet->Close();
           break;
         default:
@@ -150,10 +153,11 @@ bool PxfMain(Util::String _CmdLine)
 #else
       switch (_scriptmessage.id)
       {
-        case 1: // CONNECT
+        case CONNECT: // CONNECT
+					_scriptmessage.script->SendMessage(1, "lol");
           pNet->Connect("localhost", 4632);
           break;
-        case 2: // DISCONNECT
+        case DISCONNECT: // DISCONNECT
           pNet->Disconnect();
           break;
         default:

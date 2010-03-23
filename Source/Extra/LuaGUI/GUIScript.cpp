@@ -179,6 +179,7 @@ bool GUIScript::MessagePump(ScriptMessage* _pmessage)
     ScriptMessage* tmpmessage = m_Messages.back();
     _pmessage->id = tmpmessage->id;
     _pmessage->data = tmpmessage->data;
+		_pmessage->script = this;
     m_Messages.pop_back();
     return true;
   }
@@ -193,20 +194,34 @@ GUIWidget* GUIScript::AddWidget(const char* _name, Math::Vec4i _hitbox)
 	return widget;
 }
 
-void GUIScript::SendMessage(GUIWidget* _widget, int _messageid, void* _data)
+void GUIScript::SendMessageInternal(GUIWidget* _widget, int _messageid, void* _data)
 {
   ScriptMessage* _message = new ScriptMessage();
   _message->id = _messageid;
   _message->data = _data;
+	_message->script = this;
   
   m_Messages.push_front(_message);
+}
+
+void GUIScript::SendMessage(int _messageid, char* _data)
+{
+  g_CurrentScript.push(this);
+
+	lua_getglobal(L, "debug");
+	lua_getfield(L, -1, "traceback");
+	lua_remove(L, -2);
+	lua_getfield(L, LUA_GLOBALSINDEX, "_RecieveMessage");
+	lua_pushstring(L, _data);
+	m_Running = HandleLuaErrors(lua_pcall(L, 1, 0, -3));
+
+	g_CurrentScript.pop();
 }
 
 void GUIScript::CallLuaFunc(const char* _funcname)
 {
 	g_CurrentScript.push(this);
 
-	// Call update(_delta)
 	lua_getglobal(L, "debug");
 	lua_getfield(L, -1, "traceback");
 	lua_remove(L, -2);
