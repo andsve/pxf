@@ -13,6 +13,10 @@
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		C9E4C71F11B66A1B0092185F /* Delegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C71D11B66A1B0092185F /* Delegate.mm */; };
 		C9E4C72011B66A1B0092185F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C71E11B66A1B0092185F /* main.m */; };
+		C9E4C78C11B684DD0092185F /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C78B11B684DD0092185F /* Application.cpp */; };
+		C9F2D09311B6944100F16BF3 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9F2D09211B6944100F16BF3 /* SceneManager.cpp */; };
+		C9F2D0BD11B695A300F16BF3 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = C9F2D0B911B695A300F16BF3 /* readme.txt */; };
+		C9F2D0BE11B695A300F16BF3 /* mmgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9F2D0BC11B695A300F16BF3 /* mmgr.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +31,14 @@
 		C9E4C71D11B66A1B0092185F /* Delegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Delegate.mm; path = Source/Delegate.mm; sourceTree = "<group>"; };
 		C9E4C71E11B66A1B0092185F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
 		C9E4C74711B670920092185F /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Application.h; path = Include/Application.h; sourceTree = "<group>"; };
+		C9E4C78B11B684DD0092185F /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Application.cpp; path = Source/Application.cpp; sourceTree = "<group>"; };
+		C9F2D05C11B691D800F16BF3 /* Untitled-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Untitled-Info.plist"; sourceTree = "<group>"; };
+		C9F2D09211B6944100F16BF3 /* SceneManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneManager.cpp; path = ../../Source/Scene/SceneManager.cpp; sourceTree = SOURCE_ROOT; };
+		C9F2D0A011B694A000F16BF3 /* SceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneManager.h; path = ../../Include/Pxf/Scene/SceneManager.h; sourceTree = SOURCE_ROOT; };
+		C9F2D0B911B695A300F16BF3 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = readme.txt; path = ../../Include/Pxf/Util/MemoryManager/readme.txt; sourceTree = SOURCE_ROOT; };
+		C9F2D0BA11B695A300F16BF3 /* nommgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = nommgr.h; path = ../../Include/Pxf/Util/MemoryManager/nommgr.h; sourceTree = SOURCE_ROOT; };
+		C9F2D0BB11B695A300F16BF3 /* mmgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mmgr.h; path = ../../Include/Pxf/Util/MemoryManager/mmgr.h; sourceTree = SOURCE_ROOT; };
+		C9F2D0BC11B695A300F16BF3 /* mmgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mmgr.cpp; path = ../../Include/Pxf/Util/MemoryManager/mmgr.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,12 +66,13 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				C9E4C70711B66A0F0092185F /* Source */,
 				C9E4C6ED11B65C770092185F /* Include */,
+				C9E4C70711B66A0F0092185F /* Source */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				C9F2D05C11B691D800F16BF3 /* Untitled-Info.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -94,6 +107,7 @@
 		C9E4C6ED11B65C770092185F /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				C9F2D09C11B6948C00F16BF3 /* Pxf */,
 				C9E4C6F311B662FA0092185F /* Delegate.h */,
 				C9E4C74711B670920092185F /* Application.h */,
 			);
@@ -103,10 +117,64 @@
 		C9E4C70711B66A0F0092185F /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				C9F2D08311B6942700F16BF3 /* Pxf */,
 				C9E4C71D11B66A1B0092185F /* Delegate.mm */,
 				C9E4C71E11B66A1B0092185F /* main.m */,
+				C9E4C78B11B684DD0092185F /* Application.cpp */,
 			);
 			name = Source;
+			sourceTree = "<group>";
+		};
+		C9F2D08311B6942700F16BF3 /* Pxf */ = {
+			isa = PBXGroup;
+			children = (
+				C9F2D08411B6943100F16BF3 /* Scene */,
+			);
+			name = Pxf;
+			sourceTree = "<group>";
+		};
+		C9F2D08411B6943100F16BF3 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				C9F2D09211B6944100F16BF3 /* SceneManager.cpp */,
+			);
+			name = Scene;
+			sourceTree = "<group>";
+		};
+		C9F2D09C11B6948C00F16BF3 /* Pxf */ = {
+			isa = PBXGroup;
+			children = (
+				C9F2D0AB11B6957F00F16BF3 /* Util */,
+				C9F2D09D11B6949500F16BF3 /* Scene */,
+			);
+			name = Pxf;
+			sourceTree = "<group>";
+		};
+		C9F2D09D11B6949500F16BF3 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				C9F2D0A011B694A000F16BF3 /* SceneManager.h */,
+			);
+			name = Scene;
+			sourceTree = "<group>";
+		};
+		C9F2D0AB11B6957F00F16BF3 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				C9F2D0B611B6958C00F16BF3 /* MemoryManager */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
+		C9F2D0B611B6958C00F16BF3 /* MemoryManager */ = {
+			isa = PBXGroup;
+			children = (
+				C9F2D0B911B695A300F16BF3 /* readme.txt */,
+				C9F2D0BA11B695A300F16BF3 /* nommgr.h */,
+				C9F2D0BB11B695A300F16BF3 /* mmgr.h */,
+				C9F2D0BC11B695A300F16BF3 /* mmgr.cpp */,
+			);
+			name = MemoryManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,6 +220,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
+				C9F2D0BD11B695A300F16BF3 /* readme.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,6 +233,9 @@
 			files = (
 				C9E4C71F11B66A1B0092185F /* Delegate.mm in Sources */,
 				C9E4C72011B66A1B0092185F /* main.m in Sources */,
+				C9E4C78C11B684DD0092185F /* Application.cpp in Sources */,
+				C9F2D09311B6944100F16BF3 /* SceneManager.cpp in Sources */,
+				C9F2D0BE11B695A300F16BF3 /* mmgr.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

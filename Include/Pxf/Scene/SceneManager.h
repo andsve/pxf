@@ -5,7 +5,7 @@
 #include <Pxf/Scene/Scene.h>
 
 namespace Pxf {
-namespace Graphics
+namespace Scene
 {	
 	//! Simple scene manager that stores/loads scenes
 	//! No fancy scene graph stuff here.. TODO: ?
