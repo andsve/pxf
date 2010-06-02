@@ -13,6 +13,8 @@ namespace Pxf
 		{
 			EOpenGL2,
 			EOpenGL3,
+			EOpenGLES11,
+			EOpenGLES2,
 			EDirect3D9,
 			EDirect3D10,
 			EDirect3D11
