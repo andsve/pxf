@@ -1,20 +1,28 @@
-#ifndef _PXF_GRAPHICS_DEVICEGLES1_H_
-#define _PXF_GRAPHICS_DEVICEGLES1_H_
+#ifndef _PXF_GRAPHICS_DEVICEGLES11_H_
+#define _PXF_GRAPHICS_DEVICEGLES11_H_
 
-#include <Pxf/Graphics/OpenGL/OpenGL.h>
+//#include <Pxf/Graphics/OpenGL/OpenGL.h>
 #include <Pxf/Graphics/Device.h>
-#include <Pxf/Graphics/Window.h>
-#include <Pxf/Graphics/OpenGL/WindowGL2.h>
-#include <Pxf/Graphics/OpenGL/RenderBufferGL.h>
+//#include <Pxf/Graphics/Window.h>
+//#include <Pxf/Graphics/OpenGL/WindowGL2.h>
+#include <Pxf/Graphics/OpenGL/VideoBufferGL.h>
 
 namespace Pxf{
 	namespace Graphics {
 		class RenderTarget;
 		class VertexBuffer;
+		class WindowSpecifications;
+		class Window;
+		class Texture;
 
 		class DeviceGLES11 : public Device
 		{
 		public:
+			DeviceGLES11();
+			~DeviceGLES11();
+			
+			Window* OpenWindow(WindowSpecifications* _pWindowSpecs);
+			void CloseWindow();
 			DeviceType GetDeviceType() { return EOpenGLES11; }
 			// Graphics
 			void SetViewport(int _x, int _y, int _w, int _h);
@@ -40,12 +48,21 @@ namespace Pxf{
 			void ReleaseRenderTarget(RenderTarget* _RenderTarget);
 			RenderTarget* CreateRenderTarget(int _Width,int _Height,RTFormat _ColorFormat,RTFormat _DepthFormat);
 
-			void CreateRenderBuffer(RenderBufferGL& _Buffer,int _Width, int _Height, int _Format);
+			//bool CreateVideoBuffer(VideoBufferGL& _Buffer,int _Width, int _Height, int _Format);
+			//bool CreateFrameBuffer(VideoBufferGL& _Buffer);
+			bool CreateVideoBuffer(VideoBuffer& _Buffer,int _Width, int _Height, int _Format);
+			VideoBuffer* CreateFrameBuffer();
+			
 		private:
-
+			/*
+			GLuint m_FrameBuffer;
+			GLuint m_RenderBuffer;
+			GLuint m_DepthBuffer;
+			
 		#ifdef __OBJC__
+			EAGLContext*			m_Context;
 
-		#endif
+		#endif */
 
 		};
 	} // Graphics

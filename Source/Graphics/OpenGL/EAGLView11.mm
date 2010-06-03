@@ -39,18 +39,19 @@
 	{		
 		if(!_DBFormat)
 			m_UseDepthBuffer = false;
-		
-		[self InitBuffers];
 		   
 		CAEAGLLayer* _EaglLayer = (CAEAGLLayer*)[self layer];
 		
 		m_Context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
 		
-		if(m_Context == nil)
+		if(m_Context == nil || ![EAGLContext setCurrentContext:m_Context])
 		{
+			printf("Unable to initialize with empty context\n");
 			[self release]; 
 			return nil;
 		}
+		
+		[self InitBuffers];
 	}
 					 
 	return self;

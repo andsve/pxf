@@ -10,6 +10,7 @@
 #import "../Include/Delegate.h"
 #import "../Include/Application.h"
 #import <Pxf/Graphics/OpenGL/EAGLView11.h>
+#include "../Include/ApplicationDefines.h"
 
 #define ERROR(str) printf("AppController ERROR: " str "\n");
 #define SUCCESS(str) printf("AppController SUCCESS: " str "\n");

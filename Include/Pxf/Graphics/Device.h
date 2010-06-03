@@ -9,6 +9,7 @@
 #include <Pxf/Graphics/TextureDefs.h>
 #include <Pxf/Graphics/VertexBufferDefs.h>
 #include <Pxf/Graphics/RenderTarget.h>
+#include <Pxf/Graphics/VideoBuffer.h>
 
 namespace Pxf
 {
@@ -59,6 +60,13 @@ namespace Pxf
 			virtual void ReleaseRenderTarget(RenderTarget* _RenderTarget) = 0;
 			virtual RenderTarget* CreateRenderTarget(int _Width,int _Height,RTFormat _ColorFormat,RTFormat _DepthFormat) = 0;
 
+			virtual bool CreateVideoBuffer(VideoBuffer& _Buffer,int _Width, int _Height, int _Format) = 0;
+			virtual VideoBuffer* CreateFrameBuffer() = 0;
+			
+			bool Ready() { return m_Ready; }
+		private:
+			bool m_Ready;
+			
 			// Need the name VertexBuffer for draw calls...?
 			// Or should *VertexArray inherit from Drawable?
 

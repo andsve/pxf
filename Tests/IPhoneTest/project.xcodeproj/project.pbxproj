@@ -21,6 +21,7 @@
 		C9F2D17211B7A75300F16BF3 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F2D17111B7A75300F16BF3 /* OpenGLES.framework */; };
 		C9F2D1BE11B7AE6E00F16BF3 /* EAGLView11.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9F2D1BD11B7AE6E00F16BF3 /* EAGLView11.mm */; };
 		C9F2D1D611B7B3FB00F16BF3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F2D1D511B7B3FB00F16BF3 /* QuartzCore.framework */; };
+		C9F2D36411B8110F00F16BF3 /* DeviceGLES11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9F2D36311B8110F00F16BF3 /* DeviceGLES11.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +50,12 @@
 		C9F2D17111B7A75300F16BF3 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		C9F2D1BD11B7AE6E00F16BF3 /* EAGLView11.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EAGLView11.mm; path = ../../Source/Graphics/OpenGL/EAGLView11.mm; sourceTree = SOURCE_ROOT; };
 		C9F2D1D511B7B3FB00F16BF3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		C9F2D2BD11B7F9DF00F16BF3 /* DeviceGLES11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceGLES11.h; path = ../../Include/Pxf/Graphics/OpenGL/DeviceGLES11.h; sourceTree = SOURCE_ROOT; };
+		C9F2D2D311B7FCFC00F16BF3 /* VideoBufferGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoBufferGL.h; path = ../../Include/Pxf/Graphics/OpenGL/VideoBufferGL.h; sourceTree = SOURCE_ROOT; };
+		C9F2D30311B806A000F16BF3 /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = ../../Include/Pxf/Graphics/Device.h; sourceTree = SOURCE_ROOT; };
+		C9F2D30E11B806FA00F16BF3 /* VideoBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoBuffer.h; path = ../../Include/Pxf/Graphics/VideoBuffer.h; sourceTree = SOURCE_ROOT; };
+		C9F2D32111B809F600F16BF3 /* ApplicationDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApplicationDefines.h; path = Include/ApplicationDefines.h; sourceTree = "<group>"; };
+		C9F2D36311B8110F00F16BF3 /* DeviceGLES11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DeviceGLES11.cpp; path = ../../Source/Graphics/OpenGL/DeviceGLES11.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +128,7 @@
 		C9E4C6ED11B65C770092185F /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				C9F2D32111B809F600F16BF3 /* ApplicationDefines.h */,
 				C9F2D13211B792BE00F16BF3 /* Graphics */,
 				C9F2D0AB11B6957F00F16BF3 /* Util */,
 				C9F2D09D11B6949500F16BF3 /* Scene */,
@@ -180,6 +188,8 @@
 		C9F2D13211B792BE00F16BF3 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				C9F2D30E11B806FA00F16BF3 /* VideoBuffer.h */,
+				C9F2D30311B806A000F16BF3 /* Device.h */,
 				C9F2D13311B7963B00F16BF3 /* OpenGL */,
 				C9F2D13111B792B900F16BF3 /* EAGLView.h */,
 			);
@@ -189,6 +199,8 @@
 		C9F2D13311B7963B00F16BF3 /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
+				C9F2D2D311B7FCFC00F16BF3 /* VideoBufferGL.h */,
+				C9F2D2BD11B7F9DF00F16BF3 /* DeviceGLES11.h */,
 				C9F2D13411B7972500F16BF3 /* EAGLView11.h */,
 			);
 			name = OpenGL;
@@ -206,6 +218,7 @@
 		C9F2D1AB11B7AA0A00F16BF3 /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
+				C9F2D36311B8110F00F16BF3 /* DeviceGLES11.cpp */,
 				C9F2D1BD11B7AE6E00F16BF3 /* EAGLView11.mm */,
 			);
 			name = OpenGL;
@@ -272,6 +285,7 @@
 				C9F2D0BE11B695A300F16BF3 /* mmgr.cpp in Sources */,
 				C9F2D16411B7A01300F16BF3 /* EAGLView.mm in Sources */,
 				C9F2D1BE11B7AE6E00F16BF3 /* EAGLView11.mm in Sources */,
+				C9F2D36411B8110F00F16BF3 /* DeviceGLES11.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

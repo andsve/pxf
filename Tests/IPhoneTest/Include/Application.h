@@ -9,7 +9,8 @@
 #ifndef _APPLICATION_H_
 #define _APPLICATION_H_
 
-#define APP_FPS 1.0 // timer frequency
+//#define USE_DEPTH_BUFFER 1
+//#define APP_FPS 1.0 // timer frequency
 
 #include <Pxf/Util/MemoryManager/mmgr.h>
 

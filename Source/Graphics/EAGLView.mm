@@ -14,11 +14,13 @@
 		_RetVal = false;
 	}
 	
-	if(!m_Device->CreateFrameBuffer(m_FrameBuffer))
+	if(!(m_FrameBuffer = (Pxf::Graphics::VideoBufferGL*) m_Device->CreateFrameBuffer()))
 	{
 		printf("Unable to create Frame Buffer\n");
 		_RetVal = false;
 	}
+	else
+		printf("Frame buffer OK\n");
 
 
 	if(!m_Device->CreateVideoBuffer(m_RenderBuffer,m_BackingWidth,m_BackingHeight,GL_RGBA8_OES))

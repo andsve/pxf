@@ -17,7 +17,7 @@
 	GLint	m_BackingHeight;
 	
 	Pxf::Graphics::VideoBufferGL	m_RenderBuffer;
-	Pxf::Graphics::VideoBufferGL	m_FrameBuffer;
+	Pxf::Graphics::VideoBufferGL*	m_FrameBuffer;
 	Pxf::Graphics::VideoBufferGL	m_DepthBuffer;
 	
 	EAGLContext*			m_Context;
@@ -26,7 +26,7 @@
 
 @property (assign)	 bool m_UseDepthBuffer;
 @property (readonly) Pxf::Graphics::VideoBufferGL m_RenderBuffer;
-@property (readonly) Pxf::Graphics::VideoBufferGL m_FrameBuffer;
+@property (readonly) Pxf::Graphics::VideoBufferGL* m_FrameBuffer;
 @property (readonly) Pxf::Graphics::VideoBufferGL m_DepthBuffer;
 @property (readonly) EAGLContext* m_Context;
 
