@@ -5,6 +5,7 @@
 #include <Pxf/Graphics/Device.h>
 #include <Pxf/Graphics/Window.h>
 #include <Pxf/Graphics/OpenGL/WindowGL2.h>
+#include <Pxf/Graphics/OpenGL/RenderBufferGL.h>
 
 namespace Pxf{
 	namespace Graphics {
@@ -38,6 +39,8 @@ namespace Pxf{
 			void BindRenderTarget(RenderTarget* _RenderTarget);
 			void ReleaseRenderTarget(RenderTarget* _RenderTarget);
 			RenderTarget* CreateRenderTarget(int _Width,int _Height,RTFormat _ColorFormat,RTFormat _DepthFormat);
+
+			void CreateRenderBuffer(RenderBufferGL& _Buffer,int _Width, int _Height, int _Format);
 		private:
 
 		#ifdef __OBJC__

@@ -1,3 +1,3 @@
-cc.driver = 'gcc'
+cc.driver = 'cl'
 cc.c_compiler = false
 cc.cxx_compiler = false

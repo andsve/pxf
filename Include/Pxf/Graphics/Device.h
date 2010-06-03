@@ -59,7 +59,6 @@ namespace Pxf
 			virtual void ReleaseRenderTarget(RenderTarget* _RenderTarget) = 0;
 			virtual RenderTarget* CreateRenderTarget(int _Width,int _Height,RTFormat _ColorFormat,RTFormat _DepthFormat) = 0;
 
-
 			// Need the name VertexBuffer for draw calls...?
 			// Or should *VertexArray inherit from Drawable?
 
