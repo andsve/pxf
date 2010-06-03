@@ -7,9 +7,12 @@
  *
  */
 
+#import "Pxf/Graphics/OpenGL/EAGLView11.h"
+
 @interface AppController : NSObject
 {
 	UIWindow* m_Window;
+	EAGLView11* m_GLView;
 }
 
 @end

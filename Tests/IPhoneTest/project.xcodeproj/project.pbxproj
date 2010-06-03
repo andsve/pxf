@@ -17,6 +17,10 @@
 		C9F2D09311B6944100F16BF3 /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9F2D09211B6944100F16BF3 /* SceneManager.cpp */; };
 		C9F2D0BD11B695A300F16BF3 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = C9F2D0B911B695A300F16BF3 /* readme.txt */; };
 		C9F2D0BE11B695A300F16BF3 /* mmgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9F2D0BC11B695A300F16BF3 /* mmgr.cpp */; };
+		C9F2D16411B7A01300F16BF3 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9F2D16311B7A01300F16BF3 /* EAGLView.mm */; };
+		C9F2D17211B7A75300F16BF3 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F2D17111B7A75300F16BF3 /* OpenGLES.framework */; };
+		C9F2D1BE11B7AE6E00F16BF3 /* EAGLView11.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9F2D1BD11B7AE6E00F16BF3 /* EAGLView11.mm */; };
+		C9F2D1D611B7B3FB00F16BF3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F2D1D511B7B3FB00F16BF3 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +43,12 @@
 		C9F2D0BA11B695A300F16BF3 /* nommgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = nommgr.h; path = ../../Include/Pxf/Util/MemoryManager/nommgr.h; sourceTree = SOURCE_ROOT; };
 		C9F2D0BB11B695A300F16BF3 /* mmgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mmgr.h; path = ../../Include/Pxf/Util/MemoryManager/mmgr.h; sourceTree = SOURCE_ROOT; };
 		C9F2D0BC11B695A300F16BF3 /* mmgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mmgr.cpp; path = ../../Include/Pxf/Util/MemoryManager/mmgr.cpp; sourceTree = SOURCE_ROOT; };
+		C9F2D13111B792B900F16BF3 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = ../../Include/Pxf/Graphics/EAGLView.h; sourceTree = SOURCE_ROOT; };
+		C9F2D13411B7972500F16BF3 /* EAGLView11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView11.h; path = ../../Include/Pxf/Graphics/OpenGL/EAGLView11.h; sourceTree = SOURCE_ROOT; };
+		C9F2D16311B7A01300F16BF3 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EAGLView.mm; path = ../../Source/Graphics/EAGLView.mm; sourceTree = SOURCE_ROOT; };
+		C9F2D17111B7A75300F16BF3 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		C9F2D1BD11B7AE6E00F16BF3 /* EAGLView11.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EAGLView11.mm; path = ../../Source/Graphics/OpenGL/EAGLView11.mm; sourceTree = SOURCE_ROOT; };
+		C9F2D1D511B7B3FB00F16BF3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +59,8 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
+				C9F2D17211B7A75300F16BF3 /* OpenGLES.framework in Frameworks */,
+				C9F2D1D611B7B3FB00F16BF3 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +85,8 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				C9F2D05C11B691D800F16BF3 /* Untitled-Info.plist */,
+				C9F2D17111B7A75300F16BF3 /* OpenGLES.framework */,
+				C9F2D1D511B7B3FB00F16BF3 /* QuartzCore.framework */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -107,7 +121,9 @@
 		C9E4C6ED11B65C770092185F /* Include */ = {
 			isa = PBXGroup;
 			children = (
-				C9F2D09C11B6948C00F16BF3 /* Pxf */,
+				C9F2D13211B792BE00F16BF3 /* Graphics */,
+				C9F2D0AB11B6957F00F16BF3 /* Util */,
+				C9F2D09D11B6949500F16BF3 /* Scene */,
 				C9E4C6F311B662FA0092185F /* Delegate.h */,
 				C9E4C74711B670920092185F /* Application.h */,
 			);
@@ -117,20 +133,13 @@
 		C9E4C70711B66A0F0092185F /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				C9F2D08311B6942700F16BF3 /* Pxf */,
+				C9F2D14811B79FE400F16BF3 /* Graphics */,
+				C9F2D08411B6943100F16BF3 /* Scene */,
 				C9E4C71D11B66A1B0092185F /* Delegate.mm */,
 				C9E4C71E11B66A1B0092185F /* main.m */,
 				C9E4C78B11B684DD0092185F /* Application.cpp */,
 			);
 			name = Source;
-			sourceTree = "<group>";
-		};
-		C9F2D08311B6942700F16BF3 /* Pxf */ = {
-			isa = PBXGroup;
-			children = (
-				C9F2D08411B6943100F16BF3 /* Scene */,
-			);
-			name = Pxf;
 			sourceTree = "<group>";
 		};
 		C9F2D08411B6943100F16BF3 /* Scene */ = {
@@ -139,15 +148,6 @@
 				C9F2D09211B6944100F16BF3 /* SceneManager.cpp */,
 			);
 			name = Scene;
-			sourceTree = "<group>";
-		};
-		C9F2D09C11B6948C00F16BF3 /* Pxf */ = {
-			isa = PBXGroup;
-			children = (
-				C9F2D0AB11B6957F00F16BF3 /* Util */,
-				C9F2D09D11B6949500F16BF3 /* Scene */,
-			);
-			name = Pxf;
 			sourceTree = "<group>";
 		};
 		C9F2D09D11B6949500F16BF3 /* Scene */ = {
@@ -177,12 +177,46 @@
 			name = MemoryManager;
 			sourceTree = "<group>";
 		};
+		C9F2D13211B792BE00F16BF3 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				C9F2D13311B7963B00F16BF3 /* OpenGL */,
+				C9F2D13111B792B900F16BF3 /* EAGLView.h */,
+			);
+			name = Graphics;
+			sourceTree = "<group>";
+		};
+		C9F2D13311B7963B00F16BF3 /* OpenGL */ = {
+			isa = PBXGroup;
+			children = (
+				C9F2D13411B7972500F16BF3 /* EAGLView11.h */,
+			);
+			name = OpenGL;
+			sourceTree = "<group>";
+		};
+		C9F2D14811B79FE400F16BF3 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				C9F2D1AB11B7AA0A00F16BF3 /* OpenGL */,
+				C9F2D16311B7A01300F16BF3 /* EAGLView.mm */,
+			);
+			name = Graphics;
+			sourceTree = "<group>";
+		};
+		C9F2D1AB11B7AA0A00F16BF3 /* OpenGL */ = {
+			isa = PBXGroup;
+			children = (
+				C9F2D1BD11B7AE6E00F16BF3 /* EAGLView11.mm */,
+			);
+			name = OpenGL;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* project */ = {
+		1D6058900D05DD3D006BFB54 /* PXF iPhone framework */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "project" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "PXF iPhone framework" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -192,7 +226,7 @@
 			);
 			dependencies = (
 			);
-			name = project;
+			name = "PXF iPhone framework";
 			productName = project;
 			productReference = 1D6058910D05DD3D006BFB54 /* project.app */;
 			productType = "com.apple.product-type.application";
@@ -209,7 +243,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* project */,
+				1D6058900D05DD3D006BFB54 /* PXF iPhone framework */,
 			);
 		};
 /* End PBXProject section */
@@ -236,6 +270,8 @@
 				C9E4C78C11B684DD0092185F /* Application.cpp in Sources */,
 				C9F2D09311B6944100F16BF3 /* SceneManager.cpp in Sources */,
 				C9F2D0BE11B695A300F16BF3 /* mmgr.cpp in Sources */,
+				C9F2D16411B7A01300F16BF3 /* EAGLView.mm in Sources */,
+				C9F2D1BE11B7AE6E00F16BF3 /* EAGLView11.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,7 +338,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "project" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "PXF iPhone framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
