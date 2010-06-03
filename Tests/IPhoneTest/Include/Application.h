@@ -9,12 +9,20 @@
 #ifndef _APPLICATION_H_
 #define _APPLICATION_H_
 
+#define APP_FPS 1.0 // timer frequency
+
 #include <Pxf/Util/MemoryManager/mmgr.h>
 
 #include <Pxf/Pxf.h>
 #include <Pxf/Engine.h>
 #include <Pxf/Scene/SceneManager.h>
 
+struct fps_helper
+{
+	float fps;
+	int ticks;
+	float elapsed_time;
+};
 
 class Application
 {
@@ -32,6 +40,7 @@ private:
 	Pxf::Engine* m_Engine;
 	
 	const char* m_Title;
+	fps_helper m_FPS;
 };
 
 #endif
