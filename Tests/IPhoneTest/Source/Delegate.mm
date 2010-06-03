@@ -10,7 +10,8 @@
 #import "../Include/Delegate.h"
 #import "../Include/Application.h"
 
-#define ERROR(str) printf("AppController ERROR: " #str "\n");
+#define ERROR(str) printf("AppController ERROR: " str "\n");
+#define SUCCESS(str) printf("AppController SUCCESS: " str "\n");
 
 static Application* _Application = NULL;
 
@@ -32,6 +33,10 @@ static Application* _Application = NULL;
 -(void) applicationDidFinishLaunching:(UIApplication*)application
 {
 	_Application = new Application("pxf iPhone test");
+	if(_Application->Init())
+		SUCCESS("init")
+	else
+		ERROR("init failed")
 	
 	CGRect _Rect	= [[UIScreen mainScreen] bounds];
 	m_Window		= [[UIWindow alloc] initWithFrame:_Rect];
