@@ -11,10 +11,10 @@ namespace Pxf{
 		class RenderTarget;
 		class VertexBuffer;
 
-		class DeviceGLES1 : public Device
+		class DeviceGLES11 : public Device
 		{
 		public:
-			DeviceType GetDeviceType() { return EOpenGLES1; }
+			DeviceType GetDeviceType() { return EOpenGLES11; }
 			// Graphics
 			void SetViewport(int _x, int _y, int _w, int _h);
 			void SetProjection(Math::Mat4 *_matrix);
