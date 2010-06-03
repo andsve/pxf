@@ -27,9 +27,8 @@ static Application* _Application = NULL;
 	// RENDER
 	if(!_Application->Render())
 		ERROR("unable to render application")
-	
-	printf("lol");
 		
+		printf("sup?");
 	// SWAP BUFFER
 	[m_GLView SwapBuffers];
 }
@@ -45,7 +44,8 @@ static Application* _Application = NULL;
 	
 	CGRect _Rect	= [[UIScreen mainScreen] bounds];
 	m_Window		= [[UIWindow alloc] initWithFrame:_Rect];
-	m_GLView		= [EAGLView11 initWithRect: _Rect bufferFormat: GL_RGB565_OES depthFormat: 0 preserveBackbuffer: NO];
+	m_GLView		= [[[EAGLView11 alloc] init] initWithRect: _Rect];
+	
 	if(!m_GLView)
 		ERROR("unable to initialize GLView")
 	
