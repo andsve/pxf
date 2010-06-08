@@ -31,7 +31,7 @@ void DeviceGLES11::SetViewport(int _x, int _y, int _w, int _h)
 
 void DeviceGLES11::SetProjection(Math::Mat4 *_matrix)
 {
-	
+
 }
 
 void DeviceGLES11::Translate(Math::Vec3f _translate)
