@@ -22,7 +22,6 @@
 	}
 	else
 	{
-		//((Pxf::Graphics::DeviceGLES11*)m_Device)->BindVideoBuffer(m_FrameBuffer,GL_FRAMEBUFFER_OES);
 		printf("Frame buffer OK\n");
 	}
 
@@ -54,10 +53,13 @@
 	return _RetVal;	
 }
 
+- (void) PrepareDrawing
+{
+	m_Device->SetViewport(0,0,m_BackingWidth,m_BackingHeight);
+}
+
 - (void) SwapBuffers
 {
-//	m_Device->SwapBuffers();
-
 	NSAssert(m_Context,@"Invalid Context");
 	NSAssert(m_RenderBuffer->m_Handle,@"Invalid RenderBuffer");
 	

@@ -25,6 +25,8 @@ static Application* _Application = NULL;
 	{
 		// move to Application->GameStep() or something?
 		
+		[m_GLView PrepareDrawing];
+		
 		// UPDATE
 		if(!_Application->Update())
 			ERROR("unable to update applcation") 

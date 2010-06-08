@@ -33,6 +33,7 @@
 
 - (void) SwapBuffers;
 - (bool) InitBuffers;
+- (void) PrepareDrawing;
 
 @end
 

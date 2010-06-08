@@ -8,6 +8,8 @@
  */
 
 #include "../Include/Application.h"
+#import <OpenGLES/ES1/gl.h>
+#import <OpenGLES/ES1/glext.h>
 
 using namespace Pxf;
 
@@ -30,6 +32,7 @@ bool Application::Update()
 {
 	bool _RetVal = true;
 	// Call update on scene
+
 	
 	return _RetVal;
 }
@@ -38,6 +41,36 @@ bool Application::Render()
 {
 	bool _RetVal = true;
 	// Call render on scene 
+	
+	
+	const GLfloat squareVertices[] = {
+        -0.5f, -0.5f,
+        0.5f,  -0.5f,
+        -0.5f,  0.5f,
+        0.5f,   0.5f,
+    };
+    const GLubyte squareColors[] = {
+        255, 255,   0, 255,
+        0,   255, 255, 255,
+        0,     0,   0,   0,
+        255,   0, 255, 255,
+    };
+	
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrthof(-1.0f, 1.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+    glMatrixMode(GL_MODELVIEW);
+    glRotatef(3.0f, 0.0f, 0.0f, 1.0f);
+    
+    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glVertexPointer(2, GL_FLOAT, 0, squareVertices);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
+    glEnableClientState(GL_COLOR_ARRAY);
+    
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	
 	return _RetVal;
 }

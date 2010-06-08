@@ -61,12 +61,18 @@
 		return false;
 	}
 	
-	[m_Context renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:(CAEAGLLayer*)self.layer];
+	if(!([m_Context renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:_EaglLayer]))
+	{
+		((Pxf::Graphics::DeviceGLES11*) m_Device)->DeleteVideoBuffer(m_RenderBuffer);
+		printf("Unable to allocate render buffer storage\n");
+		return false;
+	}
+	
+	((Pxf::Graphics::DeviceGLES11*) m_Device)->BindVideoBuffer(m_FrameBuffer);
 	glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES,GL_COLOR_ATTACHMENT0_OES,GL_RENDERBUFFER_OES,m_RenderBuffer->m_Handle);
 	
 	if(m_UseDepthBuffer)
 		glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES,GL_DEPTH_ATTACHMENT_OES,GL_RENDERBUFFER_OES,m_DepthBuffer->m_Handle);
-	
 	
 	 // check for completeness
 	 GLenum _Status = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES);
@@ -114,7 +120,7 @@
 
 - (id) initWithRect: (CGRect) _Frame
 {
-	return [self initWithRect: _Frame bufferFormat: GL_RGB565_OES depthFormat: 0 preserveBackbuffer: NO];
+	return [self initWithRect: _Frame bufferFormat: GL_RGBA8_OES depthFormat: 0 preserveBackbuffer: NO];
 }
 
 - (id) initWithRect: (CGRect) _Frame bufferFormat: (GLuint) _CBFormat depthFormat: (GLuint) _DBFormat preserveBackbuffer: (BOOL) _Retained

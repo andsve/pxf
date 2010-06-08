@@ -26,7 +26,7 @@ void DeviceGLES11::CloseWindow()
 // Graphics
 void DeviceGLES11::SetViewport(int _x, int _y, int _w, int _h)
 {
-	
+	glViewport(_x,_y,_w,_h);	
 }
 
 void DeviceGLES11::SetProjection(Math::Mat4 *_matrix)
