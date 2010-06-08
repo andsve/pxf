@@ -39,6 +39,8 @@ public:
 	
 	void Shutdown();
 	
+	Pxf::Scene::SceneManager* SceneMgr() { return m_SceneManager; }
+	
 private:
 	Pxf::Scene::SceneManager* m_SceneManager;
 	Pxf::Engine* m_Engine;

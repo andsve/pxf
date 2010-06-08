@@ -31,11 +31,14 @@ void DeviceGLES11::SetViewport(int _x, int _y, int _w, int _h)
 
 void DeviceGLES11::SetProjection(Math::Mat4 *_matrix)
 {
-	
+	glMatrixMode(GL_PROJECTION);
+	glLoadMatrixf((GLFloat*)(_matrix->m));
+	glMatrixMode(GL_MODELVIEW);	
 }
 
 void DeviceGLES11::Translate(Math::Vec3f _translate)
 {
+	glTranslatef(_translate.x,_translate.y,_translate.z);
 }
 
 // Texture
