@@ -1,14 +1,15 @@
 #include <Pxf/Game/GameState.h>
+#include <stdio.h>
 
 using namespace Pxf;
 using namespace Game;
 
-GameState* GameState::m_Instance = NULL;
+GameState* GameState::m_Instance = 0;
 
-static GameState* GameState::Instance() 
+GameState* GameState::Instance() 
 {
 	if(!m_Instance)
-		m_Instance = new GameState;
+		printf("Class has not been created\n");
 
 	return m_Instance;
 }

@@ -11,6 +11,7 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
+		C9613E3411BF0BB900D6BE42 /* GameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9613E3311BF0BB900D6BE42 /* GameState.cpp */; };
 		C9E4C71F11B66A1B0092185F /* Delegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C71D11B66A1B0092185F /* Delegate.mm */; };
 		C9E4C72011B66A1B0092185F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C71E11B66A1B0092185F /* main.m */; };
 		C9E4C78C11B684DD0092185F /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C78B11B684DD0092185F /* Application.cpp */; };
@@ -32,6 +33,8 @@
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* project_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = project_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C9613E2C11BF0B8C00D6BE42 /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameState.h; path = ../../Include/Pxf/Game/GameState.h; sourceTree = SOURCE_ROOT; };
+		C9613E3311BF0BB900D6BE42 /* GameState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameState.cpp; path = ../../Source/Game/GameState.cpp; sourceTree = SOURCE_ROOT; };
 		C9E4C6F311B662FA0092185F /* Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Delegate.h; path = Include/Delegate.h; sourceTree = "<group>"; };
 		C9E4C71D11B66A1B0092185F /* Delegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Delegate.mm; path = Source/Delegate.mm; sourceTree = "<group>"; };
 		C9E4C71E11B66A1B0092185F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
@@ -125,9 +128,26 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C9613E2811BF0B6000D6BE42 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				C9613E2C11BF0B8C00D6BE42 /* GameState.h */,
+			);
+			name = Game;
+			sourceTree = "<group>";
+		};
+		C9613E2D11BF0BA700D6BE42 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				C9613E3311BF0BB900D6BE42 /* GameState.cpp */,
+			);
+			name = Game;
+			sourceTree = "<group>";
+		};
 		C9E4C6ED11B65C770092185F /* Include */ = {
 			isa = PBXGroup;
 			children = (
+				C9613E2811BF0B6000D6BE42 /* Game */,
 				C9F2D32111B809F600F16BF3 /* ApplicationDefines.h */,
 				C9F2D13211B792BE00F16BF3 /* Graphics */,
 				C9F2D0AB11B6957F00F16BF3 /* Util */,
@@ -141,6 +161,7 @@
 		C9E4C70711B66A0F0092185F /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				C9613E2D11BF0BA700D6BE42 /* Game */,
 				C9F2D14811B79FE400F16BF3 /* Graphics */,
 				C9F2D08411B6943100F16BF3 /* Scene */,
 				C9E4C71D11B66A1B0092185F /* Delegate.mm */,
@@ -286,6 +307,7 @@
 				C9F2D16411B7A01300F16BF3 /* EAGLView.mm in Sources */,
 				C9F2D1BE11B7AE6E00F16BF3 /* EAGLView11.mm in Sources */,
 				C9F2D36411B8110F00F16BF3 /* DeviceGLES11.cpp in Sources */,
+				C9613E3411BF0BB900D6BE42 /* GameState.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

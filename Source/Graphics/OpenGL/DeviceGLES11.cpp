@@ -1,5 +1,6 @@
 #include <Pxf/Graphics/OpenGL/DeviceGLES11.h>
 #include <Pxf/Base/Debug.h>
+#include <OpenGLES/ES1/gl.h>
 #include <OpenGLES/ES1/glext.h>
 #include <stdio.h>
 
@@ -32,7 +33,7 @@ void DeviceGLES11::SetViewport(int _x, int _y, int _w, int _h)
 void DeviceGLES11::SetProjection(Math::Mat4 *_matrix)
 {
 	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf((GLFloat*)(_matrix->m));
+	glLoadMatrixf((GLfloat*)(_matrix->m));
 	glMatrixMode(GL_MODELVIEW);	
 }
 

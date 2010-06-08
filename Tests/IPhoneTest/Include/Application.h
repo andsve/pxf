@@ -42,12 +42,14 @@ public:
 	Pxf::Scene::SceneManager* SceneMgr() { return m_SceneManager; }
 	
 private:
-	Pxf::Scene::SceneManager* m_SceneManager;
-	Pxf::Engine* m_Engine;
-	bool m_IsRunning;
+	void _UpdateFPS();
 	
-	const char* m_Title;
-	fps_helper m_FPS;
+	Pxf::Scene::SceneManager*	m_SceneManager;
+	Pxf::Engine*				m_Engine;
+	bool						m_IsRunning;
+	
+	const char*					m_Title;
+	fps_helper					m_FPS;
 };
 
 #endif

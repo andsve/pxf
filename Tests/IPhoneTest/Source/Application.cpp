@@ -32,9 +32,23 @@ bool Application::Update()
 {
 	bool _RetVal = true;
 	// Call update on scene
+	
+	_UpdateFPS();
 
 	
 	return _RetVal;
+}
+
+void Application::_UpdateFPS()
+{
+	m_FPS.ticks++;
+	
+	if(m_FPS.elapsed_time >= 60.0f)
+	{
+		m_FPS.fps = m_FPS.ticks / m_FPS.elapsed_time;
+		m_FPS.ticks = 0;
+		m_FPS.elapsed_time = 0.0f;
+	}	
 }
 
 bool Application::Render()
