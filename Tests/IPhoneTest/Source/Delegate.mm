@@ -21,17 +21,21 @@ static Application* _Application = NULL;
 
 -(void) update
 {
-	// UPDATE
-	if(!_Application->Update())
-		ERROR("unable to update applcation") 
-	
-	// RENDER
-	if(!_Application->Render())
-		ERROR("unable to render application")
+	if(_Application->IsRunning())
+	{
+		// move to Application->GameStep() or something?
 		
-		printf("sup?");
-	// SWAP BUFFER
-	[m_GLView SwapBuffers];
+		// UPDATE
+		if(!_Application->Update())
+			ERROR("unable to update applcation") 
+	
+		// RENDER
+		if(!_Application->Render())
+			ERROR("unable to render application")
+		
+		// SWAP BUFFER
+		[m_GLView SwapBuffers];
+	}
 }
 
 -(void) applicationDidFinishLaunching:(UIApplication*)application
@@ -48,7 +52,11 @@ static Application* _Application = NULL;
 	m_GLView		= [[[EAGLView11 alloc] init] initWithRect: _Rect];
 	
 	if(!m_GLView)
+	{
 		ERROR("unable to initialize GLView")
+		_Application->Shutdown();
+		return;
+	}
 	
 	[m_Window addSubview:m_GLView];
 	[m_Window makeKeyAndVisible]; 

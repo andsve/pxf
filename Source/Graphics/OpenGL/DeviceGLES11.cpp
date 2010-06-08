@@ -86,16 +86,68 @@ RenderTarget* DeviceGLES11::CreateRenderTarget(int _Width,int _Height,RTFormat _
 	return 0;
 }
 
-bool DeviceGLES11::CreateVideoBuffer(VideoBuffer& _Buffer,int _Width, int _Height, int _Format)
+VideoBuffer* DeviceGLES11::CreateVideoBuffer(int _Width, int _Height, int _Format)
 {
+	VideoBufferGL* _NewVB = new VideoBufferGL();
+	_NewVB->m_Width = _Width;
+	_NewVB->m_Height = _Height;
+	_NewVB->m_Target = GL_RENDERBUFFER_OES;
+	
+	glGenRenderbuffersOES(1, &_NewVB->m_Handle);
+	
+	BindVideoBuffer(_NewVB);
+	glRenderbufferStorageOES(GL_RENDERBUFFER_OES,_Format,_Width,_Height);
+	
+	
+	return _NewVB;
+}
+
+void DeviceGLES11::DeleteVideoBuffer(VideoBuffer* _VideoBuffer)
+{
+	int _Target = ((VideoBufferGL*) _VideoBuffer)->m_Target;
+	
+	switch(_Target)
+	{
+		case GL_FRAMEBUFFER_OES:
+			glDeleteFramebuffersOES(1,&((VideoBufferGL*) _VideoBuffer)->m_Handle);
+			break;
+		case GL_RENDERBUFFER_OES:
+			glDeleteRenderbuffersOES(1,&((VideoBufferGL*) _VideoBuffer)->m_Handle);
+			break;
+		default:
+			break;
+	
+		((VideoBufferGL*) _VideoBuffer)->m_Handle = 0;
+	}
+}
+	
+
+bool DeviceGLES11::BindVideoBuffer(VideoBuffer* _VideoBuffer)
+{
+	int _Target = ((VideoBufferGL*) _VideoBuffer)->m_Target;
+	
+	switch(_Target)
+	{
+		case GL_FRAMEBUFFER_OES:
+			glBindFramebufferOES(GL_FRAMEBUFFER_OES, ((VideoBufferGL*) _VideoBuffer)->m_Handle);
+			break;
+		case GL_RENDERBUFFER_OES:
+			glBindRenderbufferOES(GL_RENDERBUFFER_OES, ((VideoBufferGL*) _VideoBuffer)->m_Handle);
+			break;
+		default:
+			break;
+	}
+	
+	// check status?
 	return true;
 }
+	
+
 VideoBuffer* DeviceGLES11::CreateFrameBuffer()
 {
 	VideoBufferGL* _NewVB = new VideoBufferGL();
-	glGenFramebuffersOES(1,&_NewVB->m_Handle);
-	glBindFramebufferOES(GL_FRAMEBUFFER_OES,_NewVB->m_Handle);
-	
+	_NewVB->m_Target = GL_FRAMEBUFFER_OES;
+	glGenFramebuffersOES(1,&_NewVB->m_Handle);	
 	return _NewVB;
 }
 

@@ -35,10 +35,14 @@ public:
 	bool Destroy();
 	bool Render();
 	bool Update();
+	bool IsRunning();
+	
+	void Shutdown();
 	
 private:
 	Pxf::Scene::SceneManager* m_SceneManager;
 	Pxf::Engine* m_Engine;
+	bool m_IsRunning;
 	
 	const char* m_Title;
 	fps_helper m_FPS;

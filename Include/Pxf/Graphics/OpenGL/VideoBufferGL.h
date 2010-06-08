@@ -11,6 +11,7 @@ namespace Pxf
 		{
 			unsigned int 	m_Handle;
 			int				m_Format;
+			int				m_Target;
 		};
 	} // Graphics
 } // Pxf

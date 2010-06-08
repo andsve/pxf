@@ -10,5 +10,6 @@
 - (id) init;
 - (id) initWithRect: (CGRect) _Frame;
 - (id) initWithRect: (CGRect) _Frame bufferFormat: (GLuint) _CBFormat depthFormat: (GLuint) _DBFormat preserveBackbuffer: (BOOL) _Retained;
+- (bool) CreateSurface;
 
 @end

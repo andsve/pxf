@@ -49,8 +49,21 @@ bool Application::Init()
 	m_Engine		= new Engine();
 	m_SceneManager	= new Scene::SceneManager();
 	
+	m_IsRunning		= true;
+	
 	if(!(m_Engine && m_SceneManager))
 	   return false;
 	
 	return _RetVal;
+}
+
+bool Application::IsRunning()
+{
+	return m_IsRunning;
+}
+
+void Application::Shutdown()
+{
+	m_IsRunning = false;
+	printf("Application: Shutting down\n");
 }

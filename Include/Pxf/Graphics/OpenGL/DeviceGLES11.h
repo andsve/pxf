@@ -1,11 +1,9 @@
 #ifndef _PXF_GRAPHICS_DEVICEGLES11_H_
 #define _PXF_GRAPHICS_DEVICEGLES11_H_
 
-//#include <Pxf/Graphics/OpenGL/OpenGL.h>
 #include <Pxf/Graphics/Device.h>
-//#include <Pxf/Graphics/Window.h>
-//#include <Pxf/Graphics/OpenGL/WindowGL2.h>
 #include <Pxf/Graphics/OpenGL/VideoBufferGL.h>
+#import <OpenGLES/ES1/glext.h>
 
 namespace Pxf{
 	namespace Graphics {
@@ -50,7 +48,10 @@ namespace Pxf{
 
 			//bool CreateVideoBuffer(VideoBufferGL& _Buffer,int _Width, int _Height, int _Format);
 			//bool CreateFrameBuffer(VideoBufferGL& _Buffer);
-			bool CreateVideoBuffer(VideoBuffer& _Buffer,int _Width, int _Height, int _Format);
+			VideoBuffer* CreateVideoBuffer(int _Width, int _Height, int _Format);
+			void DeleteVideoBuffer(VideoBuffer* _VideoBuffer);
+			bool BindVideoBuffer(VideoBuffer* _VideoBuffer);
+			
 			VideoBuffer* CreateFrameBuffer();
 			
 		private:
