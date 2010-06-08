@@ -31,9 +31,13 @@ void DeviceGLES11::SetViewport(int _x, int _y, int _w, int _h)
 
 void DeviceGLES11::SetProjection(Math::Mat4 *_matrix)
 {
+<<<<<<< HEAD:Source/Graphics/OpenGL/DeviceGLES11.cpp
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf((GLFloat*)(_matrix->m));
 	glMatrixMode(GL_MODELVIEW);	
+=======
+
+>>>>>>> 41c892ddf803df95101d283aef6f40e6c27c5dc5:Source/Graphics/OpenGL/DeviceGLES11.cpp
 }
 
 void DeviceGLES11::Translate(Math::Vec3f _translate)
