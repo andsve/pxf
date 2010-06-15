@@ -50,20 +50,7 @@ namespace Pxf{
 			void DeleteVideoBuffer(VideoBuffer* _VideoBuffer);
 			bool BindVideoBuffer(VideoBuffer* _VideoBuffer);
 			
-			// TODO: Remove and put this in createvideobuffer
-			//VideoBuffer* CreateFrameBuffer();
-			
 		private:
-			/*
-			GLuint m_FrameBuffer;
-			GLuint m_RenderBuffer;
-			GLuint m_DepthBuffer;
-			
-		#ifdef __OBJC__
-			EAGLContext*			m_Context;
-
-		#endif */
-
 		};
 	} // Graphics
 } // Pxf

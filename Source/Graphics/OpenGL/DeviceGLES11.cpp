@@ -168,15 +168,6 @@ bool DeviceGLES11::BindVideoBuffer(VideoBuffer* _VideoBuffer)
 	// check status?
 	return true;
 }
-	
-/*
-VideoBuffer* DeviceGLES11::CreateFrameBuffer()
-{
-	VideoBufferGL* _NewVB = new VideoBufferGL();
-	_NewVB->m_Target = GL_FRAMEBUFFER_OES;
-	glGenFramebuffersOES(1,&_NewVB->m_Handle);	
-	return _NewVB;
-}*/
 
 void DeviceGLES11::SwapBuffers()
 {

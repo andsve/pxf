@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
-		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		C9613E3411BF0BB900D6BE42 /* GameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9613E3311BF0BB900D6BE42 /* GameState.cpp */; };
 		C9613E9011C79B7200D6BE42 /* TextureGLES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9613E8F11C79B7200D6BE42 /* TextureGLES.cpp */; };
 		C9613EDB11C7A09E00D6BE42 /* DeviceResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9613EDA11C7A09E00D6BE42 /* DeviceResource.cpp */; };
+		C96140B611C7B0C500D6BE42 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C96140B511C7B0C500D6BE42 /* QuartzCore.framework */; };
+		C96140B811C7B0CD00D6BE42 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C96140B711C7B0CD00D6BE42 /* OpenGLES.framework */; };
+		C96140BA11C7B0E000D6BE42 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C96140B911C7B0E000D6BE42 /* UIKit.framework */; };
+		C96140BC11C7B0E700D6BE42 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C96140BB11C7B0E700D6BE42 /* Foundation.framework */; };
+		C9AA198D11C7CE5C002B3842 /* soil in Resources */ = {isa = PBXBuildFile; fileRef = C9AA197A11C7CE5C002B3842 /* soil */; };
 		C9E4C71F11B66A1B0092185F /* Delegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C71D11B66A1B0092185F /* Delegate.mm */; };
 		C9E4C72011B66A1B0092185F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C71E11B66A1B0092185F /* main.m */; };
 		C9E4C78C11B684DD0092185F /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C78B11B684DD0092185F /* Application.cpp */; };
@@ -21,17 +23,12 @@
 		C9F2D0BD11B695A300F16BF3 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = C9F2D0B911B695A300F16BF3 /* readme.txt */; };
 		C9F2D0BE11B695A300F16BF3 /* mmgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9F2D0BC11B695A300F16BF3 /* mmgr.cpp */; };
 		C9F2D16411B7A01300F16BF3 /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9F2D16311B7A01300F16BF3 /* EAGLView.mm */; };
-		C9F2D17211B7A75300F16BF3 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F2D17111B7A75300F16BF3 /* OpenGLES.framework */; };
 		C9F2D1BE11B7AE6E00F16BF3 /* EAGLView11.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9F2D1BD11B7AE6E00F16BF3 /* EAGLView11.mm */; };
-		C9F2D1D611B7B3FB00F16BF3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F2D1D511B7B3FB00F16BF3 /* QuartzCore.framework */; };
 		C9F2D36411B8110F00F16BF3 /* DeviceGLES11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9F2D36311B8110F00F16BF3 /* DeviceGLES11.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = project.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* project_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = project_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -42,6 +39,12 @@
 		C9613EB311C79DB000D6BE42 /* AbstractResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractResource.h; path = ../../Include/Pxf/Resource/AbstractResource.h; sourceTree = SOURCE_ROOT; };
 		C9613EB411C79DC600D6BE42 /* DeviceResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceResource.h; path = ../../Include/Pxf/Graphics/DeviceResource.h; sourceTree = SOURCE_ROOT; };
 		C9613EDA11C7A09E00D6BE42 /* DeviceResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DeviceResource.cpp; path = ../../Source/Graphics/DeviceResource.cpp; sourceTree = SOURCE_ROOT; };
+		C961404A11C7AFC400D6BE42 /* project_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = project_Prefix.pch; sourceTree = "<group>"; };
+		C96140B511C7B0C500D6BE42 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		C96140B711C7B0CD00D6BE42 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		C96140B911C7B0E000D6BE42 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C96140BB11C7B0E700D6BE42 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C9AA197A11C7CE5C002B3842 /* soil */ = {isa = PBXFileReference; lastKnownFileType = folder; name = soil; path = ../../Libraries/soil; sourceTree = SOURCE_ROOT; };
 		C9E4C6F311B662FA0092185F /* Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Delegate.h; path = Include/Delegate.h; sourceTree = "<group>"; };
 		C9E4C71D11B66A1B0092185F /* Delegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Delegate.mm; path = Source/Delegate.mm; sourceTree = "<group>"; };
 		C9E4C71E11B66A1B0092185F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
@@ -57,9 +60,7 @@
 		C9F2D13111B792B900F16BF3 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView.h; path = ../../Include/Pxf/Graphics/EAGLView.h; sourceTree = SOURCE_ROOT; };
 		C9F2D13411B7972500F16BF3 /* EAGLView11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EAGLView11.h; path = ../../Include/Pxf/Graphics/OpenGL/EAGLView11.h; sourceTree = SOURCE_ROOT; };
 		C9F2D16311B7A01300F16BF3 /* EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EAGLView.mm; path = ../../Source/Graphics/EAGLView.mm; sourceTree = SOURCE_ROOT; };
-		C9F2D17111B7A75300F16BF3 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		C9F2D1BD11B7AE6E00F16BF3 /* EAGLView11.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EAGLView11.mm; path = ../../Source/Graphics/OpenGL/EAGLView11.mm; sourceTree = SOURCE_ROOT; };
-		C9F2D1D511B7B3FB00F16BF3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C9F2D2BD11B7F9DF00F16BF3 /* DeviceGLES11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceGLES11.h; path = ../../Include/Pxf/Graphics/OpenGL/DeviceGLES11.h; sourceTree = SOURCE_ROOT; };
 		C9F2D2D311B7FCFC00F16BF3 /* VideoBufferGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoBufferGL.h; path = ../../Include/Pxf/Graphics/OpenGL/VideoBufferGL.h; sourceTree = SOURCE_ROOT; };
 		C9F2D30311B806A000F16BF3 /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Device.h; path = ../../Include/Pxf/Graphics/Device.h; sourceTree = SOURCE_ROOT; };
@@ -73,11 +74,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
-				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
-				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
-				C9F2D17211B7A75300F16BF3 /* OpenGLES.framework in Frameworks */,
-				C9F2D1D611B7B3FB00F16BF3 /* QuartzCore.framework in Frameworks */,
+				C96140B611C7B0C500D6BE42 /* QuartzCore.framework in Frameworks */,
+				C96140B811C7B0CD00D6BE42 /* OpenGLES.framework in Frameworks */,
+				C96140BA11C7B0E000D6BE42 /* UIKit.framework in Frameworks */,
+				C96140BC11C7B0E700D6BE42 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +95,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				C9AA197811C7CE4A002B3842 /* Libraries */,
 				C9E4C6ED11B65C770092185F /* Include */,
 				C9E4C70711B66A0F0092185F /* Source */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -102,8 +103,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				C9F2D05C11B691D800F16BF3 /* Untitled-Info.plist */,
-				C9F2D17111B7A75300F16BF3 /* OpenGLES.framework */,
-				C9F2D1D511B7B3FB00F16BF3 /* QuartzCore.framework */,
+				C961404A11C7AFC400D6BE42 /* project_Prefix.pch */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -128,9 +128,10 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
-				1D30AB110D05D00D00671497 /* Foundation.framework */,
-				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
+				C96140B511C7B0C500D6BE42 /* QuartzCore.framework */,
+				C96140B711C7B0CD00D6BE42 /* OpenGLES.framework */,
+				C96140B911C7B0E000D6BE42 /* UIKit.framework */,
+				C96140BB11C7B0E700D6BE42 /* Foundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -157,6 +158,14 @@
 				C9613EB311C79DB000D6BE42 /* AbstractResource.h */,
 			);
 			name = Resource;
+			sourceTree = "<group>";
+		};
+		C9AA197811C7CE4A002B3842 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				C9AA197A11C7CE5C002B3842 /* soil */,
+			);
+			name = Libraries;
 			sourceTree = "<group>";
 		};
 		C9E4C6ED11B65C770092185F /* Include */ = {
@@ -309,6 +318,7 @@
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				C9F2D0BD11B695A300F16BF3 /* readme.txt in Resources */,
+				C9AA198D11C7CE5C002B3842 /* soil in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,11 +351,14 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = project_Prefix.pch;
+				HEADER_SEARCH_PATHS = ../../Include;
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = project;
 			};
 			name = Debug;
@@ -355,9 +368,12 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = project_Prefix.pch;
+				HEADER_SEARCH_PATHS = ../../Include;
 				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = project;
 			};
 			name = Release;
@@ -367,6 +383,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = /System/Library/Frameworks;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -374,7 +391,7 @@
 				LIBRARY_SEARCH_PATHS = ../../Libraries;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos2.2.1;
+				SDKROOT = iphonesimulator2.2;
 			};
 			name = Debug;
 		};
@@ -383,13 +400,14 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = /System/Library/Frameworks;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = ../../Include;
 				LIBRARY_SEARCH_PATHS = ../../Libraries;
 				PREBINDING = NO;
-				SDKROOT = iphoneos2.2.1;
+				SDKROOT = iphonesimulator2.2;
 			};
 			name = Release;
 		};
