@@ -46,13 +46,12 @@ namespace Pxf{
 			void ReleaseRenderTarget(RenderTarget* _RenderTarget);
 			RenderTarget* CreateRenderTarget(int _Width,int _Height,RTFormat _ColorFormat,RTFormat _DepthFormat);
 
-			//bool CreateVideoBuffer(VideoBufferGL& _Buffer,int _Width, int _Height, int _Format);
-			//bool CreateFrameBuffer(VideoBufferGL& _Buffer);
-			VideoBuffer* CreateVideoBuffer(int _Width, int _Height, int _Format);
+			VideoBuffer* CreateVideoBuffer(int _Format = GL_RENDERBUFFER_OES, int _Width = 0, int _Height = 0);
 			void DeleteVideoBuffer(VideoBuffer* _VideoBuffer);
 			bool BindVideoBuffer(VideoBuffer* _VideoBuffer);
 			
-			VideoBuffer* CreateFrameBuffer();
+			// TODO: Remove and put this in createvideobuffer
+			//VideoBuffer* CreateFrameBuffer();
 			
 		private:
 			/*

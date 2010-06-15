@@ -60,8 +60,7 @@ namespace Pxf
 			virtual void ReleaseRenderTarget(RenderTarget* _RenderTarget) = 0;
 			virtual RenderTarget* CreateRenderTarget(int _Width,int _Height,RTFormat _ColorFormat,RTFormat _DepthFormat) = 0;
 
-			virtual VideoBuffer* CreateVideoBuffer(int _Width, int _Height, int _Format) = 0;
-			virtual VideoBuffer* CreateFrameBuffer() = 0;
+			//virtual VideoBuffer* CreateVideoBuffer(int _Format, int _Width, int _Height) = 0;
 			
 			bool Ready() { return m_Ready; }
 		private:

@@ -2,14 +2,11 @@
 #define _PXF_GRAPHICS_DEVICERESOURCE_
 
 #include <Pxf/Base/Types.h>
+#include <Pxf/Resource/AbstractResource.h>
 
 namespace Pxf {
-	namespace Resource {
-		class AbstractResource;
-	}
 
 namespace Graphics {
-	
 	class Device;
 	
 	class DeviceResource
@@ -17,17 +14,11 @@ namespace Graphics {
 	protected:
 		static unsigned GLOBAL_RESOURCE_COUNTER;
 		uint m_ID;
-		Device *m_pDevice;		        
+		Pxf::Graphics::Device *m_pDevice;		        
 		Resource::AbstractResource* m_Resource;
 
 	public:
-		DeviceResource(Device *_pDevice, Resource::AbstractResource* _Resource = 0)
-		{
-	    	m_Resource = _Resource;
-			m_pDevice = _pDevice;
-			m_ID = GLOBAL_RESOURCE_COUNTER;
-			GLOBAL_RESOURCE_COUNTER++;
-		}
+		DeviceResource(Device *_pDevice, Resource::AbstractResource* _Resource = 0);
 
 		inline Resource::AbstractResource* GetResource()
 		{

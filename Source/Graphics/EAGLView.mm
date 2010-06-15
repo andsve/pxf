@@ -2,6 +2,9 @@
 #import <OpenGLES/EAGLDrawable.h>
 #import <QuartzCore/QuartzCore.h>
 
+using namespace Pxf;
+using namespace Graphics;
+
 @implementation EAGLView
 @synthesize m_FrameBuffer,m_DepthBuffer,m_RenderBuffer,m_Context,m_UseDepthBuffer; // LOL OBJECTIVE C
 
@@ -15,7 +18,7 @@
 		_RetVal = false;
 	}
 	
-	if(!(m_FrameBuffer = (Pxf::Graphics::VideoBufferGL*) m_Device->CreateFrameBuffer()))
+	if(!(m_FrameBuffer = (VideoBufferGL*) ((DeviceGLES11*) m_Device)->CreateVideoBuffer(GL_FRAMEBUFFER_OES)))
 	{
 		printf("Unable to create Frame Buffer\n");
 		_RetVal = false;
@@ -26,7 +29,7 @@
 	}
 
 
-	if(!(m_RenderBuffer = (Pxf::Graphics::VideoBufferGL*) m_Device->CreateVideoBuffer(m_BackingWidth,m_BackingHeight,GL_RGBA8_OES)))
+	if(!(m_RenderBuffer = (VideoBufferGL*) ((DeviceGLES11*) m_Device)->CreateVideoBuffer(GL_RGBA8_OES,m_BackingWidth,m_BackingHeight)))
 	{
 		printf("Unable to create Frame Buffer\n");	
 		_RetVal = false;
@@ -38,7 +41,7 @@
 
 	if(m_UseDepthBuffer)
 	{
-		if(!(m_DepthBuffer = (Pxf::Graphics::VideoBufferGL*) m_Device->CreateVideoBuffer(m_BackingWidth,m_BackingHeight,GL_DEPTH_COMPONENT16_OES)))
+		if(!(m_DepthBuffer = (VideoBufferGL*) ((DeviceGLES11*) m_Device)->CreateVideoBuffer(GL_DEPTH_COMPONENT16_OES,m_BackingWidth,m_BackingHeight)))
 		{
 			printf("Unable to create Depth Buffer\n");	
 			_RetVal = false;

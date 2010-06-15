@@ -17,14 +17,14 @@ Application::Application(const char* _Title)
 {
 	m_Title = _Title;
 	m_Engine = 0;
-	m_SceneManager = 0;
+	//m_SceneManager = 0;
 }
 
 Application::~Application()
 {
 	m_Title = 0;
 	delete m_Engine;
-	delete m_SceneManager;
+	//delete m_SceneManager;
 }
 	
 
@@ -94,11 +94,11 @@ bool Application::Init()
 	bool _RetVal	= true;
 	
 	m_Engine		= new Engine();
-	m_SceneManager	= new Scene::SceneManager();
+	//m_SceneManager	= new Scene::SceneManager();
 	
 	m_IsRunning		= true;
 	
-	if(!(m_Engine && m_SceneManager))
+	if(!m_Engine)
 	   return false;
 	
 	return _RetVal;

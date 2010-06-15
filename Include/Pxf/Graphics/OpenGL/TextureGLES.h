@@ -3,6 +3,8 @@
 
 #include <Pxf/Graphics/DeviceResource.h>
 #include <Pxf/Graphics/TextureDefs.h>
+#include <Pxf/Graphics/Texture.h>
+#include <OpenGLES/ES1/gl.h>
 #include <Pxf/Math/Vector.h>
 
 namespace Pxf
