@@ -82,13 +82,19 @@ QuadBatch* DeviceGLES11::CreateQuadBatch(int _maxSize)
 
 VertexBuffer* DeviceGLES11::CreateVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
 {
-	return 0;
+	return new VertexBufferGLES(this, _VertexBufferLoaction, _VertexBufferUsageFlag);
 }
 void DeviceGLES11::DestroyVertexBuffer(VertexBuffer* _pVertexBuffer)
 {
+	if(_pVertexBuffer)
+		delete _pVertexBuffer;
 }
 void DeviceGLES11::DrawBuffer(VertexBuffer* _pVertexBuffer)
 {
+	_pVertexBuffer->_PreDraw();
+	GLuint primitive = LookupPrimitiveType(_pVertexBuffer->GetPrimitive());
+	glDrawArrays(primitive,0,_pVertexBuffer->GetVertexCound());
+	_pVertexBuffer->PostDraw();
 }
 
 void DeviceGLES11::BindRenderTarget(RenderTarget* _RenderTarget)
