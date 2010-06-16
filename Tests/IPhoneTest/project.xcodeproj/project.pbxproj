@@ -16,6 +16,8 @@
 		C96140BA11C7B0E000D6BE42 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C96140B911C7B0E000D6BE42 /* UIKit.framework */; };
 		C96140BC11C7B0E700D6BE42 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C96140BB11C7B0E700D6BE42 /* Foundation.framework */; };
 		C9AA198D11C7CE5C002B3842 /* soil in Resources */ = {isa = PBXBuildFile; fileRef = C9AA197A11C7CE5C002B3842 /* soil */; };
+		C9AA1A3C11C98639002B3842 /* VertexBufferGLES11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AA1A3B11C98639002B3842 /* VertexBufferGLES11.cpp */; };
+		C9AA1A9311C98F28002B3842 /* StreamPosix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AA1A9211C98F28002B3842 /* StreamPosix.cpp */; };
 		C9E4C71F11B66A1B0092185F /* Delegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C71D11B66A1B0092185F /* Delegate.mm */; };
 		C9E4C72011B66A1B0092185F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C71E11B66A1B0092185F /* main.m */; };
 		C9E4C78C11B684DD0092185F /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C78B11B684DD0092185F /* Application.cpp */; };
@@ -45,6 +47,11 @@
 		C96140B911C7B0E000D6BE42 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C96140BB11C7B0E700D6BE42 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C9AA197A11C7CE5C002B3842 /* soil */ = {isa = PBXFileReference; lastKnownFileType = folder; name = soil; path = ../../Libraries/soil; sourceTree = SOURCE_ROOT; };
+		C9AA19CC11C97F3A002B3842 /* OpenGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGL.h; path = ../../Include/Pxf/Graphics/OpenGL/OpenGL.h; sourceTree = SOURCE_ROOT; };
+		C9AA19E211C980FD002B3842 /* DeviceGL2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DeviceGL2.cpp; path = ../../Source/Graphics/OpenGL/DeviceGL2.cpp; sourceTree = SOURCE_ROOT; };
+		C9AA1A3B11C98639002B3842 /* VertexBufferGLES11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VertexBufferGLES11.cpp; path = ../../Source/Graphics/OpenGL/VertexBufferGLES11.cpp; sourceTree = SOURCE_ROOT; };
+		C9AA1A3D11C98646002B3842 /* VertexBufferGLES11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VertexBufferGLES11.h; path = ../../Include/Pxf/Graphics/OpenGL/VertexBufferGLES11.h; sourceTree = SOURCE_ROOT; };
+		C9AA1A9211C98F28002B3842 /* StreamPosix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StreamPosix.cpp; path = ../../Source/Base/StreamPosix.cpp; sourceTree = SOURCE_ROOT; };
 		C9E4C6F311B662FA0092185F /* Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Delegate.h; path = Include/Delegate.h; sourceTree = "<group>"; };
 		C9E4C71D11B66A1B0092185F /* Delegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Delegate.mm; path = Source/Delegate.mm; sourceTree = "<group>"; };
 		C9E4C71E11B66A1B0092185F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
@@ -168,6 +175,14 @@
 			name = Libraries;
 			sourceTree = "<group>";
 		};
+		C9AA1A8B11C98F1E002B3842 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C9AA1A9211C98F28002B3842 /* StreamPosix.cpp */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
 		C9E4C6ED11B65C770092185F /* Include */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +201,7 @@
 		C9E4C70711B66A0F0092185F /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				C9AA1A8B11C98F1E002B3842 /* Base */,
 				C9613E2D11BF0BA700D6BE42 /* Game */,
 				C9F2D14811B79FE400F16BF3 /* Graphics */,
 				C9F2D08411B6943100F16BF3 /* Scene */,
@@ -246,6 +262,8 @@
 		C9F2D13311B7963B00F16BF3 /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
+				C9AA1A3D11C98646002B3842 /* VertexBufferGLES11.h */,
+				C9AA19CC11C97F3A002B3842 /* OpenGL.h */,
 				C9613E5011C7946A00D6BE42 /* TextureGLES.h */,
 				C9F2D2D311B7FCFC00F16BF3 /* VideoBufferGL.h */,
 				C9F2D2BD11B7F9DF00F16BF3 /* DeviceGLES11.h */,
@@ -267,6 +285,8 @@
 		C9F2D1AB11B7AA0A00F16BF3 /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
+				C9AA1A3B11C98639002B3842 /* VertexBufferGLES11.cpp */,
+				C9AA19E211C980FD002B3842 /* DeviceGL2.cpp */,
 				C9613E8F11C79B7200D6BE42 /* TextureGLES.cpp */,
 				C9F2D36311B8110F00F16BF3 /* DeviceGLES11.cpp */,
 				C9F2D1BD11B7AE6E00F16BF3 /* EAGLView11.mm */,
@@ -340,6 +360,8 @@
 				C9613E3411BF0BB900D6BE42 /* GameState.cpp in Sources */,
 				C9613E9011C79B7200D6BE42 /* TextureGLES.cpp in Sources */,
 				C9613EDB11C7A09E00D6BE42 /* DeviceResource.cpp in Sources */,
+				C9AA1A3C11C98639002B3842 /* VertexBufferGLES11.cpp in Sources */,
+				C9AA1A9311C98F28002B3842 /* StreamPosix.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

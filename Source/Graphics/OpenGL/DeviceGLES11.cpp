@@ -1,4 +1,5 @@
 #include <Pxf/Graphics/OpenGL/DeviceGLES11.h>
+#include <Pxf/Graphics/OpenGL/VertexBufferGLES11.h>
 #include <Pxf/Graphics/OpenGL/TextureGLES.h>
 #include <Pxf/Base/Debug.h>
 #include <OpenGLES/ES1/gl.h>
@@ -82,19 +83,39 @@ QuadBatch* DeviceGLES11::CreateQuadBatch(int _maxSize)
 
 VertexBuffer* DeviceGLES11::CreateVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)
 {
-	return new VertexBufferGLES(this, _VertexBufferLoaction, _VertexBufferUsageFlag);
+	return new VertexBufferGLES11(this, _VertexBufferLocation, _VertexBufferUsageFlag);
 }
 void DeviceGLES11::DestroyVertexBuffer(VertexBuffer* _pVertexBuffer)
 {
 	if(_pVertexBuffer)
 		delete _pVertexBuffer;
 }
+
+static unsigned LookupPrimitiveType(VertexBufferPrimitiveType _PrimitiveType)
+{
+	switch(_PrimitiveType)
+	{
+		case VB_PRIMITIVE_POINTS:		return GL_POINTS;
+		case VB_PRIMITIVE_LINES:		return GL_LINES;
+		case VB_PRIMITIVE_LINE_LOOP:	return GL_LINE_LOOP;
+		case VB_PRIMITIVE_LINE_STRIP:	return GL_LINE_STRIP;
+		case VB_PRIMITIVE_TRIANGLES:	return GL_TRIANGLES;
+		case VB_PRIMITIVE_TRIANGLE_STRIP:	return GL_TRIANGLE_STRIP;
+		case VB_PRIMITIVE_TRIANGLE_FAN:	return GL_TRIANGLE_FAN;
+			// quads does not exist on iphone so just use triangle fans instead
+		case VB_PRIMITIVE_QUADS:		return GL_TRIANGLE_FAN;	
+		case VB_PRIMITIVE_QUAD_STRIP:	return GL_TRIANGLE_STRIP;
+	}
+	PXFASSERT(0, "Unknown primitive type.");
+	return 0;
+}
+
 void DeviceGLES11::DrawBuffer(VertexBuffer* _pVertexBuffer)
 {
 	_pVertexBuffer->_PreDraw();
 	GLuint primitive = LookupPrimitiveType(_pVertexBuffer->GetPrimitive());
-	glDrawArrays(primitive,0,_pVertexBuffer->GetVertexCound());
-	_pVertexBuffer->PostDraw();
+	glDrawArrays(primitive,0,_pVertexBuffer->GetVertexCount());
+	_pVertexBuffer->_PostDraw();
 }
 
 void DeviceGLES11::BindRenderTarget(RenderTarget* _RenderTarget)
