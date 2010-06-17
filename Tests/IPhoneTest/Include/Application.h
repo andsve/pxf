@@ -18,6 +18,7 @@
 #include <Pxf/Engine.h>
 #include <Pxf/Graphics/Device.h>
 #include <Pxf/Scene/SceneManager.h>
+#include <Pxf/Game/Sprite.h>
 #include <Pxf/Graphics/Texture.h>
 #include <Pxf/Graphics/QuadBatch.h>
 #include <Pxf/Resource/Image.h>
@@ -60,7 +61,8 @@ private:
 	const char*					m_Title;
 	fps_helper					m_FPS;
 	
-	
+	// DEBUG OBJECTS
+	Pxf::Game::Sprite*			pSprite;	
 	Pxf::Graphics::Texture* pTexture;
 	Pxf::Graphics::QuadBatch* pQBatch;
 };

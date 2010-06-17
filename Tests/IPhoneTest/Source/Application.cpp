@@ -14,17 +14,17 @@
 using namespace Pxf;
 
 Application::Application(const char* _Title)
+	: m_Title(_Title),
+	  m_Engine(0),
+	  m_IsRunning(false)
 {
-	m_Title = _Title;
-	m_Engine = 0;
-	//m_SceneManager = 0;
+
 }
 
 Application::~Application()
 {
 	m_Title = 0;
 	delete m_Engine;
-	//delete m_SceneManager;
 }
 	
 
@@ -113,7 +113,11 @@ void Application::Setup()
 	printf("Application::Setup: Begin");
 	//m_Device = m_Engine.CreateDevice(Graphics::EOpenGLES11);
 	
+	pSprite = new Pxf::Game::Sprite(m_Device,NULL,"test.png",50,50,10,0,NULL);
+	pSprite->Reset();
+
 	//Pxf::Resource::Image t_Image(new Pxf::Resource::Chunk(),"test.png");
+	
 	
 	// Load some texture
 	glEnable(GL_TEXTURE_2D);
@@ -136,17 +140,15 @@ void Application::Setup()
 
 bool Application::Init()
 {
-	bool _RetVal	= true;
-	
-	m_Engine		= new Engine();
-	//m_SceneManager	= new Scene::SceneManager();
-	
+	m_Engine		= new Engine();	
 	m_IsRunning		= true;
 	
 	if(!m_Engine)
-	   return false;
+	{
+		m_IsRunning = false;
+	}
 	
-	return _RetVal;
+	return m_IsRunning;
 }
 
 bool Application::IsRunning()
