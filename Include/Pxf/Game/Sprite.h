@@ -54,7 +54,7 @@ namespace Pxf
 			
 			void AddSequence(int _SequenceLength, ...);
 			
-			void SetScale(float _Value) { m_Scale = _Value; }
+			void SetScale(float _Value) { m_DrawScale = _Value; }
 			
 			bool IsReady() { return m_Ready; }
 			int	GetZIndex() { return m_ZIndex; }
@@ -63,9 +63,12 @@ namespace Pxf
 		protected:
 			static unsigned		m_SpriteCounter;	// generate new ID's
 		private:
+			void _CalculateUV();
+			
 			Graphics::Device*		m_Device;
 			Graphics::Texture*		m_Texture;
-			Math::Vector2D<int>		m_CellSize;		// force power-of-two cell size?
+			Math::Vector2D<int>		m_CellSize;		// force power-of-two cell size? 
+			Math::Vector2D<float>	m_UVStep;		// step sizes
 
 			SpriteState			m_SpriteState;
 			const char* 		m_ID;			// name identifier (debugging/logging..)
@@ -74,6 +77,7 @@ namespace Pxf
 			int					m_CurrentFrame;	// frame counter
 			int					m_ZIndex;		// depth sort
 			int					m_MaxFrames; 	// calculate
+			
 			float				m_TimeStep;		// 60 / frequency
 			float				m_SwitchTime;	// += dt, call nextframe when >= timestep
 			float				m_DrawScale;	// draw scale

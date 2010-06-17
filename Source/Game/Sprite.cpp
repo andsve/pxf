@@ -78,6 +78,16 @@ Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _
 		printf("Sprite %s: Invalid Texture\n", m_ID);
 	}
 
+	// calculate max cells
+	// TODO: what do we do about uneven cell numbers? exessive space is truncated atm
+	int _ImgWidth = m_Texture->GetWidth();
+	int _ImgHeight = m_Texture->GetHeight();
+	
+	int _WAmount = (_ImgWidth / _CellWidth);
+	int _HAmount = (_ImgHeight / _CellHeight);
+	
+	m_MaxFrames = _WAmount * _HAmount;
+	
 	if(_CustomSequence)
 	{
 		m_UseCustomSequence = true;
@@ -85,20 +95,14 @@ Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _
 	}
 	else
 	{
-		// calculate max cells
-		// TODO: what do we do about uneven cell numbers? exessive space is truncated atm
-		int _ImgWidth = m_Texture->GetWidth();
-		int _ImgHeight = m_Texture->GetHeight();
-		
-		int _WAmount = (_ImgWidth / _CellWidth);
-		int _HAmount = (_ImgHeight / _CellHeight);
-		
-		m_MaxFrames = _WAmount * _HAmount;
+
 	}
 		
 
 	if(m_Ready)
 		printf("Sprite %s: Ready\n", m_ID);
+	
+	_CalculateUV();
 		
 }
 
@@ -136,6 +140,7 @@ void Sprite::Update()
 	 switch_frame += dt;
 	 if(switch_frame >= time_step)
 	 {
+		_CalculateUV();
 		NextFrame();
 		
 		// reset
@@ -154,6 +159,27 @@ void Sprite::Draw()
 	// draw sprite
 }
 
+
+void Sprite::_CalculateUV()
+{	
+	// calculate cell position in image
+	int _CellsX = (float) (m_Texture->GetWidth() / m_CellSize.x);
+	int _CellsY = (float) (m_Texture->GetHeight() / m_CellSize.y);
+	int _X = m_CurrentFrame;
+	int _Y = m_CurrentFrame;
+	
+	if(m_UseCustomSequence)
+	{
+		_X = m_CustomSequence->sequence[m_CurrentFrame];
+		_Y = m_CustomSequence->sequence[m_CurrentFrame];
+	}
+		
+	_X = _X % _CellsX;
+	_Y = _Y / _CellsY;	
+	
+	// scale by uv values
+}
+
 /* 
  
  Sprite controllers
@@ -164,7 +190,6 @@ void Sprite::Reset()
 {
 	m_CurrentFrame = 0;
 	m_SpriteState = Running;
-	
 }
 
 void Sprite::Pause()
@@ -184,8 +209,19 @@ void Sprite::Start()
 
 void Sprite::NextFrame()
 {
-	if(m_CurrentFrame >= m_MaxFrames)
-		m_CurrentFrame = 0;
+	if(m_UseCustomSequence)
+	{
+		// TODO: remove custom sequence and use a stack or something else instead
+		if(m_CurrentFrame >= m_CustomSequence->size)
+			m_CurrentFrame = 0;
+		else
+			m_CurrentFrame++;
+	}
 	else
-		m_CurrentFrame++;
+	{
+		if(m_CurrentFrame >= m_MaxFrames)
+			m_CurrentFrame = 0;
+		else
+			m_CurrentFrame++;
+	}
 }
