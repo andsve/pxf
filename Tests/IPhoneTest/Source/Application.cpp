@@ -64,6 +64,14 @@ bool Application::Render()
         -0.5f,  0.5f,
         0.5f,   0.5f,
     };
+	
+	const GLfloat squareTexcoords[] = {
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+	};
+	
     const GLubyte squareColors[] = {
         255, 255,   0, 255,
         0,   255, 255, 255,
@@ -84,6 +92,9 @@ bool Application::Render()
     glEnableClientState(GL_VERTEX_ARRAY);
     glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
     glEnableClientState(GL_COLOR_ARRAY);
+	
+	glTexCoordPointer( 2, GL_FLOAT, 0, squareTexcoords );
+	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
     
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	
