@@ -52,6 +52,7 @@ static Application* _Application = NULL;
 	CGRect _Rect	= [[UIScreen mainScreen] bounds];
 	m_Window		= [[UIWindow alloc] initWithFrame:_Rect];
 	m_GLView		= [[[EAGLView11 alloc] init] initWithRect: _Rect];
+	_Application->SetDevice( m_GLView->m_Device );//(Pxf::Graphics::Device*)[m_GLView m_Device] );
 	
 	if(!m_GLView)
 	{

@@ -4,7 +4,8 @@
 #include <Pxf/Base/Debug.h>
 #include <Pxf/Base/Utils.h>
 
-#include <SOIL.h>
+//#include <SOIL.h>
+#include "SOIL.h"
 
 using namespace Pxf::Resource;
 using namespace Pxf::Util;

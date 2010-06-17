@@ -8,6 +8,11 @@ using namespace Graphics;
 @implementation EAGLView
 @synthesize m_FrameBuffer,m_DepthBuffer,m_RenderBuffer,m_Context,m_UseDepthBuffer; // LOL OBJECTIVE C
 
+/*- (Pxf::Graphics::Device*) EAGLView::GetDevice
+{
+	return m_Device;
+}*/
+
 - (bool) InitBuffers
 {	
 	bool _RetVal = true;
