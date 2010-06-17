@@ -66,10 +66,10 @@ bool Application::Render()
     };
 	
 	const GLfloat squareTexcoords[] = {
+		0.0f, 1.0f,
+		1.0f, 1.0f,
 		0.0f, 0.0f,
 		1.0f, 0.0f,
-		1.0f, 1.0f,
-		0.0f, 1.0f,
 	};
 	
     const GLubyte squareColors[] = {
