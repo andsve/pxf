@@ -56,6 +56,7 @@ bool Application::Render()
 	bool _RetVal = true;
 	// Call render on scene 
 	
+	m_Device->BindTexture(pTexture);
 	
 	const GLfloat squareVertices[] = {
         -0.5f, -0.5f,
