@@ -16,8 +16,13 @@
 
 #include <Pxf/Pxf.h>
 #include <Pxf/Engine.h>
+#include <Pxf/Graphics/Device.h>
 #include <Pxf/Scene/SceneManager.h>
 #include <Pxf/Game/Sprite.h>
+#include <Pxf/Graphics/Texture.h>
+#include <Pxf/Graphics/QuadBatch.h>
+#include <Pxf/Resource/Image.h>
+#include <Pxf/Resource/Chunk.h>
 
 struct fps_helper
 {
@@ -40,6 +45,9 @@ public:
 	
 	void Shutdown();
 	
+	void SetDevice(Pxf::Graphics::Device* _pDevice);
+	void Setup();
+	
 	//Pxf::Scene::SceneManager* SceneMgr() { return m_SceneManager; }
 	
 private:
@@ -47,13 +55,16 @@ private:
 	
 	//Pxf::Scene::SceneManager*	m_SceneManager;
 	Pxf::Engine*				m_Engine;
+	Pxf::Graphics::Device*		m_Device;
 	bool						m_IsRunning;
 	
 	const char*					m_Title;
 	fps_helper					m_FPS;
 	
 	// DEBUG OBJECTS
-	Pxf::Game::Sprite*			m_TestSprite;
+	Pxf::Game::Sprite*			m_TestSprite;	
+	Pxf::Graphics::Texture* pTexture;
+	Pxf::Graphics::QuadBatch* pQBatch;
 };
 
 #endif

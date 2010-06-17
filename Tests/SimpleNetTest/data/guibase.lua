@@ -5,8 +5,10 @@ function ReloadScript()
 	return _ReloadScript()
 end
 
-function _RecieveMessage(data)
-  print("LOL: " .. tostring(data))
+MessageQueue = {}
+function _RecieveMessage(id, data)
+  --print("LOL: " .. tostring(data))
+  MessageQueue[#MessageQueue+1] = {id = id, data = data}
 end
 
 function Message(widget, id, data)

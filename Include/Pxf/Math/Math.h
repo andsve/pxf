@@ -1,7 +1,11 @@
 #ifndef __PXF_MATH_MATH_H__
 #define __PXF_MATH_MATH_H__
 
-#include <cmath>
+#if defined(__APPLE__) || defined(__APPLE_CC__)
+	#include <math.h>
+#else
+	#include <cmath>
+#endif
 
 namespace Pxf {
 namespace Math {

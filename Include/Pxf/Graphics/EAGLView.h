@@ -22,7 +22,10 @@
 	Pxf::Graphics::VideoBufferGL*	m_DepthBuffer;
 	
 	EAGLContext*			m_Context;
-	Pxf::Graphics::Device*	m_Device;
+	@public Pxf::Graphics::Device*	m_Device;
+/*@public
+	- (Pxf::Graphics::Device*) GetDevice;
+ */
 }
 
 @property (assign)	 bool m_UseDepthBuffer;
