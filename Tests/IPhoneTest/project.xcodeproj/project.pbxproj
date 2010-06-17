@@ -18,6 +18,7 @@
 		C9AA1A3C11C98639002B3842 /* VertexBufferGLES11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AA1A3B11C98639002B3842 /* VertexBufferGLES11.cpp */; };
 		C9AA1A9311C98F28002B3842 /* StreamPosix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AA1A9211C98F28002B3842 /* StreamPosix.cpp */; };
 		C9AA1AD211CA4505002B3842 /* TextureGLES.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9AA1AD111CA4505002B3842 /* TextureGLES.mm */; };
+		C9AA1AD411CA5EEC002B3842 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AA1AD311CA5EEC002B3842 /* Sprite.cpp */; };
 		C9E4C71F11B66A1B0092185F /* Delegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C71D11B66A1B0092185F /* Delegate.mm */; };
 		C9E4C72011B66A1B0092185F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C71E11B66A1B0092185F /* main.m */; };
 		C9E4C78C11B684DD0092185F /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C78B11B684DD0092185F /* Application.cpp */; };
@@ -52,6 +53,8 @@
 		C9AA1A3D11C98646002B3842 /* VertexBufferGLES11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VertexBufferGLES11.h; path = ../../Include/Pxf/Graphics/OpenGL/VertexBufferGLES11.h; sourceTree = SOURCE_ROOT; };
 		C9AA1A9211C98F28002B3842 /* StreamPosix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StreamPosix.cpp; path = ../../Source/Base/StreamPosix.cpp; sourceTree = SOURCE_ROOT; };
 		C9AA1AD111CA4505002B3842 /* TextureGLES.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TextureGLES.mm; path = ../../Source/Graphics/OpenGL/TextureGLES.mm; sourceTree = SOURCE_ROOT; };
+		C9AA1AD311CA5EEC002B3842 /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sprite.cpp; path = ../../Source/Game/Sprite.cpp; sourceTree = SOURCE_ROOT; };
+		C9AA1AD511CA5EFC002B3842 /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = ../../Include/Pxf/Game/Sprite.h; sourceTree = SOURCE_ROOT; };
 		C9E4C6F311B662FA0092185F /* Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Delegate.h; path = Include/Delegate.h; sourceTree = "<group>"; };
 		C9E4C71D11B66A1B0092185F /* Delegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Delegate.mm; path = Source/Delegate.mm; sourceTree = "<group>"; };
 		C9E4C71E11B66A1B0092185F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Source/main.m; sourceTree = "<group>"; };
@@ -146,6 +149,7 @@
 		C9613E2811BF0B6000D6BE42 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				C9AA1AD511CA5EFC002B3842 /* Sprite.h */,
 				C9613E2C11BF0B8C00D6BE42 /* GameState.h */,
 			);
 			name = Game;
@@ -154,6 +158,7 @@
 		C9613E2D11BF0BA700D6BE42 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				C9AA1AD311CA5EEC002B3842 /* Sprite.cpp */,
 				C9613E3311BF0BB900D6BE42 /* GameState.cpp */,
 			);
 			name = Game;
@@ -362,6 +367,7 @@
 				C9AA1A3C11C98639002B3842 /* VertexBufferGLES11.cpp in Sources */,
 				C9AA1A9311C98F28002B3842 /* StreamPosix.cpp in Sources */,
 				C9AA1AD211CA4505002B3842 /* TextureGLES.mm in Sources */,
+				C9AA1AD411CA5EEC002B3842 /* Sprite.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

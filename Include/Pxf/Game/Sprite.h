@@ -1,15 +1,13 @@
 #ifndef _PXF_GAME_SPRITE_H_
 #define _PXF_GAME_SPRITE_H_
 
+#include <Pxf/Math/Vector.h>
+
 namespace Pxf
 {	
 	namespace Graphics {
 		class Texture;
 		class Device;
-	}
-
-	namespace Math {
-		class Vector2D;
 	}
 
 	namespace Game  
@@ -26,8 +24,8 @@ namespace Pxf
 		class Sprite
 		{
 		public:
-			Sprite(Graphics::Device* _pDevice, const char* _ID, const char* _Filepath, int _CellWidth, int _CellHeight, int* _CustomSequence = NULL);
-			Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight, int* _CustomSequence = NULL);
+			Sprite(Graphics::Device* _pDevice, const char* _ID, const char* _Filepath, int _CellWidth, int _CellHeight,int _Frequency, int _ZIndex, int* _CustomSequence = 0);
+			Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight,int _Frequency, int _ZIndex, int* _CustomSequence = 0);
 			virtual ~Sprite();
 			void Draw();
 
@@ -42,10 +40,12 @@ namespace Pxf
 			int	GetZIndex() { return m_ZIndex; }
 			int	GetCurrentFrame() { return m_CurrentFrame; }
 			const char* GetID() { return m_ID; }
+		protected:
+			static unsigned		m_SpriteCounter;
 		private:
 			Graphics::Device* 	m_Device;
 			Graphics::Texture* 	m_Texture;
-			Math::Vector2D 		m_CellSize;		// force power-of-two cell size?
+			Math::Vector2D<int> m_CellSize;		// force power-of-two cell size?
 
 			SpriteState			m_SpriteState;
 			const char* 		m_ID;			// name identifier (debugging/logging..)
