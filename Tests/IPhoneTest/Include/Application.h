@@ -62,7 +62,7 @@ private:
 	fps_helper					m_FPS;
 	
 	// DEBUG OBJECTS
-	Pxf::Game::Sprite*			m_TestSprite;	
+	Pxf::Game::Sprite*			pSprite;	
 	Pxf::Graphics::Texture* pTexture;
 	Pxf::Graphics::QuadBatch* pQBatch;
 };

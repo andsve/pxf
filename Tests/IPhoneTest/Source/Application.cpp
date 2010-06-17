@@ -16,8 +16,7 @@ using namespace Pxf;
 Application::Application(const char* _Title)
 	: m_Title(_Title),
 	  m_Engine(0),
-	  m_IsRunning(false),
-	  m_TestSprite(0)
+	  m_IsRunning(false)
 {
 
 }
@@ -102,7 +101,11 @@ void Application::Setup()
 	printf("Application::Setup: Begin");
 	//m_Device = m_Engine.CreateDevice(Graphics::EOpenGLES11);
 	
+	pSprite = new Pxf::Game::Sprite(m_Device,NULL,"test.png",50,50,10,0,NULL);
+	pSprite->Reset();
+	
 	Pxf::Resource::Image t_Image(new Pxf::Resource::Chunk(),"test.png");
+	
 	
 	// Load some texture
 	glEnable(GL_TEXTURE_2D);
@@ -127,8 +130,6 @@ bool Application::Init()
 {
 	m_Engine		= new Engine();	
 	m_IsRunning		= true;
-	//m_TestSprite	= new Pxf::Game::Sprite(
-	
 	
 	if(!m_Engine)
 	{

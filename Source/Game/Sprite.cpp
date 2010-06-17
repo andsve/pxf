@@ -70,4 +70,9 @@ Sprite::~Sprite()
 	
 }
 
+void Sprite::Reset()
+{
+	
+}
+
 
