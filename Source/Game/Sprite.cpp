@@ -56,9 +56,6 @@ Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _
 
 	if(m_Ready)
 		printf("Sprite %s: Ready\n", m_ID);
-	
-	size_t s = (sizeof m_CustomSequence) / (sizeof m_CustomSequence[0]);
-	printf("size: %i",s);
 		
 }
 
