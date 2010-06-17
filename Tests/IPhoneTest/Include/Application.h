@@ -17,6 +17,7 @@
 #include <Pxf/Pxf.h>
 #include <Pxf/Engine.h>
 #include <Pxf/Scene/SceneManager.h>
+#include <Pxf/Game/Sprite.h>
 
 struct fps_helper
 {
@@ -50,6 +51,9 @@ private:
 	
 	const char*					m_Title;
 	fps_helper					m_FPS;
+	
+	// DEBUG OBJECTS
+	Pxf::Game::Sprite*			m_TestSprite;
 };
 
 #endif

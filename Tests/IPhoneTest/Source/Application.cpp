@@ -14,17 +14,18 @@
 using namespace Pxf;
 
 Application::Application(const char* _Title)
+	: m_Title(_Title),
+	  m_Engine(0),
+	  m_IsRunning(false),
+	  m_TestSprite(0)
 {
-	m_Title = _Title;
-	m_Engine = 0;
-	//m_SceneManager = 0;
+
 }
 
 Application::~Application()
 {
 	m_Title = 0;
 	delete m_Engine;
-	//delete m_SceneManager;
 }
 	
 
@@ -91,17 +92,17 @@ bool Application::Render()
 
 bool Application::Init()
 {
-	bool _RetVal	= true;
-	
-	m_Engine		= new Engine();
-	//m_SceneManager	= new Scene::SceneManager();
-	
+	m_Engine		= new Engine();	
 	m_IsRunning		= true;
+	//m_TestSprite	= new Pxf::Game::Sprite(
+	
 	
 	if(!m_Engine)
-	   return false;
+	{
+		m_IsRunning = false;
+	}
 	
-	return _RetVal;
+	return m_IsRunning;
 }
 
 bool Application::IsRunning()
