@@ -212,8 +212,9 @@ void GUIScript::SendMessage(int _messageid, char* _data)
 	lua_getfield(L, -1, "traceback");
 	lua_remove(L, -2);
 	lua_getfield(L, LUA_GLOBALSINDEX, "_RecieveMessage");
+	lua_pushnumber(L, _messageid);
 	lua_pushstring(L, _data);
-	m_Running = HandleLuaErrors(lua_pcall(L, 1, 0, -3));
+	m_Running = HandleLuaErrors(lua_pcall(L, 2, 0, -4));
 
 	g_CurrentScript.pop();
 }

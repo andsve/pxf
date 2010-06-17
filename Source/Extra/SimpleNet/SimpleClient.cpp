@@ -68,6 +68,9 @@ void SimpleClient::Connect(char* _host, unsigned int _port, unsigned int _channe
 
 void SimpleClient::Disconnect()
 {
+	if (!m_client)
+		return;
+		
   ENetEvent event;
 
   enet_peer_disconnect (m_peer, (enet_uint32)"I WANT OUT!");
@@ -93,6 +96,8 @@ void SimpleClient::Disconnect()
 
 int SimpleClient::MessagePump(NetMessage* _message)
 {
+	if (!m_client)
+		return 0;
   
   if (enet_host_service (m_client, (ENetEvent*)_message, 0) > 0)
   {

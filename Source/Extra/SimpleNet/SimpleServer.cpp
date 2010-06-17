@@ -45,6 +45,9 @@ void SimpleServer::Open()
 
 void SimpleServer::Close()
 {
+	// Don't try to close an already closed instance
+	if (!m_server)
+		return;
   
   ENetEvent event;
   
@@ -56,12 +59,17 @@ void SimpleServer::Close()
   if (m_server != NULL)
   {
     enet_host_destroy(m_server);
+		m_server = NULL;
   }
+
+	Message(LOCAL_MSG, "Server has shut down.");
 }
 
 int SimpleServer::MessagePump(NetMessage* _message)
 {
-  
+  if (!m_server)
+		return 0;
+	
   if (enet_host_service (m_server, (ENetEvent*)_message, 0) > 0)
   {
     switch (_message->type)

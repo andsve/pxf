@@ -14,4 +14,7 @@ function update(delta)
 	  Message(widgets.ShutdownButton.instance, MessageTypes.DISCONNECT, "goodbye")
 		--print("TestCheckbox state is: " .. widgets.TestCheckbox:GetState())
 	end
+	
+	
+	print(MessageQueue[1])
 end

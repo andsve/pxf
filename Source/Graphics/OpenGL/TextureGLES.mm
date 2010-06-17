@@ -1,4 +1,5 @@
 #include <Pxf/Graphics/OpenGL/TextureGLES.h>
+#include "SOIL.h"
 
 using namespace Pxf;
 using namespace Graphics;
