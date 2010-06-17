@@ -113,7 +113,9 @@ void Application::Setup()
 	printf("Application::Setup: Begin");
 	//m_Device = m_Engine.CreateDevice(Graphics::EOpenGLES11);
 	
-	pSprite = new Pxf::Game::Sprite(m_Device,NULL,"test.png",50,50,10,0,NULL);
+	int _NewSequence[] = { 4,3,2,1 };
+	
+	pSprite = new Pxf::Game::Sprite(m_Device,NULL,"test.png",50,50,10,0,_NewSequence);
 	pSprite->Reset();
 
 	//Pxf::Resource::Image t_Image(new Pxf::Resource::Chunk(),"test.png");

@@ -41,7 +41,7 @@ namespace Pxf
 			int	GetCurrentFrame() { return m_CurrentFrame; }
 			const char* GetID() { return m_ID; }
 		protected:
-			static unsigned		m_SpriteCounter;
+			static unsigned		m_SpriteCounter;	// generate new ID's
 		private:
 			Graphics::Device* 	m_Device;
 			Graphics::Texture* 	m_Texture;
@@ -56,7 +56,7 @@ namespace Pxf
 			int					m_MaxFrames; 	// calculate
 
 			bool				m_Ready;
-			int*				m_CustomSequence;
+			int*				m_CustomSequence;	// does this really work? 
 			bool				m_UseCustomSequence;
 		};
 	}
