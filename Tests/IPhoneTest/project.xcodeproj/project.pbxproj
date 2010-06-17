@@ -16,6 +16,7 @@
 		966F3B3311CA5E26003F13E0 /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 966F3B3211CA5E26003F13E0 /* Utils.cpp */; };
 		966F3B9411CA6901003F13E0 /* ImageSOIL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 966F3B9311CA6901003F13E0 /* ImageSOIL.cpp */; };
 		966F3BA211CA698A003F13E0 /* SOIL.mm in Sources */ = {isa = PBXBuildFile; fileRef = 966F3BA111CA698A003F13E0 /* SOIL.mm */; };
+		966F3BE811CA6E0D003F13E0 /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = 966F3BE711CA6E0D003F13E0 /* test.png */; };
 		C9613E3411BF0BB900D6BE42 /* GameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9613E3311BF0BB900D6BE42 /* GameState.cpp */; };
 		C9613EDB11C7A09E00D6BE42 /* DeviceResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9613EDA11C7A09E00D6BE42 /* DeviceResource.cpp */; };
 		C96140B611C7B0C500D6BE42 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C96140B511C7B0C500D6BE42 /* QuartzCore.framework */; };
@@ -50,6 +51,7 @@
 		966F3B3211CA5E26003F13E0 /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Utils.cpp; path = ../../Source/Base/Utils.cpp; sourceTree = SOURCE_ROOT; };
 		966F3B9311CA6901003F13E0 /* ImageSOIL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageSOIL.cpp; path = ../../Source/Resource/ImageSOIL.cpp; sourceTree = SOURCE_ROOT; };
 		966F3BA111CA698A003F13E0 /* SOIL.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SOIL.mm; path = ../../Libraries/soil/sdk/src/SOIL.mm; sourceTree = SOURCE_ROOT; };
+		966F3BE711CA6E0D003F13E0 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test.png; sourceTree = "<group>"; };
 		C9613E2C11BF0B8C00D6BE42 /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameState.h; path = ../../Include/Pxf/Game/GameState.h; sourceTree = SOURCE_ROOT; };
 		C9613E3311BF0BB900D6BE42 /* GameState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameState.cpp; path = ../../Source/Game/GameState.cpp; sourceTree = SOURCE_ROOT; };
 		C9613E5011C7946A00D6BE42 /* TextureGLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureGLES.h; path = ../../Include/Pxf/Graphics/OpenGL/TextureGLES.h; sourceTree = SOURCE_ROOT; };
@@ -144,6 +146,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				966F3BE711CA6E0D003F13E0 /* test.png */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 			);
@@ -381,6 +384,7 @@
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				C9F2D0BD11B695A300F16BF3 /* readme.txt in Resources */,
+				966F3BE811CA6E0D003F13E0 /* test.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

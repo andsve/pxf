@@ -103,17 +103,17 @@ void Application::Setup()
 	
 	pSprite = new Pxf::Game::Sprite(m_Device,NULL,"test.png",50,50,10,0,NULL);
 	pSprite->Reset();
-	
-	Pxf::Resource::Image t_Image(new Pxf::Resource::Chunk(),"test.png");
+
+	//Pxf::Resource::Image t_Image(new Pxf::Resource::Chunk(),"test.png");
 	
 	
 	// Load some texture
 	glEnable(GL_TEXTURE_2D);
 	pTexture = m_Device->CreateTexture("test.png");
-	m_Device->BindTexture(pTexture);
+	//m_Device->BindTexture(pTexture);
 	
 	// Lets create some quads, but render them in "reverse" order via SetDepth(...).
-	Graphics::QuadBatch* pQBatch = m_Device->CreateQuadBatch(256);
+	/*Graphics::QuadBatch* pQBatch = m_Device->CreateQuadBatch(256);
 	pQBatch->Reset();
 	pQBatch->SetTextureSubset(0.0f, 0.0f, 32.0f / pTexture->GetWidth(), 32.0f / pTexture->GetHeight());
 	pQBatch->SetDepth(0.5f);
@@ -122,7 +122,7 @@ void Application::Setup()
 	pQBatch->SetDepth(0.1f);
 	pQBatch->SetColor(0.0f, 1.0f, 0.0f, 1.0f);
 	pQBatch->AddCentered(225, 225, 50, 50);
-	
+	*/
 	printf("Application::Setup: Done");
 }
 
