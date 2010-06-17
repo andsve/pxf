@@ -52,7 +52,6 @@ void TextureGLES::Load(const char* _filepath)
 	char tbuff[2048];
 	
 	sprintf(tbuff, "%s/%s", buffer, _filepath);
-	printf("open file: %s\n", tbuff);
 	
 	m_Filepath = tbuff;//readPath _filepath;
 	

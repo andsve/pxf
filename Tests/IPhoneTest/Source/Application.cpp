@@ -93,6 +93,7 @@ bool Application::Render()
     glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
     glEnableClientState(GL_COLOR_ARRAY);
 	
+	// Add texture coord array
 	glTexCoordPointer( 2, GL_FLOAT, 0, squareTexcoords );
 	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
     
@@ -110,11 +111,9 @@ void Application::SetDevice(Pxf::Graphics::Device* _pDevice)
 
 void Application::Setup()
 {
-	printf("Application::Setup: Begin");
 	//m_Device = m_Engine.CreateDevice(Graphics::EOpenGLES11);
 	
-	pSprite = new Pxf::Game::Sprite(m_Device,NULL,"test.png",50,50,10,0,NULL);
-	pSprite->Reset();
+
 
 	//Pxf::Resource::Image t_Image(new Pxf::Resource::Chunk(),"test.png");
 	
@@ -122,6 +121,9 @@ void Application::Setup()
 	// Load some texture
 	glEnable(GL_TEXTURE_2D);
 	pTexture = m_Device->CreateTexture("test.png");
+	
+	pSprite = new Pxf::Game::Sprite(m_Device,NULL,pTexture,50,50,10,0,NULL);
+	pSprite->Reset();
 	//m_Device->BindTexture(pTexture);
 	
 	// Lets create some quads, but render them in "reverse" order via SetDepth(...).
@@ -135,7 +137,6 @@ void Application::Setup()
 	pQBatch->SetColor(0.0f, 1.0f, 0.0f, 1.0f);
 	pQBatch->AddCentered(225, 225, 50, 50);
 	*/
-	printf("Application::Setup: Done");
 }
 
 bool Application::Init()
