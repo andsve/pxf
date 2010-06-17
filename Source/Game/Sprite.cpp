@@ -10,6 +10,7 @@ using namespace Game;
 
 unsigned Sprite::m_SpriteCounter = 0;
 
+// TODO: The sprite class should take care of creating sequencing
 sprite_sequence::sprite_sequence(int nbr_of_args, ... )
 {
 	int					new_val,i;
@@ -33,6 +34,12 @@ sprite_sequence::sprite_sequence(int nbr_of_args, ... )
 	valid		= true;
 	sequence	= _array;
 	size		= nbr_of_args;
+}
+
+sprite_sequence::~sprite_sequence()
+{
+	delete[] sequence;
+	sequence = 0;
 }
 
 Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight, int _Frequency,int _ZIndex, sprite_sequence* _CustomSequence)
@@ -72,7 +79,23 @@ Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _
 	}
 
 	if(_CustomSequence)
+	{
 		m_UseCustomSequence = true;
+		m_MaxFrames			= m_CustomSequence->size;
+	}
+	else
+	{
+		// calculate max cells
+		// TODO: what do we do about uneven cell numbers? exessive space is truncated atm
+		int _ImgWidth = m_Texture->GetWidth();
+		int _ImgHeight = m_Texture->GetHeight();
+		
+		int _WAmount = (_ImgWidth / _CellWidth);
+		int _HAmount = (_ImgHeight / _CellHeight);
+		
+		m_MaxFrames = _WAmount * _HAmount;
+	}
+		
 
 	if(m_Ready)
 		printf("Sprite %s: Ready\n", m_ID);
@@ -91,6 +114,52 @@ Sprite::~Sprite()
 	
 }
 
+void Sprite::Update()
+{
+	// check if we need to update
+	
+	switch(m_SpriteState)
+	{
+		case Paused:
+			break;
+		case Stopped:
+			break;
+		case Running:
+			break;
+		default:
+			break;
+	}
+	
+	/*
+	 const float time_step = 60 / frequency;
+	 
+	 switch_frame += dt;
+	 if(switch_frame >= time_step)
+	 {
+		NextFrame();
+		
+		// reset
+		switch_frame = 0.0f;
+	 }
+	*/
+}
+
+void Sprite::Draw()
+{
+	// sprite process:
+	
+	// bind texture
+	m_Device->BindTexture(m_Texture);
+	
+	// draw sprite
+}
+
+/* 
+ 
+ Sprite controllers
+ 
+ */
+
 void Sprite::Reset()
 {
 	m_CurrentFrame = 0;
@@ -98,4 +167,25 @@ void Sprite::Reset()
 	
 }
 
+void Sprite::Pause()
+{
+	m_SpriteState = Paused;
+}
 
+void Sprite::Stop()
+{
+	m_SpriteState = Stopped;
+}
+
+void Sprite::Start()
+{
+	m_SpriteState = Running;
+}
+
+void Sprite::NextFrame()
+{
+	if(m_CurrentFrame >= m_MaxFrames)
+		m_CurrentFrame = 0;
+	else
+		m_CurrentFrame++;
+}

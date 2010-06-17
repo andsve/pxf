@@ -120,7 +120,7 @@ void Application::Setup()
 	glEnable(GL_TEXTURE_2D);
 	pTexture = m_Device->CreateTexture("test.png");
 	
-	pSprite = new Pxf::Game::Sprite(m_Device,NULL,pTexture,50,50,10,0,new Pxf::Game::sprite_sequence(5,5,4,3,2,1));
+	pSprite = new Pxf::Game::Sprite(m_Device,NULL,pTexture,100,50,10);
 	pSprite->Reset();
 	//m_Device->BindTexture(pTexture);
 	

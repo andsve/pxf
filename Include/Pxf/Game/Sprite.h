@@ -1,7 +1,10 @@
 #ifndef _PXF_GAME_SPRITE_H_
 #define _PXF_GAME_SPRITE_H_
 
+#define SPRITE_NO_SORT -1
+
 #include <Pxf/Math/Vector.h>
+#include <vector.h>
 #include <stdarg.h>
 
 namespace Pxf
@@ -12,12 +15,10 @@ namespace Pxf
 	}
 
 	namespace Game  
-	{
-		// abstract sprite class
-		// TODO: extend / implement physics?
-		
+	{		
 		struct sprite_sequence {
 			sprite_sequence(int nbr_of_args, ... );
+			~sprite_sequence();
 			int* sequence;
 			int size;
 			bool valid;
@@ -29,12 +30,20 @@ namespace Pxf
 			Stopped
 		};
 
+		/*	abstract sprite class
+			TODO: extend / implement physics?
+			TODO: add timing somehow, update function with a dt argument perhaps?
+			TODO: switchable sequences - might be useful to store a set of sequences for each sprite,
+				  such as different sprite intervals for death animations, jump animations etc.
+		 */
 		class Sprite
 		{
 		public:
-			Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight,int _Frequency, int _ZIndex, sprite_sequence* _CustomSequence = 0);
+			// TODO: remove customsequence from constructor
+			Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight,int _Frequency, int _ZIndex = SPRITE_NO_SORT, sprite_sequence* _CustomSequence = 0);
 			virtual ~Sprite();
 			void Draw();
+			void Update();
 
 			// animation controls
 			void Reset();
@@ -42,7 +51,11 @@ namespace Pxf
 			void Stop();
 			void Start();
 			void NextFrame();
-
+			
+			void AddSequence(int _SequenceLength, ...);
+			
+			void SetScale(float _Value) { m_Scale = _Value; }
+			
 			bool IsReady() { return m_Ready; }
 			int	GetZIndex() { return m_ZIndex; }
 			int	GetCurrentFrame() { return m_CurrentFrame; }
@@ -50,9 +63,9 @@ namespace Pxf
 		protected:
 			static unsigned		m_SpriteCounter;	// generate new ID's
 		private:
-			Graphics::Device* 	m_Device;
-			Graphics::Texture* 	m_Texture;
-			Math::Vector2D<int> m_CellSize;		// force power-of-two cell size?
+			Graphics::Device*		m_Device;
+			Graphics::Texture*		m_Texture;
+			Math::Vector2D<int>		m_CellSize;		// force power-of-two cell size?
 
 			SpriteState			m_SpriteState;
 			const char* 		m_ID;			// name identifier (debugging/logging..)
@@ -61,10 +74,15 @@ namespace Pxf
 			int					m_CurrentFrame;	// frame counter
 			int					m_ZIndex;		// depth sort
 			int					m_MaxFrames; 	// calculate
+			float				m_TimeStep;		// 60 / frequency
+			float				m_SwitchTime;	// += dt, call nextframe when >= timestep
+			float				m_DrawScale;	// draw scale
 
 			bool				m_Ready;
 			sprite_sequence*	m_CustomSequence;	// dunno if this is the best way, but OH WELL!
 			bool				m_UseCustomSequence;
+			
+			std::vector<sprite_sequence> m_SequenceList;
 		};
 	}
 }

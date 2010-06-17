@@ -93,6 +93,7 @@
 		C9F2D30E11B806FA00F16BF3 /* VideoBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VideoBuffer.h; path = ../../Include/Pxf/Graphics/VideoBuffer.h; sourceTree = SOURCE_ROOT; };
 		C9F2D32111B809F600F16BF3 /* ApplicationDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ApplicationDefines.h; path = Include/ApplicationDefines.h; sourceTree = "<group>"; };
 		C9F2D36311B8110F00F16BF3 /* DeviceGLES11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DeviceGLES11.cpp; path = ../../Source/Graphics/OpenGL/DeviceGLES11.cpp; sourceTree = SOURCE_ROOT; };
+		C9F517DE11CA9CB20013F82A /* QuadBatchGL2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QuadBatchGL2.cpp; path = ../../Source/Graphics/OpenGL/QuadBatchGL2.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -331,6 +332,7 @@
 		C9F2D1AB11B7AA0A00F16BF3 /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
+				C9F517DE11CA9CB20013F82A /* QuadBatchGL2.cpp */,
 				C9AA1AD111CA4505002B3842 /* TextureGLES.mm */,
 				C9AA1A3B11C98639002B3842 /* VertexBufferGLES11.cpp */,
 				C9AA19E211C980FD002B3842 /* DeviceGL2.cpp */,
