@@ -112,11 +112,7 @@ void Application::SetDevice(Pxf::Graphics::Device* _pDevice)
 void Application::Setup()
 {
 	//m_Device = m_Engine.CreateDevice(Graphics::EOpenGLES11);
-	int _NewSequence[] = { 4,3,2,1 };
 	
-	pSprite = new Pxf::Game::Sprite(m_Device,NULL,"test.png",50,50,10,0,_NewSequence);
-	pSprite->Reset();
-
 	//Pxf::Resource::Image t_Image(new Pxf::Resource::Chunk(),"test.png");
 	
 	
@@ -124,7 +120,7 @@ void Application::Setup()
 	glEnable(GL_TEXTURE_2D);
 	pTexture = m_Device->CreateTexture("test.png");
 	
-	pSprite = new Pxf::Game::Sprite(m_Device,NULL,pTexture,50,50,10,0,NULL);
+	pSprite = new Pxf::Game::Sprite(m_Device,NULL,pTexture,50,50,10,0,new Pxf::Game::sprite_sequence(5,5,4,3,2,1));
 	pSprite->Reset();
 	//m_Device->BindTexture(pTexture);
 	

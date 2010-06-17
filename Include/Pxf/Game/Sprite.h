@@ -2,6 +2,7 @@
 #define _PXF_GAME_SPRITE_H_
 
 #include <Pxf/Math/Vector.h>
+#include <stdarg.h>
 
 namespace Pxf
 {	
@@ -14,6 +15,13 @@ namespace Pxf
 	{
 		// abstract sprite class
 		// TODO: extend / implement physics?
+		
+		struct sprite_sequence {
+			sprite_sequence(int nbr_of_args, ... );
+			int* sequence;
+			int size;
+			bool valid;
+		};
 
 		enum SpriteState {
 			Running,
@@ -24,8 +32,7 @@ namespace Pxf
 		class Sprite
 		{
 		public:
-			Sprite(Graphics::Device* _pDevice, const char* _ID, const char* _Filepath, int _CellWidth, int _CellHeight,int _Frequency, int _ZIndex, int* _CustomSequence = 0);
-			Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight,int _Frequency, int _ZIndex, int* _CustomSequence = 0);
+			Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight,int _Frequency, int _ZIndex, sprite_sequence* _CustomSequence = 0);
 			virtual ~Sprite();
 			void Draw();
 
@@ -56,7 +63,7 @@ namespace Pxf
 			int					m_MaxFrames; 	// calculate
 
 			bool				m_Ready;
-			int*				m_CustomSequence;	// does this really work? 
+			sprite_sequence*	m_CustomSequence;	// dunno if this is the best way, but OH WELL!
 			bool				m_UseCustomSequence;
 		};
 	}

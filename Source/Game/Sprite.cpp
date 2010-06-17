@@ -3,19 +3,39 @@
 #include <Pxf/Graphics/Device.h>
 #include <Pxf/Util/String.h>
 #include <stdio.h>
+#include <vector.h>
 
 using namespace Pxf;
 using namespace Game;
 
 unsigned Sprite::m_SpriteCounter = 0;
 
-Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, const char* _Filepath, int _CellWidth, int _CellHeight, int _Frequency, int _ZIndex, int* _CustomSequence)
+sprite_sequence::sprite_sequence(int nbr_of_args, ... )
 {
-	Sprite(_pDevice,_ID,_pDevice->CreateTexture(_Filepath),_CellWidth,_CellHeight,_Frequency,_ZIndex,_CustomSequence);
-
+	int					new_val,i;
+	int*				_array = NULL;
+	va_list				vl;
+	std::vector<int>	vec;
+	
+	va_start(vl,nbr_of_args);
+	
+	for(i = 0; i < nbr_of_args; i++)
+	{
+		new_val = va_arg(vl,int);
+		vec.push_back(new_val);
+	}
+	
+	va_end(vl);
+	
+	_array = new int [vec.size()];
+	memcpy(_array, &vec.front(), vec.size() * sizeof(int));
+	
+	valid		= true;
+	sequence	= _array;
+	size		= nbr_of_args;
 }
 
-Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight, int _Frequency,int _ZIndex, int* _CustomSequence)
+Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight, int _Frequency,int _ZIndex, sprite_sequence* _CustomSequence)
 	: m_Device(_pDevice),
 	  m_ID(_ID),
 	  m_Texture(_Texture),
