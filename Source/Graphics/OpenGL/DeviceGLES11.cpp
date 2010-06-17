@@ -18,6 +18,11 @@ DeviceGLES11::~DeviceGLES11()
 {
 }
 
+void DeviceGLES11::_ConfigureTextureUnits()
+{
+	// In ES11, the second texture unit must be configured as to yield proper results..
+}
+
 Window* DeviceGLES11::OpenWindow(WindowSpecifications* _pWindowSpecs)
 {
 	return 0;
@@ -71,8 +76,8 @@ void DeviceGLES11::BindTexture(Texture* _texture)
 }
 void DeviceGLES11::BindTexture(Texture* _texture, unsigned int _texture_unit)
 {
-	// GLES11 does not have multitexturing
-	// TODO, remove from class?
+	
+
 }
 
 // PrimitiveBatch

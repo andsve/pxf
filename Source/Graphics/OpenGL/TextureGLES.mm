@@ -42,12 +42,14 @@ void TextureGLES::LoadData(const unsigned char* _datachunk, int _width, int _hei
 	}
 	else
 	{
+		
 		/*m_TextureID = SOIL_create_OGL_texture (
-			_datachunk,
-			m_Width,m_Height,m_Channels,
-			SOIL_CREATE_NEW_ID,
-			SOIL_FLAG_MIPMAPS
-		);*/
+		 _datachunk,
+		 m_Width,m_Height,m_Channels,
+		 SOIL_CREATE_NEW_ID,
+		 SOIL_FLAG_MIPMAPS
+		 );*/
+															
 	}
 	
 	if(m_TextureID == 0)
@@ -64,8 +66,21 @@ void TextureGLES::Unload()
 	m_TextureID = 0;
 }
 
+void GetResourcePathASCII(char* _Buffer,int _Length)
+{
+	NSString* _ReadPath = [[NSBundle mainBundle] resourcePath];
+	[_ReadPath getCString:_Buffer maxLength: _Length encoding:NSUTF8StringEncoding];
+}
+
 void TextureGLES::Reload()
 {
+	
+	CGImageRef _TextureImage;
+	CGContextRef _TextureContext;
+	char buffer[2048];
+	GetResourcePathASCII(buffer,2048);	
+	strcat(buffer,m_Filepath);
+	NSString *_Path = [NSString stringWithUTF8String:buffer];
 	
 	
 }

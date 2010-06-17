@@ -51,6 +51,7 @@ namespace Pxf{
 			bool BindVideoBuffer(VideoBuffer* _VideoBuffer);
 			
 		private:
+			void _ConfigureTextureUnits();
 		};
 	} // Graphics
 } // Pxf
