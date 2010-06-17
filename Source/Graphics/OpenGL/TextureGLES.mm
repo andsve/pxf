@@ -45,7 +45,16 @@ Math::Vec4f TextureGLES::CreateTextureSubset(float _x1, float _y1, float _x2, fl
 
 void TextureGLES::Load(const char* _filepath)
 {
-	m_Filepath = _filepath;
+	NSString* readPath = [[NSBundle mainBundle] resourcePath];
+	char buffer[2048];
+	[readPath getCString:buffer maxLength:2048 encoding:NSUTF8StringEncoding];
+	
+	char tbuff[2048];
+	
+	sprintf(tbuff, "%s/%s", buffer, _filepath);
+	printf("open file: %s\n", tbuff);
+	
+	m_Filepath = tbuff;//readPath _filepath;
 	
 	Reload();
 	
@@ -136,6 +145,8 @@ void TextureGLES::Reload()
 		Message(LOCAL_MSG, "SOIL loading error for file '%s': '%s';", m_Filepath.c_str(), SOIL_last_result() );
 		return;
 	}
+	
+	Message(LOCAL_MSG, "Texture has been loaded: %s", m_Filepath.c_str());
 }
 
 void TextureGLES::SetMagFilter(TextureFilter _Filter)
