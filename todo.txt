@@ -1,3 +1,13 @@
+iPhone
+---
+[ ] Move context-specific things from EAGLView to the device context
+[ ] Lua intergration
+[ ] Implement gamestate management
+[ ] Change from printf to the Pxf::Message function
+[ ] Implement profiler
+[ ] Enable the memory manager
+[ ] Comment and clean up code
+
 Bam
 ---
 [X] Make library modules add themselves to Libraries["Module"]

@@ -17,7 +17,6 @@ namespace Pxf
 	namespace Game  
 	{		
 		struct sprite_sequence {
-			sprite_sequence(int nbr_of_args, ... );
 			~sprite_sequence();
 			int* sequence;
 			int size;
@@ -40,7 +39,7 @@ namespace Pxf
 		{
 		public:
 			// TODO: remove customsequence from constructor
-			Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight,int _Frequency, int _ZIndex = SPRITE_NO_SORT, sprite_sequence* _CustomSequence = 0);
+			Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight,int _Frequency, int _ZIndex = SPRITE_NO_SORT);
 			virtual ~Sprite();
 			void Draw();
 			void Update();
@@ -53,7 +52,6 @@ namespace Pxf
 			void NextFrame();
 			
 			void AddSequence(int _SequenceLength, ...);
-			
 			void SetScale(float _Value) { m_DrawScale = _Value; }
 			
 			bool IsReady() { return m_Ready; }
@@ -67,8 +65,10 @@ namespace Pxf
 			
 			Graphics::Device*		m_Device;
 			Graphics::Texture*		m_Texture;
-			Math::Vector2D<int>		m_CellSize;		// force power-of-two cell size? 
-			Math::Vector2D<float>	m_UVStep;		// step sizes
+			int						m_CellSize[2];		// force power-of-two cell size? 
+			float					m_UVStep[2];		// step sizes
+			float					m_UVCoords[4];
+			float					(*m_UVValues)[4];
 
 			SpriteState			m_SpriteState;
 			const char* 		m_ID;			// name identifier (debugging/logging..)
@@ -83,7 +83,6 @@ namespace Pxf
 			float				m_DrawScale;	// draw scale
 
 			bool				m_Ready;
-			sprite_sequence*	m_CustomSequence;	// dunno if this is the best way, but OH WELL!
 			bool				m_UseCustomSequence;
 			
 			std::vector<sprite_sequence> m_SequenceList;

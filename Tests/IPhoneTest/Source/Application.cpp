@@ -10,8 +10,11 @@
 #include "../Include/Application.h"
 #import <OpenGLES/ES1/gl.h>
 #import <OpenGLES/ES1/glext.h>
+#include <Pxf/Math/Vector.h>
+#include <Pxf/Graphics/VertexBuffer.h>
 
 using namespace Pxf;
+using namespace Math;
 
 Application::Application(const char* _Title)
 	: m_Title(_Title),
@@ -56,8 +59,6 @@ bool Application::Render()
 	bool _RetVal = true;
 	// Call render on scene 
 	
-	m_Device->BindTexture(pTexture);
-	
 	const GLfloat squareVertices[] = {
         -0.5f, -0.5f,
         0.5f,  -0.5f,
@@ -79,6 +80,8 @@ bool Application::Render()
         255,   0, 255, 255,
     };
 	
+	m_Device->BindTexture(pTexture);
+	
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrthof(-1.0f, 1.0f, -1.5f, 1.5f, -1.0f, 1.0f);
@@ -88,16 +91,7 @@ bool Application::Render()
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    glVertexPointer(2, GL_FLOAT, 0, squareVertices);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glColorPointer(4, GL_UNSIGNED_BYTE, 0, squareColors);
-    glEnableClientState(GL_COLOR_ARRAY);
-	
-	// Add texture coord array
-	glTexCoordPointer( 2, GL_FLOAT, 0, squareTexcoords );
-	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-    
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	m_Device->DrawBuffer(pBuffer);
 	
 	return _RetVal;
 }
@@ -109,19 +103,47 @@ void Application::SetDevice(Pxf::Graphics::Device* _pDevice)
 	Setup();
 }
 
+struct MyVertex
+{
+	Vector3D<float> vertex;
+	Vector2D<float> tex_coords;
+	MyVertex() { }
+	MyVertex(Vector3D<float> v,Vector2D<float> uv)
+	{
+		vertex = v;
+		tex_coords = uv;
+	}
+};
+	
+
 void Application::Setup()
 {
 	//m_Device = m_Engine.CreateDevice(Graphics::EOpenGLES11);
 	
 	//Pxf::Resource::Image t_Image(new Pxf::Resource::Chunk(),"test.png");
 	
-	
 	// Load some texture
 	glEnable(GL_TEXTURE_2D);
 	pTexture = m_Device->CreateTexture("test.png");
 	
-	pSprite = new Pxf::Game::Sprite(m_Device,NULL,pTexture,100,50,10);
-	pSprite->Reset();
+	pSprite = new Game::Sprite(m_Device,NULL,pTexture,100,50,10);
+	pBuffer = m_Device->CreateVertexBuffer(Graphics::VB_LOCATION_GPU,Graphics::VB_USAGE_STATIC_DRAW);
+	pBuffer->CreateNewBuffer(4,sizeof(Vector3D<float>) + sizeof(Vector2D<float>));
+	pBuffer->SetData(Graphics::VB_VERTEX_DATA,0,3);
+	pBuffer->SetData(Graphics::VB_TEXCOORD_DATA,sizeof(Vector3D<float>),2);
+	pBuffer->SetPrimitive(Graphics::VB_PRIMITIVE_TRIANGLE_STRIP);
+	
+	MyVertex _Data[4];
+	_Data[0] = MyVertex(Vector3D<float>(-0.5f,-0.5f,0.5f),Vector2D<float>(0.0f,1.0f));
+	_Data[1] = MyVertex(Vector3D<float>(0.5f,-0.5f,0.5f),Vector2D<float>(1.0f,1.0f));
+	_Data[2] = MyVertex(Vector3D<float>(-0.5f,0.5f,0.5f),Vector2D<float>(0.0f,0.0f));
+	_Data[3] = MyVertex(Vector3D<float>(0.5f,0.5f,0.5f),Vector2D<float>(1.0f,0.0f));
+	
+	//Vector3D<float>* _MappedData = (Vector3D<float>*)pBuffer->MapData(Graphics::VB_ACCESS_WRITE_ONLY);
+	
+	pBuffer->UpdateData(_Data,sizeof(_Data),0);
+	
+	//pSprite->Reset();
 	//m_Device->BindTexture(pTexture);
 	
 	// Lets create some quads, but render them in "reverse" order via SetDepth(...).

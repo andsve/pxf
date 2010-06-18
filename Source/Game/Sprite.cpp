@@ -10,17 +10,24 @@ using namespace Game;
 
 unsigned Sprite::m_SpriteCounter = 0;
 
-// TODO: The sprite class should take care of creating sequencing
-sprite_sequence::sprite_sequence(int nbr_of_args, ... )
+sprite_sequence::~sprite_sequence()
 {
+	delete[] sequence;
+	sequence = 0;
+}
+
+void Sprite::AddSequence(int _SequenceLength, ...)
+{
+	sprite_sequence new_sequence;
+	
 	int					new_val,i;
 	int*				_array = NULL;
 	va_list				vl;
 	std::vector<int>	vec;
 	
-	va_start(vl,nbr_of_args);
+	va_start(vl,_SequenceLength);
 	
-	for(i = 0; i < nbr_of_args; i++)
+	for(i = 0; i < _SequenceLength; i++)
 	{
 		new_val = va_arg(vl,int);
 		vec.push_back(new_val);
@@ -31,28 +38,22 @@ sprite_sequence::sprite_sequence(int nbr_of_args, ... )
 	_array = new int [vec.size()];
 	memcpy(_array, &vec.front(), vec.size() * sizeof(int));
 	
-	valid		= true;
-	sequence	= _array;
-	size		= nbr_of_args;
+	new_sequence.valid		= true;
+	new_sequence.sequence	= _array;
+	new_sequence.size		= _SequenceLength;
+	
+	m_SequenceList.push_back(new_sequence);
 }
 
-sprite_sequence::~sprite_sequence()
-{
-	delete[] sequence;
-	sequence = 0;
-}
-
-Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight, int _Frequency,int _ZIndex, sprite_sequence* _CustomSequence)
+Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight, int _Frequency,int _ZIndex)
 	: m_Device(_pDevice),
 	  m_ID(_ID),
 	  m_Texture(_Texture),
-	  m_CellSize(_CellWidth,_CellHeight),
 	  m_Frequency(_Frequency),
 	  m_CurrentFrame(0),
 	  m_ZIndex(_ZIndex),
 	  m_MaxFrames(0),
 	  m_Ready(true),
-	  m_CustomSequence(_CustomSequence),
 	  m_UseCustomSequence(false)
 {
 	if(!m_ID)
@@ -77,6 +78,9 @@ Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _
 		m_Ready = false;
 		printf("Sprite %s: Invalid Texture\n", m_ID);
 	}
+	
+	m_CellSize[0] = _CellWidth;
+	m_CellSize[1] = _CellHeight;
 
 	// calculate max cells
 	// TODO: what do we do about uneven cell numbers? exessive space is truncated atm
@@ -86,18 +90,12 @@ Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _
 	int _WAmount = (_ImgWidth / _CellWidth);
 	int _HAmount = (_ImgHeight / _CellHeight);
 	
+	m_UVStep[0] = 1.0f / _WAmount;
+	m_UVStep[1] = 1.0f / _HAmount;
+	
 	m_MaxFrames = _WAmount * _HAmount;
 	
-	if(_CustomSequence)
-	{
-		m_UseCustomSequence = true;
-		m_MaxFrames			= m_CustomSequence->size;
-	}
-	else
-	{
-
-	}
-		
+	m_UVValues = new float[m_MaxFrames][4];
 
 	if(m_Ready)
 		printf("Sprite %s: Ready\n", m_ID);
@@ -108,14 +106,11 @@ Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _
 
 Sprite::~Sprite()
 {
-	// do we need to delete device / texture? they might be used by other objects
+	// do we need to delete device / texture?
 	m_Device = 0;
 	m_Texture = 0;
 	
-	
-	delete m_CustomSequence;
 	delete m_ID;
-	
 }
 
 void Sprite::Update()
@@ -150,9 +145,7 @@ void Sprite::Update()
 }
 
 void Sprite::Draw()
-{
-	// sprite process:
-	
+{	
 	// bind texture
 	m_Device->BindTexture(m_Texture);
 	
@@ -160,24 +153,29 @@ void Sprite::Draw()
 }
 
 
+/* 
+ NOTE: is it better to fill a 2-dimensional grid with UV values when loading the sprite,
+	   or is it ok to calculate these values every time we switch image?
+ */
+
 void Sprite::_CalculateUV()
 {	
 	// calculate cell position in image
-	int _CellsX = (float) (m_Texture->GetWidth() / m_CellSize.x);
-	int _CellsY = (float) (m_Texture->GetHeight() / m_CellSize.y);
-	int _X = m_CurrentFrame;
-	int _Y = m_CurrentFrame;
+	int _CellsX = (float) (m_Texture->GetWidth() / m_CellSize[0]);
+	int _CellsY = (float) (m_Texture->GetHeight() / m_CellSize[1]);
 	
-	if(m_UseCustomSequence)
+	int _X,_Y;
+	
+	for(int i = 0; i < m_MaxFrames; i++)
 	{
-		_X = m_CustomSequence->sequence[m_CurrentFrame];
-		_Y = m_CustomSequence->sequence[m_CurrentFrame];
-	}
+		_X = i % _CellsX;
+		_Y = i / _CellsY;
 		
-	_X = _X % _CellsX;
-	_Y = _Y / _CellsY;	
-	
-	// scale by uv values
+		m_UVValues[i][0] = _X * m_UVStep[0];
+		m_UVValues[i][1] = _Y * m_UVStep[1];
+		m_UVValues[i][2] = m_UVValues[i][0] + m_UVStep[0];
+		m_UVValues[i][3] = m_UVValues[i][1] + m_UVStep[1];
+	}
 }
 
 /* 
@@ -199,6 +197,7 @@ void Sprite::Pause()
 
 void Sprite::Stop()
 {
+	m_CurrentFrame = 0;
 	m_SpriteState = Stopped;
 }
 
@@ -212,10 +211,12 @@ void Sprite::NextFrame()
 	if(m_UseCustomSequence)
 	{
 		// TODO: remove custom sequence and use a stack or something else instead
+		/*
 		if(m_CurrentFrame >= m_CustomSequence->size)
 			m_CurrentFrame = 0;
 		else
 			m_CurrentFrame++;
+		 */
 	}
 	else
 	{
