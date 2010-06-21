@@ -3,6 +3,7 @@
 
 #define SPRITE_NO_SORT -1
 
+#include <Pxf/Game/GameObject.h>
 #include <Pxf/Math/Vector.h>
 #include <vector.h>
 #include <stdarg.h>
@@ -12,6 +13,7 @@ namespace Pxf
 	namespace Graphics {
 		class Texture;
 		class Device;
+		class VertexBuffer;
 	}
 
 	namespace Game  
@@ -35,11 +37,23 @@ namespace Pxf
 			TODO: switchable sequences - might be useful to store a set of sequences for each sprite,
 				  such as different sprite intervals for death animations, jump animations etc.
 		 */
-		class Sprite
+		class Sprite : public GameObject
 		{
 		public:
-			// TODO: remove customsequence from constructor
-			Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight,int _Frequency, int _ZIndex = SPRITE_NO_SORT);
+			// TODO: Rename or move to proper location
+			struct SpriteDrawData
+			{
+				Math::Vector3D<float> vertex;
+				Math::Vector2D<float> tex_coords;
+				SpriteDrawData() { }
+				SpriteDrawData(Math::Vector3D<float> v,Math::Vector2D<float> uv)
+				{
+					vertex = v;
+					tex_coords = uv;
+				}
+			};
+			
+			Sprite(Graphics::Device* _pDevice, Math::Vector2D<float> _Position, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight,int _Frequency, int _ZIndex = SPRITE_NO_SORT);
 			virtual ~Sprite();
 			void Draw();
 			void Update();
@@ -57,21 +71,21 @@ namespace Pxf
 			bool IsReady() { return m_Ready; }
 			int	GetZIndex() { return m_ZIndex; }
 			int	GetCurrentFrame() { return m_CurrentFrame; }
-			const char* GetID() { return m_ID; }
-		protected:
-			static unsigned		m_SpriteCounter;	// generate new ID's
 		private:
 			void _CalculateUV();
+			void _SetCurrentUV();
 			
 			Graphics::Device*		m_Device;
 			Graphics::Texture*		m_Texture;
+			Graphics::VertexBuffer*	m_DrawBuffer;
+			SpriteDrawData*			m_MappedData;		// VertexBuffer access pointer
+			
 			int						m_CellSize[2];		// force power-of-two cell size? 
 			float					m_UVStep[2];		// step sizes
 			float					m_UVCoords[4];
 			float					(*m_UVValues)[4];
 
 			SpriteState			m_SpriteState;
-			const char* 		m_ID;			// name identifier (debugging/logging..)
 
 			int 				m_Frequency;	// animation frequency
 			int					m_CurrentFrame;	// frame counter

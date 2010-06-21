@@ -62,7 +62,7 @@ static Application* _Application = NULL;
 	
 	[m_Window addSubview:m_GLView];
 	[m_Window makeKeyAndVisible]; 
-	[NSTimer scheduledTimerWithTimeInterval:(1.0 / APP_FPS) target:self selector:@selector(update) userInfo:nil repeats:YES];
+	[NSTimer scheduledTimerWithTimeInterval:(1.0 / 30.0) target:self selector:@selector(update) userInfo:nil repeats:YES];
 	
 	_Application->SetDevice( m_GLView->m_Device );//(Pxf::Graphics::Device*)[m_GLView m_Device] );
 }

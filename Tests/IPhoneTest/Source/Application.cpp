@@ -59,39 +59,18 @@ bool Application::Render()
 	bool _RetVal = true;
 	// Call render on scene 
 	
-	const GLfloat squareVertices[] = {
-        -0.5f, -0.5f,
-        0.5f,  -0.5f,
-        -0.5f,  0.5f,
-        0.5f,   0.5f,
-    };
-	
-	const GLfloat squareTexcoords[] = {
-		0.0f, 1.0f,
-		1.0f, 1.0f,
-		0.0f, 0.0f,
-		1.0f, 0.0f,
-	};
-	
-    const GLubyte squareColors[] = {
-        255, 255,   0, 255,
-        0,   255, 255, 255,
-        0,     0,   0,   0,
-        255,   0, 255, 255,
-    };
-	
-	m_Device->BindTexture(pTexture);
+	//m_Device->BindTexture(pTexture);
 	
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrthof(-1.0f, 1.0f, -1.5f, 1.5f, -1.0f, 1.0f);
     glMatrixMode(GL_MODELVIEW);
-    glRotatef(3.0f, 0.0f, 0.0f, 1.0f);
+    //glRotatef(3.0f, 0.0f, 0.0f, 1.0f);
     
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     
-	m_Device->DrawBuffer(pBuffer);
+	pSprite->Draw();
 	
 	return _RetVal;
 }
@@ -103,6 +82,7 @@ void Application::SetDevice(Pxf::Graphics::Device* _pDevice)
 	Setup();
 }
 
+/*
 struct MyVertex
 {
 	Vector3D<float> vertex;
@@ -113,7 +93,7 @@ struct MyVertex
 		vertex = v;
 		tex_coords = uv;
 	}
-};
+}; */
 	
 
 void Application::Setup()
@@ -124,9 +104,19 @@ void Application::Setup()
 	
 	// Load some texture
 	glEnable(GL_TEXTURE_2D);
-	pTexture = m_Device->CreateTexture("test.png");
+	pTexture = m_Device->CreateTexture("sprite_test.jpg");
 	
-	pSprite = new Game::Sprite(m_Device,NULL,pTexture,100,50,10);
+	pSprite = new Game::Sprite(m_Device,						// Device Context
+							   Vector2D<float>(10.0f,10.0f),	// Object Position
+							   "MySprite",						// Object Name (providing a NULL pointer 
+																// in this field will generate a new name)
+							   pTexture,						// Sprite Texture
+							   64,								// Sprite Cell Width
+							   64,								// Sprite Cell Height
+							   10,								// Sprite Draw Frequency
+							   -1);								// Sprite Depth Sort, -1 = NO SORT
+	
+	/*
 	pBuffer = m_Device->CreateVertexBuffer(Graphics::VB_LOCATION_GPU,Graphics::VB_USAGE_STATIC_DRAW);
 	pBuffer->CreateNewBuffer(4,sizeof(Vector3D<float>) + sizeof(Vector2D<float>));
 	pBuffer->SetData(Graphics::VB_VERTEX_DATA,0,3);
@@ -138,10 +128,11 @@ void Application::Setup()
 	_Data[1] = MyVertex(Vector3D<float>(0.5f,-0.5f,0.5f),Vector2D<float>(1.0f,1.0f));
 	_Data[2] = MyVertex(Vector3D<float>(-0.5f,0.5f,0.5f),Vector2D<float>(0.0f,0.0f));
 	_Data[3] = MyVertex(Vector3D<float>(0.5f,0.5f,0.5f),Vector2D<float>(1.0f,0.0f));
+	 */
 	
 	//Vector3D<float>* _MappedData = (Vector3D<float>*)pBuffer->MapData(Graphics::VB_ACCESS_WRITE_ONLY);
 	
-	pBuffer->UpdateData(_Data,sizeof(_Data),0);
+	//pBuffer->UpdateData(_Data,sizeof(_Data),0);
 	
 	//pSprite->Reset();
 	//m_Device->BindTexture(pTexture);

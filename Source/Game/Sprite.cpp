@@ -1,14 +1,14 @@
 #include <Pxf/Game/Sprite.h>
 #include <Pxf/Graphics/Texture.h>
 #include <Pxf/Graphics/Device.h>
+#include <Pxf/Graphics/VertexBuffer.h>
 #include <Pxf/Util/String.h>
 #include <stdio.h>
 #include <vector.h>
 
 using namespace Pxf;
 using namespace Game;
-
-unsigned Sprite::m_SpriteCounter = 0;
+using namespace Math;
 
 sprite_sequence::~sprite_sequence()
 {
@@ -45,34 +45,42 @@ void Sprite::AddSequence(int _SequenceLength, ...)
 	m_SequenceList.push_back(new_sequence);
 }
 
-Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight, int _Frequency,int _ZIndex)
-	: m_Device(_pDevice),
-	  m_ID(_ID),
+Sprite::Sprite(Graphics::Device* _pDevice, Math::Vector2D<float> _Position, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight, int _Frequency,int _ZIndex)
+	: GameObject(Math::Vector3D<float>(_Position.x,_Position.y,0.0f),_ID) 
+	, m_Device(_pDevice),
 	  m_Texture(_Texture),
 	  m_Frequency(_Frequency),
 	  m_CurrentFrame(0),
 	  m_ZIndex(_ZIndex),
 	  m_MaxFrames(0),
 	  m_Ready(true),
-	  m_UseCustomSequence(false)
-{
-	if(!m_ID)
-	{
-		char _NewName[32];
-		sprintf(_NewName,"Sprite%i",m_SpriteCounter);
-
-		std::string * _StrName = new std::string(_NewName);
-		m_ID = _StrName->c_str();
-	}
-
-	m_SpriteCounter++;
-
+	  m_DrawBuffer(0)
+	, m_UseCustomSequence(false)
+{	
 	if(!m_Device)
 	{
 		m_Ready = false;
 		printf("Sprite %s: Invalid Device\n", m_ID);
 	}
+	else
+	{
+		// Create vertex buffer
+		m_DrawBuffer = m_Device->CreateVertexBuffer(Graphics::VB_LOCATION_GPU,Graphics::VB_USAGE_STATIC_DRAW);
+		m_DrawBuffer->CreateNewBuffer(4,sizeof(Math::Vector3D<float>) + sizeof(Math::Vector2D<float>));
+		m_DrawBuffer->SetData(Graphics::VB_VERTEX_DATA,0,3);
+		m_DrawBuffer->SetData(Graphics::VB_TEXCOORD_DATA,sizeof(Math::Vector3D<float>),2);
+		m_DrawBuffer->SetPrimitive(Graphics::VB_PRIMITIVE_TRIANGLE_STRIP);
+	
+		SpriteDrawData _Data[4];
+		_Data[0] = SpriteDrawData(Vector3D<float>(-0.5f,-0.5f,0.5f),Vector2D<float>(0.0f,1.0f));
+		_Data[1] = SpriteDrawData(Vector3D<float>(0.5f,-0.5f,0.5f),Vector2D<float>(1.0f,1.0f));
+		_Data[2] = SpriteDrawData(Vector3D<float>(-0.5f,0.5f,0.5f),Vector2D<float>(0.0f,0.0f));
+		_Data[3] = SpriteDrawData(Vector3D<float>(0.5f,0.5f,0.5f),Vector2D<float>(1.0f,0.0f));
 
+		m_DrawBuffer->UpdateData(_Data,sizeof(_Data),0);
+		m_MappedData = (SpriteDrawData*)m_DrawBuffer->MapData(Graphics::VB_ACCESS_WRITE_ONLY);
+	}
+											  
 	if(!m_Texture)
 	{
 		m_Ready = false;
@@ -94,14 +102,15 @@ Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _
 	m_UVStep[1] = 1.0f / _HAmount;
 	
 	m_MaxFrames = _WAmount * _HAmount;
-	
 	m_UVValues = new float[m_MaxFrames][4];
+	
+	printf("image w,h: %i %i, maxframes: %i\n", _ImgWidth, _ImgHeight, m_MaxFrames);
 
 	if(m_Ready)
 		printf("Sprite %s: Ready\n", m_ID);
 	
 	_CalculateUV();
-		
+	_SetCurrentUV();
 }
 
 Sprite::~Sprite()
@@ -135,7 +144,6 @@ void Sprite::Update()
 	 switch_frame += dt;
 	 if(switch_frame >= time_step)
 	 {
-		_CalculateUV();
 		NextFrame();
 		
 		// reset
@@ -149,15 +157,32 @@ void Sprite::Draw()
 	// bind texture
 	m_Device->BindTexture(m_Texture);
 	
+	NextFrame();
+	
 	// draw sprite
+	m_Device->DrawBuffer(m_DrawBuffer);
 }
 
+void Sprite::_SetCurrentUV()
+{	
+	// 0,1
+	m_MappedData[0].tex_coords.x = m_UVValues[m_CurrentFrame][0];
+	m_MappedData[0].tex_coords.y = m_UVValues[m_CurrentFrame][3];
+	
+	// 1,1
+	m_MappedData[1].tex_coords.x = m_UVValues[m_CurrentFrame][2];
+	m_MappedData[1].tex_coords.y = m_UVValues[m_CurrentFrame][3];	
 
-/* 
- NOTE: is it better to fill a 2-dimensional grid with UV values when loading the sprite,
-	   or is it ok to calculate these values every time we switch image?
- */
+	// 0,0
+	m_MappedData[2].tex_coords.x = m_UVValues[m_CurrentFrame][0];
+	m_MappedData[2].tex_coords.y = m_UVValues[m_CurrentFrame][1];
+	
+	// 1,0
+	m_MappedData[3].tex_coords.x = m_UVValues[m_CurrentFrame][2];
+	m_MappedData[3].tex_coords.y = m_UVValues[m_CurrentFrame][1];
+}	
 
+// Calculate every UV ONCE and store in an array
 void Sprite::_CalculateUV()
 {	
 	// calculate cell position in image
@@ -210,7 +235,6 @@ void Sprite::NextFrame()
 {
 	if(m_UseCustomSequence)
 	{
-		// TODO: remove custom sequence and use a stack or something else instead
 		/*
 		if(m_CurrentFrame >= m_CustomSequence->size)
 			m_CurrentFrame = 0;
@@ -220,9 +244,12 @@ void Sprite::NextFrame()
 	}
 	else
 	{
-		if(m_CurrentFrame >= m_MaxFrames)
+		// Wrap Around in linear mode
+		if(m_CurrentFrame >= (m_MaxFrames-1))
 			m_CurrentFrame = 0;
 		else
 			m_CurrentFrame++;
 	}
+	
+	_SetCurrentUV();
 }
