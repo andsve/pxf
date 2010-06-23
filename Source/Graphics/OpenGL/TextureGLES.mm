@@ -4,7 +4,7 @@
 #include <Pxf/Base/Debug.h>
 
 #include <OpenGLES/ES1/gl.h>
-#include "SOIL.h"
+#include <SOIL.h>
 #define LOCAL_MSG "TextureGLES"
 
 using namespace Pxf;
