@@ -478,14 +478,16 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					../../Include,
+					../../Libraries/Box2D/sdk/include/,
+					"<Multiple",
+					"values>",
 					../../Libraries/soil/sdk/include,
 				);
 				LIBRARY_SEARCH_PATHS = ../../Libraries;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				SDKROOT = iphonesimulator2.2;
-				USER_HEADER_SEARCH_PATHS = ../../Libraries/soil/sdk/include;
+				USER_HEADER_SEARCH_PATHS = "../../Libraries/soil/sdk/include/ <Multiple values> ../../Libraries/Box2D/sdk/include/";
 			};
 			name = Debug;
 		};
@@ -498,10 +500,16 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = ../../Include;
+				HEADER_SEARCH_PATHS = (
+					../../Libraries/Box2D/sdk/include/,
+					"<Multiple",
+					"values>",
+					../../Libraries/soil/sdk/include,
+				);
 				LIBRARY_SEARCH_PATHS = ../../Libraries;
 				PREBINDING = NO;
 				SDKROOT = iphonesimulator2.2;
+				USER_HEADER_SEARCH_PATHS = "../../Libraries/soil/sdk/include/ <Multiple values> ../../Libraries/Box2D/sdk/include/";
 			};
 			name = Release;
 		};

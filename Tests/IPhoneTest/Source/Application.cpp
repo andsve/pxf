@@ -12,6 +12,8 @@
 #import <OpenGLES/ES1/glext.h>
 #include <Pxf/Math/Vector.h>
 #include <Pxf/Graphics/VertexBuffer.h>
+#include <Box2D/Box2D.h>
+//#include <Box2D/lol.h>
 
 using namespace Pxf;
 using namespace Math;
