@@ -13,12 +13,14 @@
 #include <Pxf/Math/Vector.h>
 #include <Pxf/Graphics/VertexBuffer.h>
 #include <Pxf/Graphics/OpenGL/DeviceGLES11.h>
+#include <Pxf/Extra/LuaGame/LuaGame.h>
 
 //#include <Box2D/lol.h>
 
 using namespace Pxf;
 using namespace Math;
 using namespace Graphics;
+using namespace Extra;
 
 /*
 typedef signed char	int8;
@@ -35,6 +37,9 @@ bool	doSleep = true;
 b2World world(gravity, doSleep);
 b2Body* body1;
 b2Body* body2;
+
+// LuaGame instance
+LuaGame* luagame;
 
 Application::Application(const char* _Title)
 	: m_Title(_Title),
@@ -229,6 +234,9 @@ void Application::Setup()
 	pQBatch->SetColor(0.0f, 1.0f, 0.0f, 1.0f);
 	pQBatch->AddCentered(225, 225, 50, 50);
 	*/
+	
+	// Load LuaGame
+	luagame->Load();
 }
 
 bool Application::Init()
@@ -240,6 +248,16 @@ bool Application::Init()
 	{
 		m_IsRunning = false;
 	}
+	
+	// Init LuaGame
+	NSString* readPath = [[NSBundle mainBundle] resourcePath];
+	char buffer[2048];
+	char tbuff[2048];
+	[readPath getCString:buffer maxLength:2048 encoding:NSUTF8StringEncoding];
+	sprintf(tbuff, "%s/%s", buffer, "test.lua");
+	
+	Util::String t_Filepath = tbuff;//readPath _filepath;
+	luagame = new LuaGame(t_Filepath, m_Device);
 	
 	return m_IsRunning;
 }

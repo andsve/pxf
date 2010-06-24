@@ -48,6 +48,7 @@
 		96B6968911D3E6AD008D24DD /* lvm.c in Sources */ = {isa = PBXBuildFile; fileRef = 96B6966B11D3E6AD008D24DD /* lvm.c */; };
 		96B6968A11D3E6AD008D24DD /* lzio.c in Sources */ = {isa = PBXBuildFile; fileRef = 96B6966C11D3E6AD008D24DD /* lzio.c */; };
 		96B6968B11D3E6AD008D24DD /* print.c in Sources */ = {isa = PBXBuildFile; fileRef = 96B6966D11D3E6AD008D24DD /* print.c */; };
+		96B696A011D3E89E008D24DD /* test.lua in Resources */ = {isa = PBXBuildFile; fileRef = 96B6969011D3E7F7008D24DD /* test.lua */; };
 		C95AEF5511CFADAD008AF5BE /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C95AEF5411CFADAD008AF5BE /* GameObject.cpp */; };
 		C95AF01B11CFC97F008AF5BE /* sprite_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C95AF01A11CFC97F008AF5BE /* sprite_test.jpg */; };
 		C9613E3411BF0BB900D6BE42 /* GameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9613E3311BF0BB900D6BE42 /* GameState.cpp */; };
@@ -153,6 +154,7 @@
 		96B6966B11D3E6AD008D24DD /* lvm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lvm.c; path = ../../Libraries/lua/sdk/src/lvm.c; sourceTree = SOURCE_ROOT; };
 		96B6966C11D3E6AD008D24DD /* lzio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lzio.c; path = ../../Libraries/lua/sdk/src/lzio.c; sourceTree = SOURCE_ROOT; };
 		96B6966D11D3E6AD008D24DD /* print.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = print.c; path = ../../Libraries/lua/sdk/src/print.c; sourceTree = SOURCE_ROOT; };
+		96B6969011D3E7F7008D24DD /* test.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.lua; sourceTree = "<group>"; };
 		C95AEF5311CFAB91008AF5BE /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObject.h; path = ../../Include/Pxf/Game/GameObject.h; sourceTree = SOURCE_ROOT; };
 		C95AEF5411CFADAD008AF5BE /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObject.cpp; path = ../../Source/Game/GameObject.cpp; sourceTree = SOURCE_ROOT; };
 		C95AF01A11CFC97F008AF5BE /* sprite_test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sprite_test.jpg; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 				C95AF01A11CFC97F008AF5BE /* sprite_test.jpg */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
+				96B6969011D3E7F7008D24DD /* test.lua */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -666,6 +669,7 @@
 				C9F2D0BD11B695A300F16BF3 /* readme.txt in Resources */,
 				966F3BE811CA6E0D003F13E0 /* test.png in Resources */,
 				C95AF01B11CFC97F008AF5BE /* sprite_test.jpg in Resources */,
+				96B696A011D3E89E008D24DD /* test.lua in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
