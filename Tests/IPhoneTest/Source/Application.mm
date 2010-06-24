@@ -12,11 +12,29 @@
 #import <OpenGLES/ES1/glext.h>
 #include <Pxf/Math/Vector.h>
 #include <Pxf/Graphics/VertexBuffer.h>
-#include <Box2D/Box2D.h>
+#include <Pxf/Graphics/OpenGL/DeviceGLES11.h>
+
 //#include <Box2D/lol.h>
 
 using namespace Pxf;
 using namespace Math;
+using namespace Graphics;
+
+/*
+typedef signed char	int8;
+typedef signed short int16;
+typedef signed int int32;
+typedef unsigned int uint32;
+*/
+ 
+float32 timeStep = 1.0f / 60.0f;
+int32 velocityIterations = 6;
+int32 positionIterations = 2;
+b2Vec2	gravity(0.0f, -10.0f);
+bool	doSleep = true;
+b2World world(gravity, doSleep);
+b2Body* body1;
+b2Body* body2;
 
 Application::Application(const char* _Title)
 	: m_Title(_Title),
@@ -37,6 +55,15 @@ bool Application::Update()
 {
 	bool _RetVal = true;
 	// Call update on scene
+	
+	world.Step(1.0f / 60.0f, velocityIterations, positionIterations);
+    world.ClearForces();
+	
+	b2Vec2 pos = body1->GetPosition();
+	pSprite1->SetPosition(Vec3f(pos.x,pos.y,0.0f));
+	
+	pos = body2->GetPosition();
+	pSprite2->SetPosition(Vec3f(pos.x,pos.y,0.0f));
 	
 	_UpdateFPS();
 
@@ -65,14 +92,14 @@ bool Application::Render()
 	
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrthof(-1.0f, 1.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+	glOrthof(0.0f, 10.0f, 0.f, 10.0f, -1.0f, 1.0f);
     glMatrixMode(GL_MODELVIEW);
-    //glRotatef(3.0f, 0.0f, 0.0f, 1.0f);
     
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     
-	pSprite->Draw();
+	pSprite1->Draw();
+	pSprite2->Draw();
 	
 	return _RetVal;
 }
@@ -99,7 +126,49 @@ struct MyVertex
 	
 
 void Application::Setup()
-{
+{		
+	b2BodyDef groundBodyDef;
+	groundBodyDef.position.Set(0.0f, -10.0f);
+	b2Body* groundBody = world.CreateBody(&groundBodyDef);
+	b2PolygonShape groundBox;
+	groundBox.SetAsBox(50.0f, 10.0f);
+	groundBody->CreateFixture(&groundBox,1);
+	
+	// body 1:
+	b2BodyDef		bodyDef1;
+	b2FixtureDef	fixtureDef1;
+	b2PolygonShape	dynamicBox1;
+	
+	bodyDef1.type = b2_dynamicBody;
+	bodyDef1.position.Set(5.0f, 4.0f);
+	body1 = world.CreateBody(&bodyDef1);
+
+	dynamicBox1.SetAsBox(0.5f, 0.5f);
+	
+	fixtureDef1.shape = &dynamicBox1;
+	fixtureDef1.density = 1.0f;
+	fixtureDef1.friction = 0.3f;
+	
+	body1->CreateFixture(&fixtureDef1);
+	
+	// body 2:
+	b2BodyDef		bodyDef2;
+	b2FixtureDef	fixtureDef2;
+	b2PolygonShape	dynamicBox2;
+	
+	bodyDef2.type = b2_dynamicBody;
+	bodyDef2.position.Set(5.2f, 10.0f);
+	body2 = world.CreateBody(&bodyDef2);
+	
+	dynamicBox2.SetAsBox(0.5f, 0.5f);
+	
+	fixtureDef2.shape = &dynamicBox2;
+	fixtureDef2.density = 1.0f;
+	fixtureDef2.friction = 0.3f;
+	
+	body2->CreateFixture(&fixtureDef2);
+	
+	
 	//m_Device = m_Engine.CreateDevice(Graphics::EOpenGLES11);
 	
 	//Pxf::Resource::Image t_Image(new Pxf::Resource::Chunk(),"test.png");
@@ -108,8 +177,8 @@ void Application::Setup()
 	glEnable(GL_TEXTURE_2D);
 	pTexture = m_Device->CreateTexture("sprite_test.jpg");
 	
-	pSprite = new Game::Sprite(m_Device,						// Device Context
-							   Vector2D<float>(10.0f,10.0f),	// Object Position
+	pSprite1 = new Game::Sprite(m_Device,						// Device Context
+							   Vec2f(0.0f,0.0f),				// Object Position
 							   "MySprite",						// Object Name (providing a NULL pointer 
 																// in this field will generate a new name)
 							   pTexture,						// Sprite Texture
@@ -117,6 +186,16 @@ void Application::Setup()
 							   64,								// Sprite Cell Height
 							   10,								// Sprite Draw Frequency
 							   -1);								// Sprite Depth Sort, -1 = NO SORT
+	
+	pSprite2 = new Game::Sprite(m_Device,						// Device Context
+								Vec2f(0.0f,0.0f),				// Object Position
+								"MySprite2",						// Object Name (providing a NULL pointer 
+								// in this field will generate a new name)
+								pTexture,						// Sprite Texture
+								64,								// Sprite Cell Width
+								64,								// Sprite Cell Height
+								10,								// Sprite Draw Frequency
+								-1);								// Sprite Depth Sort, -1 = NO SORT
 	
 	/*
 	pBuffer = m_Device->CreateVertexBuffer(Graphics::VB_LOCATION_GPU,Graphics::VB_USAGE_STATIC_DRAW);

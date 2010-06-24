@@ -25,12 +25,15 @@
 #define B2_NOT_USED(x) ((void)(x))
 #define b2Assert(A) assert(A)
 
-//typedef signed char	int8;
+#ifndef __PXF_BASE_TYPES_H__
+typedef signed char	int8;
 typedef signed short int16;
-//typedef signed int int32;
+typedef signed int int32;
+typedef unsigned int uint32;
+#endif
+
 typedef unsigned char uint8;
 typedef unsigned short uint16;
-//typedef unsigned int uint32;
 typedef float float32;
 
 #define	b2_maxFloat		FLT_MAX

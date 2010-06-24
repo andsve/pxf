@@ -22,12 +22,18 @@ GameObject::GameObject(Pxf::Math::Vector3D<float> _Position, const char* _ID)
 		m_ID = _ID;
 	
 	m_Position = new Math::Vector3D<float>(_Position.x,_Position.y,_Position.z);
-	
 }
 
 GameObject::GameObject(float _X, float _Y, float _Z, const char* _ID)
 {
 	GameObject(Math::Vector3D<float>(_X,_Y,_Z),_ID);
+}
+
+void GameObject::SetPosition(Math::Vector3D<float> _Position)
+{
+	m_Position->x = _Position.x;
+	m_Position->y = _Position.y;
+	m_Position->z = _Position.z;
 }
 
 void GameObject::_GenerateNewName()

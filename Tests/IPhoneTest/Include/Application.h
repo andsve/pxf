@@ -23,6 +23,7 @@
 #include <Pxf/Graphics/QuadBatch.h>
 #include <Pxf/Resource/Image.h>
 #include <Pxf/Resource/Chunk.h>
+#include <Box2D/Box2D.h>
 
 struct fps_helper
 {
@@ -59,10 +60,18 @@ private:
 	fps_helper					m_FPS;
 	
 	// DEBUG OBJECTS
-	Pxf::Game::Sprite*				pSprite;	
+	Pxf::Game::Sprite*				pSprite1;
+	Pxf::Game::Sprite*				pSprite2;
 	Pxf::Graphics::VertexBuffer*	pBuffer;
 	Pxf::Graphics::Texture*			pTexture;
 	Pxf::Graphics::QuadBatch*		pQBatch;
+	
+	// BOX2D
+	/*
+	b2World		m_b2World;
+	float		m_b2TimeStep;
+	int32		m_b2VelIterations;
+	int32		m_b2PosIterations; */
 };
 
 #endif

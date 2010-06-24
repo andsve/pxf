@@ -14,12 +14,15 @@ namespace Pxf
 			GameObject();
 			GameObject(Pxf::Math::Vector3D<float> _Position, const char* _ID = 0);
 			GameObject(float _X, float _Y, float _Z, const char* _ID = 0);
+			
+			Math::Vector3D<float>* GetPosition() { return m_Position; }
+			void SetPosition(Math::Vector3D<float> _Position);
 		protected:
 			static unsigned				m_ObjectCounter;
 			const char*					m_ID;
 			
 			// NOTE: should we diffrentiate between 2D and 3D objects or treat them the same at this level
-			Pxf::Math::Vector3D<float>* m_Position;
+			Math::Vector3D<float>* m_Position;
 			
 		private:
 			void _GenerateNewName();

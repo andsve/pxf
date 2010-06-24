@@ -75,10 +75,16 @@ Sprite::Sprite(Graphics::Device* _pDevice, Math::Vector2D<float> _Position, cons
 		m_DrawBuffer->SetPrimitive(Graphics::VB_PRIMITIVE_TRIANGLE_STRIP);
 	
 		SpriteDrawData _Data[4];
+		/*
 		_Data[0] = SpriteDrawData(Vector3D<float>(-0.5f,-0.5f,0.5f),Vector2D<float>(0.0f,1.0f));
 		_Data[1] = SpriteDrawData(Vector3D<float>(0.5f,-0.5f,0.5f),Vector2D<float>(1.0f,1.0f));
 		_Data[2] = SpriteDrawData(Vector3D<float>(-0.5f,0.5f,0.5f),Vector2D<float>(0.0f,0.0f));
-		_Data[3] = SpriteDrawData(Vector3D<float>(0.5f,0.5f,0.5f),Vector2D<float>(1.0f,0.0f));
+		_Data[3] = SpriteDrawData(Vector3D<float>(0.5f,0.5f,0.5f),Vector2D<float>(1.0f,0.0f)); */
+		
+		_Data[0] = SpriteDrawData(Vec3f(0.f,0.f,0.f),Vector2D<float>(0.0f,1.0f));
+		_Data[1] = SpriteDrawData(Vec3f(1.0f,0.f,0.f),Vector2D<float>(1.0f,1.0f));
+		_Data[2] = SpriteDrawData(Vec3f(0.f,1.0f,0.f),Vector2D<float>(0.0f,0.0f));
+		_Data[3] = SpriteDrawData(Vec3f(1.f,1.f,0.f),Vector2D<float>(1.0f,0.0f));
 
 		m_DrawBuffer->UpdateData(_Data,sizeof(_Data),0);
 		m_MappedData = (SpriteDrawData*)m_DrawBuffer->MapData(Graphics::VB_ACCESS_WRITE_ONLY);
@@ -156,12 +162,14 @@ void Sprite::Update()
 void Sprite::Draw()
 {	
 	// bind texture
+	m_Device->Translate(*m_Position);
 	m_Device->BindTexture(m_Texture);
 	
 	NextFrame();
 	
 	// draw sprite
 	m_Device->DrawBuffer(m_DrawBuffer);
+	m_Device->Translate(- (*m_Position));
 }
 
 void Sprite::_SetCurrentUV()
