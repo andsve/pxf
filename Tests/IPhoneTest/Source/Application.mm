@@ -46,7 +46,11 @@ Application::Application(const char* _Title)
 	  m_Engine(0),
 	  m_IsRunning(false)
 {
-
+	// Workaround to get correct resources dir under osx
+    NSString* readPath = [[NSBundle mainBundle] resourcePath];
+	char buffer[2048];
+	[readPath getCString:buffer maxLength:2048 encoding:NSUTF8StringEncoding];
+	chdir(buffer);
 }
 
 Application::~Application()
@@ -250,14 +254,7 @@ bool Application::Init()
 	}
 	
 	// Init LuaGame
-	NSString* readPath = [[NSBundle mainBundle] resourcePath];
-	char buffer[2048];
-	char tbuff[2048];
-	[readPath getCString:buffer maxLength:2048 encoding:NSUTF8StringEncoding];
-	sprintf(tbuff, "%s/%s", buffer, "test.lua");
-	
-	Util::String t_Filepath = tbuff;//readPath _filepath;
-	luagame = new LuaGame(t_Filepath, m_Device);
+	luagame = new LuaGame("test.lua", m_Device);
 	
 	return m_IsRunning;
 }

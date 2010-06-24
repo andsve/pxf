@@ -43,15 +43,7 @@ Math::Vec4f TextureGLES::CreateTextureSubset(float _x1, float _y1, float _x2, fl
 
 void TextureGLES::Load(const char* _filepath)
 {
-	NSString* readPath = [[NSBundle mainBundle] resourcePath];
-	char buffer[2048];
-	[readPath getCString:buffer maxLength:2048 encoding:NSUTF8StringEncoding];
-	
-	char tbuff[2048];
-	
-	sprintf(tbuff, "%s/%s", buffer, _filepath);
-	
-	m_Filepath = tbuff;//readPath _filepath;
+	m_Filepath = _filepath;
 	
 	Reload();
 	
