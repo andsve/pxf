@@ -50,6 +50,7 @@
 		96B6968B11D3E6AD008D24DD /* print.c in Sources */ = {isa = PBXBuildFile; fileRef = 96B6966D11D3E6AD008D24DD /* print.c */; };
 		96B696A011D3E89E008D24DD /* test.lua in Resources */ = {isa = PBXBuildFile; fileRef = 96B6969011D3E7F7008D24DD /* test.lua */; };
 		96B696AE11D3EACE008D24DD /* LuaGame.lua in Resources */ = {isa = PBXBuildFile; fileRef = 96B696AD11D3EAC6008D24DD /* LuaGame.lua */; };
+		96B696F511D3F3C3008D24DD /* TextureGLES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96B696F411D3F3C3008D24DD /* TextureGLES.cpp */; };
 		C95AEF5511CFADAD008AF5BE /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C95AEF5411CFADAD008AF5BE /* GameObject.cpp */; };
 		C95AF01B11CFC97F008AF5BE /* sprite_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C95AF01A11CFC97F008AF5BE /* sprite_test.jpg */; };
 		C9613E3411BF0BB900D6BE42 /* GameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9613E3311BF0BB900D6BE42 /* GameState.cpp */; };
@@ -96,7 +97,6 @@
 		C970803011D35BCB0028EC91 /* Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = C970802F11D35BCB0028EC91 /* Application.mm */; };
 		C9AA1A3C11C98639002B3842 /* VertexBufferGLES11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AA1A3B11C98639002B3842 /* VertexBufferGLES11.cpp */; };
 		C9AA1A9311C98F28002B3842 /* StreamPosix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AA1A9211C98F28002B3842 /* StreamPosix.cpp */; };
-		C9AA1AD211CA4505002B3842 /* TextureGLES.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9AA1AD111CA4505002B3842 /* TextureGLES.mm */; };
 		C9AA1AD411CA5EEC002B3842 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AA1AD311CA5EEC002B3842 /* Sprite.cpp */; };
 		C9E4C71F11B66A1B0092185F /* Delegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C71D11B66A1B0092185F /* Delegate.mm */; };
 		C9E4C72011B66A1B0092185F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E4C71E11B66A1B0092185F /* main.m */; };
@@ -157,6 +157,7 @@
 		96B6966D11D3E6AD008D24DD /* print.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = print.c; path = ../../Libraries/lua/sdk/src/print.c; sourceTree = SOURCE_ROOT; };
 		96B6969011D3E7F7008D24DD /* test.lua */ = {isa = PBXFileReference; explicitFileType = text.script; fileEncoding = 4; path = test.lua; sourceTree = "<group>"; };
 		96B696AD11D3EAC6008D24DD /* LuaGame.lua */ = {isa = PBXFileReference; explicitFileType = text.script; fileEncoding = 4; path = LuaGame.lua; sourceTree = "<group>"; };
+		96B696F411D3F3C3008D24DD /* TextureGLES.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureGLES.cpp; path = ../../Source/Graphics/OpenGL/TextureGLES.cpp; sourceTree = SOURCE_ROOT; };
 		C95AEF5311CFAB91008AF5BE /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObject.h; path = ../../Include/Pxf/Game/GameObject.h; sourceTree = SOURCE_ROOT; };
 		C95AEF5411CFADAD008AF5BE /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObject.cpp; path = ../../Source/Game/GameObject.cpp; sourceTree = SOURCE_ROOT; };
 		C95AF01A11CFC97F008AF5BE /* sprite_test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sprite_test.jpg; sourceTree = "<group>"; };
@@ -213,7 +214,6 @@
 		C9AA1A3B11C98639002B3842 /* VertexBufferGLES11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VertexBufferGLES11.cpp; path = ../../Source/Graphics/OpenGL/VertexBufferGLES11.cpp; sourceTree = SOURCE_ROOT; };
 		C9AA1A3D11C98646002B3842 /* VertexBufferGLES11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VertexBufferGLES11.h; path = ../../Include/Pxf/Graphics/OpenGL/VertexBufferGLES11.h; sourceTree = SOURCE_ROOT; };
 		C9AA1A9211C98F28002B3842 /* StreamPosix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StreamPosix.cpp; path = ../../Source/Base/StreamPosix.cpp; sourceTree = SOURCE_ROOT; };
-		C9AA1AD111CA4505002B3842 /* TextureGLES.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TextureGLES.mm; path = ../../Source/Graphics/OpenGL/TextureGLES.mm; sourceTree = SOURCE_ROOT; };
 		C9AA1AD311CA5EEC002B3842 /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sprite.cpp; path = ../../Source/Game/Sprite.cpp; sourceTree = SOURCE_ROOT; };
 		C9AA1AD511CA5EFC002B3842 /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = ../../Include/Pxf/Game/Sprite.h; sourceTree = SOURCE_ROOT; };
 		C9E4C6F311B662FA0092185F /* Delegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Delegate.h; path = Include/Delegate.h; sourceTree = "<group>"; };
@@ -616,9 +616,9 @@
 		C9F2D1AB11B7AA0A00F16BF3 /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
+				96B696F411D3F3C3008D24DD /* TextureGLES.cpp */,
 				C9F30B6B11D0A59200D91C41 /* DeviceGLES11.mm */,
 				C9F517DE11CA9CB20013F82A /* QuadBatchGL2.cpp */,
-				C9AA1AD111CA4505002B3842 /* TextureGLES.mm */,
 				C9AA1A3B11C98639002B3842 /* VertexBufferGLES11.cpp */,
 				C9AA19E211C980FD002B3842 /* DeviceGL2.cpp */,
 				C9F2D1BD11B7AE6E00F16BF3 /* EAGLView11.mm */,
@@ -694,7 +694,6 @@
 				C9613EDB11C7A09E00D6BE42 /* DeviceResource.cpp in Sources */,
 				C9AA1A3C11C98639002B3842 /* VertexBufferGLES11.cpp in Sources */,
 				C9AA1A9311C98F28002B3842 /* StreamPosix.cpp in Sources */,
-				C9AA1AD211CA4505002B3842 /* TextureGLES.mm in Sources */,
 				966F3AC611CA53DD003F13E0 /* image_DXT.c in Sources */,
 				966F3AC711CA53DD003F13E0 /* image_helper.c in Sources */,
 				966F3AC811CA53DD003F13E0 /* stb_image_aug.c in Sources */,
@@ -772,6 +771,7 @@
 				96B6968911D3E6AD008D24DD /* lvm.c in Sources */,
 				96B6968A11D3E6AD008D24DD /* lzio.c in Sources */,
 				96B6968B11D3E6AD008D24DD /* print.c in Sources */,
+				96B696F511D3F3C3008D24DD /* TextureGLES.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
