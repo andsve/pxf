@@ -1,14 +1,14 @@
-require("LuaGame")
-
-print("Testing testing lua integration!")
-
 
 function LuaGame:Init()
-	print("Time to INIT some stuff!")
+	self.GameIdent = "Our awesome testgame!"
+	self.GameVersion = "1.0"
 end
 
 function LuaGame:PreLoad()
 	print("Time to PRELOAD some data!")
+	-- TODO: Does not work, at all.
+	--       Should add resources that need to be loaded. LuaGame should then
+	--       iterate over them and load them into a resource/data pool of some sort.
 end
 
 function LuaGame:Update(dt)

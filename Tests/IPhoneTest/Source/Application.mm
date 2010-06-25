@@ -75,6 +75,9 @@ bool Application::Update()
 	pSprite2->SetPosition(Vec3f(pos.x,pos.y,0.0f));
 	
 	_UpdateFPS();
+	
+	// Update LuaGame
+	luagame->Update(0.1);
 
 	
 	return _RetVal;
@@ -109,6 +112,9 @@ bool Application::Render()
     
 	pSprite1->Draw();
 	pSprite2->Draw();
+	
+	// Draw loading if preloading resources
+	luagame->Render();
 	
 	return _RetVal;
 }
