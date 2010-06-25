@@ -7,8 +7,6 @@ function LuaGame:CoreInit()
   print("------------------------------------")
   print("LuaGame - Version " .. self.CoreVersion)
   print("Instance: " .. tostring(self.Instance))
-  
-  -- Get LuaGame class instance
-  --self.Instance = _GetClassInstance()
+  self:Test()
 end
 

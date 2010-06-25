@@ -47,6 +47,9 @@ bool LuaGame::Load()
 			lua_pop(L, 1); // remove error message
 		} else {
 		    
+		    // Register own callbacks
+            _register_own_callbacks();
+		    
 		    // Set LuaGame.Instance to this class instance!
 		    // Instance will later be used to call correct LuaGame instance.
             lua_getglobal(L, LUAGAME_TABLE);
@@ -154,9 +157,17 @@ void LuaGame::_register_lua_libs_callbacks()
 		lua_pushstring(L, lib->name);
 		lua_call(L, 1, 0);
 	}
-	
-	// Register own callbacks
+}
+
+void LuaGame::_register_own_callbacks()
+{
+    // Register own callbacks
 	lua_register(L, "print", Print);
+	//lua_register(L, "print", TestInstance);
+	
+    lua_getglobal(L, "LuaGame");
+    lua_pushcfunction(L, TestInstance);
+    lua_setfield(L, -2, "Test");
 }
 
 bool LuaGame::HandleLuaErrors(int _error)
@@ -229,5 +240,16 @@ int LuaGame::Print(lua_State *_L)
     }
     fputs("\n", stdout);
     return 0;
+}
+
+int LuaGame::TestInstance(lua_State *_L)
+{
+    LuaGame* instance = (LuaGame*)GetInstance(_L);
+    instance->LOLSUP();
+}
+
+void LuaGame::LOLSUP()
+{
+    printf("Hey, this should print!\n");
 }
 

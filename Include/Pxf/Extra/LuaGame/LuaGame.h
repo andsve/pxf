@@ -40,13 +40,16 @@ namespace Pxf
             
             // Private methods
             void _register_lua_libs_callbacks();
+            void _register_own_callbacks();
             bool HandleLuaErrors(int _error);
             bool CallGameMethod(const char* _method);
             int  PreLoad(); // Called within Render() in the starting phase of the game
             static void* GetInstance(lua_State *_L);
+            void LOLSUP();
             
             // Callback methods
             static int Print(lua_State *_L);
+            static int TestInstance(lua_State *_L);
         };
         
     } /* Extra */
