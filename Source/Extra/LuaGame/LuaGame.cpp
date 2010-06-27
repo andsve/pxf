@@ -1,14 +1,13 @@
 
 #include <Pxf/Extra/LuaGame/LuaGame.h>
+#include <Pxf/Extra/LuaGame/Subsystems/Vec2.h>
 
 #define LOCAL_MSG "LuaGame"
 
-#define LUAGAME_TABLE "LuaGame"
-
 using namespace Pxf;
-using namespace Pxf::Extra;
+using namespace Pxf::Extra::LuaGame;
 
-LuaGame::LuaGame(Util::String _gameFilename, Graphics::Device* _device, bool _gracefulFail)
+Game::Game(Util::String _gameFilename, Graphics::Device* _device, bool _gracefulFail)
 {
     m_Device = _device;
     
@@ -22,13 +21,13 @@ LuaGame::LuaGame(Util::String _gameFilename, Graphics::Device* _device, bool _gr
     m_GracefulFail = _gracefulFail;
 }
 
-LuaGame::~LuaGame()
+Game::~Game()
 {
-    // Destructor of LuaGame
+    // Destructor of Game
     // Do nothing?
 }
 
-bool LuaGame::Load()
+bool Game::Load()
 {   
     // Init lua state
     L = lua_open();
@@ -50,14 +49,14 @@ bool LuaGame::Load()
 		    // Register own callbacks
             _register_own_callbacks();
 		    
-		    // Set LuaGame.Instance to this class instance!
-		    // Instance will later be used to call correct LuaGame instance.
+		    // Set Game.Instance to this class instance!
+		    // Instance will later be used to call correct Game instance.
             lua_getglobal(L, LUAGAME_TABLE);
             lua_pushlightuserdata(L, this);
             lua_setfield(L, -2, "Instance");
             lua_pop(L, 1);
 		    
-		    // Call core init function (LuaGame:CoreInit())
+		    // Call core init function (Game:CoreInit())
 		    if (!CallGameMethod("CoreInit"))
                 return false;
 		    
@@ -72,7 +71,7 @@ bool LuaGame::Load()
         			Message(LOCAL_MSG, "-- %s", lua_tostring(L, -1));
         			lua_pop(L, 1);
         		} else {
-        			// Call LuaGame:Init()
+        			// Call Game:Init()
                     m_Running = CallGameMethod("Init");
         		}
 
@@ -82,13 +81,13 @@ bool LuaGame::Load()
 		}
 
 	} else {
-		Message(LOCAL_MSG, "Error while loading LuaGame.lua: %s",lua_tostring(L,-1));
+		Message(LOCAL_MSG, "Error while loading Game.lua: %s",lua_tostring(L,-1));
 	}
     
     return true;
 }
 
-int LuaGame::PreLoad()
+int Game::PreLoad()
 {
     // Preload game data
     if (!m_Running)
@@ -98,7 +97,7 @@ int LuaGame::PreLoad()
     return 0;
 }
 
-bool LuaGame::Update(float dt)
+bool Game::Update(float dt)
 {
     // Update game
     if (!m_Running)
@@ -117,7 +116,7 @@ bool LuaGame::Update(float dt)
     return m_Running;
 }
 
-bool LuaGame::Render()
+bool Game::Render()
 {
     // Render game
     if (!m_Running)
@@ -137,7 +136,7 @@ bool LuaGame::Render()
 
 ///////////////////////////////////////////////////////////////////
 // Private methods
-void LuaGame::_register_lua_libs_callbacks()
+void Game::_register_lua_libs_callbacks()
 {
 	// Lua libs
 	static const luaL_Reg lualibs[] = {
@@ -159,18 +158,24 @@ void LuaGame::_register_lua_libs_callbacks()
 	}
 }
 
-void LuaGame::_register_own_callbacks()
+void Game::_register_own_callbacks()
 {
     // Register own callbacks
 	lua_register(L, "print", Print);
 	//lua_register(L, "print", TestInstance);
 	
-    lua_getglobal(L, "LuaGame");
+    lua_getglobal(L, LUAGAME_TABLE);
     lua_pushcfunction(L, TestInstance);
     lua_setfield(L, -2, "Test");
+    
+    // Pop "LuaGame" table
+    lua_pop(L, 1);
+    
+    // Register subsystems
+	Vec2::RegisterClass(L);
 }
 
-bool LuaGame::HandleLuaErrors(int _error)
+bool Game::HandleLuaErrors(int _error)
 {
 	if (_error != 0)
 	{
@@ -188,7 +193,7 @@ bool LuaGame::HandleLuaErrors(int _error)
 	return true;
 }
 
-bool LuaGame::CallGameMethod(const char* _method)
+bool Game::CallGameMethod(const char* _method)
 {
     lua_getglobal(L, "debug");
 	lua_getfield(L, -1, "traceback");
@@ -200,7 +205,7 @@ bool LuaGame::CallGameMethod(const char* _method)
 	return HandleLuaErrors(lua_pcall(L, 1, 0, -3));
 }
 
-void* LuaGame::GetInstance(lua_State *_L)
+void* Game::GetInstance(lua_State *_L)
 {
     lua_getglobal(_L, LUAGAME_TABLE);
     lua_getfield(_L, -1, "Instance");
@@ -213,10 +218,9 @@ void* LuaGame::GetInstance(lua_State *_L)
 ///////////////////////////////////////////////////////////////////
 // Callback methods
 
-int LuaGame::Print(lua_State *_L)
+int Game::Print(lua_State *_L)
 {
-    LuaGame* instance = (LuaGame*)GetInstance(_L);
-    //printf("DEBUGGG: %s\n", "LOL SUP");
+    //Game* instance = (Game*)GetInstance(_L);
     
     // More or less copy paste from lbaselib.c of Lua dist.
     // Modified so that prints can be pushed to the "game console"
@@ -242,13 +246,15 @@ int LuaGame::Print(lua_State *_L)
     return 0;
 }
 
-int LuaGame::TestInstance(lua_State *_L)
+int Game::TestInstance(lua_State *_L)
 {
-    LuaGame* instance = (LuaGame*)GetInstance(_L);
+    Game* instance = (Game*)GetInstance(_L);
     instance->LOLSUP();
+	
+	return 0;
 }
 
-void LuaGame::LOLSUP()
+void Game::LOLSUP()
 {
     printf("Hey, this should print!\n");
 }

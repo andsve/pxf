@@ -39,7 +39,7 @@ b2Body* body1;
 b2Body* body2;
 
 // LuaGame instance
-LuaGame* luagame;
+LuaGame::Game* luagame;
 
 Application::Application(const char* _Title)
 	: m_Title(_Title),
@@ -260,7 +260,7 @@ bool Application::Init()
 	}
 	
 	// Init LuaGame
-	luagame = new LuaGame("test.lua", m_Device);
+	luagame = new LuaGame::Game("test.lua", m_Device);
 	
 	return m_IsRunning;
 }

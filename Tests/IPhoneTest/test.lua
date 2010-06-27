@@ -2,6 +2,8 @@
 function LuaGame:Init()
 	self.GameIdent = "Our awesome testgame!"
 	self.GameVersion = "1.0"
+	
+	print("luagame.vec2.ToString(): " .. LuaGame.vec2.ToString())
 end
 
 function LuaGame:PreLoad()
@@ -12,9 +14,9 @@ function LuaGame:PreLoad()
 end
 
 function LuaGame:Update(dt)
-	print("Time to UPDATE our game with '" .. tostring(dt) .. "'")
+	--print("Time to UPDATE our game with '" .. tostring(dt) .. "'")
 end
 
 function LuaGame:Render()
-	print("Time to RENDER our game!")
+	--print("Time to RENDER our game!")
 end
