@@ -11,7 +11,7 @@ extern "C" {
 #include <lualib.h>
 }
 
-#define LUAGAME_TABLE "LuaGame"
+#define LUAGAME_TABLE "luagame"
 
 namespace Pxf
 {

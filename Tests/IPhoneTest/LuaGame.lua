@@ -1,8 +1,8 @@
 
-LuaGame = {}
-LuaGame.CoreVersion = "0.1.0"
+luagame = {}
+luagame.CoreVersion = "0.1.0"
 
-function LuaGame:CoreInit()
+function luagame:CoreInit()
   -- Debug output
   print("------------------------------------")
   print("LuaGame - Version " .. self.CoreVersion)

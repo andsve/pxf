@@ -19,9 +19,10 @@ namespace Pxf
                 static void RegisterClass(lua_State* _L);
                 
                 // Callbacks
+                static int New(lua_State* _L);
                 static int ToString(lua_State* _L);
-
-            private:
+                
+                // Data
                 float x,y;
             };
         } /* LuaGameSubsystem */
