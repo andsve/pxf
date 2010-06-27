@@ -1,0 +1,38 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+h3 {
+    margin: 5px;
+}
+
+body {
+    font-family: Arial, "MS Trebuchet", sans-serif;
+    font-size: 0.9em;
+    background-color: #eee;
+    margin: auto;
+    width: 800px;
+}
+
+.block {
+    margin: 20px 0px 0px 0px;
+    padding: 10px;
+    background-color: #ccd;
+}
+
+.code {
+    font-family: "Courier New", Courier;
+    background-color: #DDD;
+    border: 1px solid #999;
+    padding: 5px;
+    margin: 5px;
+}
