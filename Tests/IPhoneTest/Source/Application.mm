@@ -16,6 +16,7 @@
 #include <Pxf/Extra/LuaGame/LuaGame.h>
 
 #include <Pxf/Game/Box2D/Box2DPhysicsWorld.h>
+#include <Box2D/Dynamics/b2World.h>
 #include <Pxf/Game/PhysicsBodyDefs.h>
 
 //#include <Box2D/lol.h>
@@ -64,17 +65,6 @@ bool Application::Update()
 	m_World->Simulate();
 	m_World->ClearForces();
 	
-	/*
-	world.Step(1.0f / 60.0f, velocityIterations, positionIterations);
-    world.ClearForces();
-	
-	b2Vec2 pos = body1->GetPosition();
-	pSprite1->SetPosition(Vec3f(pos.x,pos.y,0.0f));
-	
-	pos = body2->GetPosition();
-	pSprite2->SetPosition(Vec3f(pos.x,pos.y,0.0f));
-	 */
-	
 	_UpdateFPS();
 	
 	// Update LuaGame
@@ -104,17 +94,15 @@ bool Application::Render()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 	//glOrthof(0.0f, ((DeviceGLES11*) m_Device)->GetBackingWidth(), 0.f, ((DeviceGLES11*) m_Device)->GetBackingHeight(), -1.0f, 1.0f);
-	//glOrthof(0.0f, 10.0f, 0.f, 10.0f, -1.0f, 1.0f);
-	glOrthof(0.0f, 100.0f, 100.0f, 0.0f, -1.0f, 1.0f);
+	glOrthof(0.0f, 20.0f, 0.f, 20.0f, -1.0f, 1.0f);
+	//glOrthof(0.0f, 100.0f, 100.0f, 0.0f, -1.0f, 1.0f);
     glMatrixMode(GL_MODELVIEW);
     
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-	
-
-    
+	    
 	Vec3f _Pos(_Box1Body->GetPosition().x,_Box1Body->GetPosition().y,0.0f);
-	//printf("%f,%f\n",_Pos.x,_Pos.y);
+	
 	m_Device->Translate(_Pos);
 	pSprite1->Draw();
 	m_Device->Translate(-_Pos);
@@ -128,7 +116,7 @@ bool Application::Render()
 	m_Device->SetProjection(&t_ortho);
 	
 	luagame->Render();	
-	
+
 	return _RetVal;
 }
 
@@ -140,9 +128,9 @@ void Application::SetDevice(Pxf::Graphics::Device* _pDevice)
 }	
 
 void Application::Setup()
-{
+{	
+	Vec2f _Gravity(0.0f,-10.0f);
 	
-	Vec2f _Gravity(0.05,-10.0f);
 	m_World = new Game::Box2DPhysicsWorld(_Gravity,true,1 / 60.0f, 6,2);
 	
 	Game::body_parameters _GroundBodyParams;
@@ -150,24 +138,24 @@ void Application::Setup()
 	_GroundBodyParams.position.y = -10.0f;
 	_GroundBodyParams.half_size.x = 50.0f;
 	_GroundBodyParams.half_size.y = 10.0f;
+	_GroundBodyParams.density = 1.0f;
 	_GroundBodyParams.shape_type = b2Shape::e_polygon;
 	_GroundBodyParams.po_type = Game::PO_BODY_STATIC;
 	
 	_GroundBody = m_World->CreateBodyFromParams(_GroundBodyParams);
-	printf("%f,%f\n",_GroundBody->GetPosition().x,_GroundBody->GetPosition().y);
 	
 	Game::body_parameters _Box1;
-	_Box1.position.x = 0.0f;
-	_Box1.position.y = 50.0f;
+	_Box1.position.x = 5.0f;
+	_Box1.position.y = 5.0f;
 	_Box1.half_size.x = 0.5f;
-	_Box1.half_size.y = 0.5;
+	_Box1.half_size.y = 0.5f;
 	_Box1.friction = 0.3f;
 	_Box1.density = 1.0f;
 	_Box1.shape_type = b2Shape::e_polygon;
 	_Box1.po_type = Game::PO_BODY_DYNAMIC;
 	
 	_Box1Body = m_World->CreateBodyFromParams(_Box1);
-	 
+
 	// Load some texture
 	pTexture = m_Device->CreateTexture("sprite_test.jpg");
 	
@@ -179,18 +167,6 @@ void Application::Setup()
 							   64,								// Sprite Cell Height
 							   10,								// Sprite Draw Frequency
 							   -1);								// Sprite Depth Sort, -1 = NO SORT
-	/*
-	pSprite2 = new Game::Sprite(m_Device,						// Device Context
-								"MySprite2",						// Object Name (providing a NULL pointer 
-								// in this field will generate a new name)
-								pTexture,						// Sprite Texture
-								64,								// Sprite Cell Width
-								64,								// Sprite Cell Height
-								10,								// Sprite Draw Frequency
-								-1);								// Sprite Depth Sort, -1 = NO SORT
-	 
-	*/
-	
 	// Init LuaGame
 	luagame = new LuaGame::Game("test.lua", m_Device);
 	
