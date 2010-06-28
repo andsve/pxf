@@ -25,7 +25,6 @@ QuadBatchGLES11::QuadBatchGLES11(Device* _pDevice, int _maxSize)
 	m_CurrentDepthLayer = 0.5f;
 	m_Rotation = 0.0f;
 	
-    Message(LOCAL_MSG, "IM IN!");
 }
 
 QuadBatchGLES11::~QuadBatchGLES11()
@@ -73,6 +72,12 @@ void QuadBatchGLES11::Rotate(const Math::Vec3f &center, Math::Vec3f &point)
 	point.y = p.x * sinf(m_Rotation) + p.y * cosf(m_Rotation) + center.y;
 }
 
+void QuadBatchGLES11::Translate(float x, float y)
+{
+    m_Translation.x += x;
+    m_Translation.y += y;
+}
+
 void QuadBatchGLES11::SetDepth(float d)
 {
 	m_CurrentDepthLayer = d;
@@ -83,11 +88,17 @@ void QuadBatchGLES11::Reset()
 	m_VertexBufferPos = 0;
 	SetRotation(0.f);
 	SetTextureSubset(0.f,0.f,1.f,1.f);
-	SetColor(1.f,1.f,1.f,1.f);	
+	SetColor(1.f,1.f,1.f,1.f);
+	
+    m_Translation.x = 0.0f;
+    m_Translation.y = 0.0f;
 }
 
 void QuadBatchGLES11::AddFreeform(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3)
 {
+    // TODO: FIX THIS!
+    //       Stopped working when moved from quads -> triangles.
+    //       The count is also wrong inside the m_Vertices.
 	if (m_VertexBufferPos >= m_VertexBufferSize)
 	{
 		Message(LOCAL_MSG, "Not enough space in vertex array! Try increasing _maxSize in QuadBatch constructor.");
@@ -130,6 +141,9 @@ void QuadBatchGLES11::AddTopLeft(float x, float y, float w, float h)
 	}
 
 	Math::Vec3f center(x + w/2, y + h/2, 0.f);
+	
+    x = m_Translation.x + x;
+    y = m_Translation.y + y;
 	
 	// 0
 	m_Vertices[m_VertexBufferPos].pos.x = x;

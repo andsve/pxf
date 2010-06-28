@@ -7,6 +7,5 @@ function luagame:CoreInit()
   print("------------------------------------")
   print("LuaGame - Version " .. self.CoreVersion)
   print("Instance: " .. tostring(self.Instance))
-  self:Test()
 end
 

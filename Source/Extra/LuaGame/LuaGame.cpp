@@ -148,6 +148,16 @@ void Game::AddQuad(float x1, float y1, float x2, float y2)
 	m_QuadBatch->AddTopLeft(x1, y1, x2, y2);
 }
 
+void Game::Rotate(float a)
+{
+    m_QuadBatch->SetRotation(a);
+}
+
+void Game::Translate(float x, float y)
+{
+    m_QuadBatch->Translate(x, y);
+}
+
 
 ///////////////////////////////////////////////////////////////////
 // Private methods
@@ -179,12 +189,14 @@ void Game::_register_own_callbacks()
 	lua_register(L, "print", Print);
 	//lua_register(L, "print", TestInstance);
 	
+	/*
     lua_getglobal(L, LUAGAME_TABLE);
     lua_pushcfunction(L, TestInstance);
     lua_setfield(L, -2, "Test");
     
     // Pop "LuaGame" table
     lua_pop(L, 1);
+    */
     
     // Register subsystems
 	Vec2::RegisterClass(L);
@@ -260,18 +272,5 @@ int Game::Print(lua_State *_L)
     }
     fputs("\n", stdout);
     return 0;
-}
-
-int Game::TestInstance(lua_State *_L)
-{
-    Game* instance = (Game*)GetInstance(_L);
-    instance->LOLSUP();
-	
-	return 0;
-}
-
-void Game::LOLSUP()
-{
-    printf("Hey, this should print!\n");
 }
 

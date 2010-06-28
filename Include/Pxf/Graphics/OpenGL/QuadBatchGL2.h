@@ -27,6 +27,7 @@ namespace Pxf
 				void SetColor(Math::Vec4f* c);
 				void SetTextureSubset(float tl_u, float tl_v, float br_u, float br_v);
 				void SetRotation(float angle);
+				void Translate(float x, float y);
 				void SetDepth(float d);
 
 				void Reset();

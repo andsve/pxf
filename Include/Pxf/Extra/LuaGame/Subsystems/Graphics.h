@@ -13,6 +13,8 @@ namespace Pxf
             {
                 void RegisterClass(lua_State* _L);
                 int DrawQuad(lua_State* _L);
+                int Translate(lua_State* _L);
+                int Rotate(lua_State* _L);
                 
                 
             } /* GraphicsSubsystem */

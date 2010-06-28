@@ -31,7 +31,10 @@ namespace Pxf
                 bool Update(float dt);
                 bool Render();
                 
+                // Graphics manipulation
                 void AddQuad(float x1, float y1, float x2, float y2);
+                void Rotate(float a);
+                void Translate(float x, float y);
 
             private:
                 bool m_Running; // Script state
@@ -55,11 +58,9 @@ namespace Pxf
                 bool CallGameMethod(const char* _method);
                 int  PreLoad(); // Called within Render() in the starting phase of the game
                 static void* GetInstance(lua_State *_L);
-                void LOLSUP();
             
                 // Callback methods
                 static int Print(lua_State *_L);
-                static int TestInstance(lua_State *_L);
             };
         } /* LuaGame */
     } /* Extra */

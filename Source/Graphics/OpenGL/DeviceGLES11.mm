@@ -100,7 +100,6 @@ void DeviceGLES11::BindTexture(Texture* _texture, unsigned int _texture_unit)
 // PrimitiveBatch
 QuadBatch* DeviceGLES11::CreateQuadBatch(int _maxSize)
 {
-    Message(LOCAL_MSG, "IM DOING IT");
 	return new QuadBatchGLES11(this, _maxSize);
 }
 
