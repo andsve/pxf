@@ -13,6 +13,7 @@
 #include <Pxf/Math/Vector.h>
 #include <Pxf/Graphics/VertexBuffer.h>
 #include <Pxf/Graphics/OpenGL/DeviceGLES11.h>
+#include <Pxf/Extra/LuaGame/LuaGame.h>
 
 #include <Pxf/Game/Box2D/Box2DPhysicsWorld.h>
 
@@ -21,6 +22,7 @@
 using namespace Pxf;
 using namespace Math;
 using namespace Graphics;
+using namespace Extra;
 
 /*
 typedef signed char	int8;
@@ -40,12 +42,19 @@ b2Body* body1;
 b2Body* body2;
  */
 
+// LuaGame instance
+LuaGame::Game* luagame;
+
 Application::Application(const char* _Title)
 	: m_Title(_Title),
 	  m_Engine(0),
 	  m_IsRunning(false)
 {
-
+	// Workaround to get correct resources dir under osx
+    NSString* readPath = [[NSBundle mainBundle] resourcePath];
+	char buffer[2048];
+	[readPath getCString:buffer maxLength:2048 encoding:NSUTF8StringEncoding];
+	chdir(buffer);
 }
 
 Application::~Application()
@@ -79,6 +88,9 @@ bool Application::Update()
 	 */
 	
 	_UpdateFPS();
+	
+	// Update LuaGame
+	luagame->Update(0.1);
 
 	
 	return _RetVal;
@@ -113,6 +125,9 @@ bool Application::Render()
     
 	pSprite1->Draw();
 	pSprite2->Draw();
+	
+	// Draw loading if preloading resources
+	luagame->Render();
 	
 	return _RetVal;
 }
@@ -240,6 +255,9 @@ void Application::Setup()
 	pQBatch->SetColor(0.0f, 1.0f, 0.0f, 1.0f);
 	pQBatch->AddCentered(225, 225, 50, 50);
 	*/
+	
+	// Load LuaGame
+	luagame->Load();
 }
 
 bool Application::Init()
@@ -251,6 +269,9 @@ bool Application::Init()
 	{
 		m_IsRunning = false;
 	}
+	
+	// Init LuaGame
+	luagame = new LuaGame::Game("test.lua", m_Device);
 	
 	return m_IsRunning;
 }

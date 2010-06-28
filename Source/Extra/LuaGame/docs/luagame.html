@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link rel="stylesheet" href="luagame.css" type="text/css" media="screen" title="Main Docs Style" charset="utf-8">
+	<title>LuaGame Reference Manual</title>
+</head>
+<body>
+<h1>LuaGame Reference Manual</h1>
+<h2>Version 0.1.0</h2>
+
+<div class="block">
+  <h3>Usage</h3>
+    Setup:
+    <pre class="code">
+<strong>using namespace</strong> Pxf::Extra::LuaGame;
+Game *luagame = <strong>new</strong> Game("test.lua", m_Device);
+luagames->Load();</pre>
+<strong><em>m_Device</em></strong> is a pointer to your current <strong><em>Pxf::Graphics::Device</em></strong> instance.
+<br />
+<br />
+    Once every frame:
+    <pre class="code">
+luagame->Update(delta);
+luagame->Render();</pre>
+<strong><em>delta</em></strong> is a float delta value in seconds since last frame.
+</div>
+
+<div class="block">
+  TODO: Reference manual...
+</div>
+
+</body>
+</html>
