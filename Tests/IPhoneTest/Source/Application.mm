@@ -111,9 +111,7 @@ bool Application::Render()
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 	
-	// Draw loading if preloading resources
-	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-	luagame->Render();
+
     
 	Vec3f _Pos(_Box1Body->GetPosition().x,_Box1Body->GetPosition().y,0.0f);
 	//printf("%f,%f\n",_Pos.x,_Pos.y);
@@ -124,7 +122,12 @@ bool Application::Render()
 	//pSprite2->Draw();
 	
 	
+	// Draw loading if preloading resources
+	m_Device->SetViewport(0.0f, 0.0f, ((DeviceGLES11*) m_Device)->GetBackingWidth(), ((DeviceGLES11*) m_Device)->GetBackingHeight());
+	Math::Mat4 t_ortho = Math::Mat4::Ortho(0, ((DeviceGLES11*) m_Device)->GetBackingWidth(), ((DeviceGLES11*) m_Device)->GetBackingHeight(), 0, 0, 1);
+	m_Device->SetProjection(&t_ortho);
 	
+	luagame->Render();	
 	
 	return _RetVal;
 }
