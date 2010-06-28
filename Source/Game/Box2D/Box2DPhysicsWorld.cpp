@@ -46,7 +46,7 @@ void Box2DPhysicsWorld::ClearForces()
 
 PhysicsObject* Box2DPhysicsWorld::CreateBodyFromParams(body_parameters _Params)
 {
-	Box2DPhysicsObject* _NewObject;
+	Box2DPhysicsObject* _NewObject = new Box2DPhysicsObject();
 	
 	b2Body*		_NewBody;
 	b2BodyDef	_NewBodyDef;

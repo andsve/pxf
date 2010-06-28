@@ -30,8 +30,9 @@ using namespace Graphics;
 using namespace Extra;
 using namespace Game;
 
-PhysicsObject* _GroundBody; 
-PhysicsObject* _Box1Body; 
+Box2DPhysicsObject* _GroundBody; 
+Box2DPhysicsObject* _Box1Body; 
+Box2DPhysicsObject* _Box2Body; 
 
 // LuaGame instance
 LuaGame::Game* luagame;
@@ -107,6 +108,10 @@ bool Application::Render()
 	pSprite1->Draw();
 	m_Device->Translate(-_Box1Body->GetPosition());
 	
+	m_Device->Translate(_Box2Body->GetPosition());
+	pSprite1->Draw();
+	m_Device->Translate(-_Box2Body->GetPosition());
+	 
 	//pSprite2->Draw();
 	
 	
@@ -133,6 +138,16 @@ void Application::Setup()
 	
 	m_World = new Game::Box2DPhysicsWorld(_Gravity,true,1 / 60.0f, 6,2);
 	
+	b2BodyDef groundBodyDef; 
+	groundBodyDef.position.Set(0.0f, -10.0f); 
+	b2Body* groundBody = m_World->GetWorld()->CreateBody(&groundBodyDef); 
+	b2PolygonShape groundBox; 
+	groundBox.SetAsBox(50.0f, 10.0f); 
+	
+	
+	Box2DPhysicsObject* _Obj = new Box2DPhysicsObject();
+	_Obj->SetBody(groundBody);
+	
 	Game::body_parameters _GroundBodyParams;
 	_GroundBodyParams.position.x = 0.0f;
 	_GroundBodyParams.position.y = -10.0f;
@@ -142,10 +157,10 @@ void Application::Setup()
 	_GroundBodyParams.shape_type = b2Shape::e_polygon;
 	_GroundBodyParams.po_type = Game::PO_BODY_STATIC;
 	
-	_GroundBody = m_World->CreateBodyFromParams(_GroundBodyParams);
+	_GroundBody = (Box2DPhysicsObject*) m_World->CreateBodyFromParams(_GroundBodyParams);
 	
 	Game::body_parameters _Box1;
-	_Box1.position.x = 5.0f;
+	_Box1.position.x = 8.0f;
 	_Box1.position.y = 5.0f;
 	_Box1.half_size.x = 0.5f;
 	_Box1.half_size.y = 0.5f;
@@ -154,7 +169,19 @@ void Application::Setup()
 	_Box1.shape_type = b2Shape::e_polygon;
 	_Box1.po_type = Game::PO_BODY_DYNAMIC;
 	
-	_Box1Body = m_World->CreateBodyFromParams(_Box1);
+	_Box1Body = (Box2DPhysicsObject*) m_World->CreateBodyFromParams(_Box1);
+	
+	Game::body_parameters _Box2;
+	_Box2.position.x = 8.4f;
+	_Box2.position.y = 7.0f;
+	_Box2.half_size.x = 0.5f;
+	_Box2.half_size.y = 0.5f;
+	_Box2.friction = 0.3f;
+	_Box2.density = 1.0f;
+	_Box2.shape_type = b2Shape::e_polygon;
+	_Box2.po_type = Game::PO_BODY_DYNAMIC;
+	
+	_Box2Body = (Box2DPhysicsObject*) m_World->CreateBodyFromParams(_Box2);
 
 	// Load some texture
 	pTexture = m_Device->CreateTexture("sprite_test.jpg");
