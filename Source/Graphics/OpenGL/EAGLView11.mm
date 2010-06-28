@@ -26,8 +26,9 @@
 
 - (bool) InitDevice
 {
-	Pxf::Graphics::DeviceGLES11* _Tmp = new Pxf::Graphics::DeviceGLES11();
-	m_Device = (Pxf::Graphics::Device*) _Tmp;
+	//Pxf::Graphics::DeviceGLES11* _Tmp = new Pxf::Graphics::DeviceGLES11();
+	//m_Device = (Pxf::Graphics::Device*) _Tmp;
+	m_Device = new Pxf::Graphics::DeviceGLES11();
 	return m_Device->Ready();
 }
 

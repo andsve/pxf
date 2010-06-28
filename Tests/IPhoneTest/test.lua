@@ -7,10 +7,15 @@ function luagame:Init()
 	print("testvec: " .. testvec:tostring())
 	print("testvec.instance: " .. tostring(testvec.instance))
 	
-	testvec.instance = 123
-	print("Should fail now: " .. testvec:tostring())
+	---------------------------------------------------------
+	-- Fail guard test for "class" member calling.
+	--testvec.instance = 123
+	--print("Should fail now: " .. testvec:tostring())
+	---------------------------------------------------------
 	
 	--print("luagame.vec2.ToString(): " .. luagame.vec2.ToString())
+	
+	testani = 0.0
 end
 
 function luagame:PreLoad()
@@ -26,4 +31,7 @@ end
 
 function luagame:Render()
 	--print("Time to RENDER our game!")
+	luagame.graphics.drawquad(10+math.cos(testani)*10, 10+math.sin(testani)*10, 40, 40)
+	testani = testani + 0.1
+	--luagame.graphics.drawquad(10, 10, 40, 40)
 end

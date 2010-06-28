@@ -1,6 +1,8 @@
 
 #include <Pxf/Extra/LuaGame/LuaGame.h>
 #include <Pxf/Extra/LuaGame/Subsystems/Vec2.h>
+#include <Pxf/Extra/LuaGame/Subsystems/Graphics.h>
+
 
 #define LOCAL_MSG "LuaGame"
 
@@ -19,6 +21,9 @@ Game::Game(Util::String _gameFilename, Graphics::Device* _device, bool _graceful
     
     m_Running = false;
     m_GracefulFail = _gracefulFail;
+    
+    // Graphics
+    m_QuadBatch = m_Device->CreateQuadBatch(1024);
 }
 
 Game::~Game()
@@ -127,10 +132,20 @@ bool Game::Render()
     {
         // TODO: Render loading bar
     } else {
+        m_QuadBatch->Reset();
         m_Running = CallGameMethod("Render");
+        m_QuadBatch->Draw();
     }
         
     return m_Running;
+}
+
+void Game::AddQuad(float x1, float y1, float x2, float y2)
+{
+    Math::Vec4f coords = Math::Vec4f(0, 0, 1, 1);//m_Texture->CreateTextureSubset(_texpixels->x, _texpixels->y, _texpixels->z, _texpixels->w);
+	
+	m_QuadBatch->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
+	m_QuadBatch->AddTopLeft(x1, y1, x2, y2);
 }
 
 
@@ -173,6 +188,7 @@ void Game::_register_own_callbacks()
     
     // Register subsystems
 	Vec2::RegisterClass(L);
+    GraphicsSubsystem::RegisterClass(L);
 }
 
 bool Game::HandleLuaErrors(int _error)
