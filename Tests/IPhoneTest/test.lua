@@ -15,6 +15,9 @@ function luagame:Init()
 	
 	--print("luagame.vec2.ToString(): " .. luagame.vec2.ToString())
 	
+	screenw, screenh = luagame.graphics.getscreensize()
+	print("Screen size: " .. tostring(screenw) .. "x" .. tostring(screenh))
+	
 	testani = 0.0
 end
 
@@ -37,7 +40,9 @@ function luagame:Render()
 	luagame.graphics.drawquad(50+math.cos(testani+23)*10, 100+math.sin(testani+23)*10, 20, 20)
 	luagame.graphics.drawquad(100+math.cos(testani+45)*10, 50+math.sin(testani+12)*10, 20, 20)
 	
+	luagame.graphics.rotate((2.0*3.14) / 123.0)
 	luagame.graphics.drawquad(100, 200, 30, 30)
+	--luagame.graphics.rotate(0.0)
 	luagame.graphics.translate(math.cos(testani)*20, math.sin(testani)*10)
 	luagame.graphics.drawquad(100, 200, 30, 30)
 	

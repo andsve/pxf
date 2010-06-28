@@ -24,7 +24,9 @@ namespace Pxf{
 			Window* OpenWindow(WindowSpecifications* _pWindowSpecs);
 			void CloseWindow();
 			DeviceType GetDeviceType() { return EOpenGLES11; }
+			
 			// Graphics
+            void GetSize(int *_w, int *_h);
 			void SetViewport(int _x, int _y, int _w, int _h);
 			void SetProjection(Math::Mat4 *_matrix);
 			void Translate(Math::Vec3f _translate);

@@ -24,6 +24,7 @@ namespace Pxf{
 
 			DeviceType GetDeviceType() { return EOpenGL2; }
 
+            void GetSize(int *_w, int *_h);
 			void SetViewport(int _x, int _y, int _w, int _h);
 			void SetProjection(Math::Mat4 *_matrix);
 			void SwapBuffers();

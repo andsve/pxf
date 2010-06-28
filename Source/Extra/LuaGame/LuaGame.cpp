@@ -140,6 +140,8 @@ bool Game::Render()
     return m_Running;
 }
 
+/*
+
 void Game::AddQuad(float x1, float y1, float x2, float y2)
 {
     Math::Vec4f coords = Math::Vec4f(0, 0, 1, 1);//m_Texture->CreateTextureSubset(_texpixels->x, _texpixels->y, _texpixels->z, _texpixels->w);
@@ -157,7 +159,7 @@ void Game::Translate(float x, float y)
 {
     m_QuadBatch->Translate(x, y);
 }
-
+*/
 
 ///////////////////////////////////////////////////////////////////
 // Private methods

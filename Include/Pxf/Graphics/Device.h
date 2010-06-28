@@ -37,6 +37,7 @@ namespace Pxf
 			virtual DeviceType GetDeviceType() = 0;
 
 			// Graphics
+            virtual void GetSize(int *_w, int *_h) = 0;
 			virtual void SetViewport(int _x, int _y, int _w, int _h) = 0;
 			virtual void SetProjection(Math::Mat4 *_matrix) = 0;
 			virtual void Translate(Math::Vec3f _translate) = 0;

@@ -46,6 +46,13 @@ void DeviceGLES11::CloseWindow()
 }
 
 // Graphics
+
+void DeviceGLES11::GetSize(int *_w, int *_h)
+{
+    (*_w) = GetBackingWidth();
+    (*_h) = GetBackingHeight();
+}
+
 void DeviceGLES11::SetViewport(int _x, int _y, int _w, int _h)
 {
 	glViewport(_x,_y,_w,_h);	
@@ -94,7 +101,6 @@ void DeviceGLES11::BindTexture(Texture* _texture)
 void DeviceGLES11::BindTexture(Texture* _texture, unsigned int _texture_unit)
 {
 	
-
 }
 
 // PrimitiveBatch

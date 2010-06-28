@@ -16,6 +16,8 @@ namespace Pxf
                 int Translate(lua_State* _L);
                 int Rotate(lua_State* _L);
                 
+                int GetScreenSize(lua_State* _L);
+                
                 
             } /* GraphicsSubsystem */
         } /* LuaGame */
