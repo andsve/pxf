@@ -18,15 +18,24 @@ h3 {
 body {
     font-family: Arial, "MS Trebuchet", sans-serif;
     font-size: 0.9em;
-    background-color: #eee;
     margin: auto;
     width: 800px;
+}
+
+#menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 200px;
+    background-color: #ccd;
+    border: 1px solid #999;
+    padding: 10px;
 }
 
 .block {
     margin: 20px 0px 0px 0px;
     padding: 10px;
-    background-color: #ccd;
+    background-color: #eef;
 }
 
 .code {

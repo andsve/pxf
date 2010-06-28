@@ -3,6 +3,7 @@
 
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/Device.h>
+#include <Pxf/Graphics/QuadBatch.h>
 
 // Lua includes
 extern "C" {
@@ -29,6 +30,8 @@ namespace Pxf
                 bool Load();
                 bool Update(float dt);
                 bool Render();
+                
+                void AddQuad(float x1, float y1, float x2, float y2);
 
             private:
                 bool m_Running; // Script state
@@ -41,6 +44,9 @@ namespace Pxf
             
                 // Pxf device
                 Graphics::Device* m_Device;
+                
+                // Graphic data
+                Graphics::QuadBatch* m_QuadBatch;
             
                 // Private methods
                 void _register_lua_libs_callbacks();

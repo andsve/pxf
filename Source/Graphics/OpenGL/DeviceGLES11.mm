@@ -2,6 +2,7 @@
 #include <Pxf/Graphics/OpenGL/VertexBufferGLES11.h>
 #include <Pxf/Graphics/OpenGL/VideoBufferGL.h>
 #include <Pxf/Graphics/OpenGL/TextureGLES.h>
+#include <Pxf/Graphics/OpenGL/QuadBatchGLES11.h>
 #include <Pxf/Base/Debug.h>
 #include <OpenGLES/ES1/gl.h>
 #include <OpenGLES/ES1/glext.h>
@@ -99,7 +100,8 @@ void DeviceGLES11::BindTexture(Texture* _texture, unsigned int _texture_unit)
 // PrimitiveBatch
 QuadBatch* DeviceGLES11::CreateQuadBatch(int _maxSize)
 {
-	return 0;
+    Message(LOCAL_MSG, "IM DOING IT");
+	return new QuadBatchGLES11(this, _maxSize);
 }
 
 VertexBuffer* DeviceGLES11::CreateVertexBuffer(VertexBufferLocation _VertexBufferLocation, VertexBufferUsageFlag _VertexBufferUsageFlag)

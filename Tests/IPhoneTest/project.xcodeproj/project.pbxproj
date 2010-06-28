@@ -52,6 +52,8 @@
 		96B696AE11D3EACE008D24DD /* LuaGame.lua in Resources */ = {isa = PBXBuildFile; fileRef = 96B696AD11D3EAC6008D24DD /* LuaGame.lua */; };
 		96B696F511D3F3C3008D24DD /* TextureGLES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96B696F411D3F3C3008D24DD /* TextureGLES.cpp */; };
 		96B6977211D7CC92008D24DD /* Vec2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96B6977111D7CC92008D24DD /* Vec2.cpp */; };
+		96B697D411D8DEC4008D24DD /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96B697D311D8DEC4008D24DD /* Graphics.cpp */; };
+		96B6983011D8E798008D24DD /* QuadBatchGLES11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96B6982F11D8E798008D24DD /* QuadBatchGLES11.cpp */; };
 		C95AEF5511CFADAD008AF5BE /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C95AEF5411CFADAD008AF5BE /* GameObject.cpp */; };
 		C95AF01B11CFC97F008AF5BE /* sprite_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C95AF01A11CFC97F008AF5BE /* sprite_test.jpg */; };
 		C9613E3411BF0BB900D6BE42 /* GameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9613E3311BF0BB900D6BE42 /* GameState.cpp */; };
@@ -161,6 +163,8 @@
 		96B696AD11D3EAC6008D24DD /* LuaGame.lua */ = {isa = PBXFileReference; explicitFileType = text.script; fileEncoding = 4; path = LuaGame.lua; sourceTree = "<group>"; };
 		96B696F411D3F3C3008D24DD /* TextureGLES.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TextureGLES.cpp; path = ../../Source/Graphics/OpenGL/TextureGLES.cpp; sourceTree = SOURCE_ROOT; };
 		96B6977111D7CC92008D24DD /* Vec2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vec2.cpp; sourceTree = "<group>"; };
+		96B697D311D8DEC4008D24DD /* Graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Graphics.cpp; sourceTree = "<group>"; };
+		96B6982F11D8E798008D24DD /* QuadBatchGLES11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QuadBatchGLES11.cpp; path = ../../Source/Graphics/OpenGL/QuadBatchGLES11.cpp; sourceTree = SOURCE_ROOT; };
 		C95AEF5311CFAB91008AF5BE /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObject.h; path = ../../Include/Pxf/Game/GameObject.h; sourceTree = SOURCE_ROOT; };
 		C95AEF5411CFADAD008AF5BE /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObject.cpp; path = ../../Source/Game/GameObject.cpp; sourceTree = SOURCE_ROOT; };
 		C95AF01A11CFC97F008AF5BE /* sprite_test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sprite_test.jpg; sourceTree = "<group>"; };
@@ -424,6 +428,7 @@
 		96B6977011D7CC92008D24DD /* Subsystems */ = {
 			isa = PBXGroup;
 			children = (
+				96B697D311D8DEC4008D24DD /* Graphics.cpp */,
 				96B6977111D7CC92008D24DD /* Vec2.cpp */,
 			);
 			name = Subsystems;
@@ -659,6 +664,7 @@
 		C9F2D1AB11B7AA0A00F16BF3 /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
+				96B6982F11D8E798008D24DD /* QuadBatchGLES11.cpp */,
 				96B696F411D3F3C3008D24DD /* TextureGLES.cpp */,
 				C9F30B6B11D0A59200D91C41 /* DeviceGLES11.mm */,
 				C9F517DE11CA9CB20013F82A /* QuadBatchGL2.cpp */,
@@ -817,6 +823,8 @@
 				96B6968B11D3E6AD008D24DD /* print.c in Sources */,
 				96B696F511D3F3C3008D24DD /* TextureGLES.cpp in Sources */,
 				96B6977211D7CC92008D24DD /* Vec2.cpp in Sources */,
+				96B697D411D8DEC4008D24DD /* Graphics.cpp in Sources */,
+				96B6983011D8E798008D24DD /* QuadBatchGLES11.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

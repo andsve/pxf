@@ -104,11 +104,16 @@ bool Application::Render()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 	//glOrthof(0.0f, ((DeviceGLES11*) m_Device)->GetBackingWidth(), 0.f, ((DeviceGLES11*) m_Device)->GetBackingHeight(), -1.0f, 1.0f);
-	glOrthof(0.0f, 10.0f, 0.f, 10.0f, -1.0f, 1.0f);
+	//glOrthof(0.0f, 10.0f, 0.f, 10.0f, -1.0f, 1.0f);
+	glOrthof(0.0f, 100.0f, 100.0f, 0.0f, -1.0f, 1.0f);
     glMatrixMode(GL_MODELVIEW);
     
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+	
+	// Draw loading if preloading resources
+	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+	luagame->Render();
     
 	Vec3f _Pos(_Box1Body->GetPosition().x,_Box1Body->GetPosition().y,0.0f);
 	//printf("%f,%f\n",_Pos.x,_Pos.y);
@@ -118,8 +123,8 @@ bool Application::Render()
 	
 	//pSprite2->Draw();
 	
-	// Draw loading if preloading resources
-	luagame->Render();
+	
+	
 	
 	return _RetVal;
 }
@@ -182,6 +187,10 @@ void Application::Setup()
 								-1);								// Sprite Depth Sort, -1 = NO SORT
 	 
 	*/
+	
+	// Init LuaGame
+	luagame = new LuaGame::Game("test.lua", m_Device);
+	
 	// Load LuaGame
 	luagame->Load();
 }
@@ -195,9 +204,6 @@ bool Application::Init()
 	{
 		m_IsRunning = false;
 	}
-	
-	// Init LuaGame
-	luagame = new LuaGame::Game("test.lua", m_Device);
 	
 	return m_IsRunning;
 }
