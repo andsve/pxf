@@ -8,6 +8,7 @@ namespace Pxf
 	namespace Game
 	{
 		class PhysicsObject;
+		struct body_parameters;
 		class PhysicsWorld
 		{
 		public:
@@ -16,6 +17,7 @@ namespace Pxf
 				: m_Gravity(_Gravity.x,_Gravity.y,_Gravity.z) { }
 			virtual void Simulate() = 0;
 			virtual void ClearForces() = 0;
+			virtual PhysicsObject* CreateBodyFromParams(body_parameters _Params) = 0;
 		protected:
 			Math::Vec3f m_Gravity;
 		};

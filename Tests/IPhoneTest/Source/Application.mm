@@ -16,6 +16,7 @@
 #include <Pxf/Extra/LuaGame/LuaGame.h>
 
 #include <Pxf/Game/Box2D/Box2DPhysicsWorld.h>
+#include <Pxf/Game/Box2D/Box2DPhysicsObject.h>
 #include <Box2D/Dynamics/b2World.h>
 #include <Pxf/Game/PhysicsBodyDefs.h>
 
@@ -27,9 +28,10 @@ using namespace Pxf;
 using namespace Math;
 using namespace Graphics;
 using namespace Extra;
+using namespace Game;
 
-b2Body* _GroundBody; 
-b2Body* _Box1Body; 
+PhysicsObject* _GroundBody; 
+PhysicsObject* _Box1Body; 
 
 // LuaGame instance
 LuaGame::Game* luagame;
@@ -94,18 +96,16 @@ bool Application::Render()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 	//glOrthof(0.0f, ((DeviceGLES11*) m_Device)->GetBackingWidth(), 0.f, ((DeviceGLES11*) m_Device)->GetBackingHeight(), -1.0f, 1.0f);
-	glOrthof(0.0f, 20.0f, 0.f, 20.0f, -1.0f, 1.0f);
+	glOrthof(0.0f, 10.0f, 0.f, 10.0f, -1.0f, 1.0f);
 	//glOrthof(0.0f, 100.0f, 100.0f, 0.0f, -1.0f, 1.0f);
     glMatrixMode(GL_MODELVIEW);
     
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-	    
-	Vec3f _Pos(_Box1Body->GetPosition().x,_Box1Body->GetPosition().y,0.0f);
 	
-	m_Device->Translate(_Pos);
+	m_Device->Translate(_Box1Body->GetPosition());
 	pSprite1->Draw();
-	m_Device->Translate(-_Pos);
+	m_Device->Translate(-_Box1Body->GetPosition());
 	
 	//pSprite2->Draw();
 	

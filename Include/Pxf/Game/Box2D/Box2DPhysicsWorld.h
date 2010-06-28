@@ -22,6 +22,7 @@ namespace Pxf
 	
 	namespace Game
 	{	
+		struct body_parameters;
 		class PhysicsObject;
 		class Box2DPhysicsWorld : public PhysicsWorld
 			{
@@ -33,7 +34,7 @@ namespace Pxf
 				void Simulate();
 				void ClearForces();
 				
-				b2Body* CreateBodyFromParams(body_parameters _Params);
+				PhysicsObject* CreateBodyFromParams(body_parameters _Params);
 				
 				b2World* GetWorld() { return m_World; }
 				

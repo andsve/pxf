@@ -1,6 +1,8 @@
 #include <Pxf/Game/Box2D/Box2DPhysicsWorld.h>
+#include <Pxf/Game/Box2D/Box2DPhysicsObject.h>
 #include <Box2D/Dynamics/b2World.h>
 #include <Box2D/Dynamics/b2Body.h>
+#include <Pxf/Game/PhysicsObject.h>
 #include <Box2D/Common/b2Math.h>
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
 #include <Box2D/Collision/Shapes/b2CircleShape.h>
@@ -42,8 +44,10 @@ void Box2DPhysicsWorld::ClearForces()
 		m_World->ClearForces();
 }
 
-b2Body* Box2DPhysicsWorld::CreateBodyFromParams(body_parameters _Params)
+PhysicsObject* Box2DPhysicsWorld::CreateBodyFromParams(body_parameters _Params)
 {
+	Box2DPhysicsObject* _NewObject;
+	
 	b2Body*		_NewBody;
 	b2BodyDef	_NewBodyDef;
 	b2FixtureDef _NewBodyFixture;
@@ -86,5 +90,7 @@ b2Body* Box2DPhysicsWorld::CreateBodyFromParams(body_parameters _Params)
 		}
 	}
 
-	return _NewBody;
+	_NewObject->SetBody(_NewBody);
+	
+	return _NewObject;
 }

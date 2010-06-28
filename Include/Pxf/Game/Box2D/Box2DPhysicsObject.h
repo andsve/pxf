@@ -1,5 +1,5 @@
-#ifndef _PXF_GAME_BOX2DPHYSICSOBJECT_H_
-#define _PXF_GAME_BOX2DPHYSICSOBJECT_H_
+#ifndef _PXF_GAME_BOX2D_BOX2DPHYSICSOBJECT_H_
+#define _PXF_GAME_BOX2D_BOX2DPHYSICSOBJECT_H_
 
 #include <Pxf/Game/PhysicsObject.h>
 
@@ -12,13 +12,14 @@ namespace Pxf
 		class Box2DPhysicsObject : public PhysicsObject
 		{
 		public:
-			Box2DPhysicsObject(b2World* _World);
+			Box2DPhysicsObject();
 			~Box2DPhysicsObject();
 				
 			void SetPosition(Math::Vec3f _Position);
 			Math::Vec3f GetPosition();
 			
 			b2Body* GetBody() { return m_Body; }
+			void SetBody(b2Body* _Body) { m_Body = _Body; }
 		private:
 			b2Body* m_Body;
 		};
