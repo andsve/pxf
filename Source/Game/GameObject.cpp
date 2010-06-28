@@ -9,31 +9,23 @@ unsigned GameObject::m_ObjectCounter = 0;
 
 GameObject::GameObject()
 {
-	GameObject(Math::Vector3D<float>(0.0f,0.0f,0.0f));
+	//GameObject(Math::Vec3f(0.0f,0.0f,0.0f));
 }
 
-GameObject::GameObject(Pxf::Math::Vector3D<float> _Position, const char* _ID)
-	: m_Position(0),
-	m_ID(0)
+GameObject::GameObject(Pxf::Math::Vec3f _Position, const char* _ID)
+	: m_ID(0)
 {
 	if(!_ID)
 		_GenerateNewName();
 	else
 		m_ID = _ID;
 	
-	m_Position = new Math::Vector3D<float>(_Position.x,_Position.y,_Position.z);
+	//m_Position = new Math::Vec3f(_Position.x,_Position.y,_Position.z);
 }
 
 GameObject::GameObject(float _X, float _Y, float _Z, const char* _ID)
 {
-	GameObject(Math::Vector3D<float>(_X,_Y,_Z),_ID);
-}
-
-void GameObject::SetPosition(Math::Vector3D<float> _Position)
-{
-	m_Position->x = _Position.x;
-	m_Position->y = _Position.y;
-	m_Position->z = _Position.z;
+	//GameObject(Math::Vec3f(_X,_Y,_Z),_ID);
 }
 
 void GameObject::_GenerateNewName()

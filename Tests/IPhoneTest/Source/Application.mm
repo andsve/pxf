@@ -14,6 +14,8 @@
 #include <Pxf/Graphics/VertexBuffer.h>
 #include <Pxf/Graphics/OpenGL/DeviceGLES11.h>
 
+#include <Pxf/Game/Box2D/Box2DPhysicsWorld.h>
+
 //#include <Box2D/lol.h>
 
 using namespace Pxf;
@@ -26,7 +28,8 @@ typedef signed short int16;
 typedef signed int int32;
 typedef unsigned int uint32;
 */
- 
+
+/*
 float32 timeStep = 1.0f / 60.0f;
 int32 velocityIterations = 6;
 int32 positionIterations = 2;
@@ -35,6 +38,7 @@ bool	doSleep = true;
 b2World world(gravity, doSleep);
 b2Body* body1;
 b2Body* body2;
+ */
 
 Application::Application(const char* _Title)
 	: m_Title(_Title),
@@ -48,6 +52,10 @@ Application::~Application()
 {
 	m_Title = 0;
 	delete m_Engine;
+	delete m_World;
+	
+	m_Engine = 0;
+	m_World = 0;
 }
 	
 
@@ -56,6 +64,10 @@ bool Application::Update()
 	bool _RetVal = true;
 	// Call update on scene
 	
+	m_World->Simulate();
+	m_World->ClearForces();
+	
+	/*
 	world.Step(1.0f / 60.0f, velocityIterations, positionIterations);
     world.ClearForces();
 	
@@ -64,6 +76,7 @@ bool Application::Update()
 	
 	pos = body2->GetPosition();
 	pSprite2->SetPosition(Vec3f(pos.x,pos.y,0.0f));
+	 */
 	
 	_UpdateFPS();
 
@@ -109,24 +122,11 @@ void Application::SetDevice(Pxf::Graphics::Device* _pDevice)
 	m_Device = _pDevice;
 	
 	Setup();
-}
-
-/*
-struct MyVertex
-{
-	Vector3D<float> vertex;
-	Vector2D<float> tex_coords;
-	MyVertex() { }
-	MyVertex(Vector3D<float> v,Vector2D<float> uv)
-	{
-		vertex = v;
-		tex_coords = uv;
-	}
-}; */
-	
+}	
 
 void Application::Setup()
-{		
+{	
+	/*
 	b2BodyDef groundBodyDef;
 	groundBodyDef.position.Set(0.0f, -10.0f);
 	b2Body* groundBody = world.CreateBody(&groundBodyDef);
@@ -167,16 +167,26 @@ void Application::Setup()
 	fixtureDef2.friction = 0.3f;
 	
 	body2->CreateFixture(&fixtureDef2);
-	
+	*/
 	
 	//m_Device = m_Engine.CreateDevice(Graphics::EOpenGLES11);
 	
 	//Pxf::Resource::Image t_Image(new Pxf::Resource::Chunk(),"test.png");
 	
+	Vec2f _Gravity(0.05,-10.0f);
+	m_World = new Game::Box2DPhysicsWorld(_Gravity,true,1 / 60.0f, 6,2);
+	
+	Game::body_parameters _GroundBodyParams;
+	_GroundBodyParams.position.x = 0.0f;
+	_GroundBodyParams.position.y = -10.0f;
+	_GroundBodyParams.po_type = Game::PO_BODY_STATIC;
+	
+	b2Body* _GroundBody = m_World->CreateBodyFromParams(_GroundBodyParams);
+	
 	// Load some texture
-	glEnable(GL_TEXTURE_2D);
 	pTexture = m_Device->CreateTexture("sprite_test.jpg");
 	
+	/*
 	pSprite1 = new Game::Sprite(m_Device,						// Device Context
 							   Vec2f(0.0f,0.0f),				// Object Position
 							   "MySprite",						// Object Name (providing a NULL pointer 
@@ -196,7 +206,8 @@ void Application::Setup()
 								64,								// Sprite Cell Height
 								10,								// Sprite Draw Frequency
 								-1);								// Sprite Depth Sort, -1 = NO SORT
-	
+	*/
+	 
 	/*
 	pBuffer = m_Device->CreateVertexBuffer(Graphics::VB_LOCATION_GPU,Graphics::VB_USAGE_STATIC_DRAW);
 	pBuffer->CreateNewBuffer(4,sizeof(Vector3D<float>) + sizeof(Vector2D<float>));

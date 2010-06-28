@@ -61,6 +61,7 @@
 		C9707F2111D344250028EC91 /* b2DynamicTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9707EFE11D344250028EC91 /* b2DynamicTree.cpp */; };
 		C9707F2211D344250028EC91 /* b2DistanceJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9707EFF11D344250028EC91 /* b2DistanceJoint.cpp */; };
 		C970803011D35BCB0028EC91 /* Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = C970802F11D35BCB0028EC91 /* Application.mm */; };
+		C9965ACE11D3BEA700961304 /* Box2DPhysicsWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9965ACD11D3BEA700961304 /* Box2DPhysicsWorld.cpp */; };
 		C9AA1A3C11C98639002B3842 /* VertexBufferGLES11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AA1A3B11C98639002B3842 /* VertexBufferGLES11.cpp */; };
 		C9AA1A9311C98F28002B3842 /* StreamPosix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9AA1A9211C98F28002B3842 /* StreamPosix.cpp */; };
 		C9AA1AD211CA4505002B3842 /* TextureGLES.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9AA1AD111CA4505002B3842 /* TextureGLES.mm */; };
@@ -141,6 +142,13 @@
 		C9707EFF11D344250028EC91 /* b2DistanceJoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = b2DistanceJoint.cpp; path = ../../Libraries/Box2D/sdk/src/b2DistanceJoint.cpp; sourceTree = SOURCE_ROOT; };
 		C9707FEA11D353F90028EC91 /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Types.h; path = ../../Include/Pxf/Base/Types.h; sourceTree = SOURCE_ROOT; };
 		C970802F11D35BCB0028EC91 /* Application.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Application.mm; path = Source/Application.mm; sourceTree = "<group>"; };
+		C9965A3711D3A6C600961304 /* PhysicsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhysicsObject.h; path = ../../Include/Pxf/Game/PhysicsObject.h; sourceTree = SOURCE_ROOT; };
+		C9965A9011D3B5DF00961304 /* PhysicsWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhysicsWorld.h; path = ../../Include/Pxf/Game/PhysicsWorld.h; sourceTree = SOURCE_ROOT; };
+		C9965A9A11D3B90A00961304 /* Box2DPhysicsWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Box2DPhysicsWorld.h; path = ../../Include/Pxf/Game/Box2D/Box2DPhysicsWorld.h; sourceTree = SOURCE_ROOT; };
+		C9965A9B11D3B90A00961304 /* Box2DPhysicsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Box2DPhysicsObject.h; path = ../../Include/Pxf/Game/Box2D/Box2DPhysicsObject.h; sourceTree = SOURCE_ROOT; };
+		C9965ACD11D3BEA700961304 /* Box2DPhysicsWorld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Box2DPhysicsWorld.cpp; path = ../../Source/Game/Box2D/Box2DPhysicsWorld.cpp; sourceTree = SOURCE_ROOT; };
+		C99A5E8F11D4039900DE0CF8 /* Box2DParameterDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Box2DParameterDefs.h; path = ../../Include/Pxf/Game/Box2D/Box2DParameterDefs.h; sourceTree = SOURCE_ROOT; };
+		C99A5EB011D4044A00DE0CF8 /* PhysicsBodyDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PhysicsBodyDefs.h; path = ../../Include/Pxf/Game/PhysicsBodyDefs.h; sourceTree = SOURCE_ROOT; };
 		C9AA19CC11C97F3A002B3842 /* OpenGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGL.h; path = ../../Include/Pxf/Graphics/OpenGL/OpenGL.h; sourceTree = SOURCE_ROOT; };
 		C9AA19E211C980FD002B3842 /* DeviceGL2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DeviceGL2.cpp; path = ../../Source/Graphics/OpenGL/DeviceGL2.cpp; sourceTree = SOURCE_ROOT; };
 		C9AA1A3B11C98639002B3842 /* VertexBufferGLES11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VertexBufferGLES11.cpp; path = ../../Source/Graphics/OpenGL/VertexBufferGLES11.cpp; sourceTree = SOURCE_ROOT; };
@@ -275,6 +283,10 @@
 		C9613E2811BF0B6000D6BE42 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				C9965A9211D3B8F400961304 /* Box2D */,
+				C9965A9011D3B5DF00961304 /* PhysicsWorld.h */,
+				C9965A3711D3A6C600961304 /* PhysicsObject.h */,
+				C99A5EB011D4044A00DE0CF8 /* PhysicsBodyDefs.h */,
 				C95AEF5311CFAB91008AF5BE /* GameObject.h */,
 				C9AA1AD511CA5EFC002B3842 /* Sprite.h */,
 				C9613E2C11BF0B8C00D6BE42 /* GameState.h */,
@@ -285,6 +297,7 @@
 		C9613E2D11BF0BA700D6BE42 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				C9965ACB11D3BE8D00961304 /* Box2D */,
 				C95AEF5411CFADAD008AF5BE /* GameObject.cpp */,
 				C9AA1AD311CA5EEC002B3842 /* Sprite.cpp */,
 				C9613E3311BF0BB900D6BE42 /* GameState.cpp */,
@@ -348,6 +361,24 @@
 				C9707FEA11D353F90028EC91 /* Types.h */,
 			);
 			name = Base;
+			sourceTree = "<group>";
+		};
+		C9965A9211D3B8F400961304 /* Box2D */ = {
+			isa = PBXGroup;
+			children = (
+				C99A5E8F11D4039900DE0CF8 /* Box2DParameterDefs.h */,
+				C9965A9A11D3B90A00961304 /* Box2DPhysicsWorld.h */,
+				C9965A9B11D3B90A00961304 /* Box2DPhysicsObject.h */,
+			);
+			name = Box2D;
+			sourceTree = "<group>";
+		};
+		C9965ACB11D3BE8D00961304 /* Box2D */ = {
+			isa = PBXGroup;
+			children = (
+				C9965ACD11D3BEA700961304 /* Box2DPhysicsWorld.cpp */,
+			);
+			name = Box2D;
 			sourceTree = "<group>";
 		};
 		C9AA197811C7CE4A002B3842 /* Libraries */ = {
@@ -598,6 +629,7 @@
 				C9707F2111D344250028EC91 /* b2DynamicTree.cpp in Sources */,
 				C9707F2211D344250028EC91 /* b2DistanceJoint.cpp in Sources */,
 				C970803011D35BCB0028EC91 /* Application.mm in Sources */,
+				C9965ACE11D3BEA700961304 /* Box2DPhysicsWorld.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

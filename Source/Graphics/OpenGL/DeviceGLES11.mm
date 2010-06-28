@@ -65,12 +65,14 @@ void DeviceGLES11::Translate(Math::Vec3f _translate)
 // Texture
 Texture* DeviceGLES11::CreateEmptyTexture(int _Width,int _Height,TextureFormatStorage _Format)
 {
+	glEnable(GL_TEXTURE_2D);
 	TextureGLES* _Tex = new TextureGLES(this);
 	_Tex->LoadData(NULL,_Width,_Height,_Format);
 	return _Tex;
 }
 Texture* DeviceGLES11::CreateTexture(const char* _filepath)
 {
+	glEnable(GL_TEXTURE_2D);
 	TextureGLES* _Tex = new TextureGLES(this);
 	_Tex->Load(_filepath);
 	
@@ -78,6 +80,7 @@ Texture* DeviceGLES11::CreateTexture(const char* _filepath)
 }
 Texture* DeviceGLES11::CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, int _channels)
 {
+	glEnable(GL_TEXTURE_2D);
 	TextureGLES* _Tex = new TextureGLES(this);
 	_Tex->LoadData(_datachunk,_width,_height,_channels);
 	

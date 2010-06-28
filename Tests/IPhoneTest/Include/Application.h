@@ -24,6 +24,8 @@
 #include <Pxf/Resource/Image.h>
 #include <Pxf/Resource/Chunk.h>
 #include <Box2D/Box2D.h>
+#include <Pxf/Game/Box2D/Box2DPhysicsWorld.h>
+		
 
 struct fps_helper
 {
@@ -67,6 +69,7 @@ private:
 	Pxf::Graphics::QuadBatch*		pQBatch;
 	
 	// BOX2D
+	Pxf::Game::Box2DPhysicsWorld*	m_World;
 	/*
 	b2World		m_b2World;
 	float		m_b2TimeStep;
