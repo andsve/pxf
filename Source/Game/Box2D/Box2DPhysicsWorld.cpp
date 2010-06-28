@@ -48,64 +48,43 @@ b2Body* Box2DPhysicsWorld::CreateBodyFromParams(body_parameters _Params)
 	b2BodyDef	_NewBodyDef;
 	b2FixtureDef _NewBodyFixture;
 	
+	_NewBodyDef.position.Set(_Params.position.x,_Params.position.y);
 	
-	// TODO: redo this.. fugly code
-	switch(_Params.po_type)
+	if(_Params.po_type == PO_BODY_STATIC)
 	{
-		_NewBodyDef.position.Set(_Params.position.x,_Params.position.y);
-			
-		case PO_BODY_STATIC: 
-			_NewBody = m_World->CreateBody(&_NewBodyDef);
-			if(_Params.shape_type == b2Shape::e_polygon)
-			{
-				printf("static\n");
-				b2PolygonShape _NewShape;
-				_NewShape.SetAsBox(_Params.half_size.x,_Params.half_size.x);
-				_NewBody->CreateFixture(&_NewShape,_Params.density);
-			}
-			else
-			{
-				// circle parameters
-			}
-			
-			break;
-		case PO_BODY_DYNAMIC:
-			_NewBodyDef.type = b2_dynamicBody;
-			_NewBody = m_World->CreateBody(&_NewBodyDef);
-			
-			if(_Params.shape_type == b2Shape::e_polygon)
-			{
-				printf("dynamic.pos: %f,%f\n", _Params.position.x,_Params.position.y);
-				b2PolygonShape _NewShape;
-				_NewShape.SetAsBox(_Params.half_size.x,_Params.half_size.x);
-				_NewBodyFixture.shape = &_NewShape;
-				_NewBodyFixture.density = _Params.density;
-				_NewBodyFixture.friction = _Params.friction;
-				_NewBody->CreateFixture(&_NewBodyFixture);
-			}
-			else
-			{
-				// circle parameters
-			}
+		_NewBodyDef.type = b2_staticBody;
+		_NewBody = m_World->CreateBody(&_NewBodyDef);
 		
-			break;		
+		if(_Params.shape_type == b2Shape::e_polygon)
+		{
+			b2PolygonShape _NewShape;
+			_NewShape.SetAsBox(_Params.half_size.x,_Params.half_size.y);
+			_NewBody->CreateFixture(&_NewShape,_Params.density);
+		}
+		else
+		{
+			
+		}
+	}
+	else if(_Params.po_type == PO_BODY_DYNAMIC)
+	{
+		_NewBodyDef.type = b2_dynamicBody;
+		_NewBody = m_World->CreateBody(&_NewBodyDef);
+		
+		if(_Params.shape_type == b2Shape::e_polygon)
+		{
+			b2PolygonShape _NewShape;
+			_NewShape.SetAsBox(_Params.half_size.x,_Params.half_size.y);
+			_NewBodyFixture.shape = &_NewShape;
+			_NewBodyFixture.density = _Params.density;
+			_NewBodyFixture.friction = _Params.friction;
+			_NewBody->CreateFixture(&_NewBodyFixture);
+		}
+		else
+		{
+			// circle parameters
+		}
 	}
 
 	return _NewBody;
 }
-/*
-b2BodyDef		bodyDef1;
-b2FixtureDef	fixtureDef1;
-b2PolygonShape	dynamicBox1;
-
-bodyDef1.type = b2_dynamicBody;
-bodyDef1.position.Set(5.0f, 4.0f);
-body1 = world.CreateBody(&bodyDef1);
-
-dynamicBox1.SetAsBox(0.5f, 0.5f);
-
-fixtureDef1.shape = &dynamicBox1;
-fixtureDef1.density = 1.0f;
-fixtureDef1.friction = 0.3f;
-
-body1->CreateFixture(&fixtureDef1); */

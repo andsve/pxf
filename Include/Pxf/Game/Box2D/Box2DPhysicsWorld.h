@@ -35,6 +35,8 @@ namespace Pxf
 				
 				b2Body* CreateBodyFromParams(body_parameters _Params);
 				
+				b2World* GetWorld() { return m_World; }
+				
 			private:
 				b2World*	m_World;
 				bool		m_SleepObjects;
