@@ -36,13 +36,6 @@ namespace Pxf
                 
                 // Graphic data
                 Graphics::QuadBatch* m_QuadBatch;
-                
-                // Graphics manipulation
-                /*
-                void AddQuad(float x1, float y1, float x2, float y2);
-                void Rotate(float a);
-                void Translate(float x, float y);
-                */
 
             private:
                 bool m_Running; // Script state

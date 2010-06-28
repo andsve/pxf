@@ -140,27 +140,6 @@ bool Game::Render()
     return m_Running;
 }
 
-/*
-
-void Game::AddQuad(float x1, float y1, float x2, float y2)
-{
-    Math::Vec4f coords = Math::Vec4f(0, 0, 1, 1);//m_Texture->CreateTextureSubset(_texpixels->x, _texpixels->y, _texpixels->z, _texpixels->w);
-	
-	m_QuadBatch->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
-	m_QuadBatch->AddTopLeft(x1, y1, x2, y2);
-}
-
-void Game::Rotate(float a)
-{
-    m_QuadBatch->SetRotation(a);
-}
-
-void Game::Translate(float x, float y)
-{
-    m_QuadBatch->Translate(x, y);
-}
-*/
-
 ///////////////////////////////////////////////////////////////////
 // Private methods
 void Game::_register_lua_libs_callbacks()
