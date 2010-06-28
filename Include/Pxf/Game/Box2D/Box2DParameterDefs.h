@@ -1,24 +1,19 @@
 #ifndef _PXF_GAME_BOX2D_PARAMETERDEFS_H_
 #define _PXF_GAME_BOX2D_PARAMETERDEFS_H_
 
-#include <Pxf/Game/Box2D/Box2DParameterDefs.h>
+#include <Pxf/Game/PhysicsBodyDefs.h>
+#include <Box2D/Collision/Shapes/b2Shape.h>
 
 namespace Pxf {
 	namespace Game {
-		// TODO: rethink this way of creating bodies...
-		enum Box2DShapeType
-		{
-			BOX2D_SHAPE_POLYGON,
-			BOX2D_SHAPE_CIRCLE
-		};
-		
 		// these are just a few parameters to get started.. could scrap this as well, its just to create bodies rapidly..
 		struct body_parameters 
 		{
 			Math::Vec2f		position;
+			Math::Vec2f		half_size;
 			float			friction;
 			float			density;
-			Box2DShapeType	shape_type;
+			b2Shape::Type	shape_type;
 			PhysicsBodyType	po_type;
 		};
 	} // Game

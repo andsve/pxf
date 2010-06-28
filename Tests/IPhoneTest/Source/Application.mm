@@ -16,31 +16,19 @@
 #include <Pxf/Extra/LuaGame/LuaGame.h>
 
 #include <Pxf/Game/Box2D/Box2DPhysicsWorld.h>
+#include <Pxf/Game/PhysicsBodyDefs.h>
 
 //#include <Box2D/lol.h>
+
+#define LOCAL_MSG "Application"
 
 using namespace Pxf;
 using namespace Math;
 using namespace Graphics;
 using namespace Extra;
 
-/*
-typedef signed char	int8;
-typedef signed short int16;
-typedef signed int int32;
-typedef unsigned int uint32;
-*/
-
-/*
-float32 timeStep = 1.0f / 60.0f;
-int32 velocityIterations = 6;
-int32 positionIterations = 2;
-b2Vec2	gravity(0.0f, -10.0f);
-bool	doSleep = true;
-b2World world(gravity, doSleep);
-b2Body* body1;
-b2Body* body2;
- */
+b2Body* _GroundBody; 
+b2Body* _Box1Body; 
 
 // LuaGame instance
 LuaGame::Game* luagame;
@@ -113,18 +101,22 @@ bool Application::Render()
 	bool _RetVal = true;
 	// Call render on scene 
 	
-	//m_Device->BindTexture(pTexture);
-	
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+	//glOrthof(0.0f, ((DeviceGLES11*) m_Device)->GetBackingWidth(), 0.f, ((DeviceGLES11*) m_Device)->GetBackingHeight(), -1.0f, 1.0f);
 	glOrthof(0.0f, 10.0f, 0.f, 10.0f, -1.0f, 1.0f);
     glMatrixMode(GL_MODELVIEW);
     
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     
+	Vec3f _Pos(_Box1Body->GetPosition().x,_Box1Body->GetPosition().y,0.0f);
+	//printf("%f,%f\n",_Pos.x,_Pos.y);
+	m_Device->Translate(_Pos);
 	pSprite1->Draw();
-	pSprite2->Draw();
+	m_Device->Translate(-_Pos);
+	
+	//pSprite2->Draw();
 	
 	// Draw loading if preloading resources
 	luagame->Render();
@@ -140,53 +132,7 @@ void Application::SetDevice(Pxf::Graphics::Device* _pDevice)
 }	
 
 void Application::Setup()
-{	
-	/*
-	b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0.0f, -10.0f);
-	b2Body* groundBody = world.CreateBody(&groundBodyDef);
-	b2PolygonShape groundBox;
-	groundBox.SetAsBox(50.0f, 10.0f);
-	groundBody->CreateFixture(&groundBox,1);
-	
-	// body 1:
-	b2BodyDef		bodyDef1;
-	b2FixtureDef	fixtureDef1;
-	b2PolygonShape	dynamicBox1;
-	
-	bodyDef1.type = b2_dynamicBody;
-	bodyDef1.position.Set(5.0f, 4.0f);
-	body1 = world.CreateBody(&bodyDef1);
-
-	dynamicBox1.SetAsBox(0.5f, 0.5f);
-	
-	fixtureDef1.shape = &dynamicBox1;
-	fixtureDef1.density = 1.0f;
-	fixtureDef1.friction = 0.3f;
-	
-	body1->CreateFixture(&fixtureDef1);
-	
-	// body 2:
-	b2BodyDef		bodyDef2;
-	b2FixtureDef	fixtureDef2;
-	b2PolygonShape	dynamicBox2;
-	
-	bodyDef2.type = b2_dynamicBody;
-	bodyDef2.position.Set(5.2f, 10.0f);
-	body2 = world.CreateBody(&bodyDef2);
-	
-	dynamicBox2.SetAsBox(0.5f, 0.5f);
-	
-	fixtureDef2.shape = &dynamicBox2;
-	fixtureDef2.density = 1.0f;
-	fixtureDef2.friction = 0.3f;
-	
-	body2->CreateFixture(&fixtureDef2);
-	*/
-	
-	//m_Device = m_Engine.CreateDevice(Graphics::EOpenGLES11);
-	
-	//Pxf::Resource::Image t_Image(new Pxf::Resource::Chunk(),"test.png");
+{
 	
 	Vec2f _Gravity(0.05,-10.0f);
 	m_World = new Game::Box2DPhysicsWorld(_Gravity,true,1 / 60.0f, 6,2);
@@ -194,16 +140,30 @@ void Application::Setup()
 	Game::body_parameters _GroundBodyParams;
 	_GroundBodyParams.position.x = 0.0f;
 	_GroundBodyParams.position.y = -10.0f;
+	_GroundBodyParams.half_size.x = 50.0f;
+	_GroundBodyParams.half_size.y = 10.0f;
+	_GroundBodyParams.shape_type = b2Shape::e_polygon;
 	_GroundBodyParams.po_type = Game::PO_BODY_STATIC;
 	
-	b2Body* _GroundBody = m_World->CreateBodyFromParams(_GroundBodyParams);
+	_GroundBody = m_World->CreateBodyFromParams(_GroundBodyParams);
+	printf("%f,%f\n",_GroundBody->GetPosition().x,_GroundBody->GetPosition().y);
 	
+	Game::body_parameters _Box1;
+	_Box1.position.x = 0.0f;
+	_Box1.position.y = 50.0f;
+	_Box1.half_size.x = 0.5f;
+	_Box1.half_size.y = 0.5;
+	_Box1.friction = 0.3f;
+	_Box1.density = 1.0f;
+	_Box1.shape_type = b2Shape::e_polygon;
+	_Box1.po_type = Game::PO_BODY_DYNAMIC;
+	
+	_Box1Body = m_World->CreateBodyFromParams(_Box1);
+	 
 	// Load some texture
 	pTexture = m_Device->CreateTexture("sprite_test.jpg");
 	
-	/*
 	pSprite1 = new Game::Sprite(m_Device,						// Device Context
-							   Vec2f(0.0f,0.0f),				// Object Position
 							   "MySprite",						// Object Name (providing a NULL pointer 
 																// in this field will generate a new name)
 							   pTexture,						// Sprite Texture
@@ -211,9 +171,8 @@ void Application::Setup()
 							   64,								// Sprite Cell Height
 							   10,								// Sprite Draw Frequency
 							   -1);								// Sprite Depth Sort, -1 = NO SORT
-	
+	/*
 	pSprite2 = new Game::Sprite(m_Device,						// Device Context
-								Vec2f(0.0f,0.0f),				// Object Position
 								"MySprite2",						// Object Name (providing a NULL pointer 
 								// in this field will generate a new name)
 								pTexture,						// Sprite Texture
@@ -221,41 +180,8 @@ void Application::Setup()
 								64,								// Sprite Cell Height
 								10,								// Sprite Draw Frequency
 								-1);								// Sprite Depth Sort, -1 = NO SORT
-	*/
 	 
-	/*
-	pBuffer = m_Device->CreateVertexBuffer(Graphics::VB_LOCATION_GPU,Graphics::VB_USAGE_STATIC_DRAW);
-	pBuffer->CreateNewBuffer(4,sizeof(Vector3D<float>) + sizeof(Vector2D<float>));
-	pBuffer->SetData(Graphics::VB_VERTEX_DATA,0,3);
-	pBuffer->SetData(Graphics::VB_TEXCOORD_DATA,sizeof(Vector3D<float>),2);
-	pBuffer->SetPrimitive(Graphics::VB_PRIMITIVE_TRIANGLE_STRIP);
-	
-	MyVertex _Data[4];
-	_Data[0] = MyVertex(Vector3D<float>(-0.5f,-0.5f,0.5f),Vector2D<float>(0.0f,1.0f));
-	_Data[1] = MyVertex(Vector3D<float>(0.5f,-0.5f,0.5f),Vector2D<float>(1.0f,1.0f));
-	_Data[2] = MyVertex(Vector3D<float>(-0.5f,0.5f,0.5f),Vector2D<float>(0.0f,0.0f));
-	_Data[3] = MyVertex(Vector3D<float>(0.5f,0.5f,0.5f),Vector2D<float>(1.0f,0.0f));
-	 */
-	
-	//Vector3D<float>* _MappedData = (Vector3D<float>*)pBuffer->MapData(Graphics::VB_ACCESS_WRITE_ONLY);
-	
-	//pBuffer->UpdateData(_Data,sizeof(_Data),0);
-	
-	//pSprite->Reset();
-	//m_Device->BindTexture(pTexture);
-	
-	// Lets create some quads, but render them in "reverse" order via SetDepth(...).
-	/*Graphics::QuadBatch* pQBatch = m_Device->CreateQuadBatch(256);
-	pQBatch->Reset();
-	pQBatch->SetTextureSubset(0.0f, 0.0f, 32.0f / pTexture->GetWidth(), 32.0f / pTexture->GetHeight());
-	pQBatch->SetDepth(0.5f);
-	pQBatch->SetColor(1.0f, 0.0f, 0.0f, 1.0f);
-	pQBatch->AddCentered(200, 200, 50, 50);
-	pQBatch->SetDepth(0.1f);
-	pQBatch->SetColor(0.0f, 1.0f, 0.0f, 1.0f);
-	pQBatch->AddCentered(225, 225, 50, 50);
 	*/
-	
 	// Load LuaGame
 	luagame->Load();
 }
@@ -284,5 +210,5 @@ bool Application::IsRunning()
 void Application::Shutdown()
 {
 	m_IsRunning = false;
-	printf("Application: Shutting down\n");
+	Message(LOCAL_MSG,"Application: Shutting down\n");
 }

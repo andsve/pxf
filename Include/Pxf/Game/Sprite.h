@@ -37,7 +37,7 @@ namespace Pxf
 			TODO: switchable sequences - might be useful to store a set of sequences for each sprite,
 				  such as different sprite intervals for death animations, jump animations etc.
 		 */
-		class Sprite : public GameObject
+		class Sprite
 		{
 		public:
 			// TODO: Rename or move to proper location
@@ -53,10 +53,10 @@ namespace Pxf
 				}
 			};
 			
-			Sprite(Graphics::Device* _pDevice, Math::Vector2D<float> _Position, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight,int _Frequency, int _ZIndex = SPRITE_NO_SORT);
+			Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight,int _Frequency, int _ZIndex = SPRITE_NO_SORT);
 			virtual ~Sprite();
-			void Draw();
-			void Update();
+			virtual void Draw();
+			virtual void Update();
 
 			// animation controls
 			void Reset();
@@ -74,6 +74,7 @@ namespace Pxf
 		private:
 			void _CalculateUV();
 			void _SetCurrentUV();
+			const char* m_ID;
 			
 			Graphics::Device*		m_Device;
 			Graphics::Texture*		m_Texture;

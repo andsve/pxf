@@ -2,6 +2,7 @@
 #define _PXF_GAME_BOX2D_PHYSICSWORLD_H_
 
 #include <Pxf/Game/PhysicsWorld.h>
+#include <Pxf/Game/Box2D/Box2DParameterDefs.h>
 #include <Box2D/Common/b2Settings.h>
 #include <Pxf/Math/Vector.h>
 

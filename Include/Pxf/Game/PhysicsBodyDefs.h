@@ -1,5 +1,5 @@
-#ifndef _PXF_GAME_PHYSICSWORLD_H_
-#define _PXF_GAME_PHYSICSWORLD_H_
+#ifndef _PXF_GAME_PHYSICSBODYDEFS_H_
+#define _PXF_GAME_PHYSICSBODYDEFS_H_
 
 namespace Pxf 
 {	

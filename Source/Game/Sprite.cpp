@@ -48,9 +48,8 @@ void Sprite::AddSequence(int _SequenceLength, ...)
 	m_SequenceList.push_back(new_sequence);
 }
 
-Sprite::Sprite(Graphics::Device* _pDevice, Math::Vector2D<float> _Position, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight, int _Frequency,int _ZIndex)
-	: GameObject(Math::Vector3D<float>(_Position.x,_Position.y,0.0f),_ID) 
-	, m_Device(_pDevice),
+Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight, int _Frequency,int _ZIndex)
+	: m_Device(_pDevice),
 	  m_Texture(_Texture),
 	  m_Frequency(_Frequency),
 	  m_CurrentFrame(0),
@@ -58,6 +57,7 @@ Sprite::Sprite(Graphics::Device* _pDevice, Math::Vector2D<float> _Position, cons
 	  m_MaxFrames(0),
 	  m_Ready(true),
 	  m_DrawBuffer(0)
+	, m_ID(_ID)
 	, m_UseCustomSequence(false)
 {	
 	if(!m_Device)
@@ -75,11 +75,6 @@ Sprite::Sprite(Graphics::Device* _pDevice, Math::Vector2D<float> _Position, cons
 		m_DrawBuffer->SetPrimitive(Graphics::VB_PRIMITIVE_TRIANGLE_STRIP);
 	
 		SpriteDrawData _Data[4];
-		/*
-		_Data[0] = SpriteDrawData(Vector3D<float>(-0.5f,-0.5f,0.5f),Vector2D<float>(0.0f,1.0f));
-		_Data[1] = SpriteDrawData(Vector3D<float>(0.5f,-0.5f,0.5f),Vector2D<float>(1.0f,1.0f));
-		_Data[2] = SpriteDrawData(Vector3D<float>(-0.5f,0.5f,0.5f),Vector2D<float>(0.0f,0.0f));
-		_Data[3] = SpriteDrawData(Vector3D<float>(0.5f,0.5f,0.5f),Vector2D<float>(1.0f,0.0f)); */
 		
 		_Data[0] = SpriteDrawData(Vec3f(0.f,0.f,0.f),Vector2D<float>(0.0f,1.0f));
 		_Data[1] = SpriteDrawData(Vec3f(1.0f,0.f,0.f),Vector2D<float>(1.0f,1.0f));
@@ -162,15 +157,15 @@ void Sprite::Update()
 void Sprite::Draw()
 {	
 	// bind texture
-	Vec3f _Position = GetPosition();
-	m_Device->Translate(_Position);
+	//Vec3f _Position = GetPosition();
+	//m_Device->Translate(_Position);
 	m_Device->BindTexture(m_Texture);
 	
 	NextFrame();
 	
 	// draw sprite
 	m_Device->DrawBuffer(m_DrawBuffer);
-	m_Device->Translate(-(_Position));
+	//m_Device->Translate(-(_Position));
 }
 
 void Sprite::_SetCurrentUV()
