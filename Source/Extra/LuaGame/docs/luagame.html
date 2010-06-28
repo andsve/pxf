@@ -10,8 +10,10 @@
 <body>
   
 <div id="menu">
-  <a href="#jump_top">Top</a>
-  <a href="#jump_usage">Usage</a>
+  <a href="#jump_top">Top</a><br />
+  <a href="#jump_usage">Usage</a><br />
+  <strong>Packages</strong><br />
+  <a href="#jump_graphics">graphics</a><br />
 </div>
   
 <h1 id="jump_top">LuaGame Reference Manual</h1>
@@ -32,16 +34,48 @@ luagames->Load();</pre>
 luagame->Update(delta);
 luagame->Render();</pre>
 <strong><em>delta</em></strong> is a float delta value in seconds since last frame.
-</div>
+  <br />
+  <br />
+  <h3 id="jump_usage">Basic script example</h3>
+  Every game script must have the following methods defined:
+  <pre class="code">
+function luagame:Init()
+	self.GameIdent = "Our awesome testgame!"
+	self.GameVersion = "1.0"
+end
 
-<div class="block">
-  TODO: Reference manual...
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+function luagame:PreLoad()
+
+end
+
+function luagame:Update(dt)
+	
+end
+
+function luagame:Render()
+	luagame.graphics.drawquad(10, 10, 40, 40)
+end
+</pre>
+</div>
+<br />
+<hr />
+<br />
+<h2>Packages</h2>
+
+<div class="block" id="jump_graphics">
+  <ul class="package_list">
+  <h3>luagame.graphics</h3>
+  Some awesome description about this package.
+    <li><h4>luagame.graphics.drawquad(x, y, w, h)</h4>
+      Draws a textured quad to the screen.
+      
+      <ul class="parameter_list">
+        <h5>Params</h5>
+        <li>x, y - Position on screen</li>
+        <li>w, h - Width and height of quad</li>
+      </ul>
+      </li>
+  <ul>
 </div>
 
 </body>
