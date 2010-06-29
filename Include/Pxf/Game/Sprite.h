@@ -1,6 +1,8 @@
 #ifndef _PXF_GAME_SPRITE_H_
 #define _PXF_GAME_SPRITE_H_
 
+#define SPRITE_SORT_FALSE -1
+
 namespace Pxf
 {	
 	namespace Graphics {
@@ -26,8 +28,8 @@ namespace Pxf
 		class Sprite
 		{
 		public:
-			Sprite(Graphics::Device* _pDevice, const char* _ID, const char* _Filepath, int _CellWidth, int _CellHeight, int* _CustomSequence = NULL);
-			Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight, int* _CustomSequence = NULL);
+			Sprite(Graphics::Device* _pDevice, const char* _ID, const char* _Filepath, int _CellWidth, int _CellHeight, int _Frequency, int _ZIndex = SPRITE_SORT_FALSE, int* _CustomSequence = NULL);
+			Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight, int _Frequency,int _ZIndex = SPRITE_SORT_FALSE, int* _CustomSequence = NULL);
 			virtual ~Sprite();
 			void Draw();
 
@@ -42,6 +44,8 @@ namespace Pxf
 			int	GetZIndex() { return m_ZIndex; }
 			int	GetCurrentFrame() { return m_CurrentFrame; }
 			const char* GetID() { return m_ID; }
+		protected:
+			static unsigned 	m_SpriteCounter;
 		private:
 			Graphics::Device* 	m_Device;
 			Graphics::Texture* 	m_Texture;
