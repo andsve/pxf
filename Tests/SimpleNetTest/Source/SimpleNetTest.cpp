@@ -18,7 +18,7 @@
 
 #include "messagetypes.h"
 
-//#define IS_SERVER 1
+#define IS_SERVER 1
 
 
 using namespace Pxf;
@@ -144,6 +144,7 @@ bool PxfMain(Util::String _CmdLine)
       {
         case DISCONNECT: // DISCONNECT
           pNet->Close();
+					_scriptmessage.script->SendMessage(1, "offline"); // Response
           break;
         default:
           Message("Application", "Scriptmessage error!");
@@ -153,11 +154,12 @@ bool PxfMain(Util::String _CmdLine)
       switch (_scriptmessage.id)
       {
         case CONNECT: // CONNECT
-					_scriptmessage.script->SendMessage(1, "lol");
           pNet->Connect("129.16.194.65", 4632);
+					_scriptmessage.script->SendMessage(1, "online"); // Response
           break;
         case DISCONNECT: // DISCONNECT
           pNet->Disconnect();
+					_scriptmessage.script->SendMessage(1, "offline"); // Response
           break;
         default:
           Message("Application", "Scriptmessage error!");

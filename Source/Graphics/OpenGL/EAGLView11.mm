@@ -2,6 +2,10 @@
 #import <Pxf/Graphics/OpenGL/DeviceGLES11.h>
 #import <QuartzCore/QuartzCore.h>
 
+#include <Pxf/Base/Debug.h>
+
+#define LOCAL_MSG "EAGLView11"
+
 @implementation EAGLView11
 
 + (Class) layerClass
@@ -14,7 +18,7 @@
 	if(self = [super init]) 
 	{
 		if([self InitDevice])
-			printf("Device is ready to use\n");
+			Pxf::Message(LOCAL_MSG,"Device is ready to use");
 	}
 		
 	return self;
@@ -22,81 +26,87 @@
 
 - (bool) InitDevice
 {
-	Pxf::Graphics::DeviceGLES11* _Tmp = new Pxf::Graphics::DeviceGLES11();
-	m_Device = (Pxf::Graphics::Device*) _Tmp;
+	//Pxf::Graphics::DeviceGLES11* _Tmp = new Pxf::Graphics::DeviceGLES11();
+	//m_Device = (Pxf::Graphics::Device*) _Tmp;
+	m_Device = new Pxf::Graphics::DeviceGLES11();
 	return m_Device->Ready();
 }
 
 -(void) DestroySurface
 {
-	EAGLContext* _OldContext = [EAGLContext currentContext];
+	EAGLContext* _OldContext	= [EAGLContext currentContext];
+	EAGLContext* _Context		= ((Pxf::Graphics::DeviceGLES11*) m_Device)->GetEAGLContext();
 	
-	if(_OldContext != m_Context)
-		[EAGLContext setCurrentContext:m_Context];
+	if(_OldContext != _Context)
+		[EAGLContext setCurrentContext:_Context];
 	
-	((Pxf::Graphics::DeviceGLES11*) m_Device)->DeleteVideoBuffer(m_RenderBuffer);
-	
-	if(m_UseDepthBuffer)
-		((Pxf::Graphics::DeviceGLES11*) m_Device)->DeleteVideoBuffer(m_DepthBuffer);
-	
-	((Pxf::Graphics::DeviceGLES11*) m_Device)->DeleteVideoBuffer(m_FrameBuffer);
-	
-	if(_OldContext != m_Context)
+	if(_OldContext != _Context)
 		[EAGLContext setCurrentContext:_OldContext];
 		
 }
 
 -(bool) CreateSurface
 {
-	CAEAGLLayer*	_EaglLayer = (CAEAGLLayer*)[self layer];
-	CGSize			_Size = [_EaglLayer bounds].size;
+	EAGLContext*	_Context	= ((Pxf::Graphics::DeviceGLES11*) m_Device)->GetEAGLContext();
+	CAEAGLLayer*	_EaglLayer	= (CAEAGLLayer*)[self layer];
+	CGSize			_Size		= [_EaglLayer bounds].size;
 	
-	m_BackingWidth = roundf(_Size.width);
-	m_BackingHeight = roundf(_Size.height);
+	((Pxf::Graphics::DeviceGLES11*) m_Device)->SetBackingWidth(roundf(_Size.width));
+	((Pxf::Graphics::DeviceGLES11*) m_Device)->SetBackingHeight(roundf(_Size.height));
 	
-	if(![self InitBuffers])
+	if(!((Pxf::Graphics::DeviceGLES11*) m_Device)->InitBuffers())
 	{
 		[self release];
-		printf("Unable to initialize buffers\n");
+		Pxf::Message(LOCAL_MSG,"Unable to initialize buffers");
 		return false;
 	}
+	else
+		Pxf::Message(LOCAL_MSG,"Init buffers OK");
 	
-	if(!([m_Context renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:_EaglLayer]))
+	if(!([_Context renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:_EaglLayer]))
 	{
-		((Pxf::Graphics::DeviceGLES11*) m_Device)->DeleteVideoBuffer(m_RenderBuffer);
-		printf("Unable to allocate render buffer storage\n");
+		Pxf::Message(LOCAL_MSG,"Unable to allocate render buffer storage");
 		return false;
 	}
+	else
+		Pxf::Message(LOCAL_MSG,"Allocate render buffer storage OK");
 	
-	((Pxf::Graphics::DeviceGLES11*) m_Device)->BindVideoBuffer(m_FrameBuffer);
-	glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES,GL_COLOR_ATTACHMENT0_OES,GL_RENDERBUFFER_OES,m_RenderBuffer->m_Handle);
 	
-	if(m_UseDepthBuffer)
-		glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES,GL_DEPTH_ATTACHMENT_OES,GL_RENDERBUFFER_OES,m_DepthBuffer->m_Handle);
+	Pxf::Graphics::VideoBufferGL* _FrameBuffer = ((Pxf::Graphics::DeviceGLES11*) m_Device)->GetFrameBuffer();
+	Pxf::Graphics::VideoBufferGL* _RenderBuffer = ((Pxf::Graphics::DeviceGLES11*) m_Device)->GetRenderBuffer();
+	Pxf::Graphics::VideoBufferGL* _DepthBuffer = ((Pxf::Graphics::DeviceGLES11*) m_Device)->GetDepthBuffer();
+	
+	((Pxf::Graphics::DeviceGLES11*) m_Device)->BindVideoBuffer(_FrameBuffer);
+	glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES,GL_COLOR_ATTACHMENT0_OES,GL_RENDERBUFFER_OES,_RenderBuffer->m_Handle);
+	
+	if(((Pxf::Graphics::DeviceGLES11*) m_Device)->GetUseDepthBuffer())
+		glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES,GL_DEPTH_ATTACHMENT_OES,GL_RENDERBUFFER_OES,_DepthBuffer->m_Handle);
 	
 	 // check for completeness
 	 GLenum _Status = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES);
 	 if(_Status != GL_FRAMEBUFFER_COMPLETE_OES)
 	 {
-		 printf("Failed to create complete framebuffer object. Reason: ");
-	 
+		 const char* _MSG;
+		 
 		 switch(_Status)
 		 {
 			case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_OES:
-				 printf("Incomplete attachment\n");
+				 _MSG = "Incomplete attachment";
 				 break;
 			case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_OES:
-				 printf("Incomplete dimensions\n");
+				 _MSG = "Incomplete dimensions";
 				 break;
 			default:
-				printf("Unknown\n");
+				 _MSG = "Unknown";
 				break;
 		}
+		 
+		Pxf::Message(LOCAL_MSG,"Failed to create complete framebuffer object. Reason: ",_MSG);
 	 
 		return false;
 	 }
 	 else
-		 printf("Frame buffer Complete\n");
+		Pxf::Message(LOCAL_MSG,"Frame buffer Complete");
 	
 	return true;
 }
@@ -104,18 +114,15 @@
 - (void) dealloc
 {
 	[self DestroySurface];
-	[m_Context release];
-	m_Context = 0;
-	
 	[super dealloc];
 }
 
 - (void) layoutSubViews
 {
-	[EAGLContext setCurrentContext:m_Context];
+	EAGLContext* _Context = ((Pxf::Graphics::DeviceGLES11*) m_Device)->GetEAGLContext();
+	[EAGLContext setCurrentContext:_Context];
 	[self DestroySurface];
 	[self CreateSurface];
-	
 }
 
 - (id) initWithRect: (CGRect) _Frame
@@ -126,19 +133,23 @@
 - (id) initWithRect: (CGRect) _Frame bufferFormat: (GLuint) _CBFormat depthFormat: (GLuint) _DBFormat preserveBackbuffer: (BOOL) _Retained
 {
 	if(self = [super initWithFrame:_Frame])
-	{		
+	{	
+		EAGLContext*	_Context	= [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+		
 		if(!_DBFormat)
-			m_UseDepthBuffer = false;
+			((Pxf::Graphics::DeviceGLES11*) m_Device)->SetUseDepthBuffer(false);
 		   
 		CAEAGLLayer* _EaglLayer = (CAEAGLLayer*)[self layer];
 		_EaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys: 
-										 [NSNumber numberWithBool:_Retained], kEAGLDrawablePropertyRetainedBacking, (_CBFormat == GL_RGB565_OES) ? kEAGLColorFormatRGB565 : kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
+										 [NSNumber numberWithBool:_Retained], 
+										 kEAGLDrawablePropertyRetainedBacking, 
+										 (_CBFormat == GL_RGB565_OES) ? kEAGLColorFormatRGB565 : kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
 		
-		m_Context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+		((Pxf::Graphics::DeviceGLES11*) m_Device)->SetEAGLContext(_Context);
 		
-		if(m_Context == nil || ![EAGLContext setCurrentContext:m_Context])
+		if(_Context == nil || ![EAGLContext setCurrentContext:_Context])
 		{
-			printf("Unable to initialize with empty context\n");
+			Pxf::Message(LOCAL_MSG,"Unable to initialize with empty context");
 			[self release]; 
 			return nil;
 		}
@@ -146,9 +157,9 @@
 		if(![self CreateSurface])
 		{
 			[self release];
-			printf("Unable to create surface\n");
+			Pxf::Message(LOCAL_MSG,"Unable to create surface");
 			return nil;
-		}
+		}  
 	}
 					 
 	return self;

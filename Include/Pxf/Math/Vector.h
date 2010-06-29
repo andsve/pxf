@@ -1,7 +1,11 @@
 #ifndef __PXF_MATH_VECTOR_H__
 #define __PXF_MATH_VECTOR_H__
 
-#include <cmath> // sqrtf
+#if defined(__APPLE__) || defined(__APPLE_CC__)
+	#include <math.h> // sqrtf
+#else
+	#include <cmath> // sqrtf
+#endif
 
 // ASSERT(sizeof(Vec2f) == 2)
 // ASSERT(sizeof(Vec3f) == 3)

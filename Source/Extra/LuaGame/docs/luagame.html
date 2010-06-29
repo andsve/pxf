@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link rel="stylesheet" href="luagame.css" type="text/css" media="screen" title="Main Docs Style" charset="utf-8">
+	<title>LuaGame Reference Manual</title>
+</head>
+<body>
+  
+<div id="menu">
+  <a href="#jump_top">Top</a><br />
+  <a href="#jump_usage">Usage</a><br />
+  <strong>Packages</strong><br />
+  <a href="#jump_graphics">graphics</a><br />
+</div>
+  
+<h1 id="jump_top">LuaGame Reference Manual</h1>
+<h2>Version 0.1.0</h2>
+
+<div class="block">
+  <h3 id="jump_usage">Usage</h3>
+    Setup:
+    <pre class="code">
+<strong>using namespace</strong> Pxf::Extra::LuaGame;
+Game *luagame = <strong>new</strong> Game("test.lua", m_Device);
+luagames->Load();</pre>
+<strong><em>m_Device</em></strong> is a pointer to your current <strong><em>Pxf::Graphics::Device</em></strong> instance.
+<br />
+<br />
+    Once every frame:
+    <pre class="code">
+luagame->Update(delta);
+luagame->Render();</pre>
+<strong><em>delta</em></strong> is a float delta value in seconds since last frame.
+  <br />
+  <br />
+  <h3 id="jump_usage">Basic script example</h3>
+  Every game script must have the following methods defined:
+  <pre class="code">
+function luagame:Init()
+	self.GameIdent = "Our awesome testgame!"
+	self.GameVersion = "1.0"
+end
+
+function luagame:PreLoad()
+
+end
+
+function luagame:Update(dt)
+	
+end
+
+function luagame:Render()
+	luagame.graphics.drawquad(10, 10, 40, 40)
+end
+</pre>
+</div>
+<br />
+<hr />
+<br />
+<h2>Packages</h2>
+
+<div class="block" id="jump_graphics">
+  <ul class="package_list">
+  <h3>luagame.graphics</h3>
+  Some awesome description about this package.
+  
+    <li><h4>luagame.graphics.getscreensize()</h4>
+      Gets the size of the device screen being rendered to.
+
+      <ul class="parameter_list">
+        <h5>Returns</h5>
+        <li>w, h - Width and height of screen in pixels.</li>
+      </ul>
+    </li>
+  
+    <li><h4>luagame.graphics.drawquad(x, y, w, h)</h4>
+      Draws a textured quad to the screen.
+      
+      <ul class="parameter_list">
+        <h5>Params</h5>
+        <li>x, y - Position on screen</li>
+        <li>w, h - Width and height of quad</li>
+      </ul>
+    </li>
+      
+    <li><h4>luagame.graphics.translate(dx, dy)</h4>
+      Translate game coordinate system. (Only affects drawquad() at the moment.)
+
+      <ul class="parameter_list">
+        <h5>Params</h5>
+        <li>dx, dy - Delta translation.</li>
+      </ul>
+    </li>
+    
+    <li><h4>luagame.graphics.rotate(angle)</h4>
+      Rotates quads that will be drawn after this call. (Only affects drawquad() at the moment.)
+
+      <ul class="parameter_list">
+        <h5>Params</h5>
+        <li>angle - Rotation in radians.</li>
+      </ul>
+    </li>
+  <ul>
+</div>
+
+</body>
+</html>

@@ -1,3 +1,14 @@
+iPhone
+---
+[ ] Add physics library and extend game objects to support physics simulation
+[X] Move context-specific things from EAGLView to the device context
+[ ] Lua intergration
+[ ] Implement gamestate management
+[X] Change from printf to the Pxf::Message function
+[ ] Implement profiler
+[ ] Enable the memory manager
+[ ] Comment and clean up code
+
 Bam
 ---
 [X] Make library modules add themselves to Libraries["Module"]

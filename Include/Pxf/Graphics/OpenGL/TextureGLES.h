@@ -38,11 +38,10 @@ namespace Pxf
 			inline GLuint GetTextureID() { return m_TextureID; }
 
 		private:
-			GLuint 			m_TextureID;
-			const char* 	m_Filepath;
-			int 			m_Width;
-			int 			m_Height;
-			int				m_Channels;
+		private:
+			GLuint m_TextureID;
+			Util::String m_Filepath;
+			int m_Width, m_Height, m_Channels;
 		};
 	} // Graphics
 } // Pxf

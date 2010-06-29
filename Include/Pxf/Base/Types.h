@@ -14,9 +14,9 @@ typedef unsigned int uint;
     typedef unsigned long uint32; // fails on osx: /System/Library/Frameworks/Security.framework/Headers/cssmconfig.h:69: error: conflicting declaration ‘typedef uint32_t uint32’
 #define _UINT32
 #endif
-    typedef char int8;
     typedef short int16;
-    typedef long int32;
+	typedef signed int int32;
+    //typedef long int32;
     typedef unsigned long long uint64;
     typedef   signed long long int64;
 #elif defined(CONF_COMPILER_MSVC)

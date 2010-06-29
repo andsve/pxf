@@ -1,0 +1,64 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+h3 {
+    margin: 5px;
+}
+
+body {
+    font-family: Arial, "MS Trebuchet", sans-serif;
+    font-size: 0.9em;
+    margin: auto;
+    width: 800px;
+}
+
+#menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 200px;
+    background-color: #ddd;
+    border: 1px solid #999;
+    padding: 10px;
+}
+
+.block {
+    margin: 20px 0px 0px 0px;
+    padding: 10px;
+    background-color: #eee;
+}
+
+.code {
+    font-family: "Courier New", Courier;
+    background-color: #DDD;
+    border: 1px solid #999;
+    padding: 5px;
+    margin: 5px;
+}
+
+.package_list {
+    list-style-type: none;
+}
+
+.package_list li {
+    margin: 20px 0px 0px 40px;
+}
+
+.parameter_list li {
+    margin: 0 0px 10px 30px;
+    font-size: 0.9em;
+}
+
+.parameter_list h5 {
+    margin: 5px;
+}

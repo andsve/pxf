@@ -59,6 +59,12 @@ void DeviceGL2::CloseWindow()
 	}
 }
 
+void DeviceGL2::GetSize(int *_w, int *_h)
+{
+    (*_w) = m_Window->GetWidth();
+    (*_h) = m_Window->GetHeight();
+}
+
 void DeviceGL2::SetViewport(int _x, int _y, int _w, int _h)
 {
 	glViewport(_x, _y, _w, _h);

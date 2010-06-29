@@ -16,7 +16,16 @@
 
 #include <Pxf/Pxf.h>
 #include <Pxf/Engine.h>
+#include <Pxf/Graphics/Device.h>
 #include <Pxf/Scene/SceneManager.h>
+#include <Pxf/Game/Sprite.h>
+#include <Pxf/Graphics/Texture.h>
+#include <Pxf/Graphics/QuadBatch.h>
+#include <Pxf/Resource/Image.h>
+#include <Pxf/Resource/Chunk.h>
+#include <Box2D/Box2D.h>
+#include <Pxf/Game/Box2D/Box2DPhysicsWorld.h>
+		
 
 struct fps_helper
 {
@@ -39,17 +48,33 @@ public:
 	
 	void Shutdown();
 	
-	//Pxf::Scene::SceneManager* SceneMgr() { return m_SceneManager; }
+	void SetDevice(Pxf::Graphics::Device* _pDevice);
+	void Setup();
 	
 private:
 	void _UpdateFPS();
 	
-	//Pxf::Scene::SceneManager*	m_SceneManager;
 	Pxf::Engine*				m_Engine;
+	Pxf::Graphics::Device*		m_Device;
 	bool						m_IsRunning;
 	
 	const char*					m_Title;
 	fps_helper					m_FPS;
+	
+	// DEBUG OBJECTS
+	Pxf::Game::Sprite*				pSprite1;
+	Pxf::Game::Sprite*				pSprite2;
+	Pxf::Graphics::VertexBuffer*	pBuffer;
+	Pxf::Graphics::Texture*			pTexture;
+	Pxf::Graphics::QuadBatch*		pQBatch;
+	
+	// BOX2D
+	Pxf::Game::Box2DPhysicsWorld*	m_World;
+	/*
+	b2World		m_b2World;
+	float		m_b2TimeStep;
+	int32		m_b2VelIterations;
+	int32		m_b2PosIterations; */
 };
 
 #endif

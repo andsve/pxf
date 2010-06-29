@@ -19,7 +19,7 @@ static GLuint LookupUsageFlag(VertexBufferUsageFlag _BufferUsageFlag)
 	{
 		case VB_USAGE_STATIC_DRAW: return GL_STATIC_DRAW;
 		case VB_USAGE_DYNAMIC_DRAW: return GL_DYNAMIC_DRAW;
-		default: printf("VertexBufferGLES11: Usage Mode not supported in this context\n");
+		default: Pxf::Message(LOCAL_MSG,"VertexBufferGLES11: Usage Mode not supported in this context");
 	}
 	return 0;
 }
@@ -29,7 +29,7 @@ static GLuint LookupAccessFlag(VertexBufferAccessFlag _BufferAccessFlag)
 	switch(_BufferAccessFlag)
 	{
 		case VB_ACCESS_WRITE_ONLY: return GL_WRITE_ONLY_OES;
-		default: printf("VertexBufferGLES11: Access Mode not supported in this context\n");
+		default: Pxf::Message(LOCAL_MSG,"VertexBufferGLES11: Access Mode not supported in this context");
 	}
 
 	return 0;
@@ -152,12 +152,10 @@ void VertexBufferGLES11::CreateNewBuffer(uint32 _NumVertices, uint32 _VertexSize
 	{
 		GLuint usage = LookupUsageFlag(m_VertexBufferUsageFlag);
 		glGenBuffers(1, (GLuint*)&m_BufferObjectId);
-		
-		/* think we need to use index buffer or so..
-		 
-		glBindBuffer(GL_ARRAY_BUFFER, (GLuint) m_BufferObjectId);
-		glBufferData(GL_ARRAY_BUFFER_, _NumVertices * _VertexSize, 0, usage);
-		 */
+		glBindBuffer(GL_ARRAY_BUFFER, m_BufferObjectId);
+		glBufferData(GL_ARRAY_BUFFER, _NumVertices * _VertexSize,0,usage);
+			
+
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 	else
@@ -175,13 +173,12 @@ void VertexBufferGLES11::CreateFromBuffer(void* _Buffer,uint32 _NumVertices, uin
 	if (m_InterleavedData != 0 && m_BufferObjectId != 0)
 		return;
 	
-/*
 	if (m_VertexBufferUsageFlag == VB_LOCATION_GPU)
 	{
 		// Copy to gpu memory
 		GLuint usage = LookupUsageFlag(m_VertexBufferUsageFlag);
 		glBindBuffer(GL_ARRAY_BUFFER, (GLuint) m_BufferObjectId);
-		glBufferData(GL_ARRAY_BUFFER_ARB, _NumVertices * _VertexSize, _Buffer, usage);
+		glBufferData(GL_ARRAY_BUFFER, _NumVertices * _VertexSize, _Buffer, usage);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 	else
@@ -190,8 +187,6 @@ void VertexBufferGLES11::CreateFromBuffer(void* _Buffer,uint32 _NumVertices, uin
 		MemoryStream stream((char*)m_InterleavedData, _NumVertices * _VertexSize);
 		stream.Write(_Buffer, _NumVertices * _VertexSize);
 	}
- 
- */
 
 	m_VertexCount = _NumVertices;
 	m_VertexSize = _VertexSize;
