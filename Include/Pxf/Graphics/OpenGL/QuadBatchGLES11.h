@@ -27,6 +27,8 @@ namespace Pxf
 				void SetColor(Math::Vec4f* c);
 				void SetTextureSubset(float tl_u, float tl_v, float br_u, float br_v);
 				void SetRotation(float angle);
+				void Rotate(float angle);
+                void LoadIdentitiy();
 				void Translate(float x, float y);
 				void SetDepth(float d);
 
@@ -34,10 +36,11 @@ namespace Pxf
 				void AddFreeform(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3);
 				void AddTopLeft(float x, float y, float w, float h);
 				void AddCentered(float x, float y, float w, float h);
+				
 				void Draw();
 			private:
 				void Flush();
-				void Rotate(const Math::Vec3f &center, Math::Vec3f &point);
+				void RotatePoint(const Math::Vec3f &center, Math::Vec3f &point);
 
 				Vertex* m_Vertices;
 				Math::Vec4f m_CurrentColors[4];
@@ -46,7 +49,8 @@ namespace Pxf
 
 				float m_Rotation;
 				
-                Math::Vec2f m_Translation;
+                //Math::Vec2f m_Translation;
+                Math::Mat4 m_TransformMatrix;
 
 				int m_VertexBufferPos;
 				int m_VertexBufferSize;

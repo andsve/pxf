@@ -21,8 +21,10 @@ namespace Pxf
 			virtual void SetColor(float r, float g, float b, float a) = 0;
 			virtual void SetColor(Math::Vec4f* c) = 0;
 			virtual void SetTextureSubset(float tl_u, float tl_v, float br_u, float br_v) = 0;
-			virtual void SetRotation(float angle) = 0;
-            virtual void Translate(float x, float y) = 0;
+			virtual void SetRotation(float angle) = 0; // Rotate following quad around its own axis
+			virtual void Rotate(float angle) = 0; // Rotate coord system
+            virtual void Translate(float x, float y) = 0; // Translate coord system
+            virtual void LoadIdentitiy() = 0; // Reset coord system
 			virtual void SetDepth(float d) = 0;
 
 			virtual void Reset() = 0;

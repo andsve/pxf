@@ -21,6 +21,10 @@ void GraphicsSubsystem::RegisterClass(lua_State* _L)
     lua_pushcfunction(_L, DrawQuad);
     lua_setfield(_L, -2, "drawquad");
     
+    // luagame.graphics.loadidentity
+    lua_pushcfunction(_L, LoadIdentity);
+    lua_setfield(_L, -2, "loadidentity");
+    
     // luagame.graphics.translate
     lua_pushcfunction(_L, Translate);
     lua_setfield(_L, -2, "translate");
@@ -32,7 +36,7 @@ void GraphicsSubsystem::RegisterClass(lua_State* _L)
 
 int GraphicsSubsystem::DrawQuad(lua_State* _L)
 {
-    // luagame.graphics.drawquad(x, y, w, w)
+    // luagame.graphics.drawquad(x, y, w, h)
     int argc = lua_gettop(_L);
     if (argc == 4 &&
         lua_isnumber(_L, 1) && lua_isnumber(_L, 2) && lua_isnumber(_L, 3) && lua_isnumber(_L, 4))
@@ -45,10 +49,26 @@ int GraphicsSubsystem::DrawQuad(lua_State* _L)
         Math::Vec4f coords = Math::Vec4f(0, 0, 1, 1);//m_Texture->CreateTextureSubset(_texpixels->x, _texpixels->y, _texpixels->z, _texpixels->w);
 
     	g->m_QuadBatch->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
-    	g->m_QuadBatch->AddTopLeft(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4));
+    	g->m_QuadBatch->AddCentered(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4));
         
         //g->AddQuad(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4));
-        
+    
+    
+    // luagame.graphics.drawquad(x, y, w, h, rotation)
+    /*
+    } elseif (argc == 5 &&
+            lua_isnumber(_L, 1) && lua_isnumber(_L, 2) && lua_isnumber(_L, 3) && lua_isnumber(_L, 4) && lua_isnumber(_L, 5))
+        {
+            // Send data to Game instance VBO
+            lua_getglobal(_L, LUAGAME_TABLE);
+            lua_getfield(_L, -1, "Instance");
+            Game* g = (Game*)lua_touserdata(_L, -1);
+
+            Math::Vec4f coords = Math::Vec4f(0, 0, 1, 1);//m_Texture->CreateTextureSubset(_texpixels->x, _texpixels->y, _texpixels->z, _texpixels->w);
+
+        	g->m_QuadBatch->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
+        	g->m_QuadBatch->AddTopLeft(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4));
+    */
     } else {
         // Non valid method call
         lua_pushstring(_L, "Invalid argument passed to drawquad function!");
@@ -90,12 +110,26 @@ int GraphicsSubsystem::Rotate(lua_State* _L)
         lua_getfield(_L, -1, "Instance");
         Game* g = (Game*)lua_touserdata(_L, -1);
         
-        g->m_QuadBatch->SetRotation(lua_tonumber(_L, 1));
+        //g->m_QuadBatch->SetRotation(lua_tonumber(_L, 1));
+        g->m_QuadBatch->Rotate(lua_tonumber(_L, 1));
     } else {
         // Non valid method call
         lua_pushstring(_L, "Invalid argument passed to rotate function!");
         lua_error(_L);
     }
+    
+    return 0;
+}
+
+int GraphicsSubsystem::LoadIdentity(lua_State* _L)
+{
+    // luagame.graphics.loadidentity()
+    
+    // Send data to Game instance VBO
+    lua_getglobal(_L, LUAGAME_TABLE);
+    lua_getfield(_L, -1, "Instance");
+    Game* g = (Game*)lua_touserdata(_L, -1);
+    g->m_QuadBatch->LoadIdentitiy();
     
     return 0;
 }
