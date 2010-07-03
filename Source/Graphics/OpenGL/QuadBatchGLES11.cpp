@@ -75,7 +75,7 @@ void QuadBatchGLES11::RotatePoint(const Math::Vec3f &center, Math::Vec3f &point)
 void QuadBatchGLES11::Rotate(float angle)
 {
     Math::Mat4 t_rotmatrix = Math::Mat4::Identity;
-    t_rotmatrix.RotateZ(angle);
+    t_rotmatrix.Rotate(angle, 0.0f, 0.0f, 1.0f);
     m_TransformMatrix = m_TransformMatrix * t_rotmatrix;
 }
 
@@ -113,9 +113,6 @@ void QuadBatchGLES11::Reset()
 
 void QuadBatchGLES11::AddFreeform(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3)
 {
-    // TODO: FIX THIS!
-    //       Stopped working when moved from quads -> triangles.
-    //       The count is also wrong inside the m_Vertices.
 	if (m_VertexBufferPos >= m_VertexBufferSize)
 	{
 		Message(LOCAL_MSG, "Not enough space in vertex array! Try increasing _maxSize in QuadBatch constructor.");
@@ -136,26 +133,25 @@ void QuadBatchGLES11::AddFreeform(float x0, float y0, float x1, float y1, float 
 	*/
 	
 	// Transform into world coords
-	Math::Vec2f t_pos(0.0f, 0.0f);
-    Math::Mat4 t_scale = Math::Mat4::Identity;
+	Math::Vec4f t_pos(0.0f, 0.0f, 0.0f, 1.0f);
 	
-    t_pos = Math::Vec2f(x0, y0);
-    t_pos = m_TransformMatrix.Transform2D(t_pos); //(m_TransformMatrix * t_scale) * t_pos;
+    t_pos = Math::Vec4f(x0, y0, 0.0f, 1.0f);
+    t_pos = m_TransformMatrix * t_pos;
     x0 = t_pos.x;
     y0 = t_pos.y;
     
-    t_pos = Math::Vec2f(x1, y1);
-    t_pos = m_TransformMatrix.Transform2D(t_pos);
+    t_pos = Math::Vec4f(x1, y1, 0.0f, 1.0f);
+    t_pos = m_TransformMatrix * t_pos;
     x1 = t_pos.x;
     y1 = t_pos.y;
     
-    t_pos = Math::Vec2f(x2, y2);
-    t_pos = m_TransformMatrix.Transform2D(t_pos);
+    t_pos = Math::Vec4f(x2, y2, 0.0f, 1.0f);
+    t_pos = m_TransformMatrix * t_pos;
     x2 = t_pos.x;
     y2 = t_pos.y;
     
-    t_pos = Math::Vec2f(x3, y3);
-    t_pos = m_TransformMatrix.Transform2D(t_pos);
+    t_pos = Math::Vec4f(x3, y3, 0.0f, 1.0f);
+    t_pos = m_TransformMatrix * t_pos;
     x3 = t_pos.x;
     y3 = t_pos.y;
 

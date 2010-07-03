@@ -288,9 +288,9 @@ public:
 		Vec4f v(x, y, z, 1.f);
 		Normalize(v);
 
-		x = v.x;
-		y = v.y;
-		z = v.z;
+		//x = v.x;
+		//y = v.y;
+		//z = v.z;
 
 		c = cos(angle);
 		s = sin(angle);
@@ -322,29 +322,6 @@ public:
 		return *this;
 	}
 	
-	const Mat4& RotateZ(float angle)
-	{
-		float c = cos(angle);
-		float s = sin(angle);
-
-		Mat4 res = Mat4::Identity; // = Zero;
-		/*
-		float c = cos(rad), s = sin(rad);
-		
-		e[0] = c; e[4] = -s;
-		e[1] = s; e[5] = c;
-        
-		*/
-        res.m[0] = c;
-        res.m[1] = -s;
-        res.m[4] = s;
-        res.m[5] = c;
-		
-        *this = *this * (res * Mat4::Identity);
-		
-		return *this;
-	}
-	
 	
 	/*
 	[ 0  1  2  3 ]
@@ -358,6 +335,7 @@ public:
     | e3 e7 e11 e15 |
     
 	*/
+	/*
 	const Vec2f Transform2D(Vec2f v)
 	{
         Vec2f res;
@@ -367,7 +345,7 @@ public:
 		res.y = (m[4]*v.x) + (m[5]*v.y) + (0) + (m[7]);
 		
         return res;
-	}
+	}*/
 	
 	/*static Mat4 Rotate(float angle, float x, float y, float z)
 	{
