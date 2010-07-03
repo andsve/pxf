@@ -31,6 +31,7 @@ namespace Pxf
 			virtual void AddFreeform(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3) = 0;
 			virtual void AddTopLeft(float x, float y, float w, float h) = 0;
 			virtual void AddCentered(float x, float y, float w, float h) = 0;
+			virtual void AddCentered(float x, float y, float w, float h, float rotation) = 0;
 			virtual void Draw() = 0;
 		};
 	} // Graphics

@@ -72,7 +72,13 @@ function luagame:Render()
 	luagame.graphics.drawquad(0, 0, 30, 30)
 	
 	luagame.graphics.loadidentity()
+	
 	luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
+	
+	luagame.graphics.drawquad(50, 0, 30, 30, testani / 2.0)
+	
+	
+	
 	luagame.graphics.rotate(testani)
 	luagame.graphics.drawquad(0, 0, 30, 30)
 	

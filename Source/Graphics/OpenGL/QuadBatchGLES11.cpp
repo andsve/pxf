@@ -23,7 +23,6 @@ QuadBatchGLES11::QuadBatchGLES11(Device* _pDevice, int _maxSize)
 
 	m_VertexBufferPos = 0;
 	m_CurrentDepthLayer = 0.5f;
-	m_Rotation = 0.0f;
 	
 }
 
@@ -34,7 +33,8 @@ QuadBatchGLES11::~QuadBatchGLES11()
 
 void QuadBatchGLES11::SetRotation(float angle)
 {
-	m_Rotation = angle;
+	//m_Rotation = angle;
+    Message(LOCAL_MSG, "Deprecated!");
 }
 
 void QuadBatchGLES11::SetColor(float r, float g, float b, float a)
@@ -65,11 +65,11 @@ void QuadBatchGLES11::SetTextureSubset(float tl_u, float tl_v, float br_u, float
 	m_CurrentTexCoords[3].v = br_v;
 }
 
-void QuadBatchGLES11::RotatePoint(const Math::Vec3f &center, Math::Vec3f &point)
+void QuadBatchGLES11::RotatePoint(const Math::Vec3f &center, Math::Vec3f &point, float rotation)
 {
 	Math::Vec3f p = point - center;
-	point.x = p.x * cosf(m_Rotation) - p.y * sinf(m_Rotation) + center.x;
-	point.y = p.x * sinf(m_Rotation) + p.y * cosf(m_Rotation) + center.y;
+	point.x = p.x * cos(rotation) - p.y * sin(rotation) + center.x;
+	point.y = p.x * sin(rotation) + p.y * cos(rotation) + center.y;
 }
 
 void QuadBatchGLES11::Rotate(float angle)
@@ -265,7 +265,30 @@ void QuadBatchGLES11::AddTopLeft(float x, float y, float w, float h)
 
 void QuadBatchGLES11::AddCentered(float x, float y, float w, float h)
 {
-	AddTopLeft(x-w/2, y-h/2, w, h);
+	AddTopLeft(x-w/2.0f, y-h/2.0f, w, h);
+}
+
+void QuadBatchGLES11::AddCentered(float x, float y, float w, float h, float rotation)
+{
+    Math::Vec3f center(x, y, 0.0f);
+    Math::Vec3f p0, p1, p2, p3;
+    
+    p0.x = x-w/2.0f;
+    p1.x = p0.x + w;
+    p2.x = p1.x;
+    p3.x = p0.x;
+    
+    p0.y = y-h/2.0f;
+    p1.y = p0.y;
+    p2.y = p0.y + h;
+    p3.y = p2.y;
+    
+    RotatePoint(center, p0, rotation);
+    RotatePoint(center, p1, rotation);
+    RotatePoint(center, p2, rotation);
+    RotatePoint(center, p3, rotation);
+    
+    AddFreeform(p0.x, p0.y, p1.x, p1.y, p2.x, p2.y, p3.x, p3.y);
 }
 
 void QuadBatchGLES11::Draw()

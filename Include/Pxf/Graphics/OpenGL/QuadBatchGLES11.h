@@ -36,18 +36,19 @@ namespace Pxf
 				void AddFreeform(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3);
 				void AddTopLeft(float x, float y, float w, float h);
 				void AddCentered(float x, float y, float w, float h);
+				void AddCentered(float x, float y, float w, float h, float rotation);
 				
 				void Draw();
 			private:
 				void Flush();
-				void RotatePoint(const Math::Vec3f &center, Math::Vec3f &point);
+				void RotatePoint(const Math::Vec3f &center, Math::Vec3f &point, float rotation);
 
 				Vertex* m_Vertices;
 				Math::Vec4f m_CurrentColors[4];
 				Math::Vec2f m_CurrentTexCoords[4];
 				float m_CurrentDepthLayer;
 
-				float m_Rotation;
+				//float m_Rotation;
 				
                 //Math::Vec2f m_Translation;
                 Math::Mat4 m_TransformMatrix;

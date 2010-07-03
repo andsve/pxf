@@ -55,10 +55,12 @@ int GraphicsSubsystem::DrawQuad(lua_State* _L)
     
     
     // luagame.graphics.drawquad(x, y, w, h, rotation)
-    /*
-    } elseif (argc == 5 &&
+    
+    } else if (argc == 5 &&
             lua_isnumber(_L, 1) && lua_isnumber(_L, 2) && lua_isnumber(_L, 3) && lua_isnumber(_L, 4) && lua_isnumber(_L, 5))
         {
+            float rotation = lua_tonumber(_L, 5);
+            
             // Send data to Game instance VBO
             lua_getglobal(_L, LUAGAME_TABLE);
             lua_getfield(_L, -1, "Instance");
@@ -66,9 +68,10 @@ int GraphicsSubsystem::DrawQuad(lua_State* _L)
 
             Math::Vec4f coords = Math::Vec4f(0, 0, 1, 1);//m_Texture->CreateTextureSubset(_texpixels->x, _texpixels->y, _texpixels->z, _texpixels->w);
 
+            //g->m_QuadBatch->Rotate(rotation);
         	g->m_QuadBatch->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
-        	g->m_QuadBatch->AddTopLeft(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4));
-    */
+        	g->m_QuadBatch->AddCentered(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4), rotation);
+        	//g->m_QuadBatch->Rotate(-rotation);
     } else {
         // Non valid method call
         lua_pushstring(_L, "Invalid argument passed to drawquad function!");
