@@ -17,7 +17,10 @@ namespace Pxf
 		{
 		public:
 			TextureGL2(Device* _pDevice);
+            TextureGL2(const char* _filepath, Device* _pDevice);
 			~TextureGL2();
+			
+            void Load();
 			void Load(const char* _filepath);
 			void LoadData(const unsigned char* _datachunk, int _width, int _height, int _channels);
 			void Unload();
@@ -39,7 +42,7 @@ namespace Pxf
 
 		private:
 			GLuint m_TextureID;
-			Util::String m_Filepath;
+			//Util::String m_Filepath;
 			int m_Width, m_Height, m_Channels;
 		};
 	} // Graphics

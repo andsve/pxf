@@ -2,6 +2,9 @@
 #include <Pxf/Extra/LuaGame/LuaGame.h>
 #include <Pxf/Extra/LuaGame/Subsystems/Vec2.h>
 #include <Pxf/Extra/LuaGame/Subsystems/Graphics.h>
+#include <Pxf/Extra/LuaGame/Subsystems/Resources.h>
+
+#include <Pxf/Graphics/Texture.h>
 
 
 #define LOCAL_MSG "LuaGame"
@@ -24,6 +27,9 @@ Game::Game(Util::String _gameFilename, Graphics::Device* _device, bool _graceful
     
     // Graphics
     m_QuadBatch = m_Device->CreateQuadBatch(1024);
+    
+    // Preload stuff
+    m_PreLoadQueue_Textures_Counter = 0;
 }
 
 Game::~Game()
@@ -76,12 +82,18 @@ bool Game::Load()
         			Message(LOCAL_MSG, "-- %s", lua_tostring(L, -1));
         			lua_pop(L, 1);
         		} else {
-        			// Call Game:Init()
-                    m_Running = CallGameMethod("Init");
+        		    // Call Game:PreLoad()
+                    if (CallGameMethod("PreLoad"))
+                    {
+                        // Call Game:Init()
+                        m_Running = CallGameMethod("Init");
+                    } else {
+                        Message(LOCAL_MSG, "Failed in PreLoad phase.");
+                    }
         		}
 
         	} else {
-        		Message(LOCAL_MSG, "Error: %s",lua_tostring(L,-1));
+        		Message(LOCAL_MSG, "Error: %s", lua_tostring(L,-1));
         	}
 		}
 
@@ -97,9 +109,33 @@ int Game::PreLoad()
     // Preload game data
     if (!m_Running)
         return false;
+        
+    // Load textures
+    if (m_PreLoadQueue_Textures_Counter > 0)
+    {
+        m_PreLoadQueue_Textures_Counter -= 1;
+        m_PreLoadQueue_Textures[m_PreLoadQueue_Textures_Counter]->Load();
+        
+    ////////////////////
+    // TODO: Load sounds
+    /*
+    } else if () {
+        
+    */
+    }
     
     // Returns how many preload data pieces there are left
-    return 0;
+    return m_PreLoadQueue_Textures_Counter;// + m_PreLoadQueue_Sound_Counter;
+}
+
+Graphics::Texture* Game::AddPreload(Util::String _filepath)
+{
+    // Now we got one more preload entry in the queue!
+    Graphics::Texture* res = m_Device->CreateTexture(_filepath.c_str(), false); // false = dont autoload
+    m_PreLoadQueue_Textures[m_PreLoadQueue_Textures_Counter] = res;
+    m_PreLoadQueue_Textures_Counter += 1;
+    
+    return res;
 }
 
 bool Game::Update(float dt)
@@ -182,6 +218,7 @@ void Game::_register_own_callbacks()
     // Register subsystems
 	Vec2::RegisterClass(L);
     GraphicsSubsystem::RegisterClass(L);
+    ResourcesSubsystem::RegisterClass(L);
 }
 
 bool Game::HandleLuaErrors(int _error)
@@ -229,7 +266,6 @@ void* Game::GetInstance(lua_State *_L)
 
 int Game::Print(lua_State *_L)
 {
-    //Game* instance = (Game*)GetInstance(_L);
     
     // More or less copy paste from lbaselib.c of Lua dist.
     // Modified so that prints can be pushed to the "game console"

@@ -36,6 +36,9 @@ namespace Pxf
                 
                 // Graphic data
                 Graphics::QuadBatch* m_QuadBatch;
+				
+				// Public preload stuff
+				Graphics::Texture* AddPreload(Util::String _filepath);
 
             private:
                 bool m_Running; // Script state
@@ -53,8 +56,13 @@ namespace Pxf
                 void _register_own_callbacks();
                 bool HandleLuaErrors(int _error);
                 bool CallGameMethod(const char* _method);
-                int  PreLoad(); // Called within Render() in the starting phase of the game
                 static void* GetInstance(lua_State *_L);
+                
+                // Preload stuff
+                Graphics::Texture* m_PreLoadQueue_Textures[8]; // TODO: Change to some dynamic type of list?
+                int m_PreLoadQueue_Textures_Counter;
+                int PreLoad(); // Called within Render() in the starting phase of the game
+                
             
                 // Callback methods
                 static int Print(lua_State *_L);

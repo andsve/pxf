@@ -22,7 +22,8 @@ function luagame:Init()
 end
 
 function luagame:PreLoad()
-	print("Time to PRELOAD some data!")
+	test_texture = luagame.resources.loadtexture("test_atlas.png")
+	print("Preload texture pointer: " .. tostring(test_texture.instance))
 	-- TODO: Does not work, at all.
 	--       Should add resources that need to be loaded. LuaGame should then
 	--       iterate over them and load them into a resource/data pool of some sort.
@@ -66,18 +67,18 @@ function luagame:Render()
 	--luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
 	--luagame.graphics.drawquad(0, 0, 30, 30)
 	
+	test_texture:bind()
+	
+	-- reset coord system
 	luagame.graphics.loadidentity()
 	luagame.graphics.rotate(testani)
 	luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
-	luagame.graphics.drawquad(0, 0, 30, 30)
+	luagame.graphics.drawquad(0, 0, 512, 512)
 	
+	-- reset coord system
 	luagame.graphics.loadidentity()
-	
 	luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
-	
 	luagame.graphics.drawquad(50, 0, 30, 30, testani / 2.0)
-	
-	
 	
 	luagame.graphics.rotate(testani)
 	luagame.graphics.drawquad(0, 0, 30, 30)

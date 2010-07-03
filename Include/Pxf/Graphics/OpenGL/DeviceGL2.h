@@ -32,6 +32,7 @@ namespace Pxf{
 
 			Texture* CreateEmptyTexture(int _Width,int _Height, TextureFormatStorage _Format = TEX_FORMAT_RGBA);
 			Texture* CreateTexture(const char* _filepath);
+			Texture* CreateTexture(const char* _filepath, bool _autoload);
 			Texture* CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, int _channels);
 			void BindTexture(Texture* _texture);
 			void BindTexture(Texture* _texture, unsigned int _texture_unit);

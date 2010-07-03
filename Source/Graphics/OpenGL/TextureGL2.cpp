@@ -18,6 +18,11 @@ TextureGL2::TextureGL2(Device* _pDevice)
 	m_TextureID = 0;
 }
 
+TextureGL2::TextureGL2(const char* _filepath, Device* _pDevice) : Texture(_filepath, _pDevice)
+{
+    m_TextureID = 0;
+}
+
 TextureGL2::~TextureGL2()
 {
 	Unload();
@@ -40,6 +45,11 @@ Math::Vec4f TextureGL2::CreateTextureSubset(float _x1, float _y1, float _x2, flo
 	coords.z = coords.x + _x2 * xdelta;
 	coords.w = coords.y + _y2 * ydelta;
 	return coords;
+}
+
+void TextureGL2::Load()
+{
+    Load(m_Filepath);
 }
 
 void TextureGL2::Load(const char* _filepath)

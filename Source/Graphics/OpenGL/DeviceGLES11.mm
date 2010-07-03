@@ -78,6 +78,7 @@ Texture* DeviceGLES11::CreateEmptyTexture(int _Width,int _Height,TextureFormatSt
 	_Tex->LoadData(NULL,_Width,_Height,_Format);
 	return _Tex;
 }
+
 Texture* DeviceGLES11::CreateTexture(const char* _filepath)
 {
 	glEnable(GL_TEXTURE_2D);
@@ -86,6 +87,22 @@ Texture* DeviceGLES11::CreateTexture(const char* _filepath)
 	
 	return _Tex;
 }
+
+Texture* DeviceGLES11::CreateTexture(const char* _filepath, bool _autoload)
+{
+    TextureGLES* _Tex;
+    glEnable(GL_TEXTURE_2D);
+    if (_autoload)
+    {
+        _Tex = new TextureGLES(this);
+    	_Tex->Load(_filepath);
+    } else {
+        _Tex = new TextureGLES(_filepath, this);
+    }
+	
+	return _Tex;
+}
+
 Texture* DeviceGLES11::CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, int _channels)
 {
 	glEnable(GL_TEXTURE_2D);
@@ -94,13 +111,16 @@ Texture* DeviceGLES11::CreateTextureFromData(const unsigned char* _datachunk, in
 	
 	return _Tex;
 }
+
 void DeviceGLES11::BindTexture(Texture* _texture)
 {
+    //Message(LOCAL_MSG, "texture id: %i", ((TextureGLES*) _texture)->GetTextureID());
 	glBindTexture(GL_TEXTURE_2D,((TextureGLES*) _texture)->GetTextureID());
 }
 void DeviceGLES11::BindTexture(Texture* _texture, unsigned int _texture_unit)
 {
-	
+    Message(LOCAL_MSG, "Does not support more than one texture unit!");
+    glBindTexture(GL_TEXTURE_2D,((TextureGLES*) _texture)->GetTextureID());
 }
 
 // PrimitiveBatch

@@ -104,7 +104,7 @@ void QuadBatchGLES11::SetDepth(float d)
 void QuadBatchGLES11::Reset()
 {
 	m_VertexBufferPos = 0;
-	SetRotation(0.f);
+	//SetRotation(0.f);
 	SetTextureSubset(0.f,0.f,1.f,1.f);
 	SetColor(1.f,1.f,1.f,1.f);
 	

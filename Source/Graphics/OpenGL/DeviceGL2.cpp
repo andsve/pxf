@@ -105,6 +105,21 @@ Texture* DeviceGL2::CreateTexture(const char* _filepath)
 	return _tex;
 }
 
+Texture* DeviceGL2::CreateTexture(const char* _filepath, bool _autoload)
+{
+    DeviceGL2* _Tex;
+    glEnable(GL_TEXTURE_2D);
+    if (_autoload)
+    {
+        _Tex = new DeviceGL2(this);
+    	_Tex->Load(_filepath);
+    } else {
+        _Tex = new DeviceGL2(_filepath, this);
+    }
+	
+	return _Tex;
+}
+
 Texture* DeviceGL2::CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, int _channels)
 {
 	TextureGL2* _tex = new TextureGL2(this);
