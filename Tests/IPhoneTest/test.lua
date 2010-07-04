@@ -23,6 +23,7 @@ end
 
 function luagame:PreLoad()
 	test_texture = luagame.resources.loadtexture("test_atlas.png")
+	test_texture2 = luagame.resources.loadtexture("test.png")
 	print("Preload texture pointer: " .. tostring(test_texture.instance))
 	-- TODO: Does not work, at all.
 	--       Should add resources that need to be loaded. LuaGame should then

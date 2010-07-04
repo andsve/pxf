@@ -61,6 +61,7 @@ namespace Pxf
                 // Preload stuff
                 Graphics::Texture* m_PreLoadQueue_Textures[8]; // TODO: Change to some dynamic type of list?
                 int m_PreLoadQueue_Textures_Counter;
+                int m_PreLoadQueue_Total;
                 int PreLoad(); // Called within Render() in the starting phase of the game
                 
             

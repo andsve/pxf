@@ -30,6 +30,7 @@ Game::Game(Util::String _gameFilename, Graphics::Device* _device, bool _graceful
     
     // Preload stuff
     m_PreLoadQueue_Textures_Counter = 0;
+    m_PreLoadQueue_Total = -1;
 }
 
 Game::~Game()
@@ -109,7 +110,12 @@ int Game::PreLoad()
     // Preload game data
     if (!m_Running)
         return false;
-        
+    
+    // Return value
+    int ret = m_PreLoadQueue_Textures_Counter;// + m_PreLoadQueue_Sound_Counter;
+    if (ret == 0)
+        return 0;
+    
     // Load textures
     if (m_PreLoadQueue_Textures_Counter > 0)
     {
@@ -125,7 +131,7 @@ int Game::PreLoad()
     }
     
     // Returns how many preload data pieces there are left
-    return m_PreLoadQueue_Textures_Counter;// + m_PreLoadQueue_Sound_Counter;
+    return ret;
 }
 
 Graphics::Texture* Game::AddPreload(Util::String _filepath)
@@ -164,9 +170,14 @@ bool Game::Render()
         return false;
     
     // Are we in need of preloading anything?
-    if (PreLoad() > 0)
+    int t_preload = PreLoad();
+    if (m_PreLoadQueue_Total == -1)
+        m_PreLoadQueue_Total = t_preload;
+    
+    if (t_preload > 0)
     {
         // TODO: Render loading bar
+        Message(LOCAL_MSG, "Loading resource %i/%i", (m_PreLoadQueue_Total - t_preload + 1), m_PreLoadQueue_Total);
     } else {
         m_QuadBatch->Reset();
         m_Running = CallGameMethod("Render");
