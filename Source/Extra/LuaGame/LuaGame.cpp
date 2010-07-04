@@ -26,7 +26,11 @@ Game::Game(Util::String _gameFilename, Graphics::Device* _device, bool _graceful
     m_GracefulFail = _gracefulFail;
     
     // Graphics
-    m_QuadBatch = m_Device->CreateQuadBatch(1024);
+    //m_QuadBatch = m_Device->CreateQuadBatch(1024);
+    //m_QBT = new QBTConnection[8];
+    
+    m_CurrentQBT = -1;
+    m_QBTCount = 0;
     
     // Preload stuff
     m_PreLoadQueue_Textures_Counter = 0;
@@ -122,6 +126,10 @@ int Game::PreLoad()
         m_PreLoadQueue_Textures_Counter -= 1;
         m_PreLoadQueue_Textures[m_PreLoadQueue_Textures_Counter]->Load();
         
+        m_CurrentQBT += 1;
+        m_QBTCount = m_CurrentQBT + 1;
+        m_QBT[m_CurrentQBT] = new QBTConnection(m_PreLoadQueue_Textures[m_PreLoadQueue_Textures_Counter], m_Device);
+        
     ////////////////////
     // TODO: Load sounds
     /*
@@ -179,12 +187,55 @@ bool Game::Render()
         // TODO: Render loading bar
         Message(LOCAL_MSG, "Loading resource %i/%i", (m_PreLoadQueue_Total - t_preload + 1), m_PreLoadQueue_Total);
     } else {
-        m_QuadBatch->Reset();
+        // Loop all quad batches
+        for(int i = 0; i < m_QBTCount; ++i)
+            m_QBT[i]->m_QuadBatch->Reset();
+        
         m_Running = CallGameMethod("Render");
-        m_QuadBatch->Draw();
+        
+        for(int i = 0; i < m_QBTCount; ++i)
+        {
+            m_Device->BindTexture(m_QBT[i]->m_Texture);
+            m_QBT[i]->m_QuadBatch->Draw();
+        }
+            
     }
         
     return m_Running;
+}
+
+Graphics::QuadBatch* Game::GetCurrentQB()
+{
+    return m_QBT[m_CurrentQBT]->m_QuadBatch;
+}
+
+void Game::BindTexture(Graphics::Texture* _texture)
+{
+    for(size_t i = 0; i < m_QBTCount; ++i)
+    {
+        if (m_QBT[i]->m_Texture == _texture)
+        {
+            m_CurrentQBT = i;
+        }
+    }
+}
+
+void Game::Translate(float x, float y)
+{
+    for(int i = 0; i < m_QBTCount; ++i)
+        m_QBT[i]->m_QuadBatch->Translate(x, y);
+}
+
+void Game::Rotate(float angle)
+{
+    for(int i = 0; i < m_QBTCount; ++i)
+        m_QBT[i]->m_QuadBatch->Rotate(angle);
+}
+
+void Game::LoadIdentity()
+{
+    for(int i = 0; i < m_QBTCount; ++i)
+        m_QBT[i]->m_QuadBatch->LoadIdentity();
 }
 
 ///////////////////////////////////////////////////////////////////

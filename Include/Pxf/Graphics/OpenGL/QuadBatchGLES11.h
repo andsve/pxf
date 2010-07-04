@@ -28,7 +28,7 @@ namespace Pxf
 				void SetTextureSubset(float tl_u, float tl_v, float br_u, float br_v);
 				void SetRotation(float angle);
 				void Rotate(float angle);
-                void LoadIdentitiy();
+                void LoadIdentity();
 				void Translate(float x, float y);
 				void SetDepth(float d);
 

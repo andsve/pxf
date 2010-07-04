@@ -87,4 +87,8 @@ function luagame:Render()
 	luagame.graphics.translate(50.0, 0.0)
 	luagame.graphics.rotate(testani)
 	luagame.graphics.drawquad(0, 0, 30, 30)
+	
+	-- test draw texture 2
+	test_texture2:bind()
+	luagame.graphics.drawquad(0, 0, 128, 128)
 end

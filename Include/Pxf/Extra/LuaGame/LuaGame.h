@@ -3,6 +3,7 @@
 
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/Device.h>
+#include <Pxf/Graphics/Texture.h>
 #include <Pxf/Graphics/QuadBatch.h>
 
 // Lua includes
@@ -21,6 +22,18 @@ namespace Pxf
     {
         namespace LuaGame
         {
+            struct QBTConnection
+            {
+                Util::String m_TextureName;
+                Graphics::QuadBatch* m_QuadBatch;
+                Graphics::Texture* m_Texture;
+                QBTConnection(Graphics::Texture* _texture, Graphics::Device* _device) {
+                    m_TextureName = _texture->m_Filepath;
+                    m_QuadBatch = _device->CreateQuadBatch(1024);
+                    m_Texture = _texture;
+                }
+            };
+            
             class Game
             {
             public:
@@ -35,7 +48,19 @@ namespace Pxf
                 Graphics::Device* m_Device;
                 
                 // Graphic data
-                Graphics::QuadBatch* m_QuadBatch;
+                //Graphics::QuadBatch* m_QuadBatch;
+                QBTConnection* m_QBT[8];
+                int m_CurrentQBT, m_QBTCount;
+                Graphics::QuadBatch* GetCurrentQB();
+                void BindTexture(Graphics::Texture* _texture);
+                float m_CurrentDepth;
+                float m_DepthStep;
+                float m_DepthFar, m_DepthNear;
+                
+                // World orientation
+                void Translate(float x, float y);
+                void Rotate(float angle);
+                void LoadIdentity();
 				
 				// Public preload stuff
 				Graphics::Texture* AddPreload(Util::String _filepath);

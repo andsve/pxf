@@ -97,7 +97,7 @@ int ResourcesSubsystem::BindTexture(lua_State* _L)
         lua_getfield(_L, -1, "Instance");
         Game* g = (Game*)lua_touserdata(_L, -1);
         
-        g->m_Device->BindTexture(tex);
+        g->BindTexture(tex);
         
     } else {
         // Non valid method call

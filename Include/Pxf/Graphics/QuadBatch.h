@@ -24,7 +24,7 @@ namespace Pxf
 			virtual void SetRotation(float angle) = 0; // Rotate following quad around its own axis
 			virtual void Rotate(float angle) = 0; // Rotate coord system
             virtual void Translate(float x, float y) = 0; // Translate coord system
-            virtual void LoadIdentitiy() = 0; // Reset coord system
+            virtual void LoadIdentity() = 0; // Reset coord system
 			virtual void SetDepth(float d) = 0;
 
 			virtual void Reset() = 0;

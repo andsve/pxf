@@ -48,8 +48,9 @@ int GraphicsSubsystem::DrawQuad(lua_State* _L)
         
         Math::Vec4f coords = Math::Vec4f(0, 0, 1, 1);//m_Texture->CreateTextureSubset(_texpixels->x, _texpixels->y, _texpixels->z, _texpixels->w);
 
-    	g->m_QuadBatch->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
-    	g->m_QuadBatch->AddCentered(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4));
+    	//g->m_QuadBatch->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
+    	g->GetCurrentQB()->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
+    	g->GetCurrentQB()->AddCentered(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4));
         
         //g->AddQuad(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4));
     
@@ -69,8 +70,8 @@ int GraphicsSubsystem::DrawQuad(lua_State* _L)
             Math::Vec4f coords = Math::Vec4f(0, 0, 1, 1);//m_Texture->CreateTextureSubset(_texpixels->x, _texpixels->y, _texpixels->z, _texpixels->w);
 
             //g->m_QuadBatch->Rotate(rotation);
-        	g->m_QuadBatch->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
-        	g->m_QuadBatch->AddCentered(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4), rotation);
+        	g->GetCurrentQB()->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
+        	g->GetCurrentQB()->AddCentered(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4), rotation);
         	//g->m_QuadBatch->Rotate(-rotation);
     } else {
         // Non valid method call
@@ -92,7 +93,7 @@ int GraphicsSubsystem::Translate(lua_State* _L)
         lua_getfield(_L, -1, "Instance");
         Game* g = (Game*)lua_touserdata(_L, -1);
         
-        g->m_QuadBatch->Translate(lua_tonumber(_L, 1), lua_tonumber(_L, 2));
+        g->Translate(lua_tonumber(_L, 1), lua_tonumber(_L, 2));
     } else {
         // Non valid method call
         lua_pushstring(_L, "Invalid argument passed to translate function!");
@@ -114,7 +115,7 @@ int GraphicsSubsystem::Rotate(lua_State* _L)
         Game* g = (Game*)lua_touserdata(_L, -1);
         
         //g->m_QuadBatch->SetRotation(lua_tonumber(_L, 1));
-        g->m_QuadBatch->Rotate(lua_tonumber(_L, 1));
+        g->Rotate(lua_tonumber(_L, 1));
     } else {
         // Non valid method call
         lua_pushstring(_L, "Invalid argument passed to rotate function!");
@@ -132,7 +133,7 @@ int GraphicsSubsystem::LoadIdentity(lua_State* _L)
     lua_getglobal(_L, LUAGAME_TABLE);
     lua_getfield(_L, -1, "Instance");
     Game* g = (Game*)lua_touserdata(_L, -1);
-    g->m_QuadBatch->LoadIdentitiy();
+    g->LoadIdentity();
     
     return 0;
 }

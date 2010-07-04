@@ -91,7 +91,7 @@ void QuadBatchGLES11::Translate(float x, float y)
     m_TransformMatrix = m_TransformMatrix * t_translatematrix;
 }
 
-void QuadBatchGLES11::LoadIdentitiy()
+void QuadBatchGLES11::LoadIdentity()
 {
     m_TransformMatrix = Math::Mat4::Identity;
 }
@@ -108,7 +108,7 @@ void QuadBatchGLES11::Reset()
 	SetTextureSubset(0.f,0.f,1.f,1.f);
 	SetColor(1.f,1.f,1.f,1.f);
 	
-    LoadIdentitiy();
+    LoadIdentity();
 }
 
 void QuadBatchGLES11::AddFreeform(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3)
