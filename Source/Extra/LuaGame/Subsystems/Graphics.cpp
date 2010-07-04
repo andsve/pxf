@@ -49,8 +49,8 @@ int GraphicsSubsystem::DrawQuad(lua_State* _L)
         Math::Vec4f coords = Math::Vec4f(0, 0, 1, 1);//m_Texture->CreateTextureSubset(_texpixels->x, _texpixels->y, _texpixels->z, _texpixels->w);
 
     	//g->m_QuadBatch->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
-    	g->GetCurrentQB()->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
-    	g->GetCurrentQB()->AddCentered(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4));
+    	//g->GetCurrentQB()->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
+    	g->AddQuad(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4));
         
         //g->AddQuad(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4));
     
@@ -70,8 +70,8 @@ int GraphicsSubsystem::DrawQuad(lua_State* _L)
             Math::Vec4f coords = Math::Vec4f(0, 0, 1, 1);//m_Texture->CreateTextureSubset(_texpixels->x, _texpixels->y, _texpixels->z, _texpixels->w);
 
             //g->m_QuadBatch->Rotate(rotation);
-        	g->GetCurrentQB()->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
-        	g->GetCurrentQB()->AddCentered(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4), rotation);
+        	//g->GetCurrentQB()->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
+        	g->AddQuad(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4), rotation);
         	//g->m_QuadBatch->Rotate(-rotation);
     } else {
         // Non valid method call

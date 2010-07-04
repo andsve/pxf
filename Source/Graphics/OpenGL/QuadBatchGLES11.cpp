@@ -158,6 +158,7 @@ void QuadBatchGLES11::AddFreeform(float x0, float y0, float x1, float y1, float 
 	// 0
 	m_Vertices[m_VertexBufferPos].pos.x = x0;
 	m_Vertices[m_VertexBufferPos].pos.y = y0;
+    m_Vertices[m_VertexBufferPos].pos.z = m_CurrentDepthLayer;
 	m_Vertices[m_VertexBufferPos].tex = m_CurrentTexCoords[0];
 	m_Vertices[m_VertexBufferPos].color = m_CurrentColors[0];
 	//RotatePoint(center, m_Vertices[m_VertexBufferPos].pos);
@@ -165,6 +166,7 @@ void QuadBatchGLES11::AddFreeform(float x0, float y0, float x1, float y1, float 
 	// 1
 	m_Vertices[m_VertexBufferPos+1].pos.x = x1;
 	m_Vertices[m_VertexBufferPos+1].pos.y = y1;
+	m_Vertices[m_VertexBufferPos+1].pos.z = m_CurrentDepthLayer;
 	m_Vertices[m_VertexBufferPos+1].tex = m_CurrentTexCoords[1];
 	m_Vertices[m_VertexBufferPos+1].color = m_CurrentColors[1];
 	//RotatePoint(center, m_Vertices[m_VertexBufferPos+1].pos);
@@ -172,6 +174,7 @@ void QuadBatchGLES11::AddFreeform(float x0, float y0, float x1, float y1, float 
 	// 2
 	m_Vertices[m_VertexBufferPos+2].pos.x = x3;
 	m_Vertices[m_VertexBufferPos+2].pos.y = y3;
+	m_Vertices[m_VertexBufferPos+2].pos.z = m_CurrentDepthLayer;
 	m_Vertices[m_VertexBufferPos+2].tex = m_CurrentTexCoords[3];
 	m_Vertices[m_VertexBufferPos+2].color = m_CurrentColors[3];
 	//RotatePoint(center, m_Vertices[m_VertexBufferPos+2].pos);
@@ -179,6 +182,7 @@ void QuadBatchGLES11::AddFreeform(float x0, float y0, float x1, float y1, float 
 	// 3
 	m_Vertices[m_VertexBufferPos+3].pos.x = x3;
 	m_Vertices[m_VertexBufferPos+3].pos.y = y3;
+	m_Vertices[m_VertexBufferPos+3].pos.z = m_CurrentDepthLayer;
 	m_Vertices[m_VertexBufferPos+3].tex = m_CurrentTexCoords[3];
 	m_Vertices[m_VertexBufferPos+3].color = m_CurrentColors[3];
 	//RotatePoint(center, m_Vertices[m_VertexBufferPos+3].pos);
@@ -186,6 +190,7 @@ void QuadBatchGLES11::AddFreeform(float x0, float y0, float x1, float y1, float 
 	// 4
 	m_Vertices[m_VertexBufferPos+4].pos.x = x1;
 	m_Vertices[m_VertexBufferPos+4].pos.y = y1;
+	m_Vertices[m_VertexBufferPos+4].pos.z = m_CurrentDepthLayer;
 	m_Vertices[m_VertexBufferPos+4].tex = m_CurrentTexCoords[1];
 	m_Vertices[m_VertexBufferPos+4].color = m_CurrentColors[1];
 	//RotatePoint(center, m_Vertices[m_VertexBufferPos+4].pos);
@@ -193,6 +198,7 @@ void QuadBatchGLES11::AddFreeform(float x0, float y0, float x1, float y1, float 
 	// 5
 	m_Vertices[m_VertexBufferPos+5].pos.x = x2;
 	m_Vertices[m_VertexBufferPos+5].pos.y = y2;
+	m_Vertices[m_VertexBufferPos+5].pos.z = m_CurrentDepthLayer;
 	m_Vertices[m_VertexBufferPos+5].tex = m_CurrentTexCoords[2];
 	m_Vertices[m_VertexBufferPos+5].color = m_CurrentColors[2];
 	//RotatePoint(center, m_Vertices[m_VertexBufferPos+5].pos);

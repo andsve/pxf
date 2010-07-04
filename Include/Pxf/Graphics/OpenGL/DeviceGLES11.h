@@ -4,6 +4,7 @@
 #include <Pxf/Graphics/Device.h>
 #import <OpenGLES/ES1/glext.h>
 #import <OpenGLES/EAGL.h>
+#import <QuartzCore/QuartzCore.h>
 
 namespace Pxf{
 	namespace Graphics {
@@ -54,6 +55,7 @@ namespace Pxf{
 			VideoBuffer* CreateVideoBuffer(int _Format = GL_RENDERBUFFER_OES, int _Width = 0, int _Height = 0);
 			void DeleteVideoBuffer(VideoBuffer* _VideoBuffer);
 			bool BindVideoBuffer(VideoBuffer* _VideoBuffer);
+			bool UnBindVideoBufferType(int _FormatType);
 			
 			void SetEAGLContext(EAGLContext* _Context) { m_Context = _Context; }
 			void SetUseDepthBuffer(bool _Toggle) { m_UseDepthBuffer = _Toggle; }
@@ -62,7 +64,8 @@ namespace Pxf{
 			GLint GetBackingWidth() { return m_BackingWidth; }
 			GLint GetBackingHeight() { return m_BackingHeight; }
 			
-			bool InitBuffers();
+			//bool InitBuffers();
+            bool InitBuffers2(EAGLContext* _context, CAEAGLLayer* _EAGLLayer); // Temporary..
 			
 			EAGLContext* GetEAGLContext() { return m_Context; }
 			bool GetUseDepthBuffer() { return m_UseDepthBuffer; }

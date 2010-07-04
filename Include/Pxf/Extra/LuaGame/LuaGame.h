@@ -53,6 +53,10 @@ namespace Pxf
                 int m_CurrentQBT, m_QBTCount;
                 Graphics::QuadBatch* GetCurrentQB();
                 void BindTexture(Graphics::Texture* _texture);
+                
+                void AddQuad(float x, float y, float w, float h);
+                void AddQuad(float x, float y, float w, float h, float rotation);
+                
                 float m_CurrentDepth;
                 float m_DepthStep;
                 float m_DepthFar, m_DepthNear;

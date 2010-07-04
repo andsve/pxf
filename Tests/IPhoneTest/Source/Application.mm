@@ -102,7 +102,10 @@ bool Application::Render()
     glMatrixMode(GL_MODELVIEW);
     
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+	// Temporary fix for depth testing
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	m_Device->Translate(_Box1Body->GetPosition());
 	pSprite1->Draw();

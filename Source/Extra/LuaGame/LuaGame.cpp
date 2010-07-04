@@ -28,7 +28,12 @@ Game::Game(Util::String _gameFilename, Graphics::Device* _device, bool _graceful
     // Graphics
     //m_QuadBatch = m_Device->CreateQuadBatch(1024);
     //m_QBT = new QBTConnection[8];
+    m_DepthStep = 0.1f;
+    m_DepthFar = -1.0f;
+    m_DepthNear = 0.0f;
+    m_CurrentDepth = m_DepthFar;
     
+    // QuadBatch-Texture-connections
     m_CurrentQBT = -1;
     m_QBTCount = 0;
     
@@ -123,6 +128,7 @@ int Game::PreLoad()
     // Load textures
     if (m_PreLoadQueue_Textures_Counter > 0)
     {
+        
         m_PreLoadQueue_Textures_Counter -= 1;
         m_PreLoadQueue_Textures[m_PreLoadQueue_Textures_Counter]->Load();
         
@@ -180,13 +186,22 @@ bool Game::Render()
     // Are we in need of preloading anything?
     int t_preload = PreLoad();
     if (m_PreLoadQueue_Total == -1)
+    {
         m_PreLoadQueue_Total = t_preload;
+        
+        // Calculate depth step
+        if (m_PreLoadQueue_Total > 0)
+            m_DepthStep = (1.0f / m_PreLoadQueue_Total) / 1024;
+    }
     
     if (t_preload > 0)
     {
         // TODO: Render loading bar
         Message(LOCAL_MSG, "Loading resource %i/%i", (m_PreLoadQueue_Total - t_preload + 1), m_PreLoadQueue_Total);
     } else {
+        // Reset depth
+        m_CurrentDepth = m_DepthFar;
+        
         // Loop all quad batches
         for(int i = 0; i < m_QBTCount; ++i)
             m_QBT[i]->m_QuadBatch->Reset();
@@ -218,6 +233,20 @@ void Game::BindTexture(Graphics::Texture* _texture)
             m_CurrentQBT = i;
         }
     }
+}
+
+void Game::AddQuad(float x, float y, float w, float h)
+{
+    GetCurrentQB()->SetDepth(m_CurrentDepth);
+    GetCurrentQB()->AddCentered(x, y, w, h);
+    m_CurrentDepth += m_DepthStep;
+}
+
+void Game::AddQuad(float x, float y, float w, float h, float rotation)
+{
+    GetCurrentQB()->SetDepth(m_CurrentDepth);
+    GetCurrentQB()->AddCentered(x, y, w, h, rotation);
+    m_CurrentDepth += m_DepthStep;
 }
 
 void Game::Translate(float x, float y)

@@ -185,7 +185,7 @@ VideoBuffer* DeviceGLES11::CreateVideoBuffer(int _Format, int _Width, int _Heigh
 	{
 		case GL_FRAMEBUFFER_OES:
 			_NewVB->m_Target = GL_FRAMEBUFFER_OES;
-			glGenFramebuffersOES(1,&_NewVB->m_Handle);	
+			glGenFramebuffersOES(1, &_NewVB->m_Handle);
 			break;
 			
 		// TODO: replace default case with special cases for each format OR add _target to signature?
@@ -197,7 +197,7 @@ VideoBuffer* DeviceGLES11::CreateVideoBuffer(int _Format, int _Width, int _Heigh
 			glGenRenderbuffersOES(1, &_NewVB->m_Handle);
 	
 			BindVideoBuffer(_NewVB);
-			glRenderbufferStorageOES(GL_RENDERBUFFER_OES,_Format,_Width,_Height);
+			glRenderbufferStorageOES(GL_RENDERBUFFER_OES, _Format, _Width, _Height);
 			break;
 	}
 	
@@ -237,12 +237,77 @@ bool DeviceGLES11::BindVideoBuffer(VideoBuffer* _VideoBuffer)
 			glBindRenderbufferOES(GL_RENDERBUFFER_OES, ((VideoBufferGL*) _VideoBuffer)->m_Handle);
 			break;
 		default:
+		    Message(LOCAL_MSG, "Trying to bind an unknown video buffer: %i", ((VideoBufferGL*) _VideoBuffer)->m_Handle);
 			break;
 	}
 	
 	// check status?
 	return true;
 }
+
+bool DeviceGLES11::UnBindVideoBufferType(int _FormatType)
+{
+	
+	switch(_FormatType)
+	{
+		case GL_FRAMEBUFFER_OES:
+			glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
+			break;
+		case GL_RENDERBUFFER_OES:
+			glBindRenderbufferOES(GL_RENDERBUFFER_OES, 0);
+			break;
+		default:
+		    Message(LOCAL_MSG, "Trying to unbind an unknown video buffer type.");
+			break;
+	}
+	
+	// check status?
+	return true;
+}
+
+bool DeviceGLES11::InitBuffers2(EAGLContext* _context, CAEAGLLayer* _EAGLLayer)
+{
+	bool _RetVal = true;
+	
+	
+	m_FrameBuffer = new VideoBufferGL();
+	m_FrameBuffer->m_Target = GL_FRAMEBUFFER_OES;
+	glGenFramebuffersOES(1, &(m_FrameBuffer->m_Handle));
+    glBindFramebufferOES(GL_FRAMEBUFFER_OES, m_FrameBuffer->m_Handle);
+    Message(LOCAL_MSG, "Frame buffer created and bound.");
+
+    m_RenderBuffer = new VideoBufferGL();
+	m_RenderBuffer->m_Target = GL_RENDERBUFFER_OES;
+    glGenRenderbuffersOES(1, &(m_RenderBuffer->m_Handle));
+    glBindRenderbufferOES(GL_RENDERBUFFER_OES, m_RenderBuffer->m_Handle);
+    [_context renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:_EAGLLayer];
+    glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, m_RenderBuffer->m_Handle);
+    Message(LOCAL_MSG, "Color buffer created and bound.");
+    
+    GLint width;
+    GLint height;
+    glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_WIDTH_OES, &width);
+    glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_HEIGHT_OES, &height);
+
+    m_DepthBuffer = new VideoBufferGL();
+	m_DepthBuffer->m_Target = GL_RENDERBUFFER_OES;
+    glGenRenderbuffersOES(1, &(m_DepthBuffer->m_Handle));
+    glBindRenderbufferOES(GL_RENDERBUFFER_OES, m_DepthBuffer->m_Handle);
+    glRenderbufferStorageOES(GL_RENDERBUFFER_OES, GL_DEPTH_COMPONENT16_OES, width, height);
+    glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_DEPTH_ATTACHMENT_OES, GL_RENDERBUFFER_OES, m_DepthBuffer->m_Handle);
+	
+	GLenum status = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES) ;
+    if(status != GL_FRAMEBUFFER_COMPLETE_OES) {
+        Message(LOCAL_MSG, "Failed to make complete framebuffer object %x", status);
+        _RetVal = false;
+    } else {
+        Message(LOCAL_MSG, "FBO successfully created! (status: %x)", status);
+    }
+	
+	return _RetVal;	
+}
+
+/*
 
 bool DeviceGLES11::InitBuffers()
 {
@@ -259,7 +324,7 @@ bool DeviceGLES11::InitBuffers()
 	}
 	
 	
-	if(!(m_RenderBuffer = (VideoBufferGL*) CreateVideoBuffer(GL_RGBA8_OES,m_BackingWidth,m_BackingHeight)))
+	if(!(m_RenderBuffer = (VideoBufferGL*) CreateVideoBuffer(GL_RGBA8_OES, m_BackingWidth, m_BackingHeight)))
 	{
 		Message(LOCAL_MSG,"Unable to create Frame Buffer");	
 		_RetVal = false;
@@ -271,7 +336,7 @@ bool DeviceGLES11::InitBuffers()
 	
 	if(m_UseDepthBuffer)
 	{
-		if(!(m_DepthBuffer = (VideoBufferGL*) CreateVideoBuffer(GL_DEPTH_COMPONENT16_OES,m_BackingWidth,m_BackingHeight)))
+		if(!(m_DepthBuffer = (VideoBufferGL*) CreateVideoBuffer(GL_DEPTH_COMPONENT16_OES, m_BackingWidth, m_BackingHeight)))
 		{
 			Message(LOCAL_MSG,"Unable to create Depth Buffer");	
 			_RetVal = false;
@@ -286,7 +351,7 @@ bool DeviceGLES11::InitBuffers()
 		Message(LOCAL_MSG,"Depth Buffer Usage: False");
 	
 	return _RetVal;	
-}
+}*/
 
 void DeviceGLES11::SwapBuffers()
 {
