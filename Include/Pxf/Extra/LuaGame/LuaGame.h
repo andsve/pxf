@@ -52,10 +52,13 @@ namespace Pxf
                 QBTConnection* m_QBT[8];
                 int m_CurrentQBT, m_QBTCount;
                 Graphics::QuadBatch* GetCurrentQB();
+                Graphics::Texture* GetCurrentTexture();
                 void BindTexture(Graphics::Texture* _texture);
                 
                 void AddQuad(float x, float y, float w, float h);
+                void AddQuad(float x, float y, float w, float h, float s0, float t0, float s1, float t1);
                 void AddQuad(float x, float y, float w, float h, float rotation);
+                void AddQuad(float x, float y, float w, float h, float rotation, float s0, float t0, float s1, float t1);
                 
                 float m_CurrentDepth;
                 float m_DepthStep;

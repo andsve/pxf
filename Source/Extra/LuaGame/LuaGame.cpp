@@ -224,6 +224,11 @@ Graphics::QuadBatch* Game::GetCurrentQB()
     return m_QBT[m_CurrentQBT]->m_QuadBatch;
 }
 
+Graphics::Texture* Game::GetCurrentTexture()
+{
+    return m_QBT[m_CurrentQBT]->m_Texture;
+}
+
 void Game::BindTexture(Graphics::Texture* _texture)
 {
     for(size_t i = 0; i < m_QBTCount; ++i)
@@ -236,7 +241,18 @@ void Game::BindTexture(Graphics::Texture* _texture)
 }
 
 void Game::AddQuad(float x, float y, float w, float h)
+{    
+	GetCurrentQB()->SetTextureSubset(0.0f, 0.0f, 1.0f, 1.0f);
+    GetCurrentQB()->SetDepth(m_CurrentDepth);
+    GetCurrentQB()->AddCentered(x, y, w, h);
+    m_CurrentDepth += m_DepthStep;
+}
+
+void Game::AddQuad(float x, float y, float w, float h, float s0, float t0, float s1, float t1)
 {
+    // Note: Texture coords are in pixels
+    Math::Vec4f coords = GetCurrentTexture()->CreateTextureSubset(s0, t0, s1, t1);
+	GetCurrentQB()->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
     GetCurrentQB()->SetDepth(m_CurrentDepth);
     GetCurrentQB()->AddCentered(x, y, w, h);
     m_CurrentDepth += m_DepthStep;
@@ -244,6 +260,17 @@ void Game::AddQuad(float x, float y, float w, float h)
 
 void Game::AddQuad(float x, float y, float w, float h, float rotation)
 {
+    GetCurrentQB()->SetTextureSubset(0.0f, 0.0f, 1.0f, 1.0f);
+    GetCurrentQB()->SetDepth(m_CurrentDepth);
+    GetCurrentQB()->AddCentered(x, y, w, h, rotation);
+    m_CurrentDepth += m_DepthStep;
+}
+
+void Game::AddQuad(float x, float y, float w, float h, float rotation, float s0, float t0, float s1, float t1)
+{
+    // Note: Texture coords are in pixels
+    Math::Vec4f coords = GetCurrentTexture()->CreateTextureSubset(s0, t0, s1, t1);
+	GetCurrentQB()->SetTextureSubset(coords.x, coords.y, coords.z, coords.w);
     GetCurrentQB()->SetDepth(m_CurrentDepth);
     GetCurrentQB()->AddCentered(x, y, w, h, rotation);
     m_CurrentDepth += m_DepthStep;

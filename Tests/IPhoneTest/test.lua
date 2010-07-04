@@ -96,5 +96,5 @@ function luagame:Render()
 	test_texture:bind()
 	luagame.graphics.loadidentity()
 	luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
-	luagame.graphics.drawquad(0, 0, 32, 32)
+	luagame.graphics.drawquad(0, 0, 32, 32, 0, 0, 16, 16)
 end
