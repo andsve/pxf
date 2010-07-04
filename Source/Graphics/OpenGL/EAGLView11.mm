@@ -55,14 +55,14 @@
 	((Pxf::Graphics::DeviceGLES11*) m_Device)->SetBackingWidth(roundf(_Size.width));
 	((Pxf::Graphics::DeviceGLES11*) m_Device)->SetBackingHeight(roundf(_Size.height));
 	
-	if(!((Pxf::Graphics::DeviceGLES11*) m_Device)->InitBuffers2(_Context, _EaglLayer))
+	if(!((Pxf::Graphics::DeviceGLES11*) m_Device)->InitBuffers(_Context, _EaglLayer))
 	{
 		[self release];
 		Pxf::Message(LOCAL_MSG,"Unable to initialize buffers");
 		return false;
 	}
 	else
-		Pxf::Message(LOCAL_MSG,"Init buffers OK");
+		Pxf::Message(LOCAL_MSG,"Render/frame buffers: OK");
 	
 	return true;
 }

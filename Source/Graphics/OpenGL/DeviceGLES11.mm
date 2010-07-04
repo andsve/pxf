@@ -265,7 +265,7 @@ bool DeviceGLES11::UnBindVideoBufferType(int _FormatType)
 	return true;
 }
 
-bool DeviceGLES11::InitBuffers2(EAGLContext* _context, CAEAGLLayer* _EAGLLayer)
+bool DeviceGLES11::InitBuffers(EAGLContext* _context, CAEAGLLayer* _EAGLLayer)
 {
 	bool _RetVal = true;
 	

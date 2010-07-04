@@ -65,7 +65,7 @@ namespace Pxf{
 			GLint GetBackingHeight() { return m_BackingHeight; }
 			
 			//bool InitBuffers();
-            bool InitBuffers2(EAGLContext* _context, CAEAGLLayer* _EAGLLayer); // Temporary..
+            bool InitBuffers(EAGLContext* _context, CAEAGLLayer* _EAGLLayer); // Temporary..
 			
 			EAGLContext* GetEAGLContext() { return m_Context; }
 			bool GetUseDepthBuffer() { return m_UseDepthBuffer; }

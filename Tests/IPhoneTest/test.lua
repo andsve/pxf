@@ -91,4 +91,10 @@ function luagame:Render()
 	-- test draw texture 2
 	test_texture2:bind()
 	luagame.graphics.drawquad(0, 0, 128, 128)
+	
+	-- back to texture 1
+	test_texture:bind()
+	luagame.graphics.loadidentity()
+	luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
+	luagame.graphics.drawquad(0, 0, 32, 32)
 end
