@@ -19,6 +19,7 @@ function luagame:Init()
 	print("Screen size: " .. tostring(screenw) .. "x" .. tostring(screenh))
 	
 	testani = 0.0
+	simple_framecount = 0
 end
 
 function luagame:PreLoad()
@@ -97,4 +98,10 @@ function luagame:Render()
 	luagame.graphics.loadidentity()
 	luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
 	luagame.graphics.drawquad(0, 0, 32, 32, 0, 0, 16, 16)
+	
+	-- render debug text
+	simple_framecount = simple_framecount + 1
+	luagame.graphics.loadidentity()
+	luagame:draw_font("LuaGame - 0.1.0", 8, 32)
+	luagame:draw_font("Rendering frame: " .. tostring(simple_framecount), 8, 40)
 end

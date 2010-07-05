@@ -79,7 +79,6 @@ int GraphicsSubsystem::DrawQuad(lua_State* _L)
             lua_isnumber(_L, 1) && lua_isnumber(_L, 2) && lua_isnumber(_L, 3) && lua_isnumber(_L, 4) &&
             lua_isnumber(_L, 5) && lua_isnumber(_L, 6) && lua_isnumber(_L, 7) && lua_isnumber(_L, 8))
         {
-            float rotation = lua_tonumber(_L, 5);
             
             // Send data to Game instance VBO
             lua_getglobal(_L, LUAGAME_TABLE);
@@ -95,7 +94,6 @@ int GraphicsSubsystem::DrawQuad(lua_State* _L)
             lua_isnumber(_L, 1) && lua_isnumber(_L, 2) && lua_isnumber(_L, 3) && lua_isnumber(_L, 4) &&
             lua_isnumber(_L, 5) && lua_isnumber(_L, 6) && lua_isnumber(_L, 7) && lua_isnumber(_L, 8) && lua_isnumber(_L, 9))
         {
-            float rotation = lua_tonumber(_L, 5);
             
             // Send data to Game instance VBO
             lua_getglobal(_L, LUAGAME_TABLE);
