@@ -81,8 +81,10 @@ namespace Pxf
                 Util::String m_GameVersion; // Simple mechanism for version handling
                 lua_State *L;
             
+                // Error/panic handling
                 Graphics::Texture* m_PanicTexture;
                 Graphics::QuadBatch* m_PanicQB;
+                int m_CrashRetries;
             
                 // Private methods
                 void _register_lua_libs_callbacks();

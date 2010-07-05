@@ -40,6 +40,11 @@ Game::Game(Util::String _gameFilename, Graphics::Device* _device, bool _graceful
     // Preload stuff
     m_PreLoadQueue_Textures_Counter = 0;
     m_PreLoadQueue_Total = -1;
+    
+    // Error/panic handling
+    m_CrashRetries = 0;
+    m_PanicTexture = m_Device->CreateTexture("error_msg.png");
+    m_PanicQB      = m_Device->CreateQuadBatch(16);
 }
 
 Game::~Game()
@@ -50,10 +55,6 @@ Game::~Game()
 
 bool Game::Load()
 {
-    
-    // First load panic texture if anything goes wrong
-    m_PanicTexture = m_Device->CreateTexture("error_msg.png");
-    m_PanicQB      = m_Device->CreateQuadBatch(16);
     
     // Init lua state
     L = lua_open();
@@ -190,18 +191,29 @@ bool Game::Render()
     // Render game
     if (!m_Running)
     {
-        // Script has encountered an error
-        // Display panic msg!
-        int w,h;
-        m_Device->GetSize(&w, &h);
+        if (m_CrashRetries < 3)
+        {
+            m_CrashRetries += 1;
+            m_Running = true;
+            // Try to restart the script
+            Message(LOCAL_MSG, "Script has stopped running. Trying to restart... (Retry # %i)", m_CrashRetries);
+            Load();
+            
+        } else {
+            
+            // Script has encountered an error
+            // Display panic msg!
+            int w,h;
+            m_Device->GetSize(&w, &h);
         
-        m_Device->BindTexture(m_PanicTexture);
-        m_PanicQB->Reset();
-        m_PanicQB->SetTextureSubset(0.0f, 0.0f, 1.0f, 1.0f);
-        m_PanicQB->SetDepth(m_CurrentDepth);
-        m_PanicQB->AddCentered(w / 2.0f, h / 2.0f, 256, 256);
-        m_PanicQB->Draw();
+            m_Device->BindTexture(m_PanicTexture);
+            m_PanicQB->Reset();
+            m_PanicQB->SetTextureSubset(0.0f, 0.0f, 1.0f, 1.0f);
+            m_PanicQB->SetDepth(m_CurrentDepth);
+            m_PanicQB->AddCentered(w / 2.0f, h / 2.0f, 256, 256);
+            m_PanicQB->Draw();
         
+        }
         return false;
     }
     

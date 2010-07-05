@@ -106,5 +106,5 @@ function luagame:Render()
 	luagame:draw_font("Rendering frame: " .. tostring(simple_framecount), 8, 40)
 	
 	
-	
+	aoaoeaoe
 end
