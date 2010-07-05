@@ -49,7 +49,12 @@ Game::~Game()
 }
 
 bool Game::Load()
-{   
+{
+    
+    // First load panic texture if anything goes wrong
+    m_PanicTexture = m_Device->CreateTexture("error_msg.png");
+    m_PanicQB      = m_Device->CreateQuadBatch(16);
+    
     // Init lua state
     L = lua_open();
     
@@ -65,6 +70,7 @@ bool Game::Load()
 		if ( s ) {
 			Message(LOCAL_MSG, " [Error while running LuaGame.lua] -- %s", lua_tostring(L, -1));
 			lua_pop(L, 1); // remove error message
+			m_Running = false;
 		} else {
 		    
 		    // Register own callbacks
@@ -104,11 +110,13 @@ bool Game::Load()
 
         	} else {
         		Message(LOCAL_MSG, "Error: %s", lua_tostring(L,-1));
+                m_Running = false;
         	}
 		}
 
 	} else {
 		Message(LOCAL_MSG, "Error while loading Game.lua: %s",lua_tostring(L,-1));
+		m_Running = false;
 	}
     
     return true;
@@ -181,7 +189,21 @@ bool Game::Render()
 {
     // Render game
     if (!m_Running)
+    {
+        // Script has encountered an error
+        // Display panic msg!
+        int w,h;
+        m_Device->GetSize(&w, &h);
+        
+        m_Device->BindTexture(m_PanicTexture);
+        m_PanicQB->Reset();
+        m_PanicQB->SetTextureSubset(0.0f, 0.0f, 1.0f, 1.0f);
+        m_PanicQB->SetDepth(m_CurrentDepth);
+        m_PanicQB->AddCentered(w / 2.0f, h / 2.0f, 256, 256);
+        m_PanicQB->Draw();
+        
         return false;
+    }
     
     // Are we in need of preloading anything?
     int t_preload = PreLoad();
@@ -352,6 +374,7 @@ bool Game::HandleLuaErrors(int _error)
 		Message(LOCAL_MSG, "%s", lua_tostring(L, -1));
 
 		lua_pop(L, 1); // remove error message
+		m_Running = false;
 		return false;
 	}
 	return true;

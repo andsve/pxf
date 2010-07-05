@@ -58,6 +58,7 @@
 		96B699EB11DFBC52008D24DD /* Resources.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96B699EA11DFBC52008D24DD /* Resources.cpp */; };
 		96B69A3711DFCAE5008D24DD /* test_atlas.png in Resources */ = {isa = PBXBuildFile; fileRef = 96B69A3611DFCAE5008D24DD /* test_atlas.png */; };
 		96B69BCC11E1617D008D24DD /* debug_font.png in Resources */ = {isa = PBXBuildFile; fileRef = 96B69BCB11E1617D008D24DD /* debug_font.png */; };
+		96B69C1411E16CE1008D24DD /* error_msg.png in Resources */ = {isa = PBXBuildFile; fileRef = 96B69C1311E16CE1008D24DD /* error_msg.png */; };
 		C920F6E211D8FDEB0078DDA1 /* Box2DPhysicsObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C920F6E111D8FDEB0078DDA1 /* Box2DPhysicsObject.cpp */; };
 		C95AEF5511CFADAD008AF5BE /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C95AEF5411CFADAD008AF5BE /* GameObject.cpp */; };
 		C95AF01B11CFC97F008AF5BE /* sprite_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C95AF01A11CFC97F008AF5BE /* sprite_test.jpg */; };
@@ -178,6 +179,7 @@
 		96B699EA11DFBC52008D24DD /* Resources.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Resources.cpp; sourceTree = "<group>"; };
 		96B69A3611DFCAE5008D24DD /* test_atlas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_atlas.png; sourceTree = "<group>"; };
 		96B69BCB11E1617D008D24DD /* debug_font.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = debug_font.png; sourceTree = "<group>"; };
+		96B69C1311E16CE1008D24DD /* error_msg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error_msg.png; sourceTree = "<group>"; };
 		C920F6E111D8FDEB0078DDA1 /* Box2DPhysicsObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Box2DPhysicsObject.cpp; path = ../../Source/Game/Box2D/Box2DPhysicsObject.cpp; sourceTree = SOURCE_ROOT; };
 		C95AEF5311CFAB91008AF5BE /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObject.h; path = ../../Include/Pxf/Game/GameObject.h; sourceTree = SOURCE_ROOT; };
 		C95AEF5411CFADAD008AF5BE /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObject.cpp; path = ../../Source/Game/GameObject.cpp; sourceTree = SOURCE_ROOT; };
@@ -320,6 +322,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				96B69C1311E16CE1008D24DD /* error_msg.png */,
 				96B69BCB11E1617D008D24DD /* debug_font.png */,
 				96B69A3611DFCAE5008D24DD /* test_atlas.png */,
 				966F3BE711CA6E0D003F13E0 /* test.png */,
@@ -766,6 +769,7 @@
 				96B696AE11D3EACE008D24DD /* LuaGame.lua in Resources */,
 				96B69A3711DFCAE5008D24DD /* test_atlas.png in Resources */,
 				96B69BCC11E1617D008D24DD /* debug_font.png in Resources */,
+				96B69C1411E16CE1008D24DD /* error_msg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

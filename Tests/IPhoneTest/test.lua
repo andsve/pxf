@@ -104,4 +104,7 @@ function luagame:Render()
 	luagame.graphics.loadidentity()
 	luagame:draw_font("LuaGame - 0.1.0", 8, 32)
 	luagame:draw_font("Rendering frame: " .. tostring(simple_framecount), 8, 40)
+	
+	
+	
 end
