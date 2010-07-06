@@ -3,6 +3,9 @@ function luagame:Init()
 	self.GameIdent = "Our awesome testgame!"
 	self.GameVersion = "1.0"
 	
+	luagame:add_console("GameIdent: ^4" .. self.GameIdent)
+	luagame:add_console("GameVersion: ^4" .. self.GameVersion)
+	
 	--testvec = luagame.vec2.new()
 	--print("testvec: " .. testvec:tostring())
 	--print("testvec.instance: " .. tostring(testvec.instance))
@@ -19,7 +22,6 @@ function luagame:Init()
 	print("Screen size: " .. tostring(screenw) .. "x" .. tostring(screenh))
 	
 	testani = 0.0
-	simple_framecount = 0
 end
 
 function luagame:PreLoad()
@@ -71,6 +73,7 @@ function luagame:Render()
 	--luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
 	--luagame.graphics.drawquad(0, 0, 30, 30)
 	
+	--[[
 	test_texture:bind()
 	
 	-- reset coord system
@@ -90,10 +93,13 @@ function luagame:Render()
 	luagame.graphics.translate(50.0, 0.0)
 	luagame.graphics.rotate(testani)
 	luagame.graphics.drawquad(0, 0, 30, 30)
+	]]
 	
 	-- test draw texture 2
 	test_texture2:bind()
-	luagame.graphics.drawquad(0, 0, 128, 128)
+	luagame.graphics.loadidentity()
+	luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
+	luagame.graphics.drawquad(-64, -64, 256, 128)
 	
 	-- back to texture 1
 	test_texture:bind()
@@ -102,10 +108,10 @@ function luagame:Render()
 	luagame.graphics.drawquad(0, 0, 32, 32, 0, 0, 16, 16)
 	
 	-- render debug text
-	simple_framecount = simple_framecount + 1
 	luagame.graphics.loadidentity()
-	luagame:draw_font("LuaGame - 0.1.0", 8, 32)
-	luagame:draw_font("Rendering frame: " .. tostring(simple_framecount), 8, 40)
+	luagame:draw_console()
+	
+	--luagame:add_console("Rendering frame: ^4" .. tostring(simple_framecount))
 	
 	-- make it crash:
   --luagame.graphics.drawquad(nil)

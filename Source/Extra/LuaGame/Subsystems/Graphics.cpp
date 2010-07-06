@@ -17,9 +17,17 @@ void GraphicsSubsystem::RegisterClass(lua_State* _L)
     lua_pushcfunction(_L, GetScreenSize);
     lua_setfield(_L, -2, "getscreensize");
     
+    // luagame.graphics.unbindtexture
+    lua_pushcfunction(_L, UnbindTexture);
+    lua_setfield(_L, -2, "unbindtexture");
+    
     // luagame.graphics.drawquad
     lua_pushcfunction(_L, DrawQuad);
     lua_setfield(_L, -2, "drawquad");
+    
+    // luagame.graphics.setcolor
+    lua_pushcfunction(_L, SetColor);
+    lua_setfield(_L, -2, "setcolor");
     
     // luagame.graphics.loadidentity
     lua_pushcfunction(_L, LoadIdentity);
@@ -112,6 +120,27 @@ int GraphicsSubsystem::DrawQuad(lua_State* _L)
     return 0;
 }
 
+int GraphicsSubsystem::SetColor(lua_State* _L)
+{
+    // luagame.graphics.setcolor(r, g, b, a)
+    int argc = lua_gettop(_L);
+    if (argc == 4 && lua_isnumber(_L, 1) && lua_isnumber(_L, 2) && lua_isnumber(_L, 3) && lua_isnumber(_L, 4))
+    {
+        // Send data to Game instance VBO
+        lua_getglobal(_L, LUAGAME_TABLE);
+        lua_getfield(_L, -1, "Instance");
+        Game* g = (Game*)lua_touserdata(_L, -1);
+        
+        g->SetColor(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4));
+    } else {
+        // Non valid method call
+        lua_pushstring(_L, "Invalid argument passed to setcolor function!");
+        lua_error(_L);
+    }
+    
+    return 0;
+}
+
 int GraphicsSubsystem::Translate(lua_State* _L)
 {
     // luagame.graphics.translate(dx,dy)
@@ -164,6 +193,17 @@ int GraphicsSubsystem::LoadIdentity(lua_State* _L)
     lua_getfield(_L, -1, "Instance");
     Game* g = (Game*)lua_touserdata(_L, -1);
     g->LoadIdentity();
+    
+    return 0;
+}
+
+int GraphicsSubsystem::UnbindTexture(lua_State* _L)
+{
+    // luagame.graphics.unbindtexture()
+    lua_getglobal(_L, LUAGAME_TABLE);
+    lua_getfield(_L, -1, "Instance");
+    Game* g = (Game*)lua_touserdata(_L, -1);
+    g->BindTexture(0);
     
     return 0;
 }

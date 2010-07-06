@@ -49,11 +49,12 @@ namespace Pxf
                 Graphics::Device* m_Device;
                 
                 // Graphic data
-                //Graphics::QuadBatch* m_QuadBatch;
                 QBTConnection* m_QBT[8];
                 int m_CurrentQBT, m_QBTCount;
                 Graphics::QuadBatch* GetCurrentQB();
                 Graphics::Texture* GetCurrentTexture();
+                
+                // Graphics manipulation (luagame.graphics ...)
                 void BindTexture(Graphics::Texture* _texture);
                 
                 void AddQuad(float x, float y, float w, float h);
@@ -61,6 +62,9 @@ namespace Pxf
                 void AddQuad(float x, float y, float w, float h, float rotation);
                 void AddQuad(float x, float y, float w, float h, float rotation, float s0, float t0, float s1, float t1);
                 
+                void SetColor(float r, float g, float b, float a);
+                
+                // Depth/Z control
                 float m_CurrentDepth;
                 float m_DepthStep;
                 float m_DepthFar, m_DepthNear;

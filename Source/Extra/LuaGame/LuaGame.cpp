@@ -381,6 +381,12 @@ void Game::AddQuad(float x, float y, float w, float h, float rotation, float s0,
     m_CurrentDepth += m_DepthStep;
 }
 
+void Game::SetColor(float r, float g, float b, float a)
+{
+    for(int i = 0; i < m_QBTCount; ++i)
+        m_QBT[i]->m_QuadBatch->SetColor(r, g, b, a);
+}
+
 void Game::Translate(float x, float y)
 {
     for(int i = 0; i < m_QBTCount; ++i)
