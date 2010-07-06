@@ -115,12 +115,18 @@ Texture* DeviceGLES11::CreateTextureFromData(const unsigned char* _datachunk, in
 void DeviceGLES11::BindTexture(Texture* _texture)
 {
     //Message(LOCAL_MSG, "texture id: %i", ((TextureGLES*) _texture)->GetTextureID());
-	glBindTexture(GL_TEXTURE_2D,((TextureGLES*) _texture)->GetTextureID());
+    if (_texture == NULL)
+        glBindTexture(GL_TEXTURE_2D, 0);
+    else
+	    glBindTexture(GL_TEXTURE_2D, ((TextureGLES*) _texture)->GetTextureID());
 }
 void DeviceGLES11::BindTexture(Texture* _texture, unsigned int _texture_unit)
 {
     Message(LOCAL_MSG, "Does not support more than one texture unit!");
-    glBindTexture(GL_TEXTURE_2D,((TextureGLES*) _texture)->GetTextureID());
+    if (_texture == NULL)
+        glBindTexture(GL_TEXTURE_2D, 0);
+    else
+	    glBindTexture(GL_TEXTURE_2D, ((TextureGLES*) _texture)->GetTextureID());
 }
 
 // PrimitiveBatch

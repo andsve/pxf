@@ -43,18 +43,37 @@ Game::Game(Util::String _gameFilename, Graphics::Device* _device, bool _graceful
     
     // Error/panic handling
     m_CrashRetries = 0;
-    m_PanicTexture = m_Device->CreateTexture("error_msg.png");
-    m_PanicQB      = m_Device->CreateQuadBatch(16);
 }
 
 Game::~Game()
 {
     // Destructor of Game
-    // Do nothing?
+    CleanUp();
+}
+
+void Game::CleanUp()
+{
+    delete m_CoreTexture;
+    delete m_CoreQB;
+    
+    for(int i = 0; i < m_QBTCount; ++i)
+    {
+        delete m_QBT[i]->m_Texture;
+        delete m_QBT[i]->m_QuadBatch;
+    }
+    
+    m_CurrentQBT = -1;
+    m_QBTCount = 0;
+    m_PreLoadQueue_Textures_Counter = 0;
+    m_PreLoadQueue_Total = -1;
 }
 
 bool Game::Load()
 {
+    
+    // Load core textures
+    m_CoreTexture = m_Device->CreateTexture("error_msg.png");
+    m_CoreQB      = m_Device->CreateQuadBatch(256);
     
     // Init lua state
     L = lua_open();
@@ -197,6 +216,7 @@ bool Game::Render()
             m_Running = true;
             // Try to restart the script
             Message(LOCAL_MSG, "Script has stopped running. Trying to restart... (Retry # %i)", m_CrashRetries);
+            CleanUp();
             Load();
             
         } else {
@@ -204,14 +224,24 @@ bool Game::Render()
             // Script has encountered an error
             // Display panic msg!
             int w,h;
+            Math::Vec4f t_color_white(1.0f, 1.0f, 1.0f, 1.0f);
+            Math::Vec4f t_color_black(0.0f, 0.0f, 0.0f, 1.0f);
+            
             m_Device->GetSize(&w, &h);
-        
-            m_Device->BindTexture(m_PanicTexture);
-            m_PanicQB->Reset();
-            m_PanicQB->SetTextureSubset(0.0f, 0.0f, 1.0f, 1.0f);
-            m_PanicQB->SetDepth(m_CurrentDepth);
-            m_PanicQB->AddCentered(w / 2.0f, h / 2.0f, 256, 256);
-            m_PanicQB->Draw();
+            m_CoreQB->Reset();
+            
+            // bg
+            m_Device->BindTexture(0);
+            m_CoreQB->SetColor(&t_color_black);
+            m_CoreQB->AddTopLeft(0, 0, w, h);
+            
+            // Msg
+            m_Device->BindTexture(m_CoreTexture);
+            m_CoreQB->SetColor(&t_color_white);
+            m_CoreQB->SetTextureSubset(0.0f, 0.0f, 1.0f, 1.0f);
+            m_CoreQB->SetDepth(m_CurrentDepth);
+            m_CoreQB->AddCentered(w / 2.0f, h / 2.0f, 256, 256);
+            m_CoreQB->Draw();
         
         }
         return false;
@@ -231,7 +261,48 @@ bool Game::Render()
     if (t_preload > 0)
     {
         // TODO: Render loading bar
-        Message(LOCAL_MSG, "Loading resource %i/%i", (m_PreLoadQueue_Total - t_preload + 1), m_PreLoadQueue_Total);
+        
+        int w,h;
+        m_Device->GetSize(&w, &h);
+        
+        /*
+        
+        +------------------------+
+        |------------            |
+        +------------------------+
+        
+        */
+        
+        Math::Vec4f t_color_white(1.0f, 1.0f, 1.0f, 1.0f);
+        Math::Vec4f t_color_black(0.0f, 0.0f, 0.0f, 1.0f);
+        Math::Vec4f t_color_red(1.0f, 0.0f, 0.0f, 1.0f);
+    
+        m_Device->BindTexture(0);
+        m_CoreQB->Reset();
+        m_CoreQB->SetTextureSubset(0.0f, 0.0f, 1.0f, 1.0f);
+        m_CoreQB->SetDepth(m_CurrentDepth);
+        
+        // bg
+        m_CoreQB->SetColor(&t_color_black);
+        m_CoreQB->AddTopLeft(0, 0, w, h);
+        
+        // bar outline
+        float t_bar_width = w * 0.8f;
+        float t_bar_height = 8.0f;
+        m_CoreQB->SetColor(&t_color_white);
+        m_CoreQB->AddCentered(w / 2.0f, h / 2.0f, t_bar_width, t_bar_height);
+        
+        // bar bg
+        m_CoreQB->SetColor(&t_color_black);
+        m_CoreQB->AddCentered(w / 2.0f, h / 2.0f, t_bar_width-2.0f, t_bar_height-2.0f);
+        
+        // bar ticks
+        m_CoreQB->SetColor(&t_color_white);
+        m_CoreQB->AddTopLeft((w - t_bar_width + 4.0f) / 2.0f, (h - t_bar_height + 4.0f) / 2.0f, (t_bar_width - 4.0f) * ((float)(m_PreLoadQueue_Total - t_preload + 1) / (float)m_PreLoadQueue_Total), t_bar_height - 4.0f);
+        
+        m_CoreQB->Draw();
+        
+        Message(LOCAL_MSG, "Loaded resource %i/%i.", (m_PreLoadQueue_Total - t_preload + 1), m_PreLoadQueue_Total);
     } else {
         // Reset depth
         m_CurrentDepth = m_DepthFar;

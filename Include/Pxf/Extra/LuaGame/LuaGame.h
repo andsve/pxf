@@ -39,6 +39,7 @@ namespace Pxf
             public:
                 Game(Util::String _gameFilename, Graphics::Device* _device, bool _gracefulFail = false);
                 ~Game();
+                void CleanUp();
             
                 bool Load();
                 bool Update(float dt);
@@ -82,9 +83,13 @@ namespace Pxf
                 lua_State *L;
             
                 // Error/panic handling
-                Graphics::Texture* m_PanicTexture;
-                Graphics::QuadBatch* m_PanicQB;
                 int m_CrashRetries;
+                
+                // Private LuaGame quadbatch and texture
+                // (internal usage, such as preload-bar etc)
+                Graphics::Texture* m_CoreTexture;
+                Graphics::QuadBatch* m_CoreQB;
+                
             
                 // Private methods
                 void _register_lua_libs_callbacks();

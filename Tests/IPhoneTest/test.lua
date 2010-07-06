@@ -25,10 +25,12 @@ end
 function luagame:PreLoad()
 	test_texture = luagame.resources.loadtexture("test_atlas.png")
 	test_texture2 = luagame.resources.loadtexture("test.png")
-	print("Preload texture pointer: " .. tostring(test_texture.instance))
-	-- TODO: Does not work, at all.
-	--       Should add resources that need to be loaded. LuaGame should then
-	--       iterate over them and load them into a resource/data pool of some sort.
+	
+	-- preload alot of unnessesary textures to try loadingbar
+	test_texture3 = luagame.resources.loadtexture("test_atlas.png")
+	test_texture4 = luagame.resources.loadtexture("test_atlas.png")
+	test_texture5 = luagame.resources.loadtexture("test_atlas.png")
+	test_texture6 = luagame.resources.loadtexture("test_atlas.png")
 end
 
 function luagame:Update(dt)
@@ -105,6 +107,6 @@ function luagame:Render()
 	luagame:draw_font("LuaGame - 0.1.0", 8, 32)
 	luagame:draw_font("Rendering frame: " .. tostring(simple_framecount), 8, 40)
 	
-	
-	aoaoeaoe
+	-- make it crash:
+  --luagame.graphics.drawquad(nil)
 end
