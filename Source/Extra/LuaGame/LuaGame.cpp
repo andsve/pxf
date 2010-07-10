@@ -439,6 +439,7 @@ void Game::_register_own_callbacks()
 {
     // Register own callbacks
 	lua_register(L, "print", Print);
+	lua_register(L, "runstring", RunString);
 	//lua_register(L, "print", TestInstance);
 	
 	/*
@@ -536,6 +537,25 @@ int Game::Print(lua_State *_L)
         lua_pop(_L, 1);  /* pop result */
     }
     fputs("\n", stdout);
+    return 0;
+}
+
+int Game::RunString(lua_State *_L)
+{
+    // runstring(str)
+    int argc = lua_gettop(_L);
+    if (argc == 1 && lua_isstring(_L, 1))
+    {
+        luaL_dostring(_L, lua_tostring(_L, 1));
+        Message(LOCAL_MSG, "return size: %i", lua_gettop(_L) - argc);
+        return (lua_gettop(_L) - argc);
+    
+    } else {
+        // Non valid method call
+        lua_pushstring(_L, "Invalid argument passed to run function!");
+        lua_error(_L);
+    }
+    
     return 0;
 }
 

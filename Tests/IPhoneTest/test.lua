@@ -121,7 +121,9 @@ end
 
 
 function luagame:TextInput(str)
-  luagame:add_console(str)
+  luagame:add_console("> " .. str)
+  ret = runstring("return " .. str)
+  luagame:add_console("^4" .. tostring(ret))
 end
 
 

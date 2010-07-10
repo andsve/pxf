@@ -45,6 +45,9 @@ namespace Pxf
                 bool Update(float dt);
                 bool Render();
                 
+                // Lua state
+                lua_State *L;
+                
                 // Pxf device
                 Graphics::Device* m_Device;
                 
@@ -88,7 +91,7 @@ namespace Pxf
                 Util::String m_GameFilename;
                 Util::String m_GameIdent;
                 Util::String m_GameVersion; // Simple mechanism for version handling
-                lua_State *L;
+                
             
                 // Error/panic handling
                 int m_CrashRetries;
@@ -115,6 +118,7 @@ namespace Pxf
             
                 // Callback methods
                 static int Print(lua_State *_L);
+                static int RunString(lua_State *_L);
             };
         } /* LuaGame */
     } /* Extra */
