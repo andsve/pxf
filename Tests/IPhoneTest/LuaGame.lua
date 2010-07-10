@@ -34,7 +34,19 @@ function luagame:add_console(str)
   if self.console.current_input > self.console.max_lines then
     self.console.current_input = self.console.max_lines
   end
-  self.console.buffer[self.console.current_input] = str
+  
+  -- Add up until max width
+  screenw, screenh = luagame.graphics.getscreensize()
+  line_w = #str*8 + 8
+  if (line_w > screenw) then
+    cut_place = math.ceil((screenw / line_w) * #str)
+    s = string.sub(str, 1, cut_place)
+    e = string.sub(str, cut_place)
+    self.console.buffer[self.console.current_input] = s
+    luagame:add_console("^4 " .. e)
+  else
+    self.console.buffer[self.console.current_input] = str
+  end
 end
 
 function luagame:draw_console()
@@ -59,7 +71,6 @@ function luagame:draw_console()
   counttext = "[" .. tostring(self.console.current_input) .. "," .. tostring(self.console.max_lines) .. "]"
   luagame:draw_font(counttext, screenw - #counttext*8, y)
 end
-
 
 -- Font/text (using charmap) rendering
 function luagame:draw_font(str, x, y)

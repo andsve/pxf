@@ -546,7 +546,11 @@ int Game::RunString(lua_State *_L)
     int argc = lua_gettop(_L);
     if (argc == 1 && lua_isstring(_L, 1))
     {
-        luaL_dostring(_L, lua_tostring(_L, 1));
+        if (luaL_dostring(_L, lua_tostring(_L, 1)))
+        {
+			//Message(LOCAL_MSG, " [Error] -- %s", lua_tostring(_L, -1));
+            return 1;
+		}
         return (lua_gettop(_L) - argc);
     
     } else {

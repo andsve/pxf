@@ -55,7 +55,6 @@ using namespace Pxf;
 
 - (void) getInputResponseText:(char *)outText
 {
-    printf("Function is called! Value: %s\n", m_InputResponseText);
     sprintf(outText, "%s", m_InputResponseText);
 }
 
