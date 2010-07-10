@@ -547,7 +547,6 @@ int Game::RunString(lua_State *_L)
     if (argc == 1 && lua_isstring(_L, 1))
     {
         luaL_dostring(_L, lua_tostring(_L, 1));
-        Message(LOCAL_MSG, "return size: %i", lua_gettop(_L) - argc);
         return (lua_gettop(_L) - argc);
     
     } else {

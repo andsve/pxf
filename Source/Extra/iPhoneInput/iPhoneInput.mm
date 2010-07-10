@@ -18,7 +18,6 @@ using namespace Pxf;
 
 - (void) requireTextInput:(const char*)popupTitle message:(const char*)msg textField:(const char*)field
 {
-    printf("WAS I CALLED, LOL?\n");
     NSString *t_title = [NSString stringWithCString:popupTitle length:strlen(popupTitle)];
     NSString *t_msg = [NSString stringWithCString:msg length:strlen(msg)];
     NSString *t_field = [NSString stringWithCString:field length:strlen(field)];

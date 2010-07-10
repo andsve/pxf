@@ -368,7 +368,6 @@ void DeviceGLES11::InitInput()
 
 void DeviceGLES11::RequestTextInput(const char* _title, const char* _message, const char* _textfield)
 {
-    printf("I got this: %s, %s, %s\n", _title, _message, _textfield);
 	[m_InputHandler requireTextInput:_title message:_message textField:_textfield];
 }
 
