@@ -56,7 +56,7 @@ function luagame:draw_console()
   end
   
   -- draw line count
-  counttext = "[ " .. tostring(self.console.current_input) .. ", " .. tostring(self.console.max_lines) .. " ]"
+  counttext = "[" .. tostring(self.console.current_input) .. "," .. tostring(self.console.max_lines) .. "]"
   luagame:draw_font(counttext, screenw - #counttext*8, y)
 end
 

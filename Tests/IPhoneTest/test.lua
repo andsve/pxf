@@ -33,6 +33,8 @@ function luagame:PreLoad()
 	test_texture4 = luagame.resources.loadtexture("test_atlas.png")
 	test_texture5 = luagame.resources.loadtexture("test_atlas.png")
 	test_texture6 = luagame.resources.loadtexture("test_atlas.png")
+	
+	luagame.iphone.gettext("LuaGame", "Console input", "Command")
 end
 
 function luagame:Update(dt)
@@ -116,3 +118,12 @@ function luagame:Render()
 	-- make it crash:
   --luagame.graphics.drawquad(nil)
 end
+
+
+function luagame:TextInput(str)
+  luagame:add_console(str)
+end
+
+
+
+

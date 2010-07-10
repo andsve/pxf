@@ -6,6 +6,9 @@
 #import <OpenGLES/EAGL.h>
 #import <QuartzCore/QuartzCore.h>
 
+// Special import for iPhoneInput
+#import <Pxf/Extra/iPhoneInput/iPhoneInput.h>
+
 namespace Pxf{
 	namespace Graphics {
 		class RenderTarget;
@@ -66,6 +69,20 @@ namespace Pxf{
 			
 			//bool InitBuffers();
             bool InitBuffers(EAGLContext* _context, CAEAGLLayer* _EAGLLayer); // Temporary..
+            
+            // Input handling
+            void InitInput();
+            void RequestTextInput(const char* _title, const char* _message, const char* _textfield);
+            void InputClearResponse();
+            bool InputHasRespondedText();
+            void InputGetResponseText(char *outText);
+            int  InputGetResponseButton();
+            /*
+            - (void) clearResponse;
+            - (bool) hasRespondedToInput;
+            - (void) getInputResponseText:(const char *)outText;
+            - (int) getInputResponseButton;
+            */
 			
 			EAGLContext* GetEAGLContext() { return m_Context; }
 			bool GetUseDepthBuffer() { return m_UseDepthBuffer; }
@@ -88,6 +105,9 @@ namespace Pxf{
 			bool	m_UseDepthBuffer;
 			GLint	m_BackingWidth;
 			GLint	m_BackingHeight;
+			
+			// Input device for iPhone
+            InputHandler* m_InputHandler;
 		};
 	} // Graphics
 } // Pxf

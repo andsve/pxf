@@ -59,6 +59,8 @@
 		96B69A3711DFCAE5008D24DD /* test_atlas.png in Resources */ = {isa = PBXBuildFile; fileRef = 96B69A3611DFCAE5008D24DD /* test_atlas.png */; };
 		96B69BCC11E1617D008D24DD /* debug_font.png in Resources */ = {isa = PBXBuildFile; fileRef = 96B69BCB11E1617D008D24DD /* debug_font.png */; };
 		96B69C1411E16CE1008D24DD /* error_msg.png in Resources */ = {isa = PBXBuildFile; fileRef = 96B69C1311E16CE1008D24DD /* error_msg.png */; };
+		96B69D5D11E7EC7E008D24DD /* iPhoneInput.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96B69D5C11E7EC7E008D24DD /* iPhoneInput.mm */; };
+		96B69E7011E801E1008D24DD /* iPhoneInput.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96B69E6F11E801E1008D24DD /* iPhoneInput.mm */; };
 		C920F6E211D8FDEB0078DDA1 /* Box2DPhysicsObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C920F6E111D8FDEB0078DDA1 /* Box2DPhysicsObject.cpp */; };
 		C95AEF5511CFADAD008AF5BE /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C95AEF5411CFADAD008AF5BE /* GameObject.cpp */; };
 		C95AF01B11CFC97F008AF5BE /* sprite_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C95AF01A11CFC97F008AF5BE /* sprite_test.jpg */; };
@@ -180,6 +182,9 @@
 		96B69A3611DFCAE5008D24DD /* test_atlas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test_atlas.png; sourceTree = "<group>"; };
 		96B69BCB11E1617D008D24DD /* debug_font.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = debug_font.png; sourceTree = "<group>"; };
 		96B69C1311E16CE1008D24DD /* error_msg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error_msg.png; sourceTree = "<group>"; };
+		96B69D5C11E7EC7E008D24DD /* iPhoneInput.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iPhoneInput.mm; sourceTree = "<group>"; };
+		96B69D5F11E7EC8E008D24DD /* iPhoneInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneInput.h; sourceTree = "<group>"; };
+		96B69E6F11E801E1008D24DD /* iPhoneInput.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iPhoneInput.mm; sourceTree = "<group>"; };
 		C920F6E111D8FDEB0078DDA1 /* Box2DPhysicsObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Box2DPhysicsObject.cpp; path = ../../Source/Game/Box2D/Box2DPhysicsObject.cpp; sourceTree = SOURCE_ROOT; };
 		C95AEF5311CFAB91008AF5BE /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObject.h; path = ../../Include/Pxf/Game/GameObject.h; sourceTree = SOURCE_ROOT; };
 		C95AEF5411CFADAD008AF5BE /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObject.cpp; path = ../../Source/Game/GameObject.cpp; sourceTree = SOURCE_ROOT; };
@@ -377,6 +382,7 @@
 		96B6960B11D3D784008D24DD /* Extra */ = {
 			isa = PBXGroup;
 			children = (
+				96B69D5E11E7EC8E008D24DD /* iPhoneInput */,
 				96B6960C11D3D789008D24DD /* LuaGame */,
 			);
 			name = Extra;
@@ -393,6 +399,7 @@
 		96B6960D11D3D79E008D24DD /* Extra */ = {
 			isa = PBXGroup;
 			children = (
+				96B69D5B11E7EC7E008D24DD /* iPhoneInput */,
 				96B6960E11D3D7A4008D24DD /* LuaGame */,
 			);
 			name = Extra;
@@ -447,6 +454,7 @@
 		96B6977011D7CC92008D24DD /* Subsystems */ = {
 			isa = PBXGroup;
 			children = (
+				96B69E6F11E801E1008D24DD /* iPhoneInput.mm */,
 				96B699EA11DFBC52008D24DD /* Resources.cpp */,
 				96B697D311D8DEC4008D24DD /* Graphics.cpp */,
 				96B6977111D7CC92008D24DD /* Vec2.cpp */,
@@ -474,6 +482,24 @@
 			);
 			name = Math;
 			path = ../../Source/Math;
+			sourceTree = SOURCE_ROOT;
+		};
+		96B69D5B11E7EC7E008D24DD /* iPhoneInput */ = {
+			isa = PBXGroup;
+			children = (
+				96B69D5C11E7EC7E008D24DD /* iPhoneInput.mm */,
+			);
+			name = iPhoneInput;
+			path = ../../Source/Extra/iPhoneInput;
+			sourceTree = SOURCE_ROOT;
+		};
+		96B69D5E11E7EC8E008D24DD /* iPhoneInput */ = {
+			isa = PBXGroup;
+			children = (
+				96B69D5F11E7EC8E008D24DD /* iPhoneInput.h */,
+			);
+			name = iPhoneInput;
+			path = ../../Include/Pxf/Extra/iPhoneInput;
 			sourceTree = SOURCE_ROOT;
 		};
 		C9613E2811BF0B6000D6BE42 /* Game */ = {
@@ -875,6 +901,8 @@
 				96B6989711D8F46B008D24DD /* Matrix.cpp in Sources */,
 				C920F6E211D8FDEB0078DDA1 /* Box2DPhysicsObject.cpp in Sources */,
 				96B699EB11DFBC52008D24DD /* Resources.cpp in Sources */,
+				96B69D5D11E7EC7E008D24DD /* iPhoneInput.mm in Sources */,
+				96B69E7011E801E1008D24DD /* iPhoneInput.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -3,6 +3,7 @@
 #include <Pxf/Extra/LuaGame/Subsystems/Vec2.h>
 #include <Pxf/Extra/LuaGame/Subsystems/Graphics.h>
 #include <Pxf/Extra/LuaGame/Subsystems/Resources.h>
+#include <Pxf/Extra/LuaGame/Subsystems/iPhoneInput.h> // TODO: Make this only include if the target is iphone
 
 #include <Pxf/Graphics/Texture.h>
 
@@ -192,6 +193,11 @@ bool Game::Update(float dt)
     if (!m_Running)
         return false;
         
+    // Update iPhone input handling
+    // TODO: Add check to see if the target is in fact iPhone
+    IPhoneInputSubsystem::Update(this, L);
+    
+    
     lua_getglobal(L, "debug");
 	lua_getfield(L, -1, "traceback");
 	lua_remove(L, -2);
@@ -448,6 +454,7 @@ void Game::_register_own_callbacks()
 	Vec2::RegisterClass(L);
     GraphicsSubsystem::RegisterClass(L);
     ResourcesSubsystem::RegisterClass(L);
+    IPhoneInputSubsystem::RegisterClass(L);
 }
 
 bool Game::HandleLuaErrors(int _error)
@@ -469,7 +476,12 @@ bool Game::HandleLuaErrors(int _error)
 	return true;
 }
 
-bool Game::CallGameMethod(const char* _method)
+void Game::RunScriptMethod(const char* _method, const char* _param)
+{
+    m_Running = CallGameMethod(_method, _param);
+}
+
+bool Game::CallGameMethod(const char* _method, const char* _param)
 {
     lua_getglobal(L, "debug");
 	lua_getfield(L, -1, "traceback");
@@ -478,6 +490,12 @@ bool Game::CallGameMethod(const char* _method)
     lua_getfield(L, -1, _method);
     lua_remove(L, -2);
     lua_getglobal(L, LUAGAME_TABLE);
+    if (_param != NULL)
+    {
+        lua_pushstring(L, _param);
+        return HandleLuaErrors(lua_pcall(L, 2, 0, -3));
+    }
+    
 	return HandleLuaErrors(lua_pcall(L, 1, 0, -3));
 }
 

@@ -25,6 +25,8 @@
 #include <Pxf/Resource/Chunk.h>
 #include <Box2D/Box2D.h>
 #include <Pxf/Game/Box2D/Box2DPhysicsWorld.h>
+
+#import <Pxf/Extra/iPhoneInput/iPhoneInput.h>
 		
 
 struct fps_helper
@@ -75,6 +77,9 @@ private:
 	float		m_b2TimeStep;
 	int32		m_b2VelIterations;
 	int32		m_b2PosIterations; */
+	
+	// Input
+	InputHandler* m_InputHandler;
 };
 
 #endif

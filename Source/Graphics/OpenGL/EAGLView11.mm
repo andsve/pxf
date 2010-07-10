@@ -29,6 +29,7 @@
 	//Pxf::Graphics::DeviceGLES11* _Tmp = new Pxf::Graphics::DeviceGLES11();
 	//m_Device = (Pxf::Graphics::Device*) _Tmp;
 	m_Device = new Pxf::Graphics::DeviceGLES11();
+	
 	return m_Device->Ready();
 }
 
@@ -44,7 +45,6 @@
 		[EAGLContext setCurrentContext:_OldContext];
 		
 }
-
 
 -(bool) CreateSurface
 {
@@ -63,6 +63,9 @@
 	}
 	else
 		Pxf::Message(LOCAL_MSG,"Render/frame buffers: OK");
+	
+	// Setup input handling
+	((Pxf::Graphics::DeviceGLES11*) m_Device)->InitInput();
 	
 	return true;
 }
@@ -192,7 +195,9 @@
 			[self release];
 			Pxf::Message(LOCAL_MSG,"Unable to create surface");
 			return nil;
-		}  
+		}
+		
+		//[self presentSheet];
 	}
 					 
 	return self;

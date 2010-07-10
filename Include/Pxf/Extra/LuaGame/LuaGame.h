@@ -76,6 +76,10 @@ namespace Pxf
 				
 				// Public preload stuff
 				Graphics::Texture* AddPreload(Util::String _filepath);
+				
+				// Safely call a lua function from outside the "game"
+				// TODO: Make this more generic, so one can specify on more different parameter types
+                void RunScriptMethod(const char* _method, const char* _param = NULL);
 
             private:
                 bool m_Running; // Script state
@@ -99,7 +103,7 @@ namespace Pxf
                 void _register_lua_libs_callbacks();
                 void _register_own_callbacks();
                 bool HandleLuaErrors(int _error);
-                bool CallGameMethod(const char* _method);
+                bool CallGameMethod(const char* _method, const char* _param = NULL);
                 static void* GetInstance(lua_State *_L);
                 
                 // Preload stuff

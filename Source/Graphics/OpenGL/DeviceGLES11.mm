@@ -359,6 +359,36 @@ bool DeviceGLES11::InitBuffers()
 	return _RetVal;	
 }*/
 
+void DeviceGLES11::InitInput()
+{
+    // Create input handler
+	m_InputHandler = [InputHandler alloc];
+    Message(LOCAL_MSG, "InputHandler for iPhone created.");
+}
+
+void DeviceGLES11::RequestTextInput(const char* _title, const char* _message, const char* _textfield)
+{
+    printf("I got this: %s, %s, %s\n", _title, _message, _textfield);
+	[m_InputHandler requireTextInput:_title message:_message textField:_textfield];
+}
+
+void DeviceGLES11::InputClearResponse()
+{
+    [m_InputHandler clearResponse];
+}
+bool DeviceGLES11::InputHasRespondedText()
+{
+    return [m_InputHandler hasRespondedToInput];
+}
+void DeviceGLES11::InputGetResponseText(char *outText)
+{
+    [m_InputHandler getInputResponseText:outText];
+}
+int  DeviceGLES11::InputGetResponseButton()
+{
+    return [m_InputHandler getInputResponseButton];
+}
+
 void DeviceGLES11::SwapBuffers()
 {
 	PXFASSERT(m_Context,"Invalid Context");
