@@ -368,7 +368,6 @@ void DeviceGLES11::InitInput()
 {
     // Create input handler
 	m_InputHandler = [InputHandler alloc];
-    [m_InputHandler createGestureRecognizers:m_View];
     Message(LOCAL_MSG, "InputHandler for iPhone created.");
 }
 
@@ -396,15 +395,35 @@ int  DeviceGLES11::InputGetResponseButton()
 
 bool DeviceGLES11::InputTap(InputTapData* _data)
 {
-    return false;
+    if (m_InputTapOccurred)
+    {
+        _data->pos[0] = m_InputTapData[0];
+        _data->pos[1] = m_InputTapData[1];
+    }
+    
+    return m_InputTapOccurred;
 }
 bool DeviceGLES11::InputDoubleTap(InputTapData* _data)
 {
-    return false;
+    if (m_InputDoubleTapOccurred)
+    {
+        _data->pos[0] = m_InputDoubleTapData[0];
+        _data->pos[1] = m_InputDoubleTapData[1];
+    }
+    
+    return m_InputDoubleTapOccurred;
 }
 bool DeviceGLES11::InputDrag(InputDragData* _data)
 {
-    return false;
+    if (m_InputDragOccurred)
+    {
+        _data->start[0] = m_InputDragData[0];
+        _data->start[1] = m_InputDragData[1];
+        _data->end[0] = m_InputDragData[2];
+        _data->end[1] = m_InputDragData[3];
+    }
+    
+    return m_InputDragOccurred;
 }
 
 void DeviceGLES11::InputSetTap(float x, float y)

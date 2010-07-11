@@ -28,10 +28,6 @@ struct InputTapData
 - (void) getInputResponseText:(char *)outText;
 - (int) getInputResponseButton;
 
-// Touches
-- (void)createGestureRecognizers:(UIView *)view;
-//- (IBAction)handleSingleDoubleTap:(UIGestureRecognizer *)sender;
-
 @end
 
 #endif // __PXF_EXTRA_IPHONEINPUT_H__

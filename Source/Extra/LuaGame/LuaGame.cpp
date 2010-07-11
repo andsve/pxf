@@ -477,12 +477,12 @@ bool Game::HandleLuaErrors(int _error)
 	return true;
 }
 
-void Game::RunScriptMethod(const char* _method, const char* _param)
+void Game::RunScriptMethod(int _param_num)
 {
-    m_Running = CallGameMethod(_method, _param);
+    m_Running = CallGameMethod(_param_num);
 }
 
-bool Game::CallGameMethod(const char* _method, const char* _param)
+void Game::PrefixStack(const char *_method)
 {
     lua_getglobal(L, "debug");
 	lua_getfield(L, -1, "traceback");
@@ -491,13 +491,32 @@ bool Game::CallGameMethod(const char* _method, const char* _param)
     lua_getfield(L, -1, _method);
     lua_remove(L, -2);
     lua_getglobal(L, LUAGAME_TABLE);
+}
+
+bool Game::CallGameMethod(int _param_num)
+{
+    /*lua_getglobal(L, "debug");
+	lua_getfield(L, -1, "traceback");
+	lua_remove(L, -2);
+	lua_getglobal(L, LUAGAME_TABLE);
+    lua_getfield(L, -1, _method);
+    lua_remove(L, -2);
+    lua_getglobal(L, LUAGAME_TABLE);
+
     if (_param != NULL)
     {
         lua_pushstring(L, _param);
-        return HandleLuaErrors(lua_pcall(L, 2, 0, -3));
+        return HandleLuaErrors(lua_pcall(L, _param_num, 0, -3));
     }
+    */
     
-	return HandleLuaErrors(lua_pcall(L, 1, 0, -3));
+	return HandleLuaErrors(lua_pcall(L, 1+_param_num, 0, -3-(_param_num)));
+}
+
+bool Game::CallGameMethod(const char* _method)
+{
+    PrefixStack(_method);
+    return CallGameMethod(0);
 }
 
 void* Game::GetInstance(lua_State *_L)

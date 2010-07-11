@@ -82,7 +82,8 @@ namespace Pxf
 				
 				// Safely call a lua function from outside the "game"
 				// TODO: Make this more generic, so one can specify on more different parameter types
-                void RunScriptMethod(const char* _method, const char* _param = NULL);
+                void PrefixStack(const char* _method);
+                void RunScriptMethod(int _param_num = 0);
 
             private:
                 bool m_Running; // Script state
@@ -106,7 +107,8 @@ namespace Pxf
                 void _register_lua_libs_callbacks();
                 void _register_own_callbacks();
                 bool HandleLuaErrors(int _error);
-                bool CallGameMethod(const char* _method, const char* _param = NULL);
+                bool CallGameMethod(int _param_num = 0);
+                bool CallGameMethod(const char* _method);
                 static void* GetInstance(lua_State *_L);
                 
                 // Preload stuff
