@@ -8,6 +8,7 @@
 
 // Special import for iPhoneInput
 #import <Pxf/Extra/iPhoneInput/iPhoneInput.h>
+#include <Pxf/Graphics/EAGLView.h>
 
 namespace Pxf{
 	namespace Graphics {
@@ -71,12 +72,26 @@ namespace Pxf{
             bool InitBuffers(EAGLContext* _context, CAEAGLLayer* _EAGLLayer); // Temporary..
             
             // Input handling
+            // This is fuuugly, but hey, it sucks to mix c++ and obj-c.
+            void SetUIView(UIView* _view);
             void InitInput();
             void RequestTextInput(const char* _title, const char* _message, const char* _textfield);
             void InputClearResponse();
             bool InputHasRespondedText();
             void InputGetResponseText(char *outText);
             int  InputGetResponseButton();
+            
+            
+            bool InputTap(InputTapData* _data);
+            bool InputDoubleTap(InputTapData* _data);
+            bool InputDrag(InputDragData* _data);
+            
+            void InputSetTap(float x, float y);
+            void InputSetDoubleTap(float x, float y);
+            void InputSetDrag(float x1, float y1, float x2, float y2);
+            
+            
+            
             /*
             - (void) clearResponse;
             - (bool) hasRespondedToInput;
@@ -97,6 +112,7 @@ namespace Pxf{
 			/*GLuint					m_RenderBuffer;
 			 GLuint					m_FrameBuffer;
 			 GLuint					m_DepthBuffer; */
+            UIView* m_View;
 			EAGLContext*	m_Context;
 			VideoBufferGL*	m_RenderBuffer;
 			VideoBufferGL*	m_FrameBuffer;
@@ -108,6 +124,12 @@ namespace Pxf{
 			
 			// Input device for iPhone
             InputHandler* m_InputHandler;
+            bool m_InputTapOccurred;
+            bool m_InputDoubleTapOccurred;
+            bool m_InputDragOccurred;
+            float m_InputTapData[2];
+            float m_InputDoubleTapData[2];
+            float m_InputDragData[4];
 		};
 	} // Graphics
 } // Pxf

@@ -13,6 +13,77 @@
 	return [CAEAGLLayer class];
 }
 
+///////////////////////////////////
+// Touch stuff
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+
+    UITouch *aTouch = [touches anyObject];
+
+    if (aTouch.tapCount == 2) {
+
+        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+
+    }
+
+}
+
+ 
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+
+    UITouch *aTouch = [touches anyObject];
+
+    CGPoint loc = [aTouch locationInView:self];
+
+    CGPoint prevloc = [aTouch previousLocationInView:self];
+
+    //printf("Drag: %f %f\n", loc.x - prevloc.x, loc.y - prevloc.y);
+    ((Pxf::Graphics::DeviceGLES11 *)m_Device)->InputSetDrag(loc.x, loc.y, prevloc.x, prevloc.y);
+
+}
+
+ 
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+
+    UITouch *theTouch = [touches anyObject];
+
+    if (theTouch.tapCount == 1) {
+
+        NSDictionary *touchLoc = [NSDictionary dictionaryWithObject:
+            [NSValue valueWithCGPoint:[theTouch locationInView:self]] forKey:@"location"];
+
+        [self performSelector:@selector(handleSingleTap:) withObject:touchLoc afterDelay:0.1];
+
+    } else if (theTouch.tapCount == 2) {
+
+        // Double-tap: increase image size by 10%"
+        
+        //printf("Heyo, double-tap!\n");
+        CGPoint tapPoint = [theTouch locationInView:self];
+        ((Pxf::Graphics::DeviceGLES11 *)m_Device)->InputSetDoubleTap(tapPoint.x, tapPoint.y);
+    }
+
+} 
+
+- (void)handleSingleTap:(NSDictionary *)touch {
+
+    // Single-tap: decrease image size by 10%"
+    CGPoint tapPoint = [[touch valueForKey:@"location"] CGPointValue];
+    //printf("Heyo tap: %f %f\n", tapPoint.x, tapPoint.y);
+    ((Pxf::Graphics::DeviceGLES11 *)m_Device)->InputSetTap(tapPoint.x, tapPoint.y);
+
+}
+
+ 
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+
+    /* no state to clean up, so null implementation */
+
+}
+////////////////////////////////
+
 - (id) init
 {
 	if(self = [super init]) 
@@ -30,6 +101,7 @@
 	//m_Device = (Pxf::Graphics::Device*) _Tmp;
 	m_Device = new Pxf::Graphics::DeviceGLES11();
 	
+	((Pxf::Graphics::DeviceGLES11*)m_Device)->SetUIView(self);
 	return m_Device->Ready();
 }
 

@@ -17,7 +17,7 @@ using namespace Graphics;
 
 DeviceGLES11::DeviceGLES11()
 {
-	
+	m_InputTapOccurred = m_InputDoubleTapOccurred = m_InputDragOccurred = false;
 }
 
 DeviceGLES11::~DeviceGLES11()
@@ -359,10 +359,16 @@ bool DeviceGLES11::InitBuffers()
 	return _RetVal;	
 }*/
 
+void DeviceGLES11::SetUIView(UIView* _view)
+{
+    m_View = _view;
+}
+
 void DeviceGLES11::InitInput()
 {
     // Create input handler
 	m_InputHandler = [InputHandler alloc];
+    [m_InputHandler createGestureRecognizers:m_View];
     Message(LOCAL_MSG, "InputHandler for iPhone created.");
 }
 
@@ -388,10 +394,47 @@ int  DeviceGLES11::InputGetResponseButton()
     return [m_InputHandler getInputResponseButton];
 }
 
+bool DeviceGLES11::InputTap(InputTapData* _data)
+{
+    return false;
+}
+bool DeviceGLES11::InputDoubleTap(InputTapData* _data)
+{
+    return false;
+}
+bool DeviceGLES11::InputDrag(InputDragData* _data)
+{
+    return false;
+}
+
+void DeviceGLES11::InputSetTap(float x, float y)
+{
+    m_InputTapOccurred = true;
+    m_InputTapData[0] = x;
+    m_InputTapData[1] = y;
+}
+void DeviceGLES11::InputSetDoubleTap(float x, float y)
+{
+    m_InputDoubleTapOccurred = true;
+    m_InputDoubleTapData[0] = x;
+    m_InputDoubleTapData[1] = y;
+}
+void DeviceGLES11::InputSetDrag(float x1, float y1, float x2, float y2)
+{
+    m_InputDragOccurred = true;
+    m_InputDragData[0] = x1;
+    m_InputDragData[1] = y1;
+    m_InputDragData[2] = x2;
+    m_InputDragData[3] = y2;
+}
+
 void DeviceGLES11::SwapBuffers()
 {
 	PXFASSERT(m_Context,"Invalid Context");
 	PXFASSERT(m_RenderBuffer->m_Handle,"Invalid RenderBuffer");
+	
+	// Clear input handling data
+    m_InputTapOccurred = m_InputDoubleTapOccurred = m_InputDragOccurred = false;
 	
 	// fetch current context to make sure we are working on the correct one 
 	EAGLContext* _OldContext = [EAGLContext currentContext];

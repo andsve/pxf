@@ -1,7 +1,5 @@
 #import <Pxf/Extra/iPhoneInput/iPhoneInput.h>
-#import <Pxf/Graphics/OpenGL/EAGLView11.h>
-
-using namespace Pxf;
+//#import <Pxf/Graphics/EAGLView.h>
 
 @implementation InputHandler
 
@@ -62,6 +60,85 @@ using namespace Pxf;
 {
     return m_InputResponseButton;
 }
+
+- (void)createGestureRecognizers:(UIView *)view {
+/*
+    UITapGestureRecognizer *singleFingerDTap = [[UITapGestureRecognizer alloc]
+        initWithTarget:self action:@selector(handleSingleDoubleTap:)];
+
+    singleFingerDTap.numberOfTapsRequired = 1;
+    [view addGestureRecognizer:singleFingerDTap];
+    [singleFingerDTap release];
+
+ /*
+
+    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc]
+
+        initWithTarget:self action:@selector(handlePanGesture:)];
+
+    [self.theView addGestureRecognizer:panGesture];
+
+    [panGesture release];
+
+ 
+
+    UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc]
+
+        initWithTarget:self action:@selector(handlePinchGesture:)];
+
+    [self.theView addGestureRecognizer:pinchGesture];
+
+    [pinchGesture release];
+*/
+}
+/*
+- (IBAction)handlePinchGesture:(UIGestureRecognizer *)sender {
+
+    CGFloat factor = [(UIPinchGestureRecognizer *)sender scale];
+
+    self.view.transform = CGAffineTransformMakeScale(factor, factor);
+
+}
+
+ 
+
+- (IBAction)handlePanGesture:(UIPanGestureRecognizer *)sender {
+
+    CGPoint translate = [sender translationInView:self.view];
+
+ 
+
+    CGRect newFrame = currentImageFrame;
+
+    newFrame.origin.x += translate.x;
+
+    newFrame.origin.y += translate.y;
+
+    sender.view.frame = newFrame;
+
+ 
+
+    if (sender.state == UIGestureRecognizerStateEnded)
+
+        currentImageFrame = newFrame;
+
+}
+
+
+- (IBAction)handleSingleDoubleTap:(UIGestureRecognizer *)sender {
+
+    CGPoint tapPoint = [sender locationInView:sender.view];
+
+    //[UIView beginAnimations:nil context:NULL];
+
+    //sender.view.center = tapPoint;
+
+    //[UIView commitAnimations];
+    
+    printf("Heyo tap: %f %f\n", tapPoint.x, tapPoint.y);
+
+}
+*/ 
 
 
 -(void) dealloc

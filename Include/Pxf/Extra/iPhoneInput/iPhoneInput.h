@@ -1,9 +1,21 @@
 #ifndef __PXF_EXTRA_IPHONEINPUT_H__
 #define __PXF_EXTRA_IPHONEINPUT_H__
 
+#import <UIKit/UIKit.h>
+
+struct InputDragData
+{
+    float start[2];
+    float end[2];
+};
+
+struct InputTapData
+{
+    float pos[2];
+};
+
 @interface InputHandler : NSObject
 {
-	
     char m_InputResponseText[2048];
     int m_InputResponseButton;
     bool m_HasResponded;
@@ -15,6 +27,10 @@
 - (bool) hasRespondedToInput;
 - (void) getInputResponseText:(char *)outText;
 - (int) getInputResponseButton;
+
+// Touches
+- (void)createGestureRecognizers:(UIView *)view;
+//- (IBAction)handleSingleDoubleTap:(UIGestureRecognizer *)sender;
 
 @end
 
