@@ -4,6 +4,11 @@
 #include <Pxf/Graphics/Device.h>
 #import <OpenGLES/ES1/glext.h>
 #import <OpenGLES/EAGL.h>
+#import <QuartzCore/QuartzCore.h>
+
+// Special import for iPhoneInput
+#import <Pxf/Extra/iPhoneInput/iPhoneInput.h>
+#include <Pxf/Graphics/EAGLView.h>
 
 namespace Pxf{
 	namespace Graphics {
@@ -35,6 +40,7 @@ namespace Pxf{
 			// Texture
 			Texture* CreateEmptyTexture(int _Width,int _Height,TextureFormatStorage _Format = TEX_FORMAT_RGBA);
 			Texture* CreateTexture(const char* _filepath);
+			Texture* CreateTexture(const char* _filepath, bool _autoload);
 			Texture* CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, int _channels);
 			void BindTexture(Texture* _texture);
 			void BindTexture(Texture* _texture, unsigned int _texture_unit); // Multi-texturing
@@ -53,6 +59,7 @@ namespace Pxf{
 			VideoBuffer* CreateVideoBuffer(int _Format = GL_RENDERBUFFER_OES, int _Width = 0, int _Height = 0);
 			void DeleteVideoBuffer(VideoBuffer* _VideoBuffer);
 			bool BindVideoBuffer(VideoBuffer* _VideoBuffer);
+			bool UnBindVideoBufferType(int _FormatType);
 			
 			void SetEAGLContext(EAGLContext* _Context) { m_Context = _Context; }
 			void SetUseDepthBuffer(bool _Toggle) { m_UseDepthBuffer = _Toggle; }
@@ -61,7 +68,34 @@ namespace Pxf{
 			GLint GetBackingWidth() { return m_BackingWidth; }
 			GLint GetBackingHeight() { return m_BackingHeight; }
 			
-			bool InitBuffers();
+			//bool InitBuffers();
+            bool InitBuffers(EAGLContext* _context, CAEAGLLayer* _EAGLLayer); // Temporary..
+            
+            // Input handling
+            // This is fuuugly, but hey, it sucks to mix c++ and obj-c.
+            void SetUIView(UIView* _view);
+            void InitInput();
+            void RequestTextInput(const char* _title, const char* _message, const char* _textfield);
+            void InputClearResponse();
+            bool InputHasRespondedText();
+            void InputGetResponseText(char *outText);
+            int  InputGetResponseButton();
+            
+            
+            bool InputTap(InputTapData* _data);
+            bool InputDoubleTap(InputTapData* _data);
+            bool InputDrag(InputDragData* _data);
+            
+            void InputSetTap(float x, float y);
+            void InputSetDoubleTap(float x, float y);
+            void InputSetDrag(float x1, float y1, float x2, float y2);
+            
+            /*
+            - (void) clearResponse;
+            - (bool) hasRespondedToInput;
+            - (void) getInputResponseText:(const char *)outText;
+            - (int) getInputResponseButton;
+            */
 			
 			EAGLContext* GetEAGLContext() { return m_Context; }
 			bool GetUseDepthBuffer() { return m_UseDepthBuffer; }
@@ -76,6 +110,7 @@ namespace Pxf{
 			/*GLuint					m_RenderBuffer;
 			 GLuint					m_FrameBuffer;
 			 GLuint					m_DepthBuffer; */
+            UIView* m_View;
 			EAGLContext*	m_Context;
 			VideoBufferGL*	m_RenderBuffer;
 			VideoBufferGL*	m_FrameBuffer;
@@ -84,6 +119,15 @@ namespace Pxf{
 			bool	m_UseDepthBuffer;
 			GLint	m_BackingWidth;
 			GLint	m_BackingHeight;
+			
+			// Input device for iPhone
+            InputHandler* m_InputHandler;
+            bool m_InputTapOccurred;
+            bool m_InputDoubleTapOccurred;
+            bool m_InputDragOccurred;
+            float m_InputTapData[2];
+            float m_InputDoubleTapData[2];
+            float m_InputDragData[4];
 		};
 	} // Graphics
 } // Pxf

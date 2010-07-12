@@ -61,7 +61,7 @@ public:
 		Mat4 res;
 
 		// unwind this?
-		for (int y = 0; y < 4; ++y)
+		/*for (int y = 0; y < 4; ++y)
 		{
 			for (int x = 0; x < 4; ++x)
 			{
@@ -70,9 +70,51 @@ public:
 					m[y +  8] * o.m[x*4 + 2] +
 					m[y + 12] * o.m[x*4 + 3];
 			}
+		}*/
+		
+		/*
+    	[ 0  1  2  3 ]
+    	[ 4  5  6  7 ]
+    	[ 8  9 10 11 ]
+    	[12 13 14 15 ]
+    	*/
+		
+	    for (int y = 0; y < 4; ++y)
+		{
+			for (int x = 0; x < 4; ++x)
+			{
+				res.m[x+y*4] = m[y*4    ] * o.m[x    ] +
+				               m[y*4 + 1] * o.m[x + 4] +
+				               m[y*4 + 2] * o.m[x + 8] +
+                               m[y*4 + 3] * o.m[x + 12];
+				
+				             /*m[y     ] * o.m[x*4    ] +
+					           m[y +  4] * o.m[x*4 + 1] +
+					           m[y +  8] * o.m[x*4 + 2] +
+					           m[y + 12] * o.m[x*4 + 3];*/
+			}
 		}
 
 		return res;
+	}
+	
+	/*
+	[ 0  1  2  3 ]   [a]
+	[ 4  5  6  7 ]   [b]
+	[ 8  9 10 11 ] * [c] = [a*0, b*5, c*10, d*15]
+	[12 13 14 15 ]   [d]
+	*/
+	
+	Vec4f operator * (const Vec4f v) const
+	{
+        Vec4f res;
+        
+        res.x = v.x *  m[0] + v.y *  m[1] + v.z *  m[2] + v.w *  m[3];
+        res.y = v.x *  m[4] + v.y *  m[5] + v.z *  m[6] + v.w *  m[7];
+        res.z = v.x *  m[8] + v.y *  m[9] + v.z * m[10] + v.w * m[11];
+        res.w = v.x * m[12] + v.y * m[13] + v.z * m[14] + v.w * m[15];
+        
+        return res;
 	}
 
 	Mat4 operator + (const Mat4& o) const
@@ -150,6 +192,34 @@ public:
 		return Translate(pos.x, pos.y, pos.z);
 	}
 	
+	/*
+	[ 0  1  2  3 ]   [a]
+	[ 4  5  6  7 ]   [b]
+	[ 8  9 10 11 ] * [c] = [a*0, b*5, c*10, d*15]
+	[12 13 14 15 ]   [d]
+	*/
+	
+	const Mat4& Translate(float x, float y, float z)
+	{
+		//*this = Identity;
+		m[3] = m[3] + x;
+		m[7] = m[7] + y;
+		m[11] = m[11] + z;
+
+		return *this;
+	}
+	
+	/*
+	const Mat4& Translate(float x, float y, float z)
+	{
+		//*this = Identity;
+		m[0] = x + m[0];
+		m[5] = y + m[5];
+		m[10] = z + m[10];
+
+		return *this;
+	}
+	
 	const Mat4& Translate(float x, float y, float z)
 	{
 		*this = Identity;
@@ -159,7 +229,7 @@ public:
 
 		return *this;
 	}
-	
+	*/
 	static Mat4 Perspective(float fovy, float aspect, float znear, float zfar)
 	{
 		float f = 1.0f/tanf(fovy*(PI/360.0f));
@@ -212,7 +282,72 @@ public:
 	// TODO: Hmm... I don't think this works...
 	// http://en.wikipedia.org/wiki/Rotation_matrix#Axis_and_angle
 	
-	static Mat4 Rotate(float angle, float x, float y, float z)
+    const Mat4& Rotate(float angle, float x, float y, float z)
+	{
+		float c, C, s;
+		Vec4f v(x, y, z, 1.f);
+		Normalize(v);
+
+		//x = v.x;
+		//y = v.y;
+		//z = v.z;
+
+		c = cos(angle);
+		s = sin(angle);
+		C = 1.f - c;
+
+		Mat4 res = Mat4::Identity; // = Zero;
+		res.m[ 0] = x*x*C + c;
+		res.m[ 1] = x*y*C - z*s;
+		res.m[ 2] = x*z*C + y*s;
+		res.m[ 3] = 0.f;
+
+		res.m[ 4] = y*x*C + z*s;
+		res.m[ 5] = y*y*C + c;
+		res.m[ 6] = y*z*C - x*s;
+		res.m[ 7] = 0.f;
+
+		res.m[ 8] = z*x*C - y*s;
+		res.m[ 9] = z*y*C + x*s;
+		res.m[10] = z*z*C + c;
+		res.m[11] = 0.f;
+
+		res.m[12] = 0.f;
+		res.m[13] = 0.f;
+		res.m[14] = 0.f;
+		res.m[15] = 1.f;
+		
+        *this = *this * (res * Mat4::Identity);
+		
+		return *this;
+	}
+	
+	
+	/*
+	[ 0  1  2  3 ]
+	[ 4  5  6  7 ]
+	[ 8  9 10 11 ]
+	[12 13 14 15 ]
+	
+	| e0 e4 e8  e12 |
+    | e1 e5 e9  e13 |
+    | e2 e6 e10 e14 |
+    | e3 e7 e11 e15 |
+    
+	*/
+	/*
+	const Vec2f Transform2D(Vec2f v)
+	{
+        Vec2f res;
+        
+        // Store in temp variables in case src = dst
+		res.x = (m[0]*v.x) + (m[1]*v.y) + (0) + (m[3]);
+		res.y = (m[4]*v.x) + (m[5]*v.y) + (0) + (m[7]);
+		
+        return res;
+	}*/
+	
+	/*static Mat4 Rotate(float angle, float x, float y, float z)
 	{
 		float c, C, s;
 		Vec4f v(x, y, z, 1.f);
@@ -248,7 +383,7 @@ public:
 		res.m[15] = 1.f;
 		
 		return res;
-	}
+	}*/
 	
 };
 
