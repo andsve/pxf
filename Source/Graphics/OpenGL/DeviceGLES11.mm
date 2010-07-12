@@ -282,7 +282,7 @@ void DeviceGLES11::SwapBuffers()
 	BindVideoBuffer(m_RenderBuffer);
 	
 	if(![m_Context presentRenderbuffer:GL_RENDERBUFFER_OES])
-		printf("Swap buffers failed/n");
+		Message(LOCAL_MSG,"Swap buffers failed");
 	
 	// activate old context
 	if(_OldContext != m_Context)

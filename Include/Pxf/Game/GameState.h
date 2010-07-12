@@ -21,14 +21,6 @@ namespace Pxf
 			virtual void Pause() = 0;
 			// resume this state
 			virtual void Resume() = 0;
-
-			static GameState* Instance();
-		protected:
-			GameState();
-		private:
-			GameState(GameState const&) {};
-			GameState& operator=(GameState const&) {};
-			static GameState* m_Instance;
 		};
 	}
 }

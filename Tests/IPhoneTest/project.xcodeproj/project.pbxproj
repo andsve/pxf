@@ -56,9 +56,9 @@
 		96B6983011D8E798008D24DD /* QuadBatchGLES11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96B6982F11D8E798008D24DD /* QuadBatchGLES11.cpp */; };
 		96B6989711D8F46B008D24DD /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96B6989611D8F46B008D24DD /* Matrix.cpp */; };
 		C920F6E211D8FDEB0078DDA1 /* Box2DPhysicsObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C920F6E111D8FDEB0078DDA1 /* Box2DPhysicsObject.cpp */; };
+		C920F75711D93F3F0078DDA1 /* TestGameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C920F75611D93F3F0078DDA1 /* TestGameState.cpp */; };
 		C95AEF5511CFADAD008AF5BE /* GameObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C95AEF5411CFADAD008AF5BE /* GameObject.cpp */; };
 		C95AF01B11CFC97F008AF5BE /* sprite_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C95AF01A11CFC97F008AF5BE /* sprite_test.jpg */; };
-		C9613E3411BF0BB900D6BE42 /* GameState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9613E3311BF0BB900D6BE42 /* GameState.cpp */; };
 		C9613EDB11C7A09E00D6BE42 /* DeviceResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9613EDA11C7A09E00D6BE42 /* DeviceResource.cpp */; };
 		C96140B611C7B0C500D6BE42 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C96140B511C7B0C500D6BE42 /* QuartzCore.framework */; };
 		C96140B811C7B0CD00D6BE42 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C96140B711C7B0CD00D6BE42 /* OpenGLES.framework */; };
@@ -173,11 +173,12 @@
 		96B6989011D8F455008D24DD /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
 		96B6989611D8F46B008D24DD /* Matrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix.cpp; sourceTree = "<group>"; };
 		C920F6E111D8FDEB0078DDA1 /* Box2DPhysicsObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Box2DPhysicsObject.cpp; path = ../../Source/Game/Box2D/Box2DPhysicsObject.cpp; sourceTree = SOURCE_ROOT; };
+		C920F75511D93DB60078DDA1 /* TestGameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestGameState.h; path = Include/TestGameState.h; sourceTree = "<group>"; };
+		C920F75611D93F3F0078DDA1 /* TestGameState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TestGameState.cpp; path = Source/TestGameState.cpp; sourceTree = "<group>"; };
 		C95AEF5311CFAB91008AF5BE /* GameObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameObject.h; path = ../../Include/Pxf/Game/GameObject.h; sourceTree = SOURCE_ROOT; };
 		C95AEF5411CFADAD008AF5BE /* GameObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameObject.cpp; path = ../../Source/Game/GameObject.cpp; sourceTree = SOURCE_ROOT; };
 		C95AF01A11CFC97F008AF5BE /* sprite_test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sprite_test.jpg; sourceTree = "<group>"; };
 		C9613E2C11BF0B8C00D6BE42 /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameState.h; path = ../../Include/Pxf/Game/GameState.h; sourceTree = SOURCE_ROOT; };
-		C9613E3311BF0BB900D6BE42 /* GameState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameState.cpp; path = ../../Source/Game/GameState.cpp; sourceTree = SOURCE_ROOT; };
 		C9613E5011C7946A00D6BE42 /* TextureGLES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextureGLES.h; path = ../../Include/Pxf/Graphics/OpenGL/TextureGLES.h; sourceTree = SOURCE_ROOT; };
 		C9613EB311C79DB000D6BE42 /* AbstractResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AbstractResource.h; path = ../../Include/Pxf/Resource/AbstractResource.h; sourceTree = SOURCE_ROOT; };
 		C9613EB411C79DC600D6BE42 /* DeviceResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceResource.h; path = ../../Include/Pxf/Graphics/DeviceResource.h; sourceTree = SOURCE_ROOT; };
@@ -484,7 +485,6 @@
 				C9965ACB11D3BE8D00961304 /* Box2D */,
 				C95AEF5411CFADAD008AF5BE /* GameObject.cpp */,
 				C9AA1AD311CA5EEC002B3842 /* Sprite.cpp */,
-				C9613E3311BF0BB900D6BE42 /* GameState.cpp */,
 			);
 			name = Game;
 			sourceTree = "<group>";
@@ -597,6 +597,7 @@
 				C9F2D0AB11B6957F00F16BF3 /* Util */,
 				C9F2D09D11B6949500F16BF3 /* Scene */,
 				C9E4C6F311B662FA0092185F /* Delegate.h */,
+				C920F75511D93DB60078DDA1 /* TestGameState.h */,
 				C9E4C74711B670920092185F /* Application.h */,
 			);
 			name = Include;
@@ -616,6 +617,7 @@
 				C9F2D14811B79FE400F16BF3 /* Graphics */,
 				C9F2D08411B6943100F16BF3 /* Scene */,
 				C9E4C71D11B66A1B0092185F /* Delegate.mm */,
+				C920F75611D93F3F0078DDA1 /* TestGameState.cpp */,
 				C970802F11D35BCB0028EC91 /* Application.mm */,
 				C9E4C71E11B66A1B0092185F /* main.m */,
 			);
@@ -771,7 +773,6 @@
 				C9F2D0BE11B695A300F16BF3 /* mmgr.cpp in Sources */,
 				C9F2D16411B7A01300F16BF3 /* EAGLView.mm in Sources */,
 				C9F2D1BE11B7AE6E00F16BF3 /* EAGLView11.mm in Sources */,
-				C9613E3411BF0BB900D6BE42 /* GameState.cpp in Sources */,
 				C9613EDB11C7A09E00D6BE42 /* DeviceResource.cpp in Sources */,
 				C9AA1A3C11C98639002B3842 /* VertexBufferGLES11.cpp in Sources */,
 				C9AA1A9311C98F28002B3842 /* StreamPosix.cpp in Sources */,
@@ -859,6 +860,7 @@
 				96B6983011D8E798008D24DD /* QuadBatchGLES11.cpp in Sources */,
 				96B6989711D8F46B008D24DD /* Matrix.cpp in Sources */,
 				C920F6E211D8FDEB0078DDA1 /* Box2DPhysicsObject.cpp in Sources */,
+				C920F75711D93F3F0078DDA1 /* TestGameState.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
