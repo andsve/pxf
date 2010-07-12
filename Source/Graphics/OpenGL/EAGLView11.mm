@@ -231,6 +231,18 @@
 	[self CreateSurface];
 }
 
+- (id) disableStatusbar:(BOOL) _toggle
+{
+	if (_toggle)
+	{
+		[[UIApplication sharedApplication] setStatusBarHidden:YES animated:NO];
+	} else {
+		[[UIApplication sharedApplication] setStatusBarHidden:NO animated:NO];
+	}
+	
+	return self;
+}
+
 - (id) initWithRect: (CGRect) _Frame
 {
 	return [self initWithRect: _Frame bufferFormat: GL_RGBA8_OES depthFormat: GL_DEPTH_ATTACHMENT_OES preserveBackbuffer: NO];

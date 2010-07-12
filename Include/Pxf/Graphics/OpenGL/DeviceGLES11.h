@@ -90,8 +90,6 @@ namespace Pxf{
             void InputSetDoubleTap(float x, float y);
             void InputSetDrag(float x1, float y1, float x2, float y2);
             
-            
-            
             /*
             - (void) clearResponse;
             - (bool) hasRespondedToInput;

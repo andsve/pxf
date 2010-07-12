@@ -30,9 +30,11 @@ function luagame:init_console(max_lines)
   self.console = {buffer = {}, max_lines = max_lines, current_input = 0}
 end
 
-function luagame:add_console(str)
+function luagame:add_console(str, skip_stdout)
   -- print to normal console
-  print(str)
+  if (skip_stdout == nil) then
+    print(str)
+  end
   
   -- move buffer up
   if self.console.current_input == self.console.max_lines then
@@ -53,9 +55,9 @@ function luagame:add_console(str)
   if (line_w > screenw) then
     cut_place = math.ceil((screenw / line_w) * #str)
     s = string.sub(str, 1, cut_place)
-    e = string.sub(str, cut_place)
+    e = string.sub(str, cut_place + 1)
     self.console.buffer[self.console.current_input] = s
-    luagame:add_console("^4 " .. e)
+    luagame:add_console("^4 " .. e, true)
   else
     self.console.buffer[self.console.current_input] = str
   end
@@ -68,13 +70,14 @@ function luagame:draw_console()
   console_h = 10 * self.console.max_lines + 6
   luagame.graphics.unbindtexture()
   luagame.graphics.setcolor(0, 0, 0, 0.5)
-  luagame.graphics.drawquad(screenw / 2, 20 + (console_h / 2), screenw, console_h)
+  luagame.graphics.drawquad(screenw / 2, (console_h / 2), screenw, console_h)
   luagame.graphics.setcolor(1, 1, 1, 1.0)
-  luagame.graphics.drawquad(screenw / 2, 20 + console_h - 1, screenw, 1)
+  luagame.graphics.drawquad(screenw / 2, console_h - 1, screenw, 1)
   
   -- text
   x = 8
-  y = 26
+  --y = 26
+  y = 8
   for i=1,(self.console.current_input) do
     luagame:draw_font(self.console.buffer[i], x, y+((i-1) * 10))
   end
