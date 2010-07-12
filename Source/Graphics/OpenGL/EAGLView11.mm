@@ -100,6 +100,7 @@
 	m_Device = new Pxf::Graphics::DeviceGLES11();
 	
 	((Pxf::Graphics::DeviceGLES11*)m_Device)->SetUIView(self);
+	
 	return m_Device->Ready();
 }
 
@@ -279,7 +280,6 @@
 			return nil;
 		}
 		
-		//[self presentSheet];
 	}
 					 
 	return self;
