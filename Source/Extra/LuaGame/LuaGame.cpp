@@ -194,9 +194,9 @@ bool Game::Update(float dt)
         return false;
         
     // Update iPhone input handling
-    // TODO: Add check to see if the target is in fact iPhone
+#if defined(TARGET_OS_IPHONEDEV) || defined(TARGET_OS_IPHONEFAKEDEV)
     IPhoneInputSubsystem::Update(this, L);
-    
+#endif
     
     lua_getglobal(L, "debug");
 	lua_getfield(L, -1, "traceback");
@@ -455,7 +455,9 @@ void Game::_register_own_callbacks()
 	Vec2::RegisterClass(L);
     GraphicsSubsystem::RegisterClass(L);
     ResourcesSubsystem::RegisterClass(L);
+#if defined(TARGET_OS_IPHONEDEV)
     IPhoneInputSubsystem::RegisterClass(L);
+#endif
 }
 
 bool Game::HandleLuaErrors(int _error)

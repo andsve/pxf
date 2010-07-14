@@ -1,3 +1,5 @@
+#if defined(TARGET_OS_IPHONEDEV)
+
 #include <Pxf/Graphics/OpenGL/DeviceGLES11.h>
 #include <Pxf/Graphics/OpenGL/VertexBufferGLES11.h>
 #include <Pxf/Graphics/OpenGL/VideoBufferGL.h>
@@ -471,3 +473,5 @@ void DeviceGLES11::SwapBuffers()
 		[EAGLContext setCurrentContext: _OldContext];
 	//Pxf::Message("Device","SwapBuffers");
 }
+
+#endif

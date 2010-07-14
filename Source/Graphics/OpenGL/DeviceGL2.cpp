@@ -107,14 +107,14 @@ Texture* DeviceGL2::CreateTexture(const char* _filepath)
 
 Texture* DeviceGL2::CreateTexture(const char* _filepath, bool _autoload)
 {
-    DeviceGL2* _Tex;
+    TextureGL2* _Tex;
     glEnable(GL_TEXTURE_2D);
     if (_autoload)
     {
-        _Tex = new DeviceGL2(this);
+        _Tex = new TextureGL2(this);
     	_Tex->Load(_filepath);
     } else {
-        _Tex = new DeviceGL2(_filepath, this);
+        _Tex = new TextureGL2(_filepath, this);
     }
 	
 	return _Tex;

@@ -49,7 +49,7 @@ Math::Vec4f TextureGL2::CreateTextureSubset(float _x1, float _y1, float _x2, flo
 
 void TextureGL2::Load()
 {
-    Load(m_Filepath);
+    Load(m_Filepath.c_str());
 }
 
 void TextureGL2::Load(const char* _filepath)

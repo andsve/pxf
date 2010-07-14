@@ -1,3 +1,5 @@
+#if defined(TARGET_OS_IPHONEDEV)
+
 
 #include <Pxf/Pxf.h>
 #include <Pxf/Graphics/OpenGL/OpenGL.h>
@@ -245,3 +247,4 @@ void VertexBufferGLES11::UnmapData()
 	}
 }
 
+#endif

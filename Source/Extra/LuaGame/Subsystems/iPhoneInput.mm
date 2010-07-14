@@ -1,3 +1,5 @@
+#if defined(TARGET_OS_IPHONEDEV) || defined(TARGET_OS_IPHONEFAKEDEV)
+
 #include <Pxf/Extra/LuaGame/Subsystems/iPhoneInput.h>
 #include <Pxf/Graphics/OpenGL/DeviceGLES11.h>
 
@@ -90,3 +92,4 @@ void IPhoneInputSubsystem::Update(Game* g, lua_State* _L)
     }
 }
 
+#endif
