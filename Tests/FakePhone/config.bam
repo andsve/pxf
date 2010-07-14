@@ -1,0 +1,3 @@
+cc.driver = 'gcc'
+cc.c_compiler = false
+cc.cxx_compiler = false
