@@ -102,7 +102,13 @@ bool Application::Render()
     glMatrixMode(GL_MODELVIEW);
     
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+	// Temporary fix for depth testing
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
 	
 	m_Device->Translate(_Box1Body->GetPosition());
 	pSprite1->Draw();
@@ -120,7 +126,7 @@ bool Application::Render()
 	Math::Mat4 t_ortho = Math::Mat4::Ortho(0, ((DeviceGLES11*) m_Device)->GetBackingWidth(), ((DeviceGLES11*) m_Device)->GetBackingHeight(), 0, 0, 1);
 	m_Device->SetProjection(&t_ortho);
 	
-	luagame->Render();	
+	luagame->Render();
 
 	return _RetVal;
 }
@@ -199,7 +205,9 @@ void Application::Setup()
 	
 	// Load LuaGame
 	luagame->Load();
+	
 }
+
 
 bool Application::Init()
 {

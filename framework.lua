@@ -82,9 +82,33 @@ function CreateSettings(settings)
     return settings
 end
 
+function tableMerge(t1, t2)
+    for k,v in pairs(t2) do
+        if type(v) == "table" then
+                if type(t1[k] or false) == "table" then
+                        tableMerge(t1[k] or {}, t2[k] or {})
+                else
+                        t1[k] = v
+                end
+        else
+                t1[k] = v
+        end
+    end
+    return t1
+end
+
 function BuildFramework(settings)
     -- Compile framework
-    framework = Compile(settings, CollectRecursive(source_base))
+    --framework = Compile(settings, CollectRecursive(source_base))
+             
+    
+    framework = Compile(settings, Collect(path_prefix .. "/Source/*.cpp"),
+                                  CollectRecursive(path_prefix .. "/Source/Base/*.cpp",
+                                                   path_prefix .. "/Source/Extra/*.cpp",
+                                                   path_prefix .. "/Source/Graphics/*.cpp",
+                                                   path_prefix .. "/Source/Input/*.cpp",
+                                                   path_prefix .. "/Source/Math/*.cpp",
+                                                   path_prefix .. "/Source/Resource/*.cpp"))
     return framework
 end
 

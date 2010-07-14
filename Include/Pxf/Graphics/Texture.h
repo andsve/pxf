@@ -14,10 +14,19 @@ namespace Pxf
 		class Texture : public DeviceResource
 		{
 		public:
+            Util::String m_Filepath;
+		    
 			Texture(Device* _pDevice)
 				: DeviceResource(_pDevice)
 			{}
-
+			
+			Texture(const char* _filepath, Device* _pDevice)
+				: DeviceResource(_pDevice)
+			{
+                m_Filepath = _filepath;
+			}
+            
+            virtual void Load() = 0;
 			virtual void Load(const char* _filepath) = 0;
 			virtual void LoadData(const unsigned char* _datachunk, int _width, int _height, int _channels) = 0;
 			virtual void Unload() = 0;

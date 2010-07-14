@@ -34,7 +34,7 @@ function luagame:PreLoad()
 	test_texture5 = luagame.resources.loadtexture("test_atlas.png")
 	test_texture6 = luagame.resources.loadtexture("test_atlas.png")
 	
-	luagame.iphone.gettext("LuaGame", "Console input", "Command")
+	--luagame.iphone.gettext("LuaGame", "Console input", "Command")
 end
 
 function luagame:Update(dt)

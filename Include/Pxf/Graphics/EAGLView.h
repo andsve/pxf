@@ -1,3 +1,6 @@
+#ifndef __PXF_GRAPHICS_EAGLVIEW_H__
+#define __PXF_GRAPHICS_EAGLVIEW_H__
+
 #import <UIKit/UIKit.h>
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES1/gl.h>
@@ -17,3 +20,4 @@
 
 @end
 
+#endif

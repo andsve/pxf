@@ -17,7 +17,10 @@ namespace Pxf
 		{
 		public:
 			TextureGLES(Device* _pDevice);
+			TextureGLES(const char* _filepath, Device* _pDevice);
 			~TextureGLES();
+			
+			void Load();
 			void Load(const char* _filepath);
 			void LoadData(const unsigned char* _datachunk, int _width, int _height, int _channels);
 			void Unload();
@@ -38,9 +41,8 @@ namespace Pxf
 			inline GLuint GetTextureID() { return m_TextureID; }
 
 		private:
-		private:
 			GLuint m_TextureID;
-			Util::String m_Filepath;
+			//Util::String m_Filepath;
 			int m_Width, m_Height, m_Channels;
 		};
 	} // Graphics

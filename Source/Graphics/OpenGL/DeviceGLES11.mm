@@ -1,3 +1,5 @@
+#if defined(TARGET_OS_IPHONEDEV)
+
 #include <Pxf/Graphics/OpenGL/DeviceGLES11.h>
 #include <Pxf/Graphics/OpenGL/VertexBufferGLES11.h>
 #include <Pxf/Graphics/OpenGL/VideoBufferGL.h>
@@ -17,7 +19,7 @@ using namespace Graphics;
 
 DeviceGLES11::DeviceGLES11()
 {
-	
+	m_InputTapOccurred = m_InputDoubleTapOccurred = m_InputDragOccurred = false;
 }
 
 DeviceGLES11::~DeviceGLES11()
@@ -78,6 +80,7 @@ Texture* DeviceGLES11::CreateEmptyTexture(int _Width,int _Height,TextureFormatSt
 	_Tex->LoadData(NULL,_Width,_Height,_Format);
 	return _Tex;
 }
+
 Texture* DeviceGLES11::CreateTexture(const char* _filepath)
 {
 	glEnable(GL_TEXTURE_2D);
@@ -86,6 +89,22 @@ Texture* DeviceGLES11::CreateTexture(const char* _filepath)
 	
 	return _Tex;
 }
+
+Texture* DeviceGLES11::CreateTexture(const char* _filepath, bool _autoload)
+{
+    TextureGLES* _Tex;
+    glEnable(GL_TEXTURE_2D);
+    if (_autoload)
+    {
+        _Tex = new TextureGLES(this);
+    	_Tex->Load(_filepath);
+    } else {
+        _Tex = new TextureGLES(_filepath, this);
+    }
+	
+	return _Tex;
+}
+
 Texture* DeviceGLES11::CreateTextureFromData(const unsigned char* _datachunk, int _width, int _height, int _channels)
 {
 	glEnable(GL_TEXTURE_2D);
@@ -94,13 +113,22 @@ Texture* DeviceGLES11::CreateTextureFromData(const unsigned char* _datachunk, in
 	
 	return _Tex;
 }
+
 void DeviceGLES11::BindTexture(Texture* _texture)
 {
-	glBindTexture(GL_TEXTURE_2D,((TextureGLES*) _texture)->GetTextureID());
+    //Message(LOCAL_MSG, "texture id: %i", ((TextureGLES*) _texture)->GetTextureID());
+    if (_texture == NULL)
+        glBindTexture(GL_TEXTURE_2D, 0);
+    else
+	    glBindTexture(GL_TEXTURE_2D, ((TextureGLES*) _texture)->GetTextureID());
 }
 void DeviceGLES11::BindTexture(Texture* _texture, unsigned int _texture_unit)
 {
-	
+    Message(LOCAL_MSG, "Does not support more than one texture unit!");
+    if (_texture == NULL)
+        glBindTexture(GL_TEXTURE_2D, 0);
+    else
+	    glBindTexture(GL_TEXTURE_2D, ((TextureGLES*) _texture)->GetTextureID());
 }
 
 // PrimitiveBatch
@@ -165,7 +193,7 @@ VideoBuffer* DeviceGLES11::CreateVideoBuffer(int _Format, int _Width, int _Heigh
 	{
 		case GL_FRAMEBUFFER_OES:
 			_NewVB->m_Target = GL_FRAMEBUFFER_OES;
-			glGenFramebuffersOES(1,&_NewVB->m_Handle);	
+			glGenFramebuffersOES(1, &_NewVB->m_Handle);
 			break;
 			
 		// TODO: replace default case with special cases for each format OR add _target to signature?
@@ -177,7 +205,7 @@ VideoBuffer* DeviceGLES11::CreateVideoBuffer(int _Format, int _Width, int _Heigh
 			glGenRenderbuffersOES(1, &_NewVB->m_Handle);
 	
 			BindVideoBuffer(_NewVB);
-			glRenderbufferStorageOES(GL_RENDERBUFFER_OES,_Format,_Width,_Height);
+			glRenderbufferStorageOES(GL_RENDERBUFFER_OES, _Format, _Width, _Height);
 			break;
 	}
 	
@@ -217,12 +245,77 @@ bool DeviceGLES11::BindVideoBuffer(VideoBuffer* _VideoBuffer)
 			glBindRenderbufferOES(GL_RENDERBUFFER_OES, ((VideoBufferGL*) _VideoBuffer)->m_Handle);
 			break;
 		default:
+		    Message(LOCAL_MSG, "Trying to bind an unknown video buffer: %i", ((VideoBufferGL*) _VideoBuffer)->m_Handle);
 			break;
 	}
 	
 	// check status?
 	return true;
 }
+
+bool DeviceGLES11::UnBindVideoBufferType(int _FormatType)
+{
+	
+	switch(_FormatType)
+	{
+		case GL_FRAMEBUFFER_OES:
+			glBindFramebufferOES(GL_FRAMEBUFFER_OES, 0);
+			break;
+		case GL_RENDERBUFFER_OES:
+			glBindRenderbufferOES(GL_RENDERBUFFER_OES, 0);
+			break;
+		default:
+		    Message(LOCAL_MSG, "Trying to unbind an unknown video buffer type.");
+			break;
+	}
+	
+	// check status?
+	return true;
+}
+
+bool DeviceGLES11::InitBuffers(EAGLContext* _context, CAEAGLLayer* _EAGLLayer)
+{
+	bool _RetVal = true;
+	
+	
+	m_FrameBuffer = new VideoBufferGL();
+	m_FrameBuffer->m_Target = GL_FRAMEBUFFER_OES;
+	glGenFramebuffersOES(1, &(m_FrameBuffer->m_Handle));
+    glBindFramebufferOES(GL_FRAMEBUFFER_OES, m_FrameBuffer->m_Handle);
+    Message(LOCAL_MSG, "Frame buffer created and bound.");
+
+    m_RenderBuffer = new VideoBufferGL();
+	m_RenderBuffer->m_Target = GL_RENDERBUFFER_OES;
+    glGenRenderbuffersOES(1, &(m_RenderBuffer->m_Handle));
+    glBindRenderbufferOES(GL_RENDERBUFFER_OES, m_RenderBuffer->m_Handle);
+    [_context renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:_EAGLLayer];
+    glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, m_RenderBuffer->m_Handle);
+    Message(LOCAL_MSG, "Color buffer created and bound.");
+    
+    GLint width;
+    GLint height;
+    glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_WIDTH_OES, &width);
+    glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_HEIGHT_OES, &height);
+
+    m_DepthBuffer = new VideoBufferGL();
+	m_DepthBuffer->m_Target = GL_RENDERBUFFER_OES;
+    glGenRenderbuffersOES(1, &(m_DepthBuffer->m_Handle));
+    glBindRenderbufferOES(GL_RENDERBUFFER_OES, m_DepthBuffer->m_Handle);
+    glRenderbufferStorageOES(GL_RENDERBUFFER_OES, GL_DEPTH_COMPONENT16_OES, width, height);
+    glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_DEPTH_ATTACHMENT_OES, GL_RENDERBUFFER_OES, m_DepthBuffer->m_Handle);
+	
+	GLenum status = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES) ;
+    if(status != GL_FRAMEBUFFER_COMPLETE_OES) {
+        Message(LOCAL_MSG, "Failed to make complete framebuffer object %x", status);
+        _RetVal = false;
+    } else {
+        Message(LOCAL_MSG, "FBO successfully created! (status: %x)", status);
+    }
+	
+	return _RetVal;	
+}
+
+/*
 
 bool DeviceGLES11::InitBuffers()
 {
@@ -239,7 +332,7 @@ bool DeviceGLES11::InitBuffers()
 	}
 	
 	
-	if(!(m_RenderBuffer = (VideoBufferGL*) CreateVideoBuffer(GL_RGBA8_OES,m_BackingWidth,m_BackingHeight)))
+	if(!(m_RenderBuffer = (VideoBufferGL*) CreateVideoBuffer(GL_RGBA8_OES, m_BackingWidth, m_BackingHeight)))
 	{
 		Message(LOCAL_MSG,"Unable to create Frame Buffer");	
 		_RetVal = false;
@@ -251,7 +344,7 @@ bool DeviceGLES11::InitBuffers()
 	
 	if(m_UseDepthBuffer)
 	{
-		if(!(m_DepthBuffer = (VideoBufferGL*) CreateVideoBuffer(GL_DEPTH_COMPONENT16_OES,m_BackingWidth,m_BackingHeight)))
+		if(!(m_DepthBuffer = (VideoBufferGL*) CreateVideoBuffer(GL_DEPTH_COMPONENT16_OES, m_BackingWidth, m_BackingHeight)))
 		{
 			Message(LOCAL_MSG,"Unable to create Depth Buffer");	
 			_RetVal = false;
@@ -266,12 +359,103 @@ bool DeviceGLES11::InitBuffers()
 		Message(LOCAL_MSG,"Depth Buffer Usage: False");
 	
 	return _RetVal;	
+}*/
+
+void DeviceGLES11::SetUIView(UIView* _view)
+{
+    m_View = _view;
+}
+
+void DeviceGLES11::InitInput()
+{
+    // Create input handler
+	m_InputHandler = [InputHandler alloc];
+    Message(LOCAL_MSG, "InputHandler for iPhone created.");
+}
+
+void DeviceGLES11::RequestTextInput(const char* _title, const char* _message, const char* _textfield)
+{
+	[m_InputHandler requireTextInput:_title message:_message textField:_textfield];
+}
+
+void DeviceGLES11::InputClearResponse()
+{
+    [m_InputHandler clearResponse];
+}
+bool DeviceGLES11::InputHasRespondedText()
+{
+    return [m_InputHandler hasRespondedToInput];
+}
+void DeviceGLES11::InputGetResponseText(char *outText)
+{
+    [m_InputHandler getInputResponseText:outText];
+}
+int  DeviceGLES11::InputGetResponseButton()
+{
+    return [m_InputHandler getInputResponseButton];
+}
+
+bool DeviceGLES11::InputTap(InputTapData* _data)
+{
+    if (m_InputTapOccurred)
+    {
+        _data->pos[0] = m_InputTapData[0];
+        _data->pos[1] = m_InputTapData[1];
+    }
+    
+    return m_InputTapOccurred;
+}
+bool DeviceGLES11::InputDoubleTap(InputTapData* _data)
+{
+    if (m_InputDoubleTapOccurred)
+    {
+        _data->pos[0] = m_InputDoubleTapData[0];
+        _data->pos[1] = m_InputDoubleTapData[1];
+    }
+    
+    return m_InputDoubleTapOccurred;
+}
+bool DeviceGLES11::InputDrag(InputDragData* _data)
+{
+    if (m_InputDragOccurred)
+    {
+        _data->start[0] = m_InputDragData[0];
+        _data->start[1] = m_InputDragData[1];
+        _data->end[0] = m_InputDragData[2];
+        _data->end[1] = m_InputDragData[3];
+    }
+    
+    return m_InputDragOccurred;
+}
+
+void DeviceGLES11::InputSetTap(float x, float y)
+{
+    m_InputTapOccurred = true;
+    m_InputTapData[0] = x;
+    m_InputTapData[1] = y;
+}
+void DeviceGLES11::InputSetDoubleTap(float x, float y)
+{
+    m_InputDoubleTapOccurred = true;
+    m_InputDoubleTapData[0] = x;
+    m_InputDoubleTapData[1] = y;
+}
+void DeviceGLES11::InputSetDrag(float x1, float y1, float x2, float y2)
+{
+    m_InputDragOccurred = true;
+    m_InputDragData[0] = x1;
+    m_InputDragData[1] = y1;
+    m_InputDragData[2] = x2;
+    m_InputDragData[3] = y2;
 }
 
 void DeviceGLES11::SwapBuffers()
 {
 	PXFASSERT(m_Context,"Invalid Context");
 	PXFASSERT(m_RenderBuffer->m_Handle,"Invalid RenderBuffer");
+	
+	// Clear input handling data
+    m_InputTapOccurred = m_InputDoubleTapOccurred = m_InputDragOccurred = false;
 	
 	// fetch current context to make sure we are working on the correct one 
 	EAGLContext* _OldContext = [EAGLContext currentContext];
@@ -289,3 +473,5 @@ void DeviceGLES11::SwapBuffers()
 		[EAGLContext setCurrentContext: _OldContext];
 	//Pxf::Message("Device","SwapBuffers");
 }
+
+#endif

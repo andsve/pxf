@@ -1,3 +1,5 @@
+#if defined(TARGET_OS_IPHONEDEV)
+
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/OpenGL/TextureGLES.h>
@@ -15,6 +17,11 @@ TextureGLES::TextureGLES(Device* _pDevice)
 : Texture(_pDevice)
 {
 	m_TextureID = 0;
+}
+
+TextureGLES::TextureGLES(const char* _filepath, Device* _pDevice) : Texture(_filepath, _pDevice)
+{
+    m_TextureID = 0;
 }
 
 TextureGLES::~TextureGLES()
@@ -39,6 +46,11 @@ Math::Vec4f TextureGLES::CreateTextureSubset(float _x1, float _y1, float _x2, fl
 	coords.z = coords.x + _x2 * xdelta;
 	coords.w = coords.y + _y2 * ydelta;
 	return coords;
+}
+
+void TextureGLES::Load()
+{
+    Load(m_Filepath.c_str());
 }
 
 void TextureGLES::Load(const char* _filepath)
@@ -104,7 +116,7 @@ void TextureGLES::Reload()
 										  SOIL_CREATE_NEW_ID,
 										  NULL
 										  );
-	
+    
 	SOIL_free_image_data(t_data);
 	
 	if( m_TextureID == 0)
@@ -113,7 +125,7 @@ void TextureGLES::Reload()
 		return;
 	}
 	
-	Message(LOCAL_MSG, "Texture has been loaded: %s", m_Filepath.c_str());
+	Message(LOCAL_MSG, "Texture has been loaded [id: %i]: %s", m_TextureID, m_Filepath.c_str());
 }
 
 void TextureGLES::SetMagFilter(TextureFilter _Filter)
@@ -162,3 +174,4 @@ void TextureGLES::SetClampMethod(TextureClampMethod _Method)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m);
 }
 
+#endif
