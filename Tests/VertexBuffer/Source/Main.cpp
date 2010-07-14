@@ -1,3 +1,6 @@
+#pragma comment(lib, "Ws2_32.lib")
+#pragma comment(lib, "winmm.lib")
+
 #include <Pxf/Pxf.h>
 #include <Pxf/Engine.h>
 #include <Pxf/Graphics/Device.h>

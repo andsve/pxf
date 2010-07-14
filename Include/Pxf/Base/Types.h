@@ -5,7 +5,7 @@
 
 // NO NAMESPACE
 typedef unsigned int uint;
-
+typedef float float32;
 
 #if defined(CONF_COMPILER_GCC)
     typedef unsigned char uint8;

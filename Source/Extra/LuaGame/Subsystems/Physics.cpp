@@ -19,42 +19,12 @@ void PhysicsSubsystem::RegisterClass(lua_State* _L)
 	
 	// push physics engine identifiers 
 	// luagame.physics.BULLET3D
-	lua_pushnumber(_L,1);
+	lua_pushnumber(_L,WORLD_TYPE_BULLET3D);
 	lua_setfield(_L,-2,"BULLET3D");
 	
 	// luagame.physics.BOX2D
-	lua_pushnumber(_L,2);
+	lua_pushnumber(_L,WORLD_TYPE_BOX2D);
 	lua_setfield(_L,-2,"BOX2D");
-	
-	/*
-    // luagame.graphics.getscreensize
-    lua_pushcfunction(_L, GetScreenSize);
-    lua_setfield(_L, -2, "getscreensize");
-    
-    // luagame.graphics.unbindtexture
-    lua_pushcfunction(_L, UnbindTexture);
-    lua_setfield(_L, -2, "unbindtexture");
-    
-    // luagame.graphics.drawquad
-    lua_pushcfunction(_L, DrawQuad);
-    lua_setfield(_L, -2, "drawquad");
-    
-    // luagame.graphics.setcolor
-    lua_pushcfunction(_L, SetColor);
-    lua_setfield(_L, -2, "setcolor");
-    
-    // luagame.graphics.loadidentity
-    lua_pushcfunction(_L, LoadIdentity);
-    lua_setfield(_L, -2, "loadidentity");
-    
-    // luagame.graphics.translate
-    lua_pushcfunction(_L, Translate);
-    lua_setfield(_L, -2, "translate");
-    
-    // luagame.graphics.rotate
-    lua_pushcfunction(_L, Rotate);
-    lua_setfield(_L, -2, "rotate");
-	 */
 }
 
 int PhysicsSubsystem::NewWorld(lua_State* _L)
@@ -69,6 +39,7 @@ int PhysicsSubsystem::NewWorld(lua_State* _L)
 		switch(_Val)
 		{
 			case 1: // Bullet3D
+				_RetVal = _NewBullet3DWorld(_L);
 				break;
 			case 2: // Box2D
 				_RetVal = _NewBox2DWorld(_L);
@@ -88,6 +59,11 @@ int PhysicsSubsystem::NewWorld(lua_State* _L)
 	return _RetVal;
 }
 
+int PhysicsSubsystem::_NewBullet3DWorld(lua_State* _L)
+{
+	return 0;
+}
+
 int PhysicsSubsystem::_NewBox2DWorld(lua_State* _L)
 {
 	LuaPhysicsWorld* _NewWorld = new LuaBox2DPhysicsWorld(Math::Vec3f(0.0f,0.0f,0.0f));
@@ -97,21 +73,54 @@ int PhysicsSubsystem::_NewBox2DWorld(lua_State* _L)
     lua_pushlightuserdata(_L, _NewWorld);
     lua_setfield(_L, -2, "instance");
 
-//	lua_pushcfunction(_L, lol);
-//    lua_setfield(_L, -2, "lol");
+	/*
+	lua_pushcfunction(_L,_NewWorld->NewBody);
+	lua_setfield(_L,-2, "newbody"); */
+
+	/*
+	lua_pushcfunction(_L,_NewWorld->Simulate);
+	lua_setfield(_L,-2, "simulate"); */
+
+	/*
+	lua_pushcfunction(_L,_NewWorld->ClearForces);
+	lua_setfield(_L,-2, "clearforces"); */
 
 	return 1;
 }
 
-void LuaPhysicsWorld::RegisterClass(lua_State* _L)
+LuaBox2DPhysicsBody::LuaBox2DPhysicsBody()
+	: m_Body(0)
 {
-
-
+	
+}
+LuaBox2DPhysicsBody::~LuaBox2DPhysicsBody() 
+{
+	if(m_Body)
+		delete m_Body;
 }
 
 int LuaBox2DPhysicsBody::GetPosition(lua_State* _L) 
 {
 
+	return 0;
+}
+
+LuaBox2DPhysicsWorld::~LuaBox2DPhysicsWorld()
+{
+	if(m_World)
+		delete m_World;
+}
+
+int LuaBox2DPhysicsWorld::Simulate(lua_State* _L)
+{
+	/*
+	if(m_World)
+		m_World->Step(m_TimeStep,m_VelocityIterations,m_PositionIterations); */
+	return 0;
+}
+
+int LuaBox2DPhysicsWorld::ClearForces(lua_State* _L)
+{
 	return 0;
 }
 

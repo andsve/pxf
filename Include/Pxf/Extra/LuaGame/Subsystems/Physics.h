@@ -3,6 +3,7 @@
 
 #include <Pxf/Extra/LuaGame/Subsystem.h>
 #include <Pxf/Math/Vector.h>
+#include <Pxf/Base/Types.h>
 
 // box2D forward declarations
 class b2World;
@@ -26,7 +27,6 @@ namespace Pxf
 				class LuaPhysicsBody : public Subsystem
 				{
 				public:
-					//virtual void RegisterClass(lua_State* _L) = 0;
 					virtual int GetPosition(lua_State* _L) = 0; 
 				private:
 				};
@@ -34,6 +34,8 @@ namespace Pxf
 				class LuaBox2DPhysicsBody : public LuaPhysicsBody
 				{
 				public:
+					LuaBox2DPhysicsBody();
+					~LuaBox2DPhysicsBody();
 					int GetPosition(lua_State* _L);
 				private:
 					b2Body* m_Body;
@@ -46,8 +48,8 @@ namespace Pxf
 						m_Gravity = _Gravity;
 					}
 
-					void RegisterClass(lua_State* _L);
-
+					virtual int Simulate(lua_State* _L) = 0;
+					virtual int ClearForces(lua_State* _L) = 0;
 					virtual int NewBody(lua_State* _L) = 0;
 					virtual int GetType() = 0;
 
@@ -65,11 +67,20 @@ namespace Pxf
 				{
 				public:
 					LuaBox2DPhysicsWorld(Math::Vec3f _Gravity) 
-						: LuaPhysicsWorld(_Gravity) { }
+						: LuaPhysicsWorld(_Gravity)
+						, m_World(0) { }
+					~LuaBox2DPhysicsWorld();
+
+					int Simulate(lua_State* _L);
+					int ClearForces(lua_State* _L);
 					int NewBody(lua_State* _L);
 					int GetType() { return WORLD_TYPE_BOX2D; }
 				private:
 					b2World* m_World;
+					bool		m_SleepObjects;
+					float32		m_TimeStep;				// = 1.0f / 60.0f;
+					int32		m_VelocityIterations;	// = 6;
+					int32		m_PositionIterations ;	//= 2;
 				};
             } /* PhysicsSubsystem */
         } /* LuaGame */
