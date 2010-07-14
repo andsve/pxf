@@ -195,9 +195,9 @@ bool Game::Update(float dt)
         return false;
         
     // Update iPhone input handling
-    // TODO: Add check to see if the target is in fact iPhone
+#if defined(TARGET_OS_IPHONEDEV) || defined(TARGET_OS_IPHONEFAKEDEV)
     IPhoneInputSubsystem::Update(this, L);
-    
+#endif
     
     lua_getglobal(L, "debug");
 	lua_getfield(L, -1, "traceback");
@@ -283,8 +283,10 @@ bool Game::Render()
         Math::Vec4f t_color_white(1.0f, 1.0f, 1.0f, 1.0f);
         Math::Vec4f t_color_black(0.0f, 0.0f, 0.0f, 1.0f);
         Math::Vec4f t_color_red(1.0f, 0.0f, 0.0f, 1.0f);
-    
+        
+        
         m_Device->BindTexture(0);
+        
         m_CoreQB->Reset();
         m_CoreQB->SetTextureSubset(0.0f, 0.0f, 1.0f, 1.0f);
         m_CoreQB->SetDepth(m_CurrentDepth);
@@ -456,8 +458,10 @@ void Game::_register_own_callbacks()
 	Vec2::RegisterClass(L);
     GraphicsSubsystem::RegisterClass(L);
     ResourcesSubsystem::RegisterClass(L);
-    IPhoneInputSubsystem::RegisterClass(L);
 	PhysicsSubsystem::RegisterClass(L);
+#if defined(TARGET_OS_IPHONEDEV)
+    IPhoneInputSubsystem::RegisterClass(L);
+#endif
 }
 
 bool Game::HandleLuaErrors(int _error)

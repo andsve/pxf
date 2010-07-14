@@ -128,7 +128,7 @@ bool Application::Render()
 	Math::Mat4 t_ortho = Math::Mat4::Ortho(0, ((DeviceGLES11*) m_Device)->GetBackingWidth(), ((DeviceGLES11*) m_Device)->GetBackingHeight(), 0, 0, 1);
 	m_Device->SetProjection(&t_ortho);
 	
-	luagame->Render();	
+	luagame->Render();
 
 	return _RetVal;
 }

@@ -1,3 +1,5 @@
+#if defined(TARGET_OS_IPHONEDEV)
+
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/OpenGL/TextureGLES.h>
@@ -172,3 +174,4 @@ void TextureGLES::SetClampMethod(TextureClampMethod _Method)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m);
 }
 
+#endif

@@ -26,9 +26,9 @@ namespace Pxf
 			void Unload();
 			void Reload();
 
-			int GetWidth();
-			int GetHeight();
-			int GetChannels();
+			inline int GetWidth() { return m_Width; }
+			inline int GetHeight() { return m_Height; }
+			inline int GetChannels() { return m_Channels; }
 
 			void SetMagFilter(TextureFilter _Filter);
 			void SetMinFilter(TextureFilter _Filter);
@@ -38,7 +38,7 @@ namespace Pxf
 			Math::Vec4f CreateTextureSubset(float _x1, float _y1, float _x2, float _y2);
 			
 			// OGL specific
-			GLuint GetTextureID();
+			inline GLuint GetTextureID() { return m_TextureID; }
 
 		private:
 			GLuint m_TextureID;

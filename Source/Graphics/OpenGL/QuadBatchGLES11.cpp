@@ -1,3 +1,5 @@
+#if defined(TARGET_OS_IPHONEDEV)
+
 #include <Pxf/Pxf.h>
 #include <Pxf/Util/String.h>
 #include <Pxf/Graphics/Device.h>
@@ -321,3 +323,5 @@ void QuadBatchGLES11::Flush()
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 }
+
+#endif

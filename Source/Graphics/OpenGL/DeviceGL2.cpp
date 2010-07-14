@@ -107,14 +107,14 @@ Texture* DeviceGL2::CreateTexture(const char* _filepath)
 
 Texture* DeviceGL2::CreateTexture(const char* _filepath, bool _autoload)
 {
-    DeviceGL2* _Tex;
+    TextureGL2* _Tex;
     glEnable(GL_TEXTURE_2D);
     if (_autoload)
     {
-        _Tex = new DeviceGL2(this);
+        _Tex = new TextureGL2(this);
     	_Tex->Load(_filepath);
     } else {
-        _Tex = new DeviceGL2(_filepath, this);
+        _Tex = new TextureGL2(_filepath, this);
     }
 	
 	return _Tex;
@@ -129,7 +129,10 @@ Texture* DeviceGL2::CreateTextureFromData(const unsigned char* _datachunk, int _
 
 void DeviceGL2::BindTexture(Texture* _texture)
 {
-	glBindTexture(GL_TEXTURE_2D, ((TextureGL2*)_texture)->GetTextureID());
+    if (_texture == NULL)
+        glBindTexture(GL_TEXTURE_2D, 0);
+    else
+	    glBindTexture(GL_TEXTURE_2D, ((TextureGL2*)_texture)->GetTextureID());
 }
 
 static GLuint _texture_units_array[16] = {GL_TEXTURE0, GL_TEXTURE1, GL_TEXTURE2, GL_TEXTURE3, GL_TEXTURE4,
@@ -139,7 +142,10 @@ static GLuint _texture_units_array[16] = {GL_TEXTURE0, GL_TEXTURE1, GL_TEXTURE2,
 void DeviceGL2::BindTexture(Texture* _texture, unsigned int _texture_unit)
 {
 	glActiveTextureARB(_texture_units_array[_texture_unit]);
-	glBindTexture(GL_TEXTURE_2D, ((TextureGL2*)_texture)->GetTextureID());
+	if (_texture == NULL)
+        glBindTexture(GL_TEXTURE_2D, 0);
+    else
+	    glBindTexture(GL_TEXTURE_2D, ((TextureGL2*)_texture)->GetTextureID());
 }
 
 
