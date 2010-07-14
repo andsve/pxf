@@ -10,13 +10,12 @@
 #include <Pxf/Input/Input.h>
 #include <Pxf/Util/String.h>
 
-#include <Pxf/Extra/LuaGUI/LuaGUI.h>
-#include <Pxf/Extra/LuaGUI/GUIHandler.h>
+#include <Pxf/Extra/LuaGame/LuaGame.h>
+
 
 using namespace Pxf;
 using namespace Pxf::Graphics;
-using namespace Pxf::Extra;
-using namespace Pxf::Extra::LuaGUI;
+using namespace Pxf::Extra::LuaGame;
 
 bool PxfMain(Util::String _CmdLine)
 {
@@ -42,25 +41,32 @@ bool PxfMain(Util::String _CmdLine)
 	Input::Input* pInput = engine.CreateInput(pDevice, pWindow);
 	pInput->ShowCursor(true);
 
-	GUIHandler* pGUI = new GUIHandler(pDevice);
-	pGUI->AddScript("data/guitest.lua", &Pxf::Math::Vec4i(0,0,300,pWindowSpecs->Height)); // Fix this? viewport seems to be set from bottom left corner?
-
 	// Setup viewport and orthogonal projection
 	pDevice->SetViewport(0, 0, pWindowSpecs->Width / 2.0f, pWindowSpecs->Height);
 	Math::Mat4 t_ortho = Math::Mat4::Ortho(0, pWindowSpecs->Width / 2.0f, pWindowSpecs->Height, 0, 0, 1);
 	pDevice->SetProjection(&t_ortho);
-
+	
+	// Fix so we are in the data dir
+    chdir("data/");
+	
+	// Setup LuaGame
+	Game* luagame = new Game("game.lua", pDevice);
+	luagame->Load();
+	
 	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())
 	{
 		
-		// Some OGL stuff that hasn't been moved to the device yet
-		pDevice->SetViewport(0, 0, pWindowSpecs->Width, pWindowSpecs->Height);
-		pDevice->SetProjection(&t_ortho);
+    	pDevice->SetViewport(0.0f, 0.0f, 720, 480);
+    	Math::Mat4 t_ortho = Math::Mat4::Ortho(0, 720, 480, 0, 0, 1);
+    	pDevice->SetProjection(&t_ortho);
+    	
 		glClearColor(.3, .3, .3, 0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glLoadIdentity();
 		glEnable(GL_TEXTURE_2D);
-		
+		glEnable(GL_DEPTH_TEST);
+    	glDepthFunc(GL_LEQUAL);
+    	glEnable(GL_BLEND);
+    	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Update input
 		pInput->Update();
@@ -71,11 +77,11 @@ bool PxfMain(Util::String _CmdLine)
 		mousepos_f.x = mousepos_i.x;
 		mousepos_f.y = mousepos_i.y;
 
-		// GUI
-		glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_BLEND);
-		pGUI->Update(&mousepos_f, pInput->IsButtonDown(Pxf::Input::MOUSE_LEFT), 1.0f);
-		pGUI->Draw();
+		// LuaGame
+		pDevice->SetViewport(0.0f, 0.0f, 320, 480);
+    	pDevice->SetProjection(&Math::Mat4::Ortho(0, 320, 480, 0, 0, 1));
+    	luagame->Update(0.1);
+    	luagame->Render();
 
 		// Swap buffers
 		pWindow->Swap();

@@ -282,8 +282,10 @@ bool Game::Render()
         Math::Vec4f t_color_white(1.0f, 1.0f, 1.0f, 1.0f);
         Math::Vec4f t_color_black(0.0f, 0.0f, 0.0f, 1.0f);
         Math::Vec4f t_color_red(1.0f, 0.0f, 0.0f, 1.0f);
-    
+        
+        
         m_Device->BindTexture(0);
+        
         m_CoreQB->Reset();
         m_CoreQB->SetTextureSubset(0.0f, 0.0f, 1.0f, 1.0f);
         m_CoreQB->SetDepth(m_CurrentDepth);
