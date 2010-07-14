@@ -13,6 +13,7 @@ namespace Pxf {
 			Math::Vec2f		half_size;
 			float			friction;
 			float			density;
+			float			radius;
 			b2Shape::Type	shape_type;
 			PhysicsBodyType	po_type;
 		};

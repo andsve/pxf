@@ -21,6 +21,8 @@ function luagame:Init()
 	screenw, screenh = luagame.graphics.getscreensize()
 	print("Screen size: " .. tostring(screenw) .. "x" .. tostring(screenh))
 	
+	luagame.physics.newworld(luagame.physics.BOX2D);
+	
 	testani = 0.0
 end
 
@@ -55,9 +57,9 @@ function luagame:Render()
 	luagame.graphics.translate(math.cos(testani)*20, math.sin(testani)*10)
 	luagame.graphics.drawquad(100, 200, 30, 30)
 	
-	for i=1,100 do
-	 luagame.graphics.drawquad(100, 200+(i*3), 100, 2)
-	end
+	--for i=1,100 do
+	-- luagame.graphics.drawquad(100, 200+(i*3), 100, 2)
+	--end
 	--luagame.graphics.drawquad(10, 10, 40, 40)
 	
 	luagame.graphics.translate(screenw / 2.0, screenh / 2.0)

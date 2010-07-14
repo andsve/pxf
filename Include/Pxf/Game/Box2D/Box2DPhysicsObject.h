@@ -12,7 +12,10 @@ namespace Pxf
 		class Box2DPhysicsObject : public PhysicsObject
 		{
 		public:
-			Box2DPhysicsObject();
+			Box2DPhysicsObject(b2Body* _Body = 0) 
+				: m_Body(0) {
+					m_Body = _Body;
+				}
 			~Box2DPhysicsObject();
 				
 			void SetPosition(Math::Vec3f _Position);

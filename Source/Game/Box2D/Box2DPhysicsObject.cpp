@@ -7,11 +7,6 @@
 using namespace Pxf;
 using namespace Game;
 
-Box2DPhysicsObject::Box2DPhysicsObject()
-{
-
-}
-
 Box2DPhysicsObject::~Box2DPhysicsObject()
 {
 	/*
@@ -25,7 +20,7 @@ Box2DPhysicsObject::~Box2DPhysicsObject()
 
 void Box2DPhysicsObject::SetPosition(Math::Vec3f _Position)
 {
-	// lol dunno, remove this?
+
 }
 
 Math::Vec3f Box2DPhysicsObject::GetPosition()

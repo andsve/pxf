@@ -8,6 +8,7 @@
  */
 
 #include "../Include/Application.h"
+#include "../Include/TestGameState.h"
 #import <OpenGLES/ES1/gl.h>
 #import <OpenGLES/ES1/glext.h>
 #include <Pxf/Math/Vector.h>
@@ -30,9 +31,11 @@ using namespace Graphics;
 using namespace Extra;
 using namespace Game;
 
-Box2DPhysicsObject* _GroundBody; 
-Box2DPhysicsObject* _Box1Body; 
-Box2DPhysicsObject* _Box2Body; 
+PhysicsObject* _GroundBody; 
+PhysicsObject* _Box1Body; 
+PhysicsObject* _Box2Body; 
+
+TestGameState* _TestGameState;
 
 // LuaGame instance
 LuaGame::Game* luagame;
@@ -92,7 +95,6 @@ void Application::_UpdateFPS()
 bool Application::Render()
 {
 	bool _RetVal = true;
-	// Call render on scene 
 	
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -144,16 +146,6 @@ void Application::Setup()
 	
 	m_World = new Game::Box2DPhysicsWorld(_Gravity,true,1 / 60.0f, 6,2);
 	
-	b2BodyDef groundBodyDef; 
-	groundBodyDef.position.Set(0.0f, -10.0f); 
-	b2Body* groundBody = m_World->GetWorld()->CreateBody(&groundBodyDef); 
-	b2PolygonShape groundBox; 
-	groundBox.SetAsBox(50.0f, 10.0f); 
-	
-	
-	Box2DPhysicsObject* _Obj = new Box2DPhysicsObject();
-	_Obj->SetBody(groundBody);
-	
 	Game::body_parameters _GroundBodyParams;
 	_GroundBodyParams.position.x = 0.0f;
 	_GroundBodyParams.position.y = -10.0f;
@@ -163,7 +155,7 @@ void Application::Setup()
 	_GroundBodyParams.shape_type = b2Shape::e_polygon;
 	_GroundBodyParams.po_type = Game::PO_BODY_STATIC;
 	
-	_GroundBody = (Box2DPhysicsObject*) m_World->CreateBodyFromParams(_GroundBodyParams);
+	_GroundBody = m_World->CreateBodyFromParams(_GroundBodyParams);
 	
 	Game::body_parameters _Box1;
 	_Box1.position.x = 8.0f;
@@ -200,6 +192,9 @@ void Application::Setup()
 							   64,								// Sprite Cell Height
 							   10,								// Sprite Draw Frequency
 							   -1);								// Sprite Depth Sort, -1 = NO SORT
+	// Init gamestate
+	_TestGameState = new TestGameState();
+	
 	// Init LuaGame
 	luagame = new LuaGame::Game("test.lua", m_Device);
 	
