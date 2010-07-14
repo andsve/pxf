@@ -21,6 +21,8 @@ function luagame:Init()
 	screenw, screenh = luagame.graphics.getscreensize()
 	print("Screen size: " .. tostring(screenw) .. "x" .. tostring(screenh))
 	
+	luagame.physics.newworld(luagame.physics.BOX2D);
+	
 	testani = 0.0
 end
 

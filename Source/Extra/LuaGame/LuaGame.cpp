@@ -3,6 +3,7 @@
 #include <Pxf/Extra/LuaGame/Subsystems/Vec2.h>
 #include <Pxf/Extra/LuaGame/Subsystems/Graphics.h>
 #include <Pxf/Extra/LuaGame/Subsystems/Resources.h>
+#include <Pxf/Extra/LuaGame/Subsystems/Physics.h>
 #include <Pxf/Extra/LuaGame/Subsystems/iPhoneInput.h> // TODO: Make this only include if the target is iphone
 
 #include <Pxf/Graphics/Texture.h>
@@ -456,6 +457,7 @@ void Game::_register_own_callbacks()
     GraphicsSubsystem::RegisterClass(L);
     ResourcesSubsystem::RegisterClass(L);
     IPhoneInputSubsystem::RegisterClass(L);
+	PhysicsSubsystem::RegisterClass(L);
 }
 
 bool Game::HandleLuaErrors(int _error)
