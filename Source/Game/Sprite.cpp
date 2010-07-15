@@ -167,15 +167,12 @@ void Sprite::Update()
 void Sprite::Draw()
 {	
 	// bind texture
-	//Vec3f _Position = GetPosition();
-	//m_Device->Translate(_Position);
 	m_Device->BindTexture(m_Texture);
 	
 	NextFrame();
 	
 	// draw sprite
 	m_Device->DrawBuffer(m_DrawBuffer);
-	//m_Device->Translate(-(_Position));
 }
 
 void Sprite::_SetCurrentUV()

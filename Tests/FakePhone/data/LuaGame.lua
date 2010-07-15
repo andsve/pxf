@@ -143,3 +143,37 @@ function luagame:draw_font(str, x, y)
 	luagame.graphics.setcolor(1, 1, 1, 1) -- TODO: Should use some kind of getcolor before drawing, so it can be restored here
 end
 
+function luagame.graphics:newsprite(tex,cw,ch,freq)
+	new_sprite = {}
+	new_sprite.position = { x = 0, y = 0 }
+
+	texture = tex
+	cellwidth = cw
+	cellheight = ch
+	current_cell = 0
+
+	tex_w,tex_h = texture:getsize()
+	max_cellsw = tex_w / cw
+	max_cellsh = tex_h / ch
+	max_cells = max_cellsw * max_cellsh
+
+	--print(max_cells)
+	
+	x0 = cellwidth * (current_cell % max_cellsw)
+	y0 = cellheight * (current_cell / max_cellsh)
+
+	--print(current_cell % max_cellsw)
+	--print(current_cell / max_cellsh)
+
+	function new_sprite:draw()
+		texture:bind()
+		
+		luagame.graphics.drawquad(50, 150, cellwidth, cellheight, x0, y0, x0 + cellwidth, y0 + cellheight)
+	end
+
+	function new_sprite:update(dt)
+		
+	end
+
+	return new_sprite
+end

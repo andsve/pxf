@@ -41,9 +41,10 @@ void GraphicsSubsystem::RegisterClass(lua_State* _L)
     lua_pushcfunction(_L, Rotate);
     lua_setfield(_L, -2, "rotate");
 
+	/*
 	// luagame.graphics.newsprite
 	lua_pushcfunction(_L,NewSprite);
-	lua_setfield(_L,-2,"newsprite");
+	lua_setfield(_L,-2,"newsprite"); */
 }
 
 int GraphicsSubsystem::DrawQuad(lua_State* _L)
@@ -227,6 +228,7 @@ int GraphicsSubsystem::GetScreenSize(lua_State* _L)
     return 2;
 }
 
+/*
 int GraphicsSubsystem::NewSprite(lua_State* _L)
 {
 	GraphicsSubsystem::LuaSprite* _NewSprite;
@@ -336,4 +338,5 @@ int GraphicsSubsystem::LuaSprite::_Draw(lua_State* _L)
     return 0;
 }
 
+*/
 

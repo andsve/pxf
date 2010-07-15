@@ -24,13 +24,16 @@ function luagame:Init()
 	screenw, screenh = luagame.graphics.getscreensize()
 	luagame:add_console("Screen size: ^4" .. tostring(screenw) .. "x" .. tostring(screenh))
 	
+	sprite_test = luagame.graphics:newsprite(sprite_texture,64,64,10)
+
 	testani = 0.0
 end
 
 function luagame:PreLoad()
 	test_texture = luagame.resources.loadtexture("test_atlas.png")
 	test_texture2 = luagame.resources.loadtexture("test.png")
-	
+	sprite_texture = luagame.resources.loadtexture("sprite_test.jpg")
+
 	-- preload alot of unnessesary textures to try loadingbar
 	test_texture3 = luagame.resources.loadtexture("test_atlas.png")
 	test_texture4 = luagame.resources.loadtexture("test_atlas.png")

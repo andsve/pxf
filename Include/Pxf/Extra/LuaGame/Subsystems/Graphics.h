@@ -20,6 +20,8 @@ namespace Pxf
                 int LoadIdentity(lua_State* _L);
                 int UnbindTexture(lua_State* _L);
                 int GetScreenSize(lua_State* _L);
+
+				/*
 				int NewSprite(lua_State* _L);
 
 				class LuaSprite : public Pxf::Game::Sprite
@@ -30,7 +32,7 @@ namespace Pxf
 					static int _Draw(lua_State* _L);
 					static int _Update(lua_State* _L);
 					static int _AddSequence(lua_State* _L);
-				};
+				}; */
                 
             } /* GraphicsSubsystem */
         } /* LuaGame */
