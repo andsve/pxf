@@ -45,7 +45,7 @@ namespace Pxf
 				Math::Vector3D<float> vertex;
 				Math::Vector2D<float> tex_coords;
 				SpriteDrawData() { }
-				SpriteDrawData(Math::Vector3D<float> v,Math::Vector2D<float> uv)
+				SpriteDrawData(Math::Vector3D<float> v, Math::Vector2D<float> uv)
 				{
 					vertex = v;
 					tex_coords = uv;

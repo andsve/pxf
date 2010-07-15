@@ -271,7 +271,21 @@ int GraphicsSubsystem::NewSprite(lua_State* _L)
         Game* g = (Game*)lua_touserdata(_L, -1);
 
 		if(g->m_Device && tex)
+		{
+		    // Input is alriiiiight
 			_NewSprite = new GraphicsSubsystem::LuaSprite(g->m_Device,tex,_CellW,_CellH,_Freq);
+			
+			// Create sprite-table and object-methods
+			lua_newtable(_L);
+            lua_pushlightuserdata(_L, _NewSprite);
+            lua_setfield(_L, -2, "instance");
+
+        	
+        	lua_pushcfunction(_L, LuaSprite::_Draw);
+        	lua_setfield(_L,-2, "draw"); 
+        	
+            return 1;
+        }
 		else
 		{
 			lua_pushstring(_L, "Invalid device or texture passed to newsprite function!");
@@ -288,14 +302,38 @@ int GraphicsSubsystem::NewSprite(lua_State* _L)
 		return 0;
     }
 
-	lua_newtable(_L);
-    lua_pushlightuserdata(_L, _NewSprite);
-    lua_setfield(_L, -2, "instance");
-
-	/*
-	lua_pushcfunction(_L,_NewWorld->NewBody);
-	lua_setfield(_L,-2, "newbody"); */
-
-	return 1;
+	return 0;
 }
+
+
+int GraphicsSubsystem::LuaSprite::_Draw(lua_State* _L)
+{
+    
+    // spriteobj:draw()
+    int argc = lua_gettop(_L);
+    if (argc == 1 && lua_istable(_L, 1))
+    {
+        lua_getfield(_L, 1, "instance");
+        
+        if (lua_isuserdata(_L, -1))
+        {
+            GraphicsSubsystem::LuaSprite* sprite = (GraphicsSubsystem::LuaSprite*)lua_touserdata(_L, -1);
+            sprite->Draw();
+            
+        } else {
+            lua_pushstring(_L, "'instance' field is not a valid userdata!");
+            lua_error(_L);
+            return 0;
+        }
+        
+    } else {
+        lua_pushstring(_L, "Invalid arguments passed to draw function (of a sprite object)!");
+		lua_error(_L);
+        
+		return 0;
+    }
+    
+    return 0;
+}
+
 
