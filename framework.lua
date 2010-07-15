@@ -108,6 +108,7 @@ function BuildFramework(settings)
                                                    path_prefix .. "/Source/Graphics/*.cpp",
                                                    path_prefix .. "/Source/Input/*.cpp",
                                                    path_prefix .. "/Source/Math/*.cpp",
+												   path_prefix .. "/Source/Game/Sprite.cpp",
                                                    path_prefix .. "/Source/Resource/*.cpp"))
     return framework
 end

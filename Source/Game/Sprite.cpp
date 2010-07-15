@@ -5,7 +5,7 @@
 #include <Pxf/Graphics/VertexBuffer.h>
 #include <Pxf/Util/String.h>
 #include <stdio.h>
-#include <vector.h>
+#include <vector>
 
 #define LOCAL_MSG "Sprite"
 
@@ -48,12 +48,12 @@ void Sprite::AddSequence(int _SequenceLength, ...)
 	m_SequenceList.push_back(new_sequence);
 }
 
-Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight, int _Frequency,int _ZIndex)
+Sprite::Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight, int _Frequency)
 	: m_Device(_pDevice),
 	  m_Texture(_Texture),
 	  m_Frequency(_Frequency),
 	  m_CurrentFrame(0),
-	  m_ZIndex(_ZIndex),
+	  m_ZIndex(0),
 	  m_MaxFrames(0),
 	  m_Ready(true),
 	  m_DrawBuffer(0)
@@ -120,7 +120,17 @@ Sprite::~Sprite()
 	// do we need to delete device / texture?
 	m_Device = 0;
 	m_Texture = 0;
-	
+
+	if(m_DrawBuffer)
+		delete m_DrawBuffer;
+	m_DrawBuffer = 0;
+
+	if(m_MappedData)
+		delete m_MappedData;
+	m_MappedData = 0;
+
+	m_SequenceList.clear();
+
 	delete m_ID;
 }
 

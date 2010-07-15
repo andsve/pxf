@@ -17,7 +17,6 @@ namespace Pxf
                 
                 int GetMousePos(lua_State* _L);
                 
-                
             } /* MouseInputSubsystem */
         } /* LuaGame */
     } /* Extra */
