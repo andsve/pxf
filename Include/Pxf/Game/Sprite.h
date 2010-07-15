@@ -5,7 +5,7 @@
 
 #include <Pxf/Game/GameObject.h>
 #include <Pxf/Math/Vector.h>
-#include <vector.h>
+#include <vector>
 #include <stdarg.h>
 
 namespace Pxf
@@ -32,7 +32,6 @@ namespace Pxf
 		};
 
 		/*	abstract sprite class
-			TODO: extend / implement physics?
 			TODO: add timing somehow, update function with a dt argument perhaps?
 			TODO: switchable sequences - might be useful to store a set of sequences for each sprite,
 				  such as different sprite intervals for death animations, jump animations etc.
@@ -52,11 +51,14 @@ namespace Pxf
 					tex_coords = uv;
 				}
 			};
-			
-			Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight,int _Frequency, int _ZIndex = SPRITE_NO_SORT);
-			virtual ~Sprite();
+			 
+			Sprite() { }
+			Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight,int _Frequency);
+			~Sprite();
+
+			/*
 			virtual void Draw();
-			virtual void Update();
+			virtual void Update(); */
 
 			// animation controls
 			void Reset();

@@ -13,9 +13,9 @@
 #define LOCAL_MSG "LuaGame"
 
 using namespace Pxf;
-using namespace Pxf::Extra::LuaGame;
+using namespace Pxf::Extra;
 
-Game::Game(Util::String _gameFilename, Graphics::Device* _device, bool _gracefulFail)
+LuaGame::Game::Game(Util::String _gameFilename, Graphics::Device* _device, bool _gracefulFail)
 {
     m_Device = _device;
     
@@ -48,13 +48,13 @@ Game::Game(Util::String _gameFilename, Graphics::Device* _device, bool _graceful
     m_CrashRetries = 0;
 }
 
-Game::~Game()
+LuaGame::Game::~Game()
 {
     // Destructor of Game
     CleanUp();
 }
 
-void Game::CleanUp()
+void LuaGame::Game::CleanUp()
 {
     delete m_CoreTexture;
     delete m_CoreQB;
@@ -71,7 +71,7 @@ void Game::CleanUp()
     m_PreLoadQueue_Total = -1;
 }
 
-bool Game::Load()
+bool LuaGame::Game::Load()
 {
     
     // Load core textures
@@ -145,7 +145,7 @@ bool Game::Load()
     return true;
 }
 
-int Game::PreLoad()
+int LuaGame::Game::PreLoad()
 {
     // Preload game data
     if (!m_Running)
@@ -179,7 +179,7 @@ int Game::PreLoad()
     return ret;
 }
 
-Graphics::Texture* Game::AddPreload(Util::String _filepath)
+Graphics::Texture* LuaGame::Game::AddPreload(Util::String _filepath)
 {
     // Now we got one more preload entry in the queue!
     Graphics::Texture* res = m_Device->CreateTexture(_filepath.c_str(), false); // false = dont autoload
@@ -189,7 +189,7 @@ Graphics::Texture* Game::AddPreload(Util::String _filepath)
     return res;
 }
 
-bool Game::Update(float dt)
+bool LuaGame::Game::Update(float dt)
 {
     // Update game
     if (!m_Running)
@@ -215,7 +215,7 @@ bool Game::Update(float dt)
     return m_Running;
 }
 
-bool Game::Render()
+bool LuaGame::Game::Render()
 {
     // Render game
     if (!m_Running)
@@ -336,17 +336,17 @@ bool Game::Render()
     return m_Running;
 }
 
-Graphics::QuadBatch* Game::GetCurrentQB()
+Graphics::QuadBatch* LuaGame::Game::GetCurrentQB()
 {
     return m_QBT[m_CurrentQBT]->m_QuadBatch;
 }
 
-Graphics::Texture* Game::GetCurrentTexture()
+Graphics::Texture* LuaGame::Game::GetCurrentTexture()
 {
     return m_QBT[m_CurrentQBT]->m_Texture;
 }
 
-void Game::BindTexture(Graphics::Texture* _texture)
+void LuaGame::Game::BindTexture(Graphics::Texture* _texture)
 {
     for(size_t i = 0; i < m_QBTCount; ++i)
     {
@@ -357,7 +357,7 @@ void Game::BindTexture(Graphics::Texture* _texture)
     }
 }
 
-void Game::AddQuad(float x, float y, float w, float h)
+void LuaGame::Game::AddQuad(float x, float y, float w, float h)
 {    
 	GetCurrentQB()->SetTextureSubset(0.0f, 0.0f, 1.0f, 1.0f);
     GetCurrentQB()->SetDepth(m_CurrentDepth);
@@ -365,7 +365,7 @@ void Game::AddQuad(float x, float y, float w, float h)
     m_CurrentDepth += m_DepthStep;
 }
 
-void Game::AddQuad(float x, float y, float w, float h, float s0, float t0, float s1, float t1)
+void LuaGame::Game::AddQuad(float x, float y, float w, float h, float s0, float t0, float s1, float t1)
 {
     // Note: Texture coords are in pixels
     Math::Vec4f coords = GetCurrentTexture()->CreateTextureSubset(s0, t0, s1, t1);
@@ -375,7 +375,7 @@ void Game::AddQuad(float x, float y, float w, float h, float s0, float t0, float
     m_CurrentDepth += m_DepthStep;
 }
 
-void Game::AddQuad(float x, float y, float w, float h, float rotation)
+void LuaGame::Game::AddQuad(float x, float y, float w, float h, float rotation)
 {
     GetCurrentQB()->SetTextureSubset(0.0f, 0.0f, 1.0f, 1.0f);
     GetCurrentQB()->SetDepth(m_CurrentDepth);
@@ -383,7 +383,7 @@ void Game::AddQuad(float x, float y, float w, float h, float rotation)
     m_CurrentDepth += m_DepthStep;
 }
 
-void Game::AddQuad(float x, float y, float w, float h, float rotation, float s0, float t0, float s1, float t1)
+void LuaGame::Game::AddQuad(float x, float y, float w, float h, float rotation, float s0, float t0, float s1, float t1)
 {
     // Note: Texture coords are in pixels
     Math::Vec4f coords = GetCurrentTexture()->CreateTextureSubset(s0, t0, s1, t1);
@@ -393,25 +393,25 @@ void Game::AddQuad(float x, float y, float w, float h, float rotation, float s0,
     m_CurrentDepth += m_DepthStep;
 }
 
-void Game::SetColor(float r, float g, float b, float a)
+void LuaGame::Game::SetColor(float r, float g, float b, float a)
 {
     for(int i = 0; i < m_QBTCount; ++i)
         m_QBT[i]->m_QuadBatch->SetColor(r, g, b, a);
 }
 
-void Game::Translate(float x, float y)
+void LuaGame::Game::Translate(float x, float y)
 {
     for(int i = 0; i < m_QBTCount; ++i)
         m_QBT[i]->m_QuadBatch->Translate(x, y);
 }
 
-void Game::Rotate(float angle)
+void LuaGame::Game::Rotate(float angle)
 {
     for(int i = 0; i < m_QBTCount; ++i)
         m_QBT[i]->m_QuadBatch->Rotate(angle);
 }
 
-void Game::LoadIdentity()
+void LuaGame::Game::LoadIdentity()
 {
     for(int i = 0; i < m_QBTCount; ++i)
         m_QBT[i]->m_QuadBatch->LoadIdentity();
@@ -419,7 +419,7 @@ void Game::LoadIdentity()
 
 ///////////////////////////////////////////////////////////////////
 // Private methods
-void Game::_register_lua_libs_callbacks()
+void LuaGame::Game::_register_lua_libs_callbacks()
 {
 	// Lua libs
 	static const luaL_Reg lualibs[] = {
@@ -441,7 +441,7 @@ void Game::_register_lua_libs_callbacks()
 	}
 }
 
-void Game::_register_own_callbacks()
+void LuaGame::Game::_register_own_callbacks()
 {
     // Register own callbacks
 	lua_register(L, "print", Print);
@@ -469,7 +469,7 @@ void Game::_register_own_callbacks()
 #endif
 }
 
-bool Game::HandleLuaErrors(int _error)
+bool LuaGame::Game::HandleLuaErrors(int _error)
 {
 	if (_error != 0)
 	{
@@ -488,12 +488,12 @@ bool Game::HandleLuaErrors(int _error)
 	return true;
 }
 
-void Game::RunScriptMethod(int _param_num)
+void LuaGame::Game::RunScriptMethod(int _param_num)
 {
     m_Running = CallGameMethod(_param_num);
 }
 
-void Game::PrefixStack(const char *_method)
+void LuaGame::Game::PrefixStack(const char *_method)
 {
     lua_getglobal(L, "debug");
 	lua_getfield(L, -1, "traceback");
@@ -504,7 +504,7 @@ void Game::PrefixStack(const char *_method)
     lua_getglobal(L, LUAGAME_TABLE);
 }
 
-bool Game::CallGameMethod(int _param_num)
+bool LuaGame::Game::CallGameMethod(int _param_num)
 {
     /*lua_getglobal(L, "debug");
 	lua_getfield(L, -1, "traceback");
@@ -524,13 +524,13 @@ bool Game::CallGameMethod(int _param_num)
 	return HandleLuaErrors(lua_pcall(L, 1+_param_num, 0, -3-(_param_num)));
 }
 
-bool Game::CallGameMethod(const char* _method)
+bool LuaGame::Game::CallGameMethod(const char* _method)
 {
     PrefixStack(_method);
     return CallGameMethod(0);
 }
 
-void* Game::GetInstance(lua_State *_L)
+void* LuaGame::Game::GetInstance(lua_State *_L)
 {
     lua_getglobal(_L, LUAGAME_TABLE);
     lua_getfield(_L, -1, "Instance");
@@ -541,7 +541,7 @@ void* Game::GetInstance(lua_State *_L)
 }
 
 #if !defined(TARGET_OS_IPHONEDEV)
-void Game::SetInputDevice(Input::Input* _InputDevice)
+void LuaGame::Game::SetInputDevice(Input::Input* _InputDevice)
 {
     m_InputDevice = _InputDevice;
     //MouseInputSubsystem::RegisterInputInstance(m_InputDevice, L);
@@ -549,7 +549,7 @@ void Game::SetInputDevice(Input::Input* _InputDevice)
 #endif
 
 #if defined(TARGET_OS_IPHONEFAKEDEV)
-void Game::SetHitArea(float x, float y, float w, float h)
+void LuaGame::Game::SetHitArea(float x, float y, float w, float h)
 {
     m_HitArea[0] = x;
     m_HitArea[1] = y;
@@ -561,7 +561,7 @@ void Game::SetHitArea(float x, float y, float w, float h)
 ///////////////////////////////////////////////////////////////////
 // Callback methods
 
-int Game::Print(lua_State *_L)
+int LuaGame::Game::Print(lua_State *_L)
 {
     
     // More or less copy paste from lbaselib.c of Lua dist.
@@ -588,7 +588,7 @@ int Game::Print(lua_State *_L)
     return 0;
 }
 
-int Game::RunString(lua_State *_L)
+int LuaGame::Game::RunString(lua_State *_L)
 {
     // runstring(str)
     int argc = lua_gettop(_L);

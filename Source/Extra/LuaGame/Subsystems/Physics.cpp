@@ -107,8 +107,9 @@ int LuaBox2DPhysicsBody::GetPosition(lua_State* _L)
 
 LuaBox2DPhysicsWorld::~LuaBox2DPhysicsWorld()
 {
+	/*
 	if(m_World)
-		delete m_World;
+		delete m_World; */
 }
 
 int LuaBox2DPhysicsWorld::Simulate(lua_State* _L)
@@ -121,6 +122,9 @@ int LuaBox2DPhysicsWorld::Simulate(lua_State* _L)
 
 int LuaBox2DPhysicsWorld::ClearForces(lua_State* _L)
 {
+	/*
+	if(m_World)
+		m_World->ClearForces(); */
 	return 0;
 }
 

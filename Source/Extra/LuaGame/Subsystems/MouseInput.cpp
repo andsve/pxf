@@ -24,7 +24,7 @@ void MouseInputSubsystem::RegisterClass(lua_State* _L)
 }
 
 // 0 = up, 1 = down
-int MouseInputSubsystem::m_LastMouseState = 0;
+int m_LastMouseState = 0;
 
 void MouseInputSubsystem::Update(Game* g, lua_State* _L)
 {

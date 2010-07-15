@@ -4,9 +4,10 @@
 #include <Pxf/Extra/LuaGame/Subsystem.h>
 #include <Pxf/Math/Vector.h>
 #include <Pxf/Base/Types.h>
+#include <Box2D/Dynamics/b2World.h>
 
 // box2D forward declarations
-class b2World;
+//class b2World;
 class b2Body;
 
 namespace Pxf

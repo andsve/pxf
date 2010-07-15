@@ -40,6 +40,10 @@ void GraphicsSubsystem::RegisterClass(lua_State* _L)
     // luagame.graphics.rotate
     lua_pushcfunction(_L, Rotate);
     lua_setfield(_L, -2, "rotate");
+
+	// luagame.graphics.newsprite
+	lua_pushcfunction(_L,NewSprite);
+	lua_setfield(_L,-2,"newsprite");
 }
 
 int GraphicsSubsystem::DrawQuad(lua_State* _L)
@@ -223,4 +227,67 @@ int GraphicsSubsystem::GetScreenSize(lua_State* _L)
     return 2;
 }
 
+int GraphicsSubsystem::NewSprite(lua_State* _L)
+{
+	GraphicsSubsystem::LuaSprite* _NewSprite;
+
+	// luagame.graphics.newsprite(texture,cell_width,cell_height,frequency)
+
+	int argc = lua_gettop(_L);
+    if (argc == 4 && lua_isnumber(_L, 2) && lua_isnumber(_L, 3) && lua_isnumber(_L, 4))
+    {
+		if (!lua_istable(_L, 1))
+        {
+            lua_pushstring(_L, "Nil texture sent to newsprite!");
+            lua_error(_L);
+            return 0;
+        }
+
+		lua_getfield(_L, 1, "instance");
+
+        if (!lua_isuserdata(_L, -1))
+        {
+            lua_pushstring(_L, "'instance' field is not a valid userdata!");
+            lua_error(_L);
+            return 0;
+        }
+		Graphics::Texture* tex = 0;
+		tex = (Graphics::Texture*)lua_touserdata(_L, -1);
+        
+		int _CellW	= lua_tonumber(_L, 2);
+		int _CellH	= lua_tonumber(_L, 3);
+		int _Freq	= lua_tonumber(_L, 4);
+
+		if(_CellW <= 0 || _CellW <= 0 || _Freq <= 0)
+		{
+			lua_pushstring(_L, "Invalid parameters passed to newsprite function!");
+			lua_error(_L);
+
+			return 0;
+		}
+
+		lua_getglobal(_L, LUAGAME_TABLE);
+        lua_getfield(_L, -1, "Instance");
+        Game* g = (Game*)lua_touserdata(_L, -1);
+
+		//_NewSprite = new GraphicsSubsystem::LuaSprite(g->m_Device,tex,_CellW,_CellH,_Freq);
+        
+    } else {
+        // Non valid method call
+        lua_pushstring(_L, "Invalid argument passed to newsprite function!");
+        lua_error(_L);
+
+		return 0;
+    }
+
+	lua_newtable(_L);
+    lua_pushlightuserdata(_L, _NewSprite);
+    lua_setfield(_L, -2, "instance");
+
+	/*
+	lua_pushcfunction(_L,_NewWorld->NewBody);
+	lua_setfield(_L,-2, "newbody"); */
+
+	return 1;
+}
 

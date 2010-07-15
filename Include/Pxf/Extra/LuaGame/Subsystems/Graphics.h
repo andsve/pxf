@@ -2,6 +2,7 @@
 #define __PXF_EXTRA_LUAGAME_SUBSYSTEMS_GRAPHICS_H__
 
 #include <Pxf/Extra/LuaGame/Subsystem.h>
+#include <Pxf/Game/Sprite.h>
 
 namespace Pxf
 {
@@ -22,6 +23,17 @@ namespace Pxf
                 
                 int GetScreenSize(lua_State* _L);
                 
+				int NewSprite(lua_State* _L);
+
+				class LuaSprite : public Pxf::Game::Sprite
+				{	
+				public:
+					LuaSprite(Graphics::Device* _pDevice, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight,int _Frequency) { }
+						//: Pxf::Game::Sprite(_pDevice,NULL,_Texture,_CellWidth,_CellHeight,_Frequency) { }
+					int Draw(lua_State* _L);
+					int Update(lua_State* _L);
+					int AddSequence(lua_State* _L);
+				};
                 
             } /* GraphicsSubsystem */
         } /* LuaGame */
