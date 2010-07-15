@@ -26,6 +26,7 @@ Game::Game(Util::String _gameFilename, Graphics::Device* _device, bool _graceful
     m_GameVersion = "0.0.0";
     
     m_Running = false;
+    m_HasInitialized = false;
     m_GracefulFail = _gracefulFail;
     
     // Graphics
@@ -73,6 +74,8 @@ void Game::CleanUp()
 
 bool Game::Load()
 {
+    
+    m_HasInitialized = false;
     
     // Load core textures
     m_CoreTexture = m_Device->CreateTexture("error_msg.png");
@@ -124,8 +127,7 @@ bool Game::Load()
         		    // Call Game:PreLoad()
                     if (CallGameMethod("PreLoad"))
                     {
-                        // Call Game:Init()
-                        m_Running = CallGameMethod("Init");
+                        m_Running = true;
                     } else {
                         Message(LOCAL_MSG, "Failed in PreLoad phase.");
                     }
@@ -192,7 +194,7 @@ Graphics::Texture* Game::AddPreload(Util::String _filepath)
 bool Game::Update(float dt)
 {
     // Update game
-    if (!m_Running)
+    if (!m_Running || !m_HasInitialized)
         return false;
         
     // Update iPhone input handling
@@ -315,6 +317,13 @@ bool Game::Render()
         m_CoreQB->Draw();
         
         Message(LOCAL_MSG, "Loaded resource %i/%i.", (m_PreLoadQueue_Total - t_preload + 1), m_PreLoadQueue_Total);
+        
+        // Call Game:Init()
+        if ((m_PreLoadQueue_Total - t_preload + 1) == m_PreLoadQueue_Total)
+        {
+            m_Running = CallGameMethod("Init");
+            m_HasInitialized = true;
+        }
     } else {
         // Reset depth
         m_CurrentDepth = m_DepthFar;

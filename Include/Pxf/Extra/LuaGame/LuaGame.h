@@ -101,6 +101,7 @@ namespace Pxf
 
             private:
                 bool m_Running; // Script state
+                bool m_HasInitialized;
                 bool m_GracefulFail;
             
                 Util::String m_GameFilename;
