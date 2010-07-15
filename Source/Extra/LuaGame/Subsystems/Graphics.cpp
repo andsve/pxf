@@ -231,8 +231,6 @@ int GraphicsSubsystem::NewSprite(lua_State* _L)
 {
 	GraphicsSubsystem::LuaSprite* _NewSprite;
 
-	// luagame.graphics.newsprite(texture,cell_width,cell_height,frequency)
-
 	int argc = lua_gettop(_L);
     if (argc == 4 && lua_isnumber(_L, 2) && lua_isnumber(_L, 3) && lua_isnumber(_L, 4))
     {
@@ -293,8 +291,16 @@ int GraphicsSubsystem::NewSprite(lua_State* _L)
     lua_setfield(_L, -2, "instance");
 
 	/*
-	lua_pushcfunction(_L,_NewWorld->NewBody);
-	lua_setfield(_L,-2, "newbody"); */
+	lua_pushcfunction(_L,_NewSprite->Draw);
+	lua_setfield(_L,-2, "draw"); */
+
+	/*
+	lua_pushcfunction(_L,_NewSprite->Update);
+	lua_setfield(_L,-2, "update"); */
+
+	/*
+	lua_pushcfunction(_L,_NewSprite->AddSequence);
+	lua_setfield(_L,-2, "addsequence"); */
 
 	return 1;
 }

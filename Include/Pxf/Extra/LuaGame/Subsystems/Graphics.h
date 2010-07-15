@@ -18,11 +18,8 @@ namespace Pxf
                 int Translate(lua_State* _L);
                 int Rotate(lua_State* _L);
                 int LoadIdentity(lua_State* _L);
-                
                 int UnbindTexture(lua_State* _L);
-                
                 int GetScreenSize(lua_State* _L);
-                
 				int NewSprite(lua_State* _L);
 
 				class LuaSprite : public Pxf::Game::Sprite
