@@ -14,6 +14,7 @@ namespace Pxf
                 void RegisterClass(lua_State* _L);
                 int LoadTexture(lua_State* _L);
                 int BindTexture(lua_State* _L);
+                int GetTextureSize(lua_State* _L);
                 
                 
             } /* ResourcesSubsystem */

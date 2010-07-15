@@ -102,8 +102,12 @@ function luagame:Render()
 	luagame.graphics.drawquad(0, 0, 30, 30)
 	]]
 	
+	a,b = test_texture2:getsize()
+	luagame:add_console("texture size: " .. tostring(a) .. "x" .. tostring(b))
+	
 	-- test draw texture 2
 	test_texture2:bind()
+	
 	luagame.graphics.loadidentity()
 	luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
 	luagame.graphics.drawquad(-64, -64, 256, 128)
