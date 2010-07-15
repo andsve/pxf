@@ -270,7 +270,15 @@ int GraphicsSubsystem::NewSprite(lua_State* _L)
         lua_getfield(_L, -1, "Instance");
         Game* g = (Game*)lua_touserdata(_L, -1);
 
-		//_NewSprite = new GraphicsSubsystem::LuaSprite(g->m_Device,tex,_CellW,_CellH,_Freq);
+		if(g->m_Device && tex)
+			_NewSprite = new GraphicsSubsystem::LuaSprite(g->m_Device,tex,_CellW,_CellH,_Freq);
+		else
+		{
+			lua_pushstring(_L, "Invalid device or texture passed to newsprite function!");
+			lua_error(_L);
+
+			return 0;
+		}
         
     } else {
         // Non valid method call

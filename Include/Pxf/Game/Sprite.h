@@ -56,9 +56,8 @@ namespace Pxf
 			Sprite(Graphics::Device* _pDevice, const char* _ID, Graphics::Texture* _Texture, int _CellWidth, int _CellHeight,int _Frequency);
 			~Sprite();
 
-			/*
-			virtual void Draw();
-			virtual void Update(); */
+			void Draw();
+			void Update();
 
 			// animation controls
 			void Reset();

@@ -5,7 +5,7 @@
 #include <Pxf/Graphics/VertexBuffer.h>
 #include <Pxf/Util/String.h>
 #include <stdio.h>
-#include <vector.h>
+#include <vector>
 
 #define LOCAL_MSG "Sprite"
 
