@@ -87,9 +87,13 @@ bool LuaGame::Game::Load()
     // Register lua libs
     _register_lua_libs_callbacks();
     
+    // Register own callbacks
+    _register_own_callbacks();
+    
     ////////////////////////////////
     // Load game core/helper script
     int s = luaL_loadfile(L, "LuaGame.lua");
+    
     if (!s)
 	{
 		s = lua_pcall(L, 0, LUA_MULTRET, 0);
@@ -98,9 +102,6 @@ bool LuaGame::Game::Load()
 			lua_pop(L, 1); // remove error message
 			m_Running = false;
 		} else {
-		    
-		    // Register own callbacks
-            _register_own_callbacks();
 		    
 		    // Set Game.Instance to this class instance!
 		    // Instance will later be used to call correct Game instance.
@@ -458,6 +459,7 @@ void LuaGame::Game::_register_own_callbacks()
 	//lua_register(L, "print", TestInstance);
 	
 	/*
+	lua_getglobal(L, LUAGAME_TABLE);
     lua_getglobal(L, LUAGAME_TABLE);
     lua_pushcfunction(L, TestInstance);
     lua_setfield(L, -2, "Test");
@@ -465,6 +467,10 @@ void LuaGame::Game::_register_own_callbacks()
     // Pop "LuaGame" table
     lua_pop(L, 1);
     */
+    
+    // Create empty luagame table
+    lua_newtable(L);
+    lua_setglobal (L, LUAGAME_TABLE);
     
     // Register subsystems
 	Vec2::RegisterClass(L);

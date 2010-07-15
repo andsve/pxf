@@ -1,5 +1,4 @@
 
-luagame = {}
 luagame.CoreVersion = "0.1.0"
 
 function luagame:CoreInit()
