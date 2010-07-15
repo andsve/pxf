@@ -1,10 +1,13 @@
 
+require("faker")
+
 function luagame:Init()
 	self.GameIdent = "Our awesome testgame!"
 	self.GameVersion = "1.0"
 	
 	luagame:add_console("GameIdent: ^4" .. self.GameIdent)
 	luagame:add_console("GameVersion: ^4" .. self.GameVersion)
+	
 	
 	--testvec = luagame.vec2.new()
 	--print("testvec: " .. testvec:tostring())
@@ -19,7 +22,7 @@ function luagame:Init()
 	--print("luagame.vec2.ToString(): " .. luagame.vec2.ToString())
 	
 	screenw, screenh = luagame.graphics.getscreensize()
-	print("Screen size: " .. tostring(screenw) .. "x" .. tostring(screenh))
+	luagame:add_console("Screen size: ^4" .. tostring(screenw) .. "x" .. tostring(screenh))
 	
 	testani = 0.0
 end
@@ -40,6 +43,8 @@ end
 function luagame:Update(dt)
 	--print("Time to UPDATE our game with '" .. tostring(dt) .. "'")
 	testani = testani + dt*0.3
+	--mx,my = luagame.mouse.getmousepos()
+	--luagame:add_console("Mouse x: " .. tostring(mx) .. ", y: " .. tostring(my))
 end
 
 function luagame:Render()

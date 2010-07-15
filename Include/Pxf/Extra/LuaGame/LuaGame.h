@@ -6,6 +6,10 @@
 #include <Pxf/Graphics/Texture.h>
 #include <Pxf/Graphics/QuadBatch.h>
 
+#if !defined(TARGET_OS_IPHONEDEV)
+#include <Pxf/Input/Input.h>
+#endif
+
 // Lua includes
 extern "C" {
 #include <lua.h>
@@ -81,9 +85,19 @@ namespace Pxf
 				Graphics::Texture* AddPreload(Util::String _filepath);
 				
 				// Safely call a lua function from outside the "game"
-				// TODO: Make this more generic, so one can specify on more different parameter types
                 void PrefixStack(const char* _method);
                 void RunScriptMethod(int _param_num = 0);
+                
+#if !defined(TARGET_OS_IPHONEDEV)
+                // Mouse input handling for non-iPhone games
+                void SetInputDevice(Input::Input* _InputDevice);
+                Input::Input* m_InputDevice;                
+#endif
+
+#if defined(TARGET_OS_IPHONEFAKEDEV)
+                void SetHitArea(float x, float y, float w, float h);
+                float m_HitArea[4];
+#endif
 
             private:
                 bool m_Running; // Script state

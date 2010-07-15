@@ -1,5 +1,4 @@
 
-
 #include <Pxf/Pxf.h>
 #include <Pxf/Engine.h>
 #include <Pxf/Graphics/Device.h>
@@ -51,8 +50,9 @@ bool PxfMain(Util::String _CmdLine)
 	// Setup LuaGame
 	Game* luagame = new Game("game.lua", pDevice);
 	luagame->Load();
+    luagame->SetInputDevice(pInput);
 	
-	while (!pInput->IsKeyDown(Input::ESC) && pWindow->IsOpen())
+	while (pWindow->IsOpen()) //!pInput->IsKeyDown(Input::ESC) && 
 	{
 		
     	pDevice->SetViewport(0.0f, 0.0f, pWindowSpecs->Width, pWindowSpecs->Height);
@@ -82,13 +82,14 @@ bool PxfMain(Util::String _CmdLine)
 		// Update input
 		pInput->Update();
 
-		Math::Vec2i mousepos_i;
+		/*Math::Vec2i mousepos_i;
 		Math::Vec2f mousepos_f;
 		pInput->GetMousePos(&mousepos_i.x, &mousepos_i.y);
 		mousepos_f.x = mousepos_i.x;
-		mousepos_f.y = mousepos_i.y;
+		mousepos_f.y = mousepos_i.y;*/
 
 		// LuaGame
+        luagame->SetHitArea(pWindowSpecs->Width / 2.0f - 160, pWindowSpecs->Height / 2.0f - 240, 320, 480);
 		pDevice->SetViewport(pWindowSpecs->Width / 2.0f - 160, pWindowSpecs->Height / 2.0f - 240, 320, 480);
     	pDevice->SetProjection(&Math::Mat4::Ortho(0, 320, 480, 0, 0, 1));
     	luagame->Update(0.1);

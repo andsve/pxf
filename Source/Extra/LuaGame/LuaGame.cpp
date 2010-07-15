@@ -5,6 +5,7 @@
 #include <Pxf/Extra/LuaGame/Subsystems/Resources.h>
 #include <Pxf/Extra/LuaGame/Subsystems/Physics.h>
 #include <Pxf/Extra/LuaGame/Subsystems/iPhoneInput.h> // TODO: Make this only include if the target is iphone
+#include <Pxf/Extra/LuaGame/Subsystems/MouseInput.h>
 
 #include <Pxf/Graphics/Texture.h>
 
@@ -195,8 +196,10 @@ bool Game::Update(float dt)
         return false;
         
     // Update iPhone input handling
-#if defined(TARGET_OS_IPHONEDEV) || defined(TARGET_OS_IPHONEFAKEDEV)
+#if defined(TARGET_OS_IPHONEDEV)
     IPhoneInputSubsystem::Update(this, L);
+#else
+    MouseInputSubsystem::Update(this, L);
 #endif
     
     lua_getglobal(L, "debug");
@@ -461,6 +464,8 @@ void Game::_register_own_callbacks()
 	PhysicsSubsystem::RegisterClass(L);
 #if defined(TARGET_OS_IPHONEDEV)
     IPhoneInputSubsystem::RegisterClass(L);
+#else
+    MouseInputSubsystem::RegisterClass(L);
 #endif
 }
 
@@ -534,6 +539,24 @@ void* Game::GetInstance(lua_State *_L)
     
     return p;
 }
+
+#if !defined(TARGET_OS_IPHONEDEV)
+void Game::SetInputDevice(Input::Input* _InputDevice)
+{
+    m_InputDevice = _InputDevice;
+    //MouseInputSubsystem::RegisterInputInstance(m_InputDevice, L);
+}
+#endif
+
+#if defined(TARGET_OS_IPHONEFAKEDEV)
+void Game::SetHitArea(float x, float y, float w, float h)
+{
+    m_HitArea[0] = x;
+    m_HitArea[1] = y;
+    m_HitArea[2] = w;
+    m_HitArea[3] = h;
+}
+#endif
 
 ///////////////////////////////////////////////////////////////////
 // Callback methods
