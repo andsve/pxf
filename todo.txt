@@ -1,6 +1,6 @@
 iPhone
 ---
-[ ] Add touch input
+[X] Add touch input
 [ ] Add accelerometer input
 [ ] Add sound support
 [ ] Add render text to screen
@@ -8,7 +8,7 @@ iPhone
 [ ] Incorporate resource management with the engine
 [X] Add physics library and extend game objects to support physics simulation
 [X] Move context-specific things from EAGLView to the device context
-[ ] Lua intergration
+[X] Lua intergration
 [ ] Implement gamestate management
 [X] Change from printf to the Pxf::Message function
 [ ] Implement profiler
@@ -23,3 +23,5 @@ Bam
     Library-modules.
 [ ] Project files should be simpler and not require create-stuff 
     for both debug and release builds
+[ ] Make it possible to only add specific Pxf::Extra namespaces/classes
+    projects.
