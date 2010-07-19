@@ -72,6 +72,12 @@ void LuaGame::Game::CleanUp()
     m_PreLoadQueue_Total = -1;
 }
 
+bool LuaGame::Game::Reload()
+{
+    CleanUp();
+    Load();
+}
+
 bool LuaGame::Game::Load()
 {
     
@@ -236,17 +242,26 @@ bool LuaGame::Game::Render()
             
             // Script has encountered an error
             // Display panic msg!
+            m_CoreQB->Reset();
+            
             int w,h;
+            #if defined(TARGET_OS_IPHONEFAKEDEV)
+                    w = m_HitArea[2];
+                    h = m_HitArea[3];
+            #else
+                    m_Device->GetSize(&w, &h);
+            #endif
+            
             Math::Vec4f t_color_white(1.0f, 1.0f, 1.0f, 1.0f);
             Math::Vec4f t_color_black(0.0f, 0.0f, 0.0f, 1.0f);
             
-            m_Device->GetSize(&w, &h);
-            m_CoreQB->Reset();
-            
             // bg
+            m_CurrentDepth = m_DepthFar;
             m_Device->BindTexture(0);
+            m_CoreQB->SetDepth(m_CurrentDepth);
             m_CoreQB->SetColor(&t_color_black);
             m_CoreQB->AddTopLeft(0, 0, w, h);
+            m_CurrentDepth += m_DepthStep;
             
             // Msg
             m_Device->BindTexture(m_CoreTexture);
@@ -273,15 +288,19 @@ bool LuaGame::Game::Render()
     
     if (t_preload > 0)
     {
-        // TODO: Render loading bar
         
         int w,h;
+#if defined(TARGET_OS_IPHONEFAKEDEV)
+        w = m_HitArea[2];
+        h = m_HitArea[3];
+#else
         m_Device->GetSize(&w, &h);
+#endif
         
         /*
         
         +------------------------+
-        |------------            |
+        |############            |
         +------------------------+
         
         */
@@ -292,8 +311,8 @@ bool LuaGame::Game::Render()
         
         
         m_Device->BindTexture(0);
-        
         m_CoreQB->Reset();
+        
         m_CoreQB->SetTextureSubset(0.0f, 0.0f, 1.0f, 1.0f);
         m_CoreQB->SetDepth(m_CurrentDepth);
         

@@ -45,6 +45,7 @@ namespace Pxf
                 ~Game();
                 void CleanUp();
             
+                bool Reload();
                 bool Load();
                 bool Update(float dt);
                 bool Render();

@@ -82,12 +82,6 @@ bool PxfMain(Util::String _CmdLine)
 		// Update input
 		pInput->Update();
 
-		/*Math::Vec2i mousepos_i;
-		Math::Vec2f mousepos_f;
-		pInput->GetMousePos(&mousepos_i.x, &mousepos_i.y);
-		mousepos_f.x = mousepos_i.x;
-		mousepos_f.y = mousepos_i.y;*/
-
 		// LuaGame
         luagame->SetHitArea(pWindowSpecs->Width / 2.0f - 160, pWindowSpecs->Height / 2.0f - 240, 320, 480);
 		pDevice->SetViewport(pWindowSpecs->Width / 2.0f - 160, pWindowSpecs->Height / 2.0f - 240, 320, 480);
@@ -104,6 +98,13 @@ bool PxfMain(Util::String _CmdLine)
 			t_fps = pWindow->GetFPS();
 			sprintf(t_title, "%s - %s - FPS: %i", t_pxftitle, Graphics::DeviceTypeName(pDevice->GetDeviceType()), t_fps);
 			pWindow->SetTitle(t_title);
+		}
+		
+		// Reload luagame?
+		if (pInput->IsKeyDown('R'))
+		{
+            Pxf::Message("FakePhone", "Reloading LuaGame.");
+            luagame->Reload();
 		}
 	}
 

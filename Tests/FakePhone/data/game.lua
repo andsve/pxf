@@ -105,9 +105,6 @@ function luagame:Render()
 	luagame.graphics.drawquad(0, 0, 30, 30)
 	]]
 	
-	a,b = test_texture2:getsize()
-	luagame:add_console("texture size: " .. tostring(a) .. "x" .. tostring(b))
-	
 	-- test draw texture 2
 	test_texture2:bind()
 	
@@ -136,6 +133,18 @@ function luagame:TextInput(str)
   luagame:add_console("> " .. str)
   ret = runstring("return " .. str)
   luagame:add_console("^4" .. tostring(ret))
+end
+
+function luagame:EventTap(x, y)
+  luagame:add_console("Tap event, ^4x: " .. tostring(x) .. " y: " .. tostring(y))
+end
+
+function luagame:EventDoubleTap(x, y)
+  luagame:add_console("Double tap event, ^4x: " .. tostring(x) .. " y: " .. tostring(y))
+end
+
+function luagame:EventDrag(x1, y1, x2, y2)
+  luagame:add_console("Drag event, ^4(" .. tostring(x1) .. ", " .. tostring(y1) .. ") -> (" .. tostring(x2) .. ", " .. tostring(y2) .. "), delta: (" .. tostring(x1-x2) .. ", " .. tostring(y1-y2) .. ")")
 end
 
 
