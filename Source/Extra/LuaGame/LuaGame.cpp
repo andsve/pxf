@@ -75,7 +75,7 @@ void LuaGame::Game::CleanUp()
 bool LuaGame::Game::Reload()
 {
     CleanUp();
-    Load();
+    return Load();
 }
 
 bool LuaGame::Game::Load()
@@ -210,6 +210,8 @@ bool LuaGame::Game::Update(float dt)
 #else
     MouseInputSubsystem::Update(this, L);
 #endif
+	
+	
     
     lua_getglobal(L, "debug");
 	lua_getfield(L, -1, "traceback");
@@ -220,12 +222,15 @@ bool LuaGame::Game::Update(float dt)
     lua_getglobal(L, LUAGAME_TABLE);
     lua_pushnumber(L, dt);
 	m_Running = HandleLuaErrors(lua_pcall(L, 2, 0, -4));
+	
+	
         
     return m_Running;
 }
 
 bool LuaGame::Game::Render()
 {
+	
     // Render game
     if (!m_Running)
     {

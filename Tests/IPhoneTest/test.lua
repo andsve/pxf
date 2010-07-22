@@ -21,7 +21,7 @@ function luagame:Init()
 	screenw, screenh = luagame.graphics.getscreensize()
 	print("Screen size: " .. tostring(screenw) .. "x" .. tostring(screenh))
 	
-	luagame.physics.newworld(luagame.physics.BOX2D);
+	--luagame.physics.newworld(luagame.physics.BOX2D);
 	
 	testani = 0.0
 end
@@ -36,7 +36,7 @@ function luagame:PreLoad()
 	test_texture5 = luagame.resources.loadtexture("test_atlas.png")
 	test_texture6 = luagame.resources.loadtexture("test_atlas.png")
 	
-	luagame.iphone.gettext("LuaGame", "Console input", "Command")
+	--luagame.iphone.gettext("LuaGame", "Console input", "Command")
 end
 
 function luagame:Update(dt)
@@ -128,6 +128,17 @@ function luagame:TextInput(str)
   luagame:add_console("^4" .. tostring(ret))
 end
 
+function luagame:EventTap(x, y)
+  luagame:add_console("Tap event, ^4x: " .. tostring(x) .. " y: " .. tostring(y))
+end
+
+function luagame:EventDoubleTap(x, y)
+  luagame:add_console("Double tap event, ^4x: " .. tostring(x) .. " y: " .. tostring(y))
+end
+
+function luagame:EventDrag(x1, y1, x2, y2)
+  luagame:add_console("Drag event, ^4(" .. tostring(x1) .. ", " .. tostring(y1) .. ") -> (" .. tostring(x2) .. ", " .. tostring(y2) .. "), delta: (" .. tostring(x1-x2) .. ", " .. tostring(y1-y2) .. ")")
+end
 
 
 

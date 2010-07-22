@@ -1,9 +1,8 @@
 
-luagame = {}
 luagame.CoreVersion = "0.1.0"
 
 function luagame:CoreInit()
-  luagame:init_console(10)
+  luagame:init_console(15)
   
   -- Debug output
   luagame:add_console("LuaGame - Version ^4" .. self.CoreVersion)
@@ -11,18 +10,6 @@ function luagame:CoreInit()
   
   -- Test preload
   debug_font_texture = luagame.resources.loadtexture("debug_font.png")
-end
-
-function luagame:EventTap(x, y)
-  luagame:add_console("Tap event, ^4x: " .. tostring(x) .. " y: " .. tostring(y))
-end
-
-function luagame:EventDoubleTap(x, y)
-  luagame:add_console("Double tap event, ^4x: " .. tostring(x) .. " y: " .. tostring(y))
-end
-
-function luagame:EventDrag(x1, y1, x2, y2)
-  luagame:add_console("Drag event, ^4(" .. tostring(x1) .. ", " .. tostring(y1) .. ") -> (" .. tostring(x2) .. ", " .. tostring(y2) .. "), delta: (" .. tostring(x1-x2) .. ", " .. tostring(y1-y2) .. ")")
 end
 
 -- Debugging console
@@ -68,11 +55,12 @@ function luagame:draw_console()
   
   -- bg
   console_h = 10 * self.console.max_lines + 6
-  luagame.graphics.unbindtexture()
+  --[[luagame.graphics.unbindtexture()
   luagame.graphics.setcolor(0, 0, 0, 0.5)
   luagame.graphics.drawquad(screenw / 2, (console_h / 2), screenw, console_h)
   luagame.graphics.setcolor(1, 1, 1, 1.0)
   luagame.graphics.drawquad(screenw / 2, console_h - 1, screenw, 1)
+  ]]
   
   -- text
   x = 8
@@ -144,3 +132,37 @@ function luagame:draw_font(str, x, y)
 	luagame.graphics.setcolor(1, 1, 1, 1) -- TODO: Should use some kind of getcolor before drawing, so it can be restored here
 end
 
+function luagame.graphics:newsprite(tex,cw,ch,freq)
+	new_sprite = {}
+	new_sprite.position = { x = 0, y = 0 }
+
+	texture = tex
+	cellwidth = cw
+	cellheight = ch
+	current_cell = 0
+
+	tex_w,tex_h = texture:getsize()
+	max_cellsw = tex_w / cw
+	max_cellsh = tex_h / ch
+	max_cells = max_cellsw * max_cellsh
+
+	--print(max_cells)
+	
+	x0 = cellwidth * (current_cell % max_cellsw)
+	y0 = cellheight * (current_cell / max_cellsh)
+
+	--print(current_cell % max_cellsw)
+	--print(current_cell / max_cellsh)
+
+	function new_sprite:draw()
+		texture:bind()
+		
+		luagame.graphics.drawquad(50, 150, cellwidth, cellheight, x0, y0, x0 + cellwidth, y0 + cellheight)
+	end
+
+	function new_sprite:update(dt)
+		
+	end
+
+	return new_sprite
+end

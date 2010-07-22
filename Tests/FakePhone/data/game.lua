@@ -8,17 +8,6 @@ function luagame:Init()
 	luagame:add_console("GameIdent: ^4" .. self.GameIdent)
 	luagame:add_console("GameVersion: ^4" .. self.GameVersion)
 	
-	
-	--testvec = luagame.vec2.new()
-	--print("testvec: " .. testvec:tostring())
-	--print("testvec.instance: " .. tostring(testvec.instance))
-	
-	---------------------------------------------------------
-	-- Fail guard test for "class" member calling.
-	--testvec.instance = 123
-	--print("Should fail now: " .. testvec:tostring())
-	---------------------------------------------------------
-	
 	--print("luagame.vec2.ToString(): " .. luagame.vec2.ToString())
 	
 	screenw, screenh = luagame.graphics.getscreensize()
@@ -51,59 +40,6 @@ function luagame:Update(dt)
 end
 
 function luagame:Render()
-	--print("Time to RENDER our game!")
-	
-	--[[luagame.graphics.drawquad(100+math.cos(testani)*10, 100+math.sin(testani)*10, 20, 20)
-	luagame.graphics.drawquad(50+math.cos(testani+23)*10, 100+math.sin(testani+23)*10, 20, 20)
-	luagame.graphics.drawquad(100+math.cos(testani+45)*10, 50+math.sin(testani+12)*10, 20, 20)
-	
-	luagame.graphics.rotate((2.0*3.14) / 123.0)
-	luagame.graphics.drawquad(100, 200, 30, 30)
-	--luagame.graphics.rotate(0.0)
-	luagame.graphics.translate(math.cos(testani)*20, math.sin(testani)*10)
-	luagame.graphics.drawquad(100, 200, 30, 30)
-	
-	for i=1,100 do
-	 luagame.graphics.drawquad(100, 200+(i*3), 100, 2)
-	end
-	--luagame.graphics.drawquad(10, 10, 40, 40)
-	
-	luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
-	luagame.graphics.drawquad(0, 0, 30, 30)
-	--luagame.graphics.translate(math.cos(testani)*20, math.sin(testani)*10)
-	luagame.graphics.translate(50, 0)
-	luagame.graphics.drawquad(0, 0, 30, 30)
-	
-	luagame.graphics.translate(-50, 0)
-	luagame.graphics.translate(-50, 0)
-	luagame.graphics.rotate(testani)
-	luagame.graphics.drawquad(0, 0, 30, 30)
-	--]]
-	
-	--luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
-	--luagame.graphics.drawquad(0, 0, 30, 30)
-	
-	--[[
-	test_texture:bind()
-	
-	-- reset coord system
-	luagame.graphics.loadidentity()
-	luagame.graphics.rotate(testani)
-	luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
-	luagame.graphics.drawquad(0, 0, 512, 512)
-	
-	-- reset coord system
-	luagame.graphics.loadidentity()
-	luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
-	luagame.graphics.drawquad(50, 0, 30, 30, testani / 2.0)
-	
-	luagame.graphics.rotate(testani)
-	luagame.graphics.drawquad(0, 0, 30, 30)
-	
-	luagame.graphics.translate(50.0, 0.0)
-	luagame.graphics.rotate(testani)
-	luagame.graphics.drawquad(0, 0, 30, 30)
-	]]
 	
 	-- test draw texture 2
 	test_texture2:bind()

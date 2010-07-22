@@ -72,9 +72,6 @@ bool Application::Update()
 	m_World->ClearForces();
 	
 	_UpdateFPS();
-	
-	// Update LuaGame
-	luagame->Update(0.1);
 
 	
 	return _RetVal;
@@ -111,7 +108,7 @@ bool Application::Render()
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	
+	/*
 	m_Device->Translate(_Box1Body->GetPosition());
 	pSprite1->Draw();
 	m_Device->Translate(-_Box1Body->GetPosition());
@@ -119,6 +116,7 @@ bool Application::Render()
 	m_Device->Translate(_Box2Body->GetPosition());
 	pSprite1->Draw();
 	m_Device->Translate(-_Box2Body->GetPosition());
+	 */
 	 
 	//pSprite2->Draw();
 	
@@ -127,6 +125,9 @@ bool Application::Render()
 	m_Device->SetViewport(0.0f, 0.0f, ((DeviceGLES11*) m_Device)->GetBackingWidth(), ((DeviceGLES11*) m_Device)->GetBackingHeight());
 	Math::Mat4 t_ortho = Math::Mat4::Ortho(0, ((DeviceGLES11*) m_Device)->GetBackingWidth(), ((DeviceGLES11*) m_Device)->GetBackingHeight(), 0, 0, 1);
 	m_Device->SetProjection(&t_ortho);
+	
+	// Update LuaGame
+	luagame->Update(0.1);
 	
 	luagame->Render();
 
@@ -184,7 +185,7 @@ void Application::Setup()
 	// Load some texture
 	pTexture = m_Device->CreateTexture("sprite_test.jpg");
 	
-	pSprite1 = new Game::Sprite(m_Device,						// Device Context
+	/*pSprite1 = new Game::Sprite(m_Device,						// Device Context
 							   "MySprite",						// Object Name (providing a NULL pointer 
 																// in this field will generate a new name)
 							   pTexture,						// Sprite Texture
@@ -192,6 +193,7 @@ void Application::Setup()
 							   64,								// Sprite Cell Height
 							   10,								// Sprite Draw Frequency
 							   -1);								// Sprite Depth Sort, -1 = NO SORT
+	 */
 	// Init gamestate
 	_TestGameState = new TestGameState();
 	

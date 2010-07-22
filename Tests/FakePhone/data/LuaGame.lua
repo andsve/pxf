@@ -2,7 +2,7 @@
 luagame.CoreVersion = "0.1.0"
 
 function luagame:CoreInit()
-  luagame:init_console(10)
+  luagame:init_console(15)
   
   -- Debug output
   luagame:add_console("LuaGame - Version ^4" .. self.CoreVersion)
@@ -55,11 +55,12 @@ function luagame:draw_console()
   
   -- bg
   console_h = 10 * self.console.max_lines + 6
-  luagame.graphics.unbindtexture()
+  --[[luagame.graphics.unbindtexture()
   luagame.graphics.setcolor(0, 0, 0, 0.5)
   luagame.graphics.drawquad(screenw / 2, (console_h / 2), screenw, console_h)
   luagame.graphics.setcolor(1, 1, 1, 1.0)
   luagame.graphics.drawquad(screenw / 2, console_h - 1, screenw, 1)
+  ]]
   
   -- text
   x = 8
