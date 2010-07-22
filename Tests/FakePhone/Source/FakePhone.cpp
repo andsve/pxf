@@ -51,6 +51,9 @@ bool PxfMain(Util::String _CmdLine)
 	Game* luagame = new Game("knugen.lua", pDevice);
 	luagame->Load();
     luagame->SetInputDevice(pInput);
+    
+    // iPhone orientation
+    bool landscapemode = true;
 	
 	while (pWindow->IsOpen()) //!pInput->IsKeyDown(Input::ESC) && 
 	{
@@ -66,6 +69,7 @@ bool PxfMain(Util::String _CmdLine)
     	glEnable(GL_BLEND);
     	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glLoadIdentity();
         
         // Render iPhone bg
         bg_qb->Reset();
@@ -73,6 +77,10 @@ bool PxfMain(Util::String _CmdLine)
         // bg
         pDevice->BindTexture(bg);
         bg_qb->Translate(pWindowSpecs->Width / 2.0f, pWindowSpecs->Height / 2.0f);
+        if (landscapemode)
+        {
+            bg_qb->Rotate(-3.14159265f / 2.0f);
+        }
         bg_qb->SetColor(1.0f, 1.0f, 1.0f, 1.0f);
         bg_qb->SetTextureSubset(0.0f, 0.0f, 1.0f, 1.0f);
         bg_qb->SetDepth(-1);
@@ -83,9 +91,22 @@ bool PxfMain(Util::String _CmdLine)
 		pInput->Update();
 
 		// LuaGame
-        luagame->SetHitArea(pWindowSpecs->Width / 2.0f - 160, pWindowSpecs->Height / 2.0f - 240, 320, 480);
-		pDevice->SetViewport(pWindowSpecs->Width / 2.0f - 160, pWindowSpecs->Height / 2.0f - 240, 320, 480);
-    	pDevice->SetProjection(&Math::Mat4::Ortho(0, 320, 480, 0, 0, 1));
+
+    	
+    	if (!landscapemode)
+    	{
+    	    luagame->SetHitArea(pWindowSpecs->Width / 2.0f - 160, pWindowSpecs->Height / 2.0f - 240, 320, 480);
+    		pDevice->SetViewport(pWindowSpecs->Width / 2.0f - 160, pWindowSpecs->Height / 2.0f - 240, 320, 480);
+        	pDevice->SetProjection(&Math::Mat4::Ortho(0, 320, 480, 0, 0, 1));
+    	} else {
+    	    luagame->SetHitArea(pWindowSpecs->Height / 2.0f - 240, pWindowSpecs->Width / 2.0f - 160, 480, 320);
+    		pDevice->SetViewport(pWindowSpecs->Height / 2.0f - 240, pWindowSpecs->Width / 2.0f - 160, 480, 320);
+        	pDevice->SetProjection(&Math::Mat4::Ortho(0, 480, 320, 0, 0, 1));
+        	glTranslated(240, 160, 0.0f);
+    	    glRotatef(-90.0f, 0.0f, 0.0f, 1.0f);
+            glTranslated(-160, -240, 0.0f);
+        }
+    	
     	luagame->Update(0.1);
     	luagame->Render();
 
@@ -105,6 +126,9 @@ bool PxfMain(Util::String _CmdLine)
 		{
             Pxf::Message("FakePhone", "Reloading LuaGame.");
             luagame->Reload();
+		} else if (pInput->IsKeyDown(Input::LEFT))
+		{
+            landscapemode = !landscapemode;
 		}
 	}
 

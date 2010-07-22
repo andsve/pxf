@@ -1,9 +1,14 @@
 
 -- Fake iPhone Simulator specifics
 
+luagame.iphone = {}
 
 function luagame.graphics:getscreensize()
   return 320, 480
+end
+
+function luagame.iphone:getorientation()
+  return 0,-1,0
 end
 
 luagame.mousestate = { last_pos = {-1, -1}, drag = false }
@@ -11,6 +16,12 @@ luagame.mousestate = { last_pos = {-1, -1}, drag = false }
 function luagame:mousedown()
   -- TODO: Fix double tap!
   mx, my = luagame.mouse.getmousepos()
+  ox, oy, oz = luagame.iphone:getorientation()
+  if (math.abs(ox) < math.abs(oy)) then
+    t = mx
+    mx = my
+    my = t
+  end
   
   if not (luagame.mousestate.last_pos[1] == -1) then
     if not (luagame.mousestate.last_pos[1] == mx and luagame.mousestate.last_pos[2] == my) then

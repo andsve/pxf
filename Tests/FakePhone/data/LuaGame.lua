@@ -2,7 +2,7 @@
 luagame.CoreVersion = "0.1.0"
 
 function luagame:CoreInit()
-  luagame:init_console(15)
+  luagame:init_console(15, 1000)
   
   -- Debug output
   luagame:add_console("LuaGame - Version ^4" .. self.CoreVersion)
@@ -13,11 +13,15 @@ function luagame:CoreInit()
 end
 
 -- Debugging console
-function luagame:init_console(max_lines)
-  self.console = {buffer = {}, max_lines = max_lines, current_input = 0}
+function luagame:init_console(max_lines, cut_off_width)
+  self.console = {buffer = {},
+                  max_lines = max_lines,
+                  current_input = 0,
+                  cut_off_width = cut_off_width}
 end
 
 function luagame:add_console(str, skip_stdout)
+  
   -- print to normal console
   if (skip_stdout == nil) then
     print(str)
@@ -37,10 +41,9 @@ function luagame:add_console(str, skip_stdout)
   end
   
   -- Add up until max width
-  screenw, screenh = luagame.graphics.getscreensize()
   line_w = #str*8 + 8
-  if (line_w > screenw) then
-    cut_place = math.ceil((screenw / line_w) * #str)
+  if (line_w > self.console.cut_off_width) then
+    cut_place = math.ceil((self.console.cut_off_width / line_w) * #str)
     s = string.sub(str, 1, cut_place)
     e = string.sub(str, cut_place + 1)
     self.console.buffer[self.console.current_input] = s
@@ -50,8 +53,20 @@ function luagame:add_console(str, skip_stdout)
   end
 end
 
-function luagame:draw_console()
-  screenw, screenh = luagame.graphics.getscreensize()
+function luagame:console_taptest(x, y)
+  
+  if (x > self.console.cut_off_width) then
+    return false
+  elseif (y > self.console.max_lines * 10 + 6) then
+    return false
+  end
+  
+  self:add_console("Hit!")
+  return true
+end
+
+function luagame:draw_console(screenw, screenh)
+  --screenw, screenh = luagame.graphics.getscreensize()
   
   -- bg
   console_h = 10 * self.console.max_lines + 6
