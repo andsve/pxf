@@ -257,8 +257,8 @@ bool LuaGame::Game::Render()
                     m_Device->GetSize(&w, &h);
             #endif
             
-            Math::Vec4f t_color_white(1.0f, 1.0f, 1.0f, 1.0f);
-            Math::Vec4f t_color_black(0.0f, 0.0f, 0.0f, 1.0f);
+            Math::Vec3f t_color_white(1.0f, 1.0f, 1.0f);
+            Math::Vec3f t_color_black(0.0f, 0.0f, 0.0f);
             
             // bg
             m_CurrentDepth = m_DepthFar;
@@ -310,9 +310,9 @@ bool LuaGame::Game::Render()
         
         */
         
-        Math::Vec4f t_color_white(1.0f, 1.0f, 1.0f, 1.0f);
-        Math::Vec4f t_color_black(0.0f, 0.0f, 0.0f, 1.0f);
-        Math::Vec4f t_color_red(1.0f, 0.0f, 0.0f, 1.0f);
+        Math::Vec3f t_color_white(1.0f, 1.0f, 1.0f);
+        Math::Vec3f t_color_black(0.0f, 0.0f, 0.0f);
+        Math::Vec3f t_color_red(1.0f, 0.0f, 0.0f);
         
         
         m_Device->BindTexture(0);
@@ -427,10 +427,16 @@ void LuaGame::Game::AddQuad(float x, float y, float w, float h, float rotation, 
     m_CurrentDepth += m_DepthStep;
 }
 
-void LuaGame::Game::SetColor(float r, float g, float b, float a)
+void LuaGame::Game::SetColor(float r, float g, float b)
 {
     for(int i = 0; i < m_QBTCount; ++i)
-        m_QBT[i]->m_QuadBatch->SetColor(r, g, b, a);
+        m_QBT[i]->m_QuadBatch->SetColor(r, g, b);
+}
+
+void LuaGame::Game::SetAlpha(float a)
+{
+    for(int i = 0; i < m_QBTCount; ++i)
+        m_QBT[i]->m_QuadBatch->SetAlpha(a);
 }
 
 void LuaGame::Game::Translate(float x, float y)

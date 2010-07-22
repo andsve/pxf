@@ -20,7 +20,7 @@ QuadBatchGL2::QuadBatchGL2(Device* _pDevice, int _maxSize)
 
 	m_VertexBufferPos = 0;
 	m_CurrentDepthLayer = 0.5f;
-	
+    m_CurrentAlpha = 1.0f;
 }
 
 QuadBatchGL2::~QuadBatchGL2()
@@ -34,17 +34,26 @@ void QuadBatchGL2::SetRotation(float angle)
     Message(LOCAL_MSG, "Deprecated!");
 }
 
-void QuadBatchGL2::SetColor(float r, float g, float b, float a)
+void QuadBatchGL2::SetColor(float r, float g, float b)
 {
-	m_CurrentColors[0].Set(r, g, b, a);
-	m_CurrentColors[1].Set(r, g, b, a);
-	m_CurrentColors[2].Set(r, g, b, a);
-	m_CurrentColors[3].Set(r, g, b, a);
+	m_CurrentColors[0].Set(r, g, b, m_CurrentAlpha);
+	m_CurrentColors[1].Set(r, g, b, m_CurrentAlpha);
+	m_CurrentColors[2].Set(r, g, b, m_CurrentAlpha);
+	m_CurrentColors[3].Set(r, g, b, m_CurrentAlpha);
 }
 
-void QuadBatchGL2::SetColor(Vec4f* c)
+void QuadBatchGL2::SetColor(Vec3f* c)
 {
-	SetColor(c->r, c->g, c->b, c->a);
+	SetColor(c->r, c->g, c->b);
+}
+
+void QuadBatchGL2::SetAlpha(float a)
+{
+    m_CurrentColors[0].a = a;
+    m_CurrentColors[1].a = a;
+    m_CurrentColors[2].a = a;
+    m_CurrentColors[3].a = a;
+    m_CurrentAlpha = a;
 }
 
 void QuadBatchGL2::SetTextureSubset(float tl_u, float tl_v, float br_u, float br_v)
@@ -103,8 +112,9 @@ void QuadBatchGL2::Reset()
 	m_VertexBufferPos = 0;
 	//SetRotation(0.f);
 	SetTextureSubset(0.f,0.f,1.f,1.f);
-	SetColor(1.f,1.f,1.f,1.f);
+	SetColor(1.f,1.f,1.f);
     SetDepth(0.0f);
+    SetAlpha(1.0f);
 	
     LoadIdentity();
 }

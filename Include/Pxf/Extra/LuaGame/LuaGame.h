@@ -70,7 +70,8 @@ namespace Pxf
                 void AddQuad(float x, float y, float w, float h, float rotation);
                 void AddQuad(float x, float y, float w, float h, float rotation, float s0, float t0, float s1, float t1);
                 
-                void SetColor(float r, float g, float b, float a);
+                void SetColor(float r, float g, float b);
+                void SetAlpha(float a);
                 
                 // Depth/Z control
                 float m_CurrentDepth;

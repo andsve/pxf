@@ -81,7 +81,7 @@ bool PxfMain(Util::String _CmdLine)
         {
             bg_qb->Rotate(-3.14159265f / 2.0f);
         }
-        bg_qb->SetColor(1.0f, 1.0f, 1.0f, 1.0f);
+        bg_qb->SetColor(1.0f, 1.0f, 1.0f);
         bg_qb->SetTextureSubset(0.0f, 0.0f, 1.0f, 1.0f);
         bg_qb->SetDepth(-1);
         bg_qb->AddCentered(0, 0, 512, 1024);

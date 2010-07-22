@@ -18,8 +18,9 @@ namespace Pxf
 				: DeviceResource(_pDevice)
 			{}
 
-			virtual void SetColor(float r, float g, float b, float a) = 0;
-			virtual void SetColor(Math::Vec4f* c) = 0;
+			virtual void SetColor(float r, float g, float b) = 0;
+			virtual void SetColor(Math::Vec3f* c) = 0;
+            virtual void SetAlpha(float a) = 0;
 			virtual void SetTextureSubset(float tl_u, float tl_v, float br_u, float br_v) = 0;
 			virtual void SetRotation(float angle) = 0; // Rotate following quad around its own axis
 			virtual void Rotate(float angle) = 0; // Rotate coord system

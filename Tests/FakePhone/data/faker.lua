@@ -17,7 +17,7 @@ function luagame:mousedown()
   -- TODO: Fix double tap!
   mx, my = luagame.mouse.getmousepos()
   ox, oy, oz = luagame.iphone:getorientation()
-  if (math.abs(ox) < math.abs(oy)) then
+  if (math.abs(ox) > math.abs(oy)) then
     t = mx
     mx = my
     my = t
@@ -40,6 +40,11 @@ end
 function luagame:mouseup()
   --print("Mouse released!")
   mx, my = luagame.mouse.getmousepos()
+  if (math.abs(ox) > math.abs(oy)) then
+    t = mx
+    mx = my
+    my = t
+  end
   if (luagame.mousestate.drag) then
     --print("Mouse was draged!")
     luagame:EventDrag(luagame.mousestate.last_pos[1], luagame.mousestate.last_pos[2], mx, my)

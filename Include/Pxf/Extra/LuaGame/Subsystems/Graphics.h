@@ -15,6 +15,7 @@ namespace Pxf
                 void RegisterClass(lua_State* _L);
                 int DrawQuad(lua_State* _L);
                 int SetColor(lua_State* _L);
+                int SetAlpha(lua_State* _L);
                 int Translate(lua_State* _L);
                 int Rotate(lua_State* _L);
                 int LoadIdentity(lua_State* _L);

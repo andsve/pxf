@@ -23,8 +23,9 @@ namespace Pxf
 				QuadBatchGLES11(Device* _pDevice, int _maxSize);
 				~QuadBatchGLES11();
 
-				void SetColor(float r, float g, float b, float a);
-				void SetColor(Math::Vec4f* c);
+				void SetColor(float r, float g, float b);
+				void SetColor(Math::Vec3f* c);
+                void SetAlpha(float a);
 				void SetTextureSubset(float tl_u, float tl_v, float br_u, float br_v);
 				void SetRotation(float angle);
 				void Rotate(float angle);
@@ -47,6 +48,7 @@ namespace Pxf
 				Math::Vec4f m_CurrentColors[4];
 				Math::Vec2f m_CurrentTexCoords[4];
 				float m_CurrentDepthLayer;
+                float m_CurrentAlpha;
 
 				//float m_Rotation;
 				

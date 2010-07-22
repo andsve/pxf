@@ -29,6 +29,10 @@ void GraphicsSubsystem::RegisterClass(lua_State* _L)
     lua_pushcfunction(_L, SetColor);
     lua_setfield(_L, -2, "setcolor");
     
+    // luagame.graphics.setalpha
+    lua_pushcfunction(_L, SetAlpha);
+    lua_setfield(_L, -2, "setalpha");
+    
     // luagame.graphics.loadidentity
     lua_pushcfunction(_L, LoadIdentity);
     lua_setfield(_L, -2, "loadidentity");
@@ -127,19 +131,40 @@ int GraphicsSubsystem::DrawQuad(lua_State* _L)
 
 int GraphicsSubsystem::SetColor(lua_State* _L)
 {
-    // luagame.graphics.setcolor(r, g, b, a)
+    // luagame.graphics.setcolor(r, g, b)
     int argc = lua_gettop(_L);
-    if (argc == 4 && lua_isnumber(_L, 1) && lua_isnumber(_L, 2) && lua_isnumber(_L, 3) && lua_isnumber(_L, 4))
+    if (argc == 3 && lua_isnumber(_L, 1) && lua_isnumber(_L, 2) && lua_isnumber(_L, 3))
     {
         // Send data to Game instance VBO
         lua_getglobal(_L, LUAGAME_TABLE);
         lua_getfield(_L, -1, "Instance");
         Game* g = (Game*)lua_touserdata(_L, -1);
         
-        g->SetColor(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3), lua_tonumber(_L, 4));
+        g->SetColor(lua_tonumber(_L, 1), lua_tonumber(_L, 2), lua_tonumber(_L, 3));
     } else {
         // Non valid method call
         lua_pushstring(_L, "Invalid argument passed to setcolor function!");
+        lua_error(_L);
+    }
+    
+    return 0;
+}
+
+int GraphicsSubsystem::SetAlpha(lua_State* _L)
+{
+    // luagame.graphics.setalpha(a)
+    int argc = lua_gettop(_L);
+    if (argc == 1 && lua_isnumber(_L, 1))
+    {
+        // Send data to Game instance VBO
+        lua_getglobal(_L, LUAGAME_TABLE);
+        lua_getfield(_L, -1, "Instance");
+        Game* g = (Game*)lua_touserdata(_L, -1);
+        
+        g->SetAlpha(lua_tonumber(_L, 1));
+    } else {
+        // Non valid method call
+        lua_pushstring(_L, "Invalid argument passed to setalpha function!");
         lua_error(_L);
     }
     
