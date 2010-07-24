@@ -75,8 +75,15 @@ function knugen:new_deck(x, y, cards)
     for i=1,n do
       --[[luagame.graphics.drawquad(self.x, self.y + 18 * i, 57, 80,
                                 0, 684, 121, 169) -- texture coords
-                                ]]
-      self.cards[i]:draw(self.x, self.y + 14 * (i-1))
+        
+                               ]]
+      -- only render fully the front most card
+      if i == n then
+        self.cards[i]:draw(self.x, self.y + 14 * (i-1), true)
+      else
+        -- render top of card
+        self.cards[i]:draw(self.x, self.y + 14 * (i-1), false)
+      end
     end
   end
   
@@ -172,7 +179,7 @@ function knugen:new_foundation_deck(x, y)
   -- only draw top card
   function deck:draw()
     if (#self.cards > 0) then
-      self.cards[#self.cards]:draw(self.x, self.y)
+      self.cards[#self.cards]:draw(self.x, self.y, true)
     end
   end
   
@@ -263,25 +270,34 @@ function knugen:new_card(suit, value)
   
   function card:draw(x, y, full)
     -- bg
-    --texture_map01:bind()
-    luagame.graphics.drawquad(x, y, 57, 80,
-                              0, 684, 121, 169) -- texture coords
+    if (full) then
+      luagame.graphics.drawquad(x, y, 57, 80,
+                                0, 684, 121, 169) -- texture coords
     
-    -- suit
-    luagame.graphics.drawquad(x-19, y-31, 10, 10,
-                              128 + ((self.suit - 1) * 12), 777, 12, 12)
-    luagame.graphics.drawquad(x+19, y+30, 10, 10, math.pi,
-                              128 + ((self.suit - 1) * 12), 777, 12, 12)
-                              --128 + ((self.suit - 1) * 32), 704, 32, 32) -- texture coords
+      -- suit
+      luagame.graphics.drawquad(x-19, y-31, 10, 10,
+                                128 + ((self.suit - 1) * 12), 777, 12, 12)
+      luagame.graphics.drawquad(x+19, y+30, 10, 10, math.pi,
+                                128 + ((self.suit - 1) * 12), 777, 12, 12)
+                                --128 + ((self.suit - 1) * 32), 704, 32, 32) -- texture coords
     
-    -- value
-    luagame.graphics.drawquad(x-9, y-31, 10, 10,
-                              130 + ((self.value - 1) * 10), 790, 10, 10)
-    luagame.graphics.drawquad(x+9, y+30, 10, 10, math.pi,
-                              130 + ((self.value - 1) * 10), 790, 10, 10)
-                              
-    -- temp draw suit
-    --luagame:draw_font(knugen:suit_lookup(self.suit), self.x, self.y)
+      -- value
+      luagame.graphics.drawquad(x-9, y-31, 10, 10,
+                                130 + ((self.value - 1) * 10), 790, 10, 10)
+      luagame.graphics.drawquad(x+9, y+30, 10, 10, math.pi,
+                                130 + ((self.value - 1) * 10), 790, 10, 10)
+    else
+      luagame.graphics.drawquad(x, y - 32, 57, 16,
+                                0, 684, 121, 30) -- texture coords
+    
+      -- suit
+      luagame.graphics.drawquad(x-19, y-31, 10, 10,
+                                128 + ((self.suit - 1) * 12), 777, 12, 12)
+    
+      -- value
+      luagame.graphics.drawquad(x-9, y-31, 10, 10,
+                                130 + ((self.value - 1) * 10), 790, 10, 10)
+    end
   end
   
   return card

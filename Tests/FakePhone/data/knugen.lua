@@ -15,7 +15,7 @@ function luagame:Init()
 	luagame:add_console("Screen size: ^4" .. tostring(screenw) .. "x" .. tostring(screenh))
 	
 	self.GameSeed = 4546
-	luagame:add_console("Game seed: " .. self.GameSeed)
+	luagame:add_console("Game seed: ^4" .. self.GameSeed)
 	initial_deal = knugen:gen_eight_stacks(self.GameSeed)
 	         
 	decks = {knugen:new_tablau_deck(40, 142, initial_deal[1]),
@@ -121,7 +121,7 @@ function luagame:TextInput(str)
 end
 
 function luagame:EventTap(x, y)
-  --luagame:add_console("Tap event, ^4x: " .. tostring(x) .. " y: " .. tostring(y))
+  luagame:add_console("Tap event, ^4x: " .. tostring(x) .. " y: " .. tostring(y))
   luagame:console_taptest(x, y)
 end
 

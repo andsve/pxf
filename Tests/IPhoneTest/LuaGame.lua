@@ -85,22 +85,21 @@ end
 
 function luagame:draw_console(screenw, screenh)
   --screenw, screenh = luagame.graphics.getscreensize()
+  console_h = 10 * self.console.max_lines + 6
+  
   if (not self.console.visible) then
     --[[counttext = "[" .. tostring(self.console.current_input) .. "," .. tostring(self.console.max_lines) .. "]"
     luagame:draw_font(counttext, screenw - #counttext*8, y)
     
     return]]
     luagame.graphics.setalpha(0.1)
+  else
+    
+    -- bg
+    luagame.graphics.setalpha(0.8)
+    luagame.graphics.setcolor(0, 0, 0)
+    luagame.graphics.drawquad(screenw / 2, (console_h / 2), screenw, console_h, 1, 1, 1, 1)
   end
-  
-  -- bg
-  console_h = 10 * self.console.max_lines + 6
-  --[[luagame.graphics.unbindtexture()
-  luagame.graphics.setcolor(0, 0, 0, 0.5)
-  luagame.graphics.drawquad(screenw / 2, (console_h / 2), screenw, console_h)
-  luagame.graphics.setcolor(1, 1, 1, 1.0)
-  luagame.graphics.drawquad(screenw / 2, console_h - 1, screenw, 1)
-  ]]
   
   -- text
   x = 8
