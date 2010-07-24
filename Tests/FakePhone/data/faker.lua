@@ -53,6 +53,8 @@ function luagame:mouseup()
     luagame:EventTap(mx, my)
   end
   
+  luagame:EventRelease(mx,my)
+  
   luagame.mousestate.drag = false
   luagame.mousestate.last_pos = {-1, -1}
 end

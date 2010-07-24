@@ -18,7 +18,11 @@ function luagame:init_console(max_lines, cut_off_width)
                   max_lines = max_lines,
                   current_input = 0,
                   cut_off_width = cut_off_width,
-                  visible = true}
+                  visible = false}
+end
+
+function d(str)
+  luagame:add_console(str)
 end
 
 function luagame:add_console(str, skip_stdout)
@@ -86,7 +90,7 @@ function luagame:draw_console(screenw, screenh)
     luagame:draw_font(counttext, screenw - #counttext*8, y)
     
     return]]
-    luagame.graphics.setalpha(0.3)
+    luagame.graphics.setalpha(0.1)
   end
   
   -- bg
