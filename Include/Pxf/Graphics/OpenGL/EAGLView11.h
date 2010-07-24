@@ -6,7 +6,7 @@
 @interface EAGLView11 : EAGLView
 {
 @private
-
+    
 }
 
 - (bool) InitDevice;

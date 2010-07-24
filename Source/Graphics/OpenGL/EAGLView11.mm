@@ -37,7 +37,6 @@
 
     CGPoint prevloc = [aTouch previousLocationInView:self];
 
-    //printf("Drag: %f %f\n", loc.x - prevloc.x, loc.y - prevloc.y);
     ((Pxf::Graphics::DeviceGLES11 *)m_Device)->InputSetDrag(loc.x, loc.y, prevloc.x, prevloc.y);
 
 }
@@ -47,6 +46,7 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 
     UITouch *theTouch = [touches anyObject];
+    CGPoint tapPoint = [theTouch locationInView:self];
 
     if (theTouch.tapCount == 1) {
 
@@ -60,17 +60,17 @@
         // Double-tap: increase image size by 10%"
         
         //printf("Heyo, double-tap!\n");
-        CGPoint tapPoint = [theTouch locationInView:self];
+        
         ((Pxf::Graphics::DeviceGLES11 *)m_Device)->InputSetDoubleTap(tapPoint.x, tapPoint.y);
     }
+    
+    ((Pxf::Graphics::DeviceGLES11 *)m_Device)->InputSetRelease(tapPoint.x, tapPoint.y);
 
 } 
 
 - (void)handleSingleTap:(NSDictionary *)touch {
 
-    // Single-tap: decrease image size by 10%"
     CGPoint tapPoint = [[touch valueForKey:@"location"] CGPointValue];
-    //printf("Heyo tap: %f %f\n", tapPoint.x, tapPoint.y);
     ((Pxf::Graphics::DeviceGLES11 *)m_Device)->InputSetTap(tapPoint.x, tapPoint.y);
 
 }

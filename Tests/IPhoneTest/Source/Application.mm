@@ -198,7 +198,7 @@ void Application::Setup()
 	_TestGameState = new TestGameState();
 	
 	// Init LuaGame
-	luagame = new LuaGame::Game("test.lua", m_Device);
+	luagame = new LuaGame::Game("knugen.lua", m_Device);
 	
 	// Load LuaGame
 	luagame->Load();

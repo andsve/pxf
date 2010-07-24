@@ -37,7 +37,7 @@ function luagame:Init()
 	         knugen:new_cell_deck(32 + 57*2, 54),
 	         knugen:new_cell_deck(32 + 57*3, 54),}
 	
-	draging_deck_info = nil --knugen:new_deck(0,0,{})
+	draging_deck_info = nil
 	
 	last_mouse_drag = {drag = false, x1 = 0, y1 = 0, x2 = 0, y2 = 0, dx = 0, dy = 0}
 end
@@ -94,53 +94,14 @@ function luagame:Render()
     luagame.graphics.setalpha(0.8)
     draging_deck_info.new_deck:draw()
   end
-  
-  --[[tx1 = last_mouse_drag.x1
-  ty1 = last_mouse_drag.y1
-  tx2 = last_mouse_drag.x2
-  ty2 = last_mouse_drag.y2
-  
-	if (last_mouse_drag.drag) then
-	  for i=1,#cards do
-      if cards[i]:hit_test(tx1, ty1) then
-        cards[i].x = tx2
-        cards[i].y = ty2
-        break
-      end
-	  end
-  end
 	
-	for i=1,#cards do
-	  cards[i]:draw_card(true)
-  end]]
-	
-	-- test draw texture 2
-	--[[test_texture2:bind()
-	
+	-- render console
 	luagame.graphics.loadidentity()
-	luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
-	luagame.graphics.drawquad(-64, -64, 256, 128)
-	
-	-- back to texture 1
-	test_texture:bind()
-	luagame.graphics.loadidentity()
-	luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
-	luagame.graphics.drawquad(0, 0, 32, 32, 0, 0, 16, 16)
-	]]
-	
-	-- render debug text
-	luagame.graphics.loadidentity()
-	ox,oy,oz = luagame.iphone:getorientation()
-	if (math.abs(ox) < math.abs(oy)) then
-	  luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
-	  luagame.graphics.rotate(math.pi / 2)
-	  luagame.graphics.translate(-screenh / 2.0, -screenw / 2.0)
-	  luagame.console.cut_off_width = screenh
-	  luagame:draw_console(screenh, screenw)
-  else
-    luagame.console.cut_off_width = screenw
-	  luagame:draw_console(screenw, screenh)
-	end
+  luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
+  luagame.graphics.rotate(math.pi / 2)
+  luagame.graphics.translate(-screenh / 2.0, -screenw / 2.0)
+  luagame.console.cut_off_width = screenh
+  luagame:draw_console(screenh, screenw)
 	  
 	
 	--luagame:add_console("Rendering frame: ^4" .. tostring(simple_framecount))

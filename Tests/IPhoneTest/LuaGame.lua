@@ -2,7 +2,7 @@
 luagame.CoreVersion = "0.1.0"
 
 function luagame:CoreInit()
-  luagame:init_console(15)
+  luagame:init_console(15, 1000)
   
   -- Debug output
   luagame:add_console("LuaGame - Version ^4" .. self.CoreVersion)
@@ -13,11 +13,20 @@ function luagame:CoreInit()
 end
 
 -- Debugging console
-function luagame:init_console(max_lines)
-  self.console = {buffer = {}, max_lines = max_lines, current_input = 0}
+function luagame:init_console(max_lines, cut_off_width)
+  self.console = {buffer = {},
+                  max_lines = max_lines,
+                  current_input = 0,
+                  cut_off_width = cut_off_width,
+                  visible = false}
+end
+
+function d(str)
+  luagame:add_console(str)
 end
 
 function luagame:add_console(str, skip_stdout)
+  
   -- print to normal console
   if (skip_stdout == nil) then
     print(str)
@@ -37,10 +46,9 @@ function luagame:add_console(str, skip_stdout)
   end
   
   -- Add up until max width
-  screenw, screenh = luagame.graphics.getscreensize()
   line_w = #str*8 + 8
-  if (line_w > screenw) then
-    cut_place = math.ceil((screenw / line_w) * #str)
+  if (line_w > self.console.cut_off_width) then
+    cut_place = math.ceil((self.console.cut_off_width / line_w) * #str)
     s = string.sub(str, 1, cut_place)
     e = string.sub(str, cut_place + 1)
     self.console.buffer[self.console.current_input] = s
@@ -50,8 +58,40 @@ function luagame:add_console(str, skip_stdout)
   end
 end
 
-function luagame:draw_console()
-  screenw, screenh = luagame.graphics.getscreensize()
+function luagame:console_taptest(x, y)
+  
+  --[[if (self.console.visible) then
+    if (x > self.console.cut_off_width) then
+      return false
+    elseif (y > self.console.max_lines * 10 + 6) then
+      return false
+    end
+  else
+    if (x > self.console.cut_off_width) then
+      return false
+    elseif (y > 10) then
+      return false
+    end
+  end]]
+  
+  if (y > 15) then
+    return false
+  end
+  
+  self.console.visible = not self.console.visible
+  
+  return true
+end
+
+function luagame:draw_console(screenw, screenh)
+  --screenw, screenh = luagame.graphics.getscreensize()
+  if (not self.console.visible) then
+    --[[counttext = "[" .. tostring(self.console.current_input) .. "," .. tostring(self.console.max_lines) .. "]"
+    luagame:draw_font(counttext, screenw - #counttext*8, y)
+    
+    return]]
+    luagame.graphics.setalpha(0.1)
+  end
   
   -- bg
   console_h = 10 * self.console.max_lines + 6
@@ -79,7 +119,7 @@ end
 function luagame:draw_font(str, x, y)
   
   debug_font_texture:bind()
-  luagame.graphics.setcolor(1, 1, 1, 1) -- TODO: Should use some kind of getcolor before drawing, so it can be restored here
+  luagame.graphics.setcolor(1, 1, 1) -- TODO: Should use some kind of getcolor before drawing, so it can be restored here
   luagame.graphics.translate(x, y)
 	strlen = #str
 	char_w = 8
@@ -106,17 +146,17 @@ function luagame:draw_font(str, x, y)
         
         -- Color indexes
         if string.char(tostring(string.byte(str, i))) == "0" then
-          luagame.graphics.setcolor(0, 0, 0, 1)
+          luagame.graphics.setcolor(0, 0, 0)
         elseif string.char(tostring(string.byte(str, i))) == "1" then
-          luagame.graphics.setcolor(1, 0, 0, 1)
+          luagame.graphics.setcolor(1, 0, 0)
         elseif string.char(tostring(string.byte(str, i))) == "2" then
-          luagame.graphics.setcolor(0, 1, 0, 1)
+          luagame.graphics.setcolor(0, 1, 0)
         elseif string.char(tostring(string.byte(str, i))) == "3" then
-          luagame.graphics.setcolor(0, 0, 1, 1)
+          luagame.graphics.setcolor(0, 0, 1)
         elseif string.char(tostring(string.byte(str, i))) == "4" then
-          luagame.graphics.setcolor(1.0, 0.3, 0.3, 1)
+          luagame.graphics.setcolor(1.0, 0.3, 0.3)
         else
-          luagame.graphics.setcolor(1, 1, 1, 1)
+          luagame.graphics.setcolor(1, 1, 1)
         end
         
         change_color = false
@@ -129,7 +169,7 @@ function luagame:draw_font(str, x, y)
 	end
 	
 	luagame.graphics.translate(-x, -y)
-	luagame.graphics.setcolor(1, 1, 1, 1) -- TODO: Should use some kind of getcolor before drawing, so it can be restored here
+	luagame.graphics.setcolor(1, 1, 1) -- TODO: Should use some kind of getcolor before drawing, so it can be restored here
 end
 
 function luagame.graphics:newsprite(tex,cw,ch,freq)

@@ -90,6 +90,16 @@ void IPhoneInputSubsystem::Update(Game* g, lua_State* _L)
         lua_pushnumber(g->L, t_drag.end[1]);
         g->RunScriptMethod(4);
     }
+    
+    InputTapData t_release;
+    if (((DeviceGLES11*)g->m_Device)->InputRelease(&t_release))
+    {
+        // Call tap callback
+        g->PrefixStack("EventRelease");
+        lua_pushnumber(g->L, t_release.pos[0]);
+        lua_pushnumber(g->L, t_release.pos[1]);
+        g->RunScriptMethod(2);
+    }
 }
 
 #endif

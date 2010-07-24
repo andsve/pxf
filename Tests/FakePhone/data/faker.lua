@@ -7,21 +7,15 @@ function luagame.graphics:getscreensize()
   return 320, 480
 end
 
-function luagame.iphone:getorientation()
+--[[function luagame.iphone:getorientation()
   return 0,-1,0
-end
+end]]
 
 luagame.mousestate = { last_pos = {-1, -1}, drag = false }
 
 function luagame:mousedown()
   -- TODO: Fix double tap!
   mx, my = luagame.mouse.getmousepos()
-  ox, oy, oz = luagame.iphone:getorientation()
-  if (math.abs(ox) > math.abs(oy)) then
-    t = mx
-    mx = my
-    my = t
-  end
   
   if not (luagame.mousestate.last_pos[1] == -1) then
     if not (luagame.mousestate.last_pos[1] == mx and luagame.mousestate.last_pos[2] == my) then
@@ -40,11 +34,6 @@ end
 function luagame:mouseup()
   --print("Mouse released!")
   mx, my = luagame.mouse.getmousepos()
-  if (math.abs(ox) > math.abs(oy)) then
-    t = mx
-    mx = my
-    my = t
-  end
   if (luagame.mousestate.drag) then
     --print("Mouse was draged!")
     luagame:EventDrag(luagame.mousestate.last_pos[1], luagame.mousestate.last_pos[2], mx, my)

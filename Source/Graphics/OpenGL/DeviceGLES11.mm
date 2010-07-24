@@ -405,6 +405,16 @@ bool DeviceGLES11::InputTap(InputTapData* _data)
     
     return m_InputTapOccurred;
 }
+
+bool DeviceGLES11::InputRelease(InputTapData* _data)
+{
+    if (m_InputReleaseOccurred)
+    {
+        _data->pos[0] = m_InputReleaseData[0];
+        _data->pos[1] = m_InputReleaseData[1];
+    }
+}
+
 bool DeviceGLES11::InputDoubleTap(InputTapData* _data)
 {
     if (m_InputDoubleTapOccurred)
@@ -434,6 +444,14 @@ void DeviceGLES11::InputSetTap(float x, float y)
     m_InputTapData[0] = x;
     m_InputTapData[1] = y;
 }
+
+void DeviceGLES11::InputSetRelease(float x, float y)
+{
+    m_InputReleaseOccurred = true;
+    m_InputReleaseData[0] = x;
+    m_InputReleaseData[1] = y;
+}
+
 void DeviceGLES11::InputSetDoubleTap(float x, float y)
 {
     m_InputDoubleTapOccurred = true;
@@ -455,7 +473,7 @@ void DeviceGLES11::SwapBuffers()
 	PXFASSERT(m_RenderBuffer->m_Handle,"Invalid RenderBuffer");
 	
 	// Clear input handling data
-    m_InputTapOccurred = m_InputDoubleTapOccurred = m_InputDragOccurred = false;
+    m_InputTapOccurred = m_InputDoubleTapOccurred = m_InputDragOccurred = m_InputReleaseOccurred = false;
 	
 	// fetch current context to make sure we are working on the correct one 
 	EAGLContext* _OldContext = [EAGLContext currentContext];
