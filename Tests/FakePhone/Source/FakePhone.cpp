@@ -45,7 +45,11 @@ bool PxfMain(Util::String _CmdLine)
     Texture* bg = pDevice->CreateTexture("iphonebg.png");
 	
 	// Fix so we are in the data dir
+ #ifdef CONF_FAMILY_WINDOWS
+    system("cd data");
+ #else
     chdir("data/");
+ #endif
 	
 	// Setup LuaGame
 	Game* luagame = new Game("knugen_game.lua", pDevice);

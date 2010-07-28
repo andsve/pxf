@@ -60,6 +60,8 @@ function CreateSettings(settings)
         settings.link.libs:Add("ole32")
         settings.link.libs:Add("d3d9")
         
+        settings.cc.includes:Add(Path("%DXSDK_DIR%\\Include"))
+        
     elseif family == "unix" then
         if platform == "macosx" then
             settings.link.frameworks:Add("AGL")

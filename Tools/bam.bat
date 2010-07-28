@@ -15,7 +15,12 @@ if exist "%VS80COMNTOOLS%" (
 	goto set_env
 )
 
-echo You need Microsoft Visual Studio 8 or 9 installed
+if exist "%VS100COMNTOOLS%" (
+	set VSPATH="%VS100COMNTOOLS%"
+	goto set_env
+)
+
+echo You need Microsoft Visual Studio 8, 9 or 10 installed
 pause
 exit
 
