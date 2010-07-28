@@ -1,5 +1,3 @@
-#ifndef CONF_FAMILY_WINDOWS
-
 /*=========================================================================*\
 * Socket compatibilization module for Unix
 * LuaSocket toolkit
@@ -370,5 +368,3 @@ const char *socket_ioerror(p_socket ps, int err) {
     (void) ps;
     return socket_strerror(err);
 } 
-
-#endif
