@@ -20,11 +20,8 @@
 /*-------------------------------------------------------------------------*\
 * This macro prefixes all exported API functions
 \*-------------------------------------------------------------------------*/
-#ifndef LUASOCKET_API
+
 #define LUASOCKET_API
-//#define LUASOCKET_API extern
-//#define LUASOCKET_API __declspec(dllexport)
-#endif
 
 /*-------------------------------------------------------------------------*\
 * Initializes the library.

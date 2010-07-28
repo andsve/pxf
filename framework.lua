@@ -2,7 +2,7 @@
 -- http://teeworlds.com/trac/teeworlds/browser/trunk/bam.lua
 -- http://teeworlds.com/trac/teeworlds/browser/trunk/other/sdl/sdl.lua
 
-path_prefix = PathPath(ModuleFilename())
+path_prefix = PathDir(ModuleFilename())
 
 -- Import all Libraries/*/*.lua and add to dictionary Libraries
 Libraries = {}
@@ -15,18 +15,14 @@ object_base = Path(path_prefix .. "/Build/ObjectFiles/")
 include_base = Path(path_prefix .. "/Include")
 source_base = Path(path_prefix .. "/Source/*.cpp")
 
-config = NewConfig()
-config:Add(OptCCompiler("cc"))
-config:Finalize("config.bam")
-
-debug_settings = config:NewSettings()
+debug_settings = NewSettings()
 debug_settings.config_name = "debug"
 debug_settings.config_ext = "_d"
 debug_settings.debug = 1
 debug_settings.optimize = 0
 debug_settings.cc.defines:Add("CONF_DEBUG")
 
-release_settings = config:NewSettings()
+release_settings = NewSettings()
 release_settings.config_name = "release"
 release_settings.config_ext = ""
 release_settings.debug = 0
@@ -54,6 +50,7 @@ function CreateSettings(settings)
         
         settings.link.libs:Add("opengl32")
         settings.link.libs:Add("glu32")
+        settings.link.libs:Add("ws2_32")
         settings.link.libs:Add("gdi32")
         settings.link.libs:Add("user32")
         --settings.link.libs:Add("dsound")
