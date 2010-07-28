@@ -1,3 +1,5 @@
+#ifdef CONF_WITH_ENET
+
 #include <Pxf/Base/Debug.h>
 
 #include <Pxf/Extra/SimpleNet/SimpleNet.h>
@@ -19,3 +21,5 @@ SimpleNet::~SimpleNet()
 {
   enet_deinitialize();
 }
+
+#endif

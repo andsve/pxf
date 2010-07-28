@@ -1,3 +1,5 @@
+#ifdef CONF_WITH_ENET
+
 #include <Pxf/Base/Debug.h>
 
 #include <Pxf/Extra/SimpleNet/SimpleClient.h>
@@ -158,3 +160,5 @@ int SimpleClient::MessagePump(NetMessage* _message)
   }
   */
 }
+
+#endif

@@ -1,3 +1,5 @@
+#ifdef CONF_WITH_ENET
+
 #include <Pxf/Base/Debug.h>
 
 #include <Pxf/Extra/SimpleNet/SimpleServer.h>
@@ -93,3 +95,4 @@ int SimpleServer::MessagePump(NetMessage* _message)
   return PUMP_RESULT_EMPTY;
 }
 
+#endif

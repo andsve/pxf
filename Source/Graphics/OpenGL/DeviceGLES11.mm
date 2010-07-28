@@ -413,6 +413,8 @@ bool DeviceGLES11::InputRelease(InputTapData* _data)
         _data->pos[0] = m_InputReleaseData[0];
         _data->pos[1] = m_InputReleaseData[1];
     }
+	
+	return m_InputReleaseOccurred;
 }
 
 bool DeviceGLES11::InputDoubleTap(InputTapData* _data)

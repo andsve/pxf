@@ -4,10 +4,14 @@
 #include <Pxf/Extra/LuaGame/Subsystems/Graphics.h>
 #include <Pxf/Extra/LuaGame/Subsystems/Resources.h>
 #include <Pxf/Extra/LuaGame/Subsystems/Physics.h>
-#include <Pxf/Extra/LuaGame/Subsystems/iPhoneInput.h> // TODO: Make this only include if the target is iphone
-#include <Pxf/Extra/LuaGame/Subsystems/MouseInput.h>
+#if defined(TARGET_OS_IPHONEDEV)
+	#include <Pxf/Extra/LuaGame/Subsystems/iPhoneInput.h>
+#else
+	#include <Pxf/Extra/LuaGame/Subsystems/MouseInput.h>
+#endif
 
 #include <Pxf/Graphics/Texture.h>
+#include <luasocket.h>
 
 
 #define LOCAL_MSG "LuaGame"
@@ -512,6 +516,9 @@ void LuaGame::Game::_register_own_callbacks()
 #else
     MouseInputSubsystem::RegisterClass(L);
 #endif
+
+    // Sockets
+    luaopen_socket_core(L);
 }
 
 bool LuaGame::Game::HandleLuaErrors(int _error)

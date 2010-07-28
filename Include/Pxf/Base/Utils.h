@@ -118,7 +118,11 @@ namespace Pxf
 		template <typename T> inline T ByteswapLtoN(const T& t) { return ByteswapArb(t); }
 		template <typename T> inline T ByteswapNtoL(const T& t) { return ByteswapArb(t); }
 	#else
-		#error unable to generate bitswapping functions for your platform. endianess unknown.
+		//#error unable to generate bitswapping functions for your platform. endianess unknown.
+	template <typename T> inline T ByteswapBtoN(const T& t) { return ByteswapArb(t); }
+	template <typename T> inline T ByteswapNtoB(const T& t) { return ByteswapArb(t); }
+	template <typename T> inline T ByteswapLtoN(const T& t) { return t; }
+	template <typename T> inline T ByteswapNtoL(const T& t) { return t; }
 	#endif
 	
 } // namespace Pxf

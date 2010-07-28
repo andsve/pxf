@@ -79,7 +79,7 @@ void TextureGLES::LoadData(const unsigned char* _datachunk, int _width, int _hei
 											  _datachunk,
 											  m_Width, m_Height, m_Channels,
 											  SOIL_CREATE_NEW_ID,
-											  SOIL_FLAG_MIPMAPS
+											  SOIL_FLAG_MIPMAPS | SOIL_FLAG_NTSC_SAFE_RGB
 											  );
 	}
 	

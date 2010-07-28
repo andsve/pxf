@@ -46,10 +46,13 @@ Application::Application(const char* _Title)
 	  m_IsRunning(false)
 {
 	// Workaround to get correct resources dir under osx
-    NSString* readPath = [[NSBundle mainBundle] resourcePath];
+    /*NSString* readPath = [[NSBundle mainBundle] resourcePath];
 	char buffer[2048];
 	[readPath getCString:buffer maxLength:2048 encoding:NSUTF8StringEncoding];
-	chdir(buffer);
+	//chdir(buffer);
+	 */
+	NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
+	[[NSFileManager defaultManager] changeCurrentDirectoryPath:resourcePath];
 }
 
 Application::~Application()

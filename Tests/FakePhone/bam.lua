@@ -5,7 +5,7 @@ release_settings.cc.defines:Add("TARGET_OS_IPHONEFAKEDEV")
 
 Includes = "Source"
 SourceFiles = Collect("Source/*.cpp")
-RequiredLibs = {"glew", "glfw", "soil", "lua", "enet", "box2d"}
+RequiredLibs = {"glew", "glfw", "soil", "lua", "luasocket", "box2d"}
 
 BuildProject("test", RequiredLibs, Includes, SourceFiles)
 
