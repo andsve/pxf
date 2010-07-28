@@ -11,6 +11,10 @@
 
 #include <Pxf/Extra/LuaGame/LuaGame.h>
 
+ #ifdef CONF_FAMILY_WINDOWS
+ #include <direct.h>
+ #endif
+
 
 using namespace Pxf;
 using namespace Pxf::Graphics;
@@ -46,7 +50,8 @@ bool PxfMain(Util::String _CmdLine)
 	
 	// Fix so we are in the data dir
  #ifdef CONF_FAMILY_WINDOWS
-    system("cd data");
+    //system("cd data");
+    _chdir("data");
  #else
     chdir("data/");
  #endif
