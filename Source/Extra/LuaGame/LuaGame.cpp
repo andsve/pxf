@@ -11,7 +11,10 @@
 #endif
 
 #include <Pxf/Graphics/Texture.h>
-#include <luasocket.h>
+extern "C"
+{
+    #include <luasocket.h>
+}
 
 
 #define LOCAL_MSG "LuaGame"
