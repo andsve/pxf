@@ -12,11 +12,11 @@ Libraries["glfw"] = {
                 end
     
                 settings.cc.defines:Add("CONF_WITH_GLFW")
-                settings.cc.includes:Add(Path(PathPath(module_filename) .. "/sdk/include"))
-                settings.cc.includes:Add(Path(PathPath(module_filename) .. "/sdk/src"))
-                settings.cc.includes:Add(Path(PathPath(module_filename) .. "/sdk/src/" .. glfw_platform))
-                src = Collect(Path(PathPath(module_filename) .. "/sdk/src/*.c"),
-                              Path(PathPath(module_filename) .. "/sdk/src/" .. glfw_platform .. "/*.c")
+                settings.cc.includes:Add(Path(PathDir(module_filename) .. "/sdk/include"))
+                settings.cc.includes:Add(Path(PathDir(module_filename) .. "/sdk/src"))
+                settings.cc.includes:Add(Path(PathDir(module_filename) .. "/sdk/src/" .. glfw_platform))
+                src = Collect(Path(PathDir(module_filename) .. "/sdk/src/*.c"),
+                              Path(PathDir(module_filename) .. "/sdk/src/" .. glfw_platform .. "/*.c")
                 )
                 return Compile(settings, src)
             end
