@@ -52,7 +52,7 @@ bool PxfMain(Util::String _CmdLine)
  #endif
 	
 	// Setup LuaGame
-	Game* luagame = new Game("knugen_game.lua", pDevice);
+	Game* luagame = new Game("knugen.lua", pDevice);
 	luagame->Load();
     luagame->SetInputDevice(pInput);
     

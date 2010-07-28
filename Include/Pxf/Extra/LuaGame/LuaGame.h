@@ -12,12 +12,14 @@
 
 // Lua includes
 extern "C" {
-#include <lua.h>
-#include <lauxlib.h>
-#include <lualib.h>
+    #include <lua.h>
+    #include <lauxlib.h>
+    #include <lualib.h>
 }
 
-#define LUAGAME_TABLE "luagame"
+//#ifndef LUAGAME_TABLE
+#define LUAGAME_TABLE "pxf"
+//#endif
 
 namespace Pxf
 {

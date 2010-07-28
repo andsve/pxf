@@ -1,49 +1,49 @@
 
 -- Fake iPhone Simulator specifics
 
-luagame.iphone = {}
+pxf.iphone = {}
 
-function luagame.graphics:getscreensize()
+function pxf.graphics:getscreensize()
   return 320, 480
 end
 
---[[function luagame.iphone:getorientation()
+--[[function pxf.iphone:getorientation()
   return 0,-1,0
 end]]
 
-luagame.mousestate = { last_pos = {-1, -1}, drag = false }
+pxf.mousestate = { last_pos = {-1, -1}, drag = false }
 
-function luagame:mousedown()
+function pxf:mousedown()
   -- TODO: Fix double tap!
-  mx, my = luagame.mouse.getmousepos()
+  mx, my = pxf.mouse.getmousepos()
   
-  if not (luagame.mousestate.last_pos[1] == -1) then
-    if not (luagame.mousestate.last_pos[1] == mx and luagame.mousestate.last_pos[2] == my) then
-      luagame.mousestate.drag = true
+  if not (pxf.mousestate.last_pos[1] == -1) then
+    if not (pxf.mousestate.last_pos[1] == mx and pxf.mousestate.last_pos[2] == my) then
+      pxf.mousestate.drag = true
     end
   end
   
-  if (luagame.mousestate.drag) then
-    luagame:EventDrag(luagame.mousestate.last_pos[1], luagame.mousestate.last_pos[2], mx, my)
+  if (pxf.mousestate.drag) then
+    pxf:EventDrag(pxf.mousestate.last_pos[1], pxf.mousestate.last_pos[2], mx, my)
   end
   
-  luagame.mousestate.last_pos = {mx, my}
+  pxf.mousestate.last_pos = {mx, my}
   
 end
 
-function luagame:mouseup()
+function pxf:mouseup()
   --print("Mouse released!")
-  mx, my = luagame.mouse.getmousepos()
-  if (luagame.mousestate.drag) then
+  mx, my = pxf.mouse.getmousepos()
+  if (pxf.mousestate.drag) then
     --print("Mouse was draged!")
-    luagame:EventDrag(luagame.mousestate.last_pos[1], luagame.mousestate.last_pos[2], mx, my)
+    pxf:EventDrag(pxf.mousestate.last_pos[1], pxf.mousestate.last_pos[2], mx, my)
   else
     --print("Mouse was tapped!")
-    luagame:EventTap(mx, my)
+    pxf:EventTap(mx, my)
   end
   
-  luagame:EventRelease(mx,my)
+  pxf:EventRelease(mx,my)
   
-  luagame.mousestate.drag = false
-  luagame.mousestate.last_pos = {-1, -1}
+  pxf.mousestate.drag = false
+  pxf.mousestate.last_pos = {-1, -1}
 end

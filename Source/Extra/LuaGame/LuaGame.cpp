@@ -509,11 +509,17 @@ void LuaGame::Game::_register_own_callbacks()
     lua_newtable(L);
     lua_setglobal (L, LUAGAME_TABLE);
     
+    Message(LOCAL_MSG, "Hey");
+        
     // Register subsystems
 	Vec2::RegisterClass(L);
+	Message(LOCAL_MSG, "Hey");
     GraphicsSubsystem::RegisterClass(L);
+    Message(LOCAL_MSG, "Hey");
     ResourcesSubsystem::RegisterClass(L);
+    Message(LOCAL_MSG, "Hey");
 	PhysicsSubsystem::RegisterClass(L);
+	Message(LOCAL_MSG, "Hey");
 #if defined(TARGET_OS_IPHONEDEV)
     IPhoneInputSubsystem::RegisterClass(L);
 #else
