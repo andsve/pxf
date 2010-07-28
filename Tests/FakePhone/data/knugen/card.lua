@@ -29,7 +29,7 @@ function knugen:gen_eight_stacks(seed)
     take_counter = 1
     for j,v in pairs(deck) do
       if (v == nil) then
-        luagame:add_console("Error while shuffeling card deck!")
+        pxf:add_console("Error while shuffeling card deck!")
       end
       if take_counter == take_id then
         shuffled_deck[i] = v
@@ -73,7 +73,7 @@ function knugen:new_deck(x, y, cards)
       n = self.amount_visible
     end
     for i=1,n do
-      --[[luagame.graphics.drawquad(self.x, self.y + 18 * i, 57, 80,
+      --[[pxf.graphics.drawquad(self.x, self.y + 18 * i, 57, 80,
                                 0, 684, 121, 169) -- texture coords
         
                                ]]
@@ -271,31 +271,31 @@ function knugen:new_card(suit, value)
   function card:draw(x, y, full)
     -- bg
     if (full) then
-      luagame.graphics.drawquad(x, y, 57, 80,
+      pxf.graphics.drawquad(x, y, 57, 80,
                                 0, 684, 121, 169) -- texture coords
     
       -- suit
-      luagame.graphics.drawquad(x-19, y-31, 10, 10,
+      pxf.graphics.drawquad(x-19, y-31, 10, 10,
                                 128 + ((self.suit - 1) * 12), 777, 12, 12)
-      luagame.graphics.drawquad(x+19, y+30, 10, 10, math.pi,
+      pxf.graphics.drawquad(x+19, y+30, 10, 10, math.pi,
                                 128 + ((self.suit - 1) * 12), 777, 12, 12)
                                 --128 + ((self.suit - 1) * 32), 704, 32, 32) -- texture coords
     
       -- value
-      luagame.graphics.drawquad(x-9, y-31, 10, 10,
+      pxf.graphics.drawquad(x-9, y-31, 10, 10,
                                 130 + ((self.value - 1) * 10), 790, 10, 10)
-      luagame.graphics.drawquad(x+9, y+30, 10, 10, math.pi,
+      pxf.graphics.drawquad(x+9, y+30, 10, 10, math.pi,
                                 130 + ((self.value - 1) * 10), 790, 10, 10)
     else
-      luagame.graphics.drawquad(x, y - 32, 57, 16,
+      pxf.graphics.drawquad(x, y - 32, 57, 16,
                                 0, 684, 121, 30) -- texture coords
     
       -- suit
-      luagame.graphics.drawquad(x-19, y-31, 10, 10,
+      pxf.graphics.drawquad(x-19, y-31, 10, 10,
                                 128 + ((self.suit - 1) * 12), 777, 12, 12)
     
       -- value
-      luagame.graphics.drawquad(x-9, y-31, 10, 10,
+      pxf.graphics.drawquad(x-9, y-31, 10, 10,
                                 130 + ((self.value - 1) * 10), 790, 10, 10)
     end
   end

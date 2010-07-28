@@ -4,18 +4,18 @@ knugen = {}
 
 require("knugen/card")
 
-function luagame:Init()
+function pxf:Init()
 	self.GameIdent = "Knugen"
 	self.GameVersion = "1.0"
 	
-	luagame:add_console("GameIdent: ^4" .. self.GameIdent)
-	luagame:add_console("GameVersion: ^4" .. self.GameVersion)
+	pxf:add_console("GameIdent: ^4" .. self.GameIdent)
+	pxf:add_console("GameVersion: ^4" .. self.GameVersion)
 	
-	screenw, screenh = luagame.graphics.getscreensize()
-	luagame:add_console("Screen size: ^4" .. tostring(screenw) .. "x" .. tostring(screenh))
+	screenw, screenh = pxf.graphics.getscreensize()
+	pxf:add_console("Screen size: ^4" .. tostring(screenw) .. "x" .. tostring(screenh))
 	
 	self.GameSeed = 4546
-	luagame:add_console("Game seed: ^4" .. self.GameSeed)
+	pxf:add_console("Game seed: ^4" .. self.GameSeed)
 	initial_deal = knugen:gen_eight_stacks(self.GameSeed)
 	         
 	decks = {knugen:new_tablau_deck(40, 142, initial_deal[1]),
@@ -42,24 +42,24 @@ function luagame:Init()
 	last_mouse_drag = {drag = false, x1 = 0, y1 = 0, x2 = 0, y2 = 0, dx = 0, dy = 0}
 end
 
-function luagame:PreLoad()
-	texture_map01 = luagame.resources.loadtexture("knugen_map01.png")
+function pxf:PreLoad()
+	texture_map01 = pxf.resources.loadtexture("knugen_map01.png")
 end
 
-function luagame:Update(dt)
+function pxf:Update(dt)
 	--print("Time to UPDATE our game with '" .. tostring(dt) .. "'")
 end
 
-function luagame:Render()
+function pxf:Render()
 	
 	-- render background
 	texture_map01:bind()
-	luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
-	luagame.graphics.rotate(math.pi / 2)
-	luagame.graphics.drawquad(0, 0,screenh,screenw, 0, 0, 1024, 683)
-	--luagame.graphics.drawquad(screenw / 2.0, screenh / 2.0,screenw,screenh)
+	pxf.graphics.translate(screenw / 2.0, screenh / 2.0)
+	pxf.graphics.rotate(math.pi / 2)
+	pxf.graphics.drawquad(0, 0,screenh,screenw, 0, 0, 1024, 683)
+	--pxf.graphics.drawquad(screenw / 2.0, screenh / 2.0,screenw,screenh)
 	
-	luagame.graphics.translate(-screenh / 2.0, -screenw / 2.0)
+	pxf.graphics.translate(-screenh / 2.0, -screenw / 2.0)
   
   
   tx1 = last_mouse_drag.x1
@@ -91,45 +91,45 @@ function luagame:Render()
   end
   
   if (draging_deck_info) then
-    luagame.graphics.setalpha(0.8)
+    pxf.graphics.setalpha(0.8)
     draging_deck_info.new_deck:draw()
   end
 	
 	-- render console
-	luagame.graphics.loadidentity()
-  luagame.graphics.translate(screenw / 2.0, screenh / 2.0)
-  luagame.graphics.rotate(math.pi / 2)
-  luagame.graphics.translate(-screenh / 2.0, -screenw / 2.0)
-  luagame.console.cut_off_width = screenh
-  luagame:draw_console(screenh, screenw)
+	pxf.graphics.loadidentity()
+  pxf.graphics.translate(screenw / 2.0, screenh / 2.0)
+  pxf.graphics.rotate(math.pi / 2)
+  pxf.graphics.translate(-screenh / 2.0, -screenw / 2.0)
+  pxf.console.cut_off_width = screenh
+  pxf:draw_console(screenh, screenw)
 	  
 	
-	--luagame:add_console("Rendering frame: ^4" .. tostring(simple_framecount))
+	--pxf:add_console("Rendering frame: ^4" .. tostring(simple_framecount))
 	
 	-- make it crash:
-  --luagame.graphics.drawquad(nil)
+  --pxf.graphics.drawquad(nil)
   
   -- reset mouse drag
   --last_mouse_drag.drag = false
 end
 
 
-function luagame:TextInput(str)
-  luagame:add_console("> " .. str)
+function pxf:TextInput(str)
+  pxf:add_console("> " .. str)
   ret = runstring("return " .. str)
-  luagame:add_console("^4" .. tostring(ret))
+  pxf:add_console("^4" .. tostring(ret))
 end
 
-function luagame:EventTap(x, y)
-  luagame:add_console("Tap event, ^4x: " .. tostring(x) .. " y: " .. tostring(y))
-  luagame:console_taptest(x, y)
+function pxf:EventTap(x, y)
+  pxf:add_console("Tap event, ^4x: " .. tostring(x) .. " y: " .. tostring(y))
+  pxf:console_taptest(x, y)
 end
 
-function luagame:EventDoubleTap(x, y)
-  luagame:add_console("Double tap event, ^4x: " .. tostring(x) .. " y: " .. tostring(y))
+function pxf:EventDoubleTap(x, y)
+  pxf:add_console("Double tap event, ^4x: " .. tostring(x) .. " y: " .. tostring(y))
 end
 
-function luagame:EventDrag(x1, y1, x2, y2)
+function pxf:EventDrag(x1, y1, x2, y2)
   last_mouse_drag.x1 = x1
   last_mouse_drag.y1 = y1
   last_mouse_drag.x2 = x2
@@ -137,10 +137,10 @@ function luagame:EventDrag(x1, y1, x2, y2)
   last_mouse_drag.dx = x1-x2
   last_mouse_drag.dy = y1-y2
   last_mouse_drag.drag = true
-  --luagame:add_console("Drag event, ^4(" .. tostring(x1) .. ", " .. tostring(y1) .. ") -> (" .. tostring(x2) .. ", " .. tostring(y2) .. "), delta: (" .. tostring(x1-x2) .. ", " .. tostring(y1-y2) .. ")")
+  --pxf:add_console("Drag event, ^4(" .. tostring(x1) .. ", " .. tostring(y1) .. ") -> (" .. tostring(x2) .. ", " .. tostring(y2) .. "), delta: (" .. tostring(x1-x2) .. ", " .. tostring(y1-y2) .. ")")
 end
 
-function luagame:EventRelease(x, y)
+function pxf:EventRelease(x, y)
   if (last_mouse_drag.drag and draging_deck_info) then
     last_mouse_drag.drag = false
     
@@ -157,7 +157,7 @@ function luagame:EventRelease(x, y)
 	  draging_deck_info = nil
   end
   
-  --luagame:add_console("Release event, ^4x: " .. tostring(x) .. " y: " .. tostring(y))
+  --pxf:add_console("Release event, ^4x: " .. tostring(x) .. " y: " .. tostring(y))
 end
 
 
